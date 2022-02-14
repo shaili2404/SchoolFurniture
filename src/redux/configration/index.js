@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Baseurl } from "./baseurl";
 import endUrl from "./endUrl";
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -9,7 +10,7 @@ export const getRequest = () => {
 }
 
 export const postRequest = (data) => {
-    return axios.post(endUrl, data)
+    return axios.post(`${Baseurl}${endUrl}`, data)
 }
 
 export const putRequest = (data) => {
