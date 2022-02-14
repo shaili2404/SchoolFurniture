@@ -11,7 +11,7 @@ const App = () => {
     <Provider store={store}>
       <View>
         <Text>
-          Get App
+          Get App browser
         </Text>
       </View>
     </Provider>
