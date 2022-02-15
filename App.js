@@ -12,9 +12,9 @@ const App = () => {
     <Provider store={store}>
       <View>
         <Text>
-          Get App
+          Get App browser
         </Text>
-        <LoginScreen/>
+        <LoginScreen />
       </View>
     </Provider>
   )
