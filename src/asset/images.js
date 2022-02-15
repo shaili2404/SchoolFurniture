@@ -1,6 +1,7 @@
 const Images = {
-    CompanyLogo : require('./images/Logo.png'),
+    CompanyLogo: require('./images/Logo.png'),
     Eye: require('./images/eye.png'),
-    Eye_off:require('./images/eye_off.png')
-     }
-    export default Images
+    Eye_off: require('./images/eye_off.png'),
+    right: require('./images/right.png')
+}
+export default Images

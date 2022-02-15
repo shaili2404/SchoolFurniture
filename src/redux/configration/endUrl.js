@@ -1,5 +1,6 @@
 const endUrl = {
-    login:'login'
+    login: 'login',
+    resetPassword: 'forget-password'
 }
 
 export default endUrl;
