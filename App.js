@@ -11,9 +11,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <View>
-        <Text>
+        {/* <Text>
           Get App browser
-        </Text>
+        </Text> */}
         <LoginScreen />
       </View>
     </Provider>
