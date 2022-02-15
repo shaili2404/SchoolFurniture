@@ -14,7 +14,7 @@ const App = () => {
         <Text>
           Get App browser
         </Text>
-        <LoginScreen/>
+        <LoginScreen />
       </View>
     </Provider>
   )
