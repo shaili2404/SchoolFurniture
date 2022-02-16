@@ -5,10 +5,14 @@ const height = Dimensions.get('window').height
 
 const style = StyleSheet.create({
     mainView: {
-        paddingEnd: 36,
-        marginHorizontal: 36,
-        width: width - 36,
-        hiegth: height,
+        height: height,
+        width: width,
+        alignItems: 'center',
+    },
+    subContainer: {
+        width: '90%',
+        height: '100%',
+        position: 'relative',
     },
     textContainer: {
         marginTop: 133,
@@ -44,13 +48,15 @@ const style = StyleSheet.create({
     backContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        //marginTop: '99%'
+        position: 'absolute',
+        bottom: 10,
+        width: '100%'
     },
     BackText: {
         fontSize: 16,
         color: COLORS.blue,
         textDecorationLine: "underline",
-        textAlignVertical: 'bottom'
+        textAlignVertical: 'bottom',
     },
     errorStyle: {
         color: COLORS.red

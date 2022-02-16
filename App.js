@@ -13,8 +13,8 @@ const App = () => {
   return (
     <Provider store={store}>
       <View>
-        {/* <LoginScreen /> */}
-        <PasswordReset />
+        <LoginScreen />
+        {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
       </View>
     </Provider>
