@@ -14,8 +14,9 @@ export const LoginScreen = () => {
     const [defaultState, setDefaultState] = useState(false)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage1, setErrorMessage1] = useState('');
-    const [errorMessage2, setErrorMessage2] = useState('');
+    const [errorMessage1, setErrorMessage1] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage2, setErrorMessage2] = useState(false);
     const [textEntery, setTextEntry] = useState(true);
     const [loader, setLoader] = useState(false);
     const [invalidcred, setInvalidcred] = useState(false);
@@ -26,25 +27,28 @@ export const LoginScreen = () => {
     useEffect(() => {
         if (loginData) setLoader(false);
         const status = loginData?.err?.response?.status;
-        if (status === 401) setInvalidcred(true);
+        if (status === 401){
+             setInvalidcred(true);
+             setErrorMessage(constants.invalidcred)
+        }
     }, [loginData]);
 
     const onChangeEmail = (email) => {
         if (email == '' || !regExpEmail.test(email)) {
-            setErrorMessage1(constants.ValidEmail)
+            setErrorMessage1(false)
             setEmail(email)
         } else {
-            setErrorMessage1('')
+            setErrorMessage1(true)
             setEmail(email)
         }
     }
 
     const onChangePass = (password) => {
         if (password == '' || !regExpPassword.test(password)) {
-            setErrorMessage2(constants.VaildPass)
+            setErrorMessage2(false)
             setPassword(password)
         } else {
-            setErrorMessage2('')
+            setErrorMessage2(true)
             setPassword(password)
         }
     }
@@ -76,7 +80,7 @@ export const LoginScreen = () => {
                             : null}
                         <View>
                             <TextInput
-                                style={Styles.emailInputStyle}
+                                style={invalidcred?Styles.emailInputStyles:Styles.emailInputStyle}
                                 placeholder={defaultState === true ? " " : "Enter Userame"}
                                 placeholderTextColor={COLORS.Black}
                                 value={email}
@@ -89,8 +93,7 @@ export const LoginScreen = () => {
                                     <Image source={Images.error} style={Styles.errIconStyle} />
                                 </TouchableOpacity>
                                 : null}
-                            {errorMessage1 ?
-                                <Text style={Styles.errorStyle}>{errorMessage1}</Text> : null}
+                           
                         </View>
                         <View style={Styles.passView} >
                             {defaultState === true ?
@@ -100,7 +103,7 @@ export const LoginScreen = () => {
                                 :
                                 null}
                             <TextInput
-                                style={Styles.passInputStyle}
+                                style={invalidcred?Styles.passInputStyles:Styles.passInputStyle}
                                 placeholder={defaultState === true ? " " : constants.EnterPassword}
                                 placeholderTextColor={COLORS.Black}
                                 value={password}
@@ -113,23 +116,42 @@ export const LoginScreen = () => {
                                 <TouchableOpacity style={Styles.errIcon} onPress={() => { textEntery === true ? setTextEntry(false) : setTextEntry(true) }} >
                                     <Image source={Images.error} style={Styles.errIconStyle} />
                                 </TouchableOpacity> : null}
-                            <TouchableOpacity style={Styles.eyeStyle} onPress={() => { textEntery === true ? setTextEntry(false) : setTextEntry(true) }} >
+                            <TouchableOpacity style={invalidcred? Styles.eyeStyles:Styles.eyeStyle } onPress={() => { textEntery === true ? setTextEntry(false) : setTextEntry(true) }} >
                                 <Image source={defaultState === true ? Images.Eye_off : Images.Eye} style={Styles.imgStyle} />
                             </TouchableOpacity>
-                            {errorMessage2 ?
-                                <Text style={Styles.errorStyle}>{errorMessage2}</Text> : null}
+                           
 
                         </View>
                     </View>
-
+                    {invalidcred?
+                    <View  style={Styles.messageStyle}>
+                       
+                        <View style={Styles.credStyle}>
+                     <Text style={Styles.errorStyle}>{constants.ErrorCredential}</Text>
+                     </View>
+                     
+                     <View>
                     <TouchableOpacity onPress={() => setPassword('')}>
                         <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
                     </TouchableOpacity>
+                    </View>
+                    </View>
+                    :
+                    <TouchableOpacity onPress={() => setPassword('')}>
+                        <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
+                    </TouchableOpacity>
+}
 
                     <View style={Styles.inputStyles}>
+                        {errorMessage1 ===true && errorMessage2 ===true ?
                         <TouchableOpacity style={Styles.buttonStyle} onPress={onLogin}>
                             <Text style={Styles.buttonText}>{constants.Login}</Text>
                         </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={Styles.buttonStyle} onPress={onLogin} disabled>
+                        <Text style={Styles.buttonText}>{constants.Login}</Text>
+                    </TouchableOpacity>
+}
                     </View>
 
                     {defaultState === true ?
@@ -159,7 +181,7 @@ const Styles = StyleSheet.create({
     loginText: {
         color: COLORS.ThemeGreen,
         fontWeight: 'bold',
-        fontSize: 22
+        fontSize: 32
     },
     emailInputStyle: {
         borderRadius: 5,
@@ -168,6 +190,13 @@ const Styles = StyleSheet.create({
         height: 70,
         paddingLeft: 20
     },
+    emailInputStyles: {
+        borderRadius: 5,
+        backgroundColor: COLORS.LightGreen,
+        width: '100%',
+        height: 70,
+        paddingLeft: 30
+    },
     passInputStyle: {
         borderRadius: 5,
         backgroundColor: COLORS.LightGreen,
@@ -175,6 +204,14 @@ const Styles = StyleSheet.create({
         width: '100%',
         height: 70,
         paddingLeft: 20
+    },
+    passInputStyles: {
+        borderRadius: 5,
+        backgroundColor: COLORS.LightGreen,
+        marginEnd: 36,
+        width: '100%',
+        height: 70,
+        paddingLeft: 30
     },
     inputStyles: {
         marginTop: 70
@@ -233,6 +270,12 @@ const Styles = StyleSheet.create({
         bottom: 45,
         right: 5
     },
+    eyeStyles: {
+        alignSelf: 'flex-end',
+        position: "relative",
+        bottom: 60,
+        right: 5
+    },
     imgStyle: {
         width: 20
     },
@@ -246,5 +289,11 @@ const Styles = StyleSheet.create({
     errIconStyle: {
         width: 20,
         height: 20
+    },
+    messageStyle:{
+        flexDirection: 'row'
+    },
+    credStyle:{
+        width:200
     }
 })

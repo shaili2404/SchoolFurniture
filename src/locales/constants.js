@@ -10,6 +10,7 @@ const constants = {
     EnterPassword: 'Enter Password',
     Clear: 'Clear',
     EmailSent: 'Email Sent',
-    EmailMsg: 'An email has been sent to the profiles email address'
+    EmailMsg: 'An email has been sent to the profiles email address',
+    ErrorCredential :'The username or password enter is incorrect'
 }
 export default constants

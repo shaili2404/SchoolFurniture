@@ -6,5 +6,6 @@ const COLORS = {
     White: '#FFFFFF',
     blue: '#1492E6',
     red: '#F12B20',
+    borderGreen:'#49A549',
 }
 export default COLORS

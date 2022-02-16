@@ -10,6 +10,8 @@ import { LoginScreen } from './src/screen/loginscreen';
 
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
+import SplashScreen from 'react-native-splash-screen';
+import { FurnitureRequest } from './src/screen/school/furniturerequestscreen';
 
 const App = () => {
   useEffect(() => {
@@ -21,6 +23,7 @@ const App = () => {
     <Provider store={store}>
       <View>
         <LoginScreen />
+        {/* <FurnitureRequest/> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
       </View>

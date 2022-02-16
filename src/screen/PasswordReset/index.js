@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     Text,
     View,
@@ -19,7 +19,7 @@ import COLORS from '../../asset/color';
 const PasswordReset = () => {
     const [email, setEmail] = useState('');
     const [defaultState, setDefaultState] = useState(false);
-    const [errorMessage1, setErrorMessage1] = useState('');
+    const [errorMessage1, setErrorMessage1] = useState(false);
     const [loader, setLoader] = useState(false);
     const resetData = useSelector(state => state.resetpassData);
 
@@ -37,10 +37,10 @@ const PasswordReset = () => {
 
     const onChangeEmail = (email) => {
         if (email == '' || !regExpEmail.test(email)) {
-            setErrorMessage1(constants.ValidEmail)
+            setErrorMessage1(false)
             setEmail(email)
         } else {
-            setErrorMessage1('')
+            setErrorMessage1(true)
             setEmail(email)
         }
     }
@@ -76,12 +76,21 @@ const PasswordReset = () => {
                                     <Text style={style.errorStyle}>{errorMessage1}</Text> : null}
                             </View>
                         </View>
-                        {email != '' ?
+                        {defaultState === true ?
+                        <>
+                        {errorMessage1===true?
                             <View style={style.inputStyles}>
                                 <TouchableOpacity style={style.buttonStyle} onPress={onPressReset}>
                                     <Text style={style.buttonText}>{constants.Reset}</Text>
                                 </TouchableOpacity>
                             </View> :
+                            <View style={style.inputStyles}>
+                            <TouchableOpacity style={style.buttonStyle} onPress={onPressReset} disabled>
+                                <Text style={style.buttonText}>{constants.Reset}</Text>
+                            </TouchableOpacity>
+                        </View>}
+                            </>
+                            :
                             null}
                     </KeyboardAvoidingView>
                     <View style={style.backContainer}>
