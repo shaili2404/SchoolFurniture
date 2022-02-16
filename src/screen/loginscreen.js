@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import { SafeAreaView, View, StyleSheet, Dimensions, Text, TextInput, TouchableOpacity, Alert, Image,KeyboardAvoidingView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, View, StyleSheet, Dimensions, Text, TextInput, TouchableOpacity, ActivityIndicator, Image, KeyboardAvoidingView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+
+import { loginRequest } from "../redux/actions/loginAction";
+import { regExpEmail, regExpPassword } from "../locales/regexp";
+import Images from "../asset/images";
 import COLORS from "../asset/color";
 import { LogoImg } from "../atoms/logo";
 import constants from "../locales/constants";
-import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "../redux/actions/loginAction";
-import { regExpEmail, regExpPassword } from "../locales/regexp";
-import axios from "axios";
-import Images from "../asset/images";
+import Loader from "../component/loader";
+
 export const LoginScreen = () => {
     const [defaultState, setDefaultState] = useState(false)
     const [email, setEmail] = useState('');
@@ -15,140 +17,144 @@ export const LoginScreen = () => {
     const [errorMessage1, setErrorMessage1] = useState('');
     const [errorMessage2, setErrorMessage2] = useState('');
     const [textEntery, setTextEntry] = useState(true);
+    const [loader, setLoader] = useState(false);
+    const [invalidcred, setInvalidcred] = useState(false);
     const dispatch = useDispatch()
+    const loginData = useSelector(state => state.loginData);
+    console.log("LoginData", loginData)
+
+    useEffect(() => {
+        if (loginData) setLoader(false);
+        const status = loginData?.err?.response?.status;
+        if (status === 401) setInvalidcred(true);
+    }, [loginData]);
 
     const onChangeEmail = (email) => {
-     if(email==''){
-      setErrorMessage1(constants.ValidEmail)
-      setEmail(email)
-     }
-     else if (!regExpEmail.test(email)){
-         setErrorMessage1(constants.ValidEmail)
-         setEmail(email)
-     }
-     else{
-         setErrorMessage1('')
-         setEmail(email)
-     }
+        if (email == '' || !regExpEmail.test(email)) {
+            setErrorMessage1(constants.ValidEmail)
+            setEmail(email)
+        } else {
+            setErrorMessage1('')
+            setEmail(email)
+        }
     }
+
     const onChangePass = (password) => {
-        if(password==''){
+        if (password == '' || !regExpPassword.test(password)) {
             setErrorMessage2(constants.VaildPass)
             setPassword(password)
-           }
-           else if (!regExpPassword.test(password)){
-               setErrorMessage2(constants.VaildPass)
-               setPassword(password)
-           }
-           else{
-               setErrorMessage2('')
-               setPassword(password)
-           }
-    }
-    const onLogin = async () => {
-        if (email==''&&password==''){
-            Alert.alert("hey")
+        } else {
+            setErrorMessage2('')
+            setPassword(password)
         }
-        else{
-         var data = {
+    }
+
+    const onLogin = () => {
+        setLoader(true);
+        var data = {
             "email": email,
             "password": password
-          }
-         axios.defaults.headers.common['Content-Type'] = 'application/json';
-         axios.defaults.headers.common['Accept'] = 'application/json'
-         dispatch(loginRequest(data))
         }
+        dispatch(loginRequest(data))
     }
 
-    const haha = useSelector(state => state.loginData)
-    console.log("loginVal", haha);
-
     return (
-        <SafeAreaView style={Styles.mainView}>
-            <KeyboardAvoidingView>
-            <View>
-                <LogoImg />
-            </View>
-            <View style={Styles.loginView}>
-                <Text style={Styles.loginText}>{constants.Login}</Text>
-            </View>
-            <View style={Styles.inputStyles}>
-                {defaultState===true?
-                <View style={Styles.changeView}>
-                    <Text style={Styles.changeText}>Enter Username </Text>
-                </View>
-                : null}
-                <View>
-                    <TextInput
-                        style={Styles.emailInputStyle}
-                        placeholder={defaultState === true ? "500100196" : "Enter Userame"}
-                        placeholderTextColor={COLORS.Black}
-                        value={email}
-                        onFocus={() => setDefaultState(true)}
-                        onBlur={() => setDefaultState(false)}
-                        onChangeText={(email)=>onChangeEmail(email)}
-                        opacity={defaultState === true ? 1 : 0.5} />
-                        {errorMessage1?
-                        <Text style={Styles.errorStyle}>{errorMessage1}</Text>:null}
-                </View>
-                <View style={Styles.passView} >
-                {defaultState===true?
-                <View style={Styles.changeView}>
-                <Text style={Styles.changeText}>Enter Password</Text>
-                </View>
-                :
-                null}
-                    <TextInput
-                        style={Styles.passInputStyle}
-                        placeholder={defaultState === true ? "********" : "Enter Password"}
-                        placeholderTextColor={COLORS.Black}
-                        value={password}
-                        onFocus={() => setDefaultState(true)}
-                        onBlur={() => setDefaultState(false)}
-                        onChangeText={(password)=>onChangePass(password)}
-                        secureTextEntry={textEntery}
-                        opacity={defaultState === true ? 1 : 0.5} />
-                        <TouchableOpacity style={Styles.eyeStyle} onPress={()=>{textEntery === true? setTextEntry(false) : setTextEntry(true)}} >
-                        <Image source={defaultState === true? Images.Eye_off: Images.Eye} style={Styles.imgStyle}/>
+        loader ? <Loader /> :
+            <SafeAreaView style={Styles.mainView}>
+                <KeyboardAvoidingView>
+                    <View>
+                        <LogoImg />
+                    </View>
+                    <View style={Styles.loginView}>
+                        <Text style={Styles.loginText}>{constants.Login}</Text>
+                    </View>
+                    <View style={Styles.inputStyles}>
+                        {defaultState === true ?
+                            <View style={Styles.changeView}>
+                                <Text style={Styles.changeText}>{constants.EnterUsername}</Text>
+                            </View>
+                            : null}
+                        <View>
+                            <TextInput
+                                style={Styles.emailInputStyle}
+                                placeholder={defaultState === true ? " " : "Enter Userame"}
+                                placeholderTextColor={COLORS.Black}
+                                value={email}
+                                onFocus={() => setDefaultState(true)}
+                                onBlur={() => setDefaultState(false)}
+                                onChangeText={(email) => onChangeEmail(email)}
+                                opacity={defaultState === true ? 1 : 0.5} />
+                            {invalidcred ?
+                                <TouchableOpacity style={Styles.errIcon} onPress={() => { textEntery === true ? setTextEntry(false) : setTextEntry(true) }} >
+                                    <Image source={Images.error} style={Styles.errIconStyle} />
+                                </TouchableOpacity>
+                                : null}
+                            {errorMessage1 ?
+                                <Text style={Styles.errorStyle}>{errorMessage1}</Text> : null}
+                        </View>
+                        <View style={Styles.passView} >
+                            {defaultState === true ?
+                                <View style={Styles.changeView}>
+                                    <Text style={Styles.changeText}>{constants.EnterPassword}</Text>
+                                </View>
+                                :
+                                null}
+                            <TextInput
+                                style={Styles.passInputStyle}
+                                placeholder={defaultState === true ? " " : constants.EnterPassword}
+                                placeholderTextColor={COLORS.Black}
+                                value={password}
+                                onFocus={() => setDefaultState(true)}
+                                onBlur={() => setDefaultState(false)}
+                                onChangeText={(password) => onChangePass(password)}
+                                secureTextEntry={textEntery}
+                                opacity={defaultState === true ? 1 : 0.5} />
+                            {invalidcred ?
+                                <TouchableOpacity style={Styles.errIcon} onPress={() => { textEntery === true ? setTextEntry(false) : setTextEntry(true) }} >
+                                    <Image source={Images.error} style={Styles.errIconStyle} />
+                                </TouchableOpacity> : null}
+                            <TouchableOpacity style={Styles.eyeStyle} onPress={() => { textEntery === true ? setTextEntry(false) : setTextEntry(true) }} >
+                                <Image source={defaultState === true ? Images.Eye_off : Images.Eye} style={Styles.imgStyle} />
+                            </TouchableOpacity>
+                            {errorMessage2 ?
+                                <Text style={Styles.errorStyle}>{errorMessage2}</Text> : null}
+
+                        </View>
+                    </View>
+
+                    <TouchableOpacity onPress={() => setPassword('')}>
+                        <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
+                    </TouchableOpacity>
+
+                    <View style={Styles.inputStyles}>
+                        <TouchableOpacity style={Styles.buttonStyle} onPress={onLogin}>
+                            <Text style={Styles.buttonText}>{constants.Login}</Text>
                         </TouchableOpacity>
-                         {errorMessage2?
-                        <Text style={Styles.errorStyle}>{errorMessage2}</Text>:null}
+                    </View>
 
-                </View>
-            </View>
-            <TouchableOpacity onPress={()=>setPassword('')}>
-                <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
-            </TouchableOpacity>
-            <View style={Styles.inputStyles}>
-                <TouchableOpacity style={Styles.buttonStyle} onPress={onLogin} >
-                    <Text style={Styles.buttonText}>{constants.Login}</Text>
-                </TouchableOpacity>
-
-            </View>
-            {defaultState === true ?  
-            <TouchableOpacity onPress={()=>setDefaultState(false)}>
-            <Text style={Styles.clearStyle}>Clear</Text>
-
-            </TouchableOpacity>
-            :
-           false
-            } 
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+                    {defaultState === true ?
+                        <TouchableOpacity onPress={() => setDefaultState(false)}>
+                            <Text style={Styles.clearStyle}>{constants.Clear}</Text>
+                        </TouchableOpacity>
+                        :
+                        false
+                    }
+                </KeyboardAvoidingView>
+            </SafeAreaView>
     )
 }
+
 const width = Dimensions.get('window').width
-const hiegth = Dimensions.get('window').hiegth
+const height = Dimensions.get('window').height
 const Styles = StyleSheet.create({
     mainView: {
         paddingEnd: 36,
         marginHorizontal: 36,
         width: width - 36,
-        hiegth: hiegth,
+        hiegth: height,
     },
     loginView: {
         marginTop: 50,
-
     },
     loginText: {
         color: COLORS.ThemeGreen,
@@ -164,7 +170,6 @@ const Styles = StyleSheet.create({
     },
     passInputStyle: {
         borderRadius: 5,
-       
         backgroundColor: COLORS.LightGreen,
         marginEnd: 36,
         width: '100%',
@@ -186,19 +191,15 @@ const Styles = StyleSheet.create({
         color: COLORS.White,
         fontWeight: 'bold',
         fontSize: 22,
-
     },
     ResetStyle: {
         color: COLORS.blue,
         textAlign: 'right',
         marginTop: 5,
         textDecorationLine: 'underline',
-
     },
     changeText: {
-
         fontSize: 10
-
     },
     changeView: {
         position: "relative",
@@ -210,29 +211,40 @@ const Styles = StyleSheet.create({
     changeViews: {
         position: "relative",
         left: 5,
-        top:2,
+        top: 2,
         backgroundColor: COLORS.White,
         width: 90,
     },
-    passView:{
-        marginTop:36
+    passView: {
+        marginTop: 36
     },
-    clearStyle:{
-        textAlign:'center',
+    clearStyle: {
+        textAlign: 'center',
         color: COLORS.blue,
         marginTop: 10,
         textDecorationLine: 'underline',
     },
-    errorStyle:{
-        color:COLORS.red
+    errorStyle: {
+        color: COLORS.red
     },
-    eyeStyle:{
-        alignSelf:'flex-end',
-        position:"relative",
-        top:-40,
-        right:5
+    eyeStyle: {
+        alignSelf: 'flex-end',
+        position: "relative",
+        bottom: 45,
+        right: 5
     },
-    imgStyle:{
-       width:20
+    imgStyle: {
+        width: 20
+    },
+    errIcon: {
+        position: 'relative',
+        alignSelf: 'flex-start',
+        bottom: 45,
+        left: 5,
+        marginRight: 30
+    },
+    errIconStyle: {
+        width: 20,
+        height: 20
     }
 })

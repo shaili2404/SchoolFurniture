@@ -7,8 +7,9 @@ import {
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
 import { LoginScreen } from './src/screen/loginscreen';
-import SplashScreen from 'react-native-splash-screen';
 
+import PasswordReset from './src/screen/PasswordReset';
+import EmailSent from './src/component/emailSent';
 
 const App = () => {
   useEffect(() => {
@@ -19,10 +20,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <View>
-        {/* <Text>
-          Get App browser
-        </Text> */}
         <LoginScreen />
+        {/* <PasswordReset /> */}
+        {/* <EmailSent /> */}
       </View>
     </Provider>
   )

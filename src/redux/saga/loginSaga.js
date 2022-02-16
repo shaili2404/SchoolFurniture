@@ -9,6 +9,7 @@ function* loginSaga(action) {
     try {
         const data = yield call(loginService, action.payload)
         yield put({ type: LOGIN_SUCEESS, payload: data })
+        //console.log("getData", data)
     } catch (e) {
         yield put({ type: LOGIN_ERROR, payload: e })
     }
