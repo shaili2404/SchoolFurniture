@@ -6,8 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
-  Image,
-  Platform
+  Image
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -20,20 +19,19 @@ import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 import Loader from "../../component/loader";
 
-
 const PasswordReset = () => {
   const [email, setEmail] = useState("");
   const [defaultState, setDefaultState] = useState(false);
-  const [errorMessage1, setErrorMessage1] = useState(false);
+  const [emptymail, setEmptyMail] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [loader, setLoader] = useState(false);
-  const resetData = useSelector((state) => state.resetpassData);
   const [invalidcred, setInvalidcred] = useState(false);
+  const resetData = useSelector((state) => state.resetpassData);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-      
+    //console.log("ResetData", resetData)
     if (resetData) setLoader(false);
-    
   }, [resetData]);
 
   const onPressReset = () => {
@@ -41,7 +39,7 @@ const PasswordReset = () => {
     var data = {
       email: email,
     };
-    useDispatch(resetRequest(data));
+    dispatch(resetRequest(data));
     const status = resetData?.err?.response?.status;
     const errorMes = resetData?.err?.message;
     if (status === 200) {
@@ -55,10 +53,10 @@ const PasswordReset = () => {
 
   const onChangeEmail = (email) => {
     if (email == "" || !regExpEmail.test(email)) {
-      setErrorMessage1(false);
+      setEmptyMail(true);
       setEmail(email);
     } else {
-      setErrorMessage1(true);
+      setEmptyMail(false);
       setEmail(email);
     }
   };
@@ -67,8 +65,7 @@ const PasswordReset = () => {
     setDefaultState(false);
     setEmail("");
     setInvalidcred(false);
-    setErrorMessage1(false);
-    
+    setEmptyMail(true);
   };
 
   return loader ? (
@@ -108,11 +105,6 @@ const PasswordReset = () => {
                 <TouchableOpacity
                   disabled
                   style={style.errIcon}
-                  onPress={() => {
-                    textEntery === true
-                      ? setTextEntry(false)
-                      : setTextEntry(true);
-                  }}
                 >
                   <Image source={Images.error} style={style.errIconStyle} />
                 </TouchableOpacity>
@@ -126,37 +118,27 @@ const PasswordReset = () => {
               </Text>
             </View>
           ) : null}
+
           {defaultState === true ? (
-            <>
-              {errorMessage1 === true ? (
-                <View style={style.inputStyles}>
-                  <TouchableOpacity
-                    style={style.buttonStyle}
-                    onPress={onPressReset}
-                  >
-                    <Text style={style.buttonText}>{constants.Reset}</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View style={style.inputStyles}>
-                  <TouchableOpacity
-                    style={style.buttonStyle}
-                    onPress={onPressReset}
-                    disabled
-                  >
-                    <Text style={style.buttonText}>{constants.Reset}</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </>
+            <View style={style.inputStyles}>
+              <TouchableOpacity
+                style={style.buttonStyle}
+                onPress={onPressReset}
+                disabled={emptymail}
+              >
+                <Text style={style.buttonText}>{constants.Reset}</Text>
+              </TouchableOpacity>
+            </View>
           ) : null}
+
           {defaultState === true ? (
-          <TouchableOpacity onPress={onClear}>
-            <Text style={style.clearStyle}>{constants.Clear}</Text>
-          </TouchableOpacity>
-        ) : (
-          false
-        )}
+            <TouchableOpacity onPress={onClear}>
+              <Text style={style.clearStyle}>{constants.Clear}</Text>
+            </TouchableOpacity>
+          ) : (
+            false
+          )}
+
         </KeyboardAvoidingView>
         <View style={style.backContainer}>
           <Text style={style.BackText}>{constants.BackToLogin}</Text>

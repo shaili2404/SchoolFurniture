@@ -25,7 +25,7 @@ const App = () => {
     <Provider store={store}>
       <View>
         <LoginScreen />
-        {/* <FurnitureRequest/> */}
+        {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
       </View>
