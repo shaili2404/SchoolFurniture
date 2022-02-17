@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   Platform,
   Text,
@@ -15,9 +15,11 @@ import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/fur
 
 const App = () => {
   useEffect(() => {
-    {Platform.OS === 'ios'?
-    null:
-    SplashScreen.hide();}
+    {
+      Platform.OS === 'ios' ?
+        null :
+        SplashScreen.hide();
+    }
   }, [])
   return (
     <Provider store={store}>
