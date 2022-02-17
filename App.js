@@ -12,6 +12,7 @@ import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
 import SplashScreen from 'react-native-splash-screen';
 import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/furniturerequestscreen';
+import { ManageUserDoe } from './src/screen/doe/ManageUserScreen/manageuserscreen';
 
 const App = () => {
   useEffect(() => {
@@ -24,10 +25,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <View>
-        <LoginScreen />
+        {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
-        {/* <PasswordReset /> */}
+        <PasswordReset />
         {/* <EmailSent /> */}
+        {/* <ManageUserDoe/> */}
       </View>
     </Provider>
   )

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -76,12 +77,14 @@ export const LoginScreen = () => {
   };
 
   const onClear = () => {
+    Keyboard.dismiss()
     setDefaultState(false);
     setEmail("");
     setPassword("");
     setInvalidcred(false);
     setEmptyEmail(true);
     setEmptyPass(true);
+  
   };
 
   return loader ? (

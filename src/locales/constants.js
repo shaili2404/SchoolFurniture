@@ -13,6 +13,7 @@ const constants = {
     EmailMsg: 'An email has been sent to the profiles email address',
     ErrorCredential: 'The username or password enter is incorrect',
     ResetErrorCredential: 'The username enter is incorrect',
-    createNewReq: '+ Create New Request'
+    createNewReq: '+ Create New Request',
+    searchText:'Search For User'
 }
 export default constants

@@ -5,6 +5,12 @@ const Images = {
     right: require('./images/right.png'),
     error: require('./images/error.png'),
     Calender:require('./images/calender.png'),
-    DownArrow:require('./images/downarrow.png') 
+    DownArrow:require('./images/downarrow.png'),
+    SearchIcon:require('./images/search.png'),
+    deleteIcon:require('./images/delete.png'),
+    editIcon:require('./images/edit.png'),
+    leftarrow:require('./images/cricleleftarrow.png') ,
+    rightarrow:require('./images/criclerightarrow.png'),
+
 }
 export default Images

@@ -2,7 +2,7 @@ const Dummydatauser = [
   {
     id: 1,
     Name: "Jonathan",
-    Surnmae: "Amral",
+    Surname: "Amral",
     Username: "500100196",
     Emailid: "Jonathan.Amral@co.za",
     Organisation: "school",
@@ -10,7 +10,7 @@ const Dummydatauser = [
   {
     id: 2,
     Name: "Naman",
-    Surnmae: "Mathur",
+    Surname: "Mathur",
     Username: "500100187",
     Emailid: "Naman.mathur@co.za",
     Organisation: "School",
@@ -18,7 +18,7 @@ const Dummydatauser = [
   {
     id: 3,
     Name: "Tanmay",
-    Surnmae: "Singh",
+    Surname: "Singh",
     Username: "500100185",
     Emailid: "Tanmay.Singh@co.za",
     Organisation: "Dinovation",
@@ -26,7 +26,7 @@ const Dummydatauser = [
   {
     id: 4,
     Name: "Goldy",
-    Surnmae: "Jain",
+    Surname: "Jain",
     Username: "500100189",
     Emailid: "Goldy.jain@co.za",
     Organisation: "School",
@@ -34,7 +34,7 @@ const Dummydatauser = [
   {
     id: 5,
     Name: "Animesh",
-    Surnmae: "Agarwal",
+    Surname: "Agarwal",
     Username: "500100107",
     Emailid: "Animesh.Agawal@co.za",
     Organisation: "Dinovation",
@@ -42,15 +42,7 @@ const Dummydatauser = [
   {
     id: 6,
     Name: "Harmandeep",
-    Surnmae: "Mavi",
-    Username: "500100187",
-    Emailid: "Naman.mathur@co.za",
-    Organisation: "School",
-  },
-  {
-    id: 2,
-    Name: "Naman",
-    Surnmae: "Mathur",
+    Surname: "Mavi",
     Username: "500100187",
     Emailid: "Naman.mathur@co.za",
     Organisation: "School",
@@ -58,7 +50,7 @@ const Dummydatauser = [
   {
     id: 7,
     Name: "Naman",
-    Surnmae: "Mathur",
+    Surname: "Mathur",
     Username: "500100187",
     Emailid: "Naman.mathur@co.za",
     Organisation: "School",
@@ -66,11 +58,19 @@ const Dummydatauser = [
   {
     id: 8,
     Name: "Naman",
-    Surnmae: "Mathur",
+    Surname: "Mathur",
+    Username: "500100187",
+    Emailid: "Naman.mathur@co.za",
+    Organisation: "School",
+  },
+  {
+    id: 9,
+    Name: "Naman",
+    Surname: "Mathur",
     Username: "500100187",
     Emailid: "Naman.mathur@co.za",
     Organisation: "School",
   },
 ];
-ß
+
 export default Dummydatauser;

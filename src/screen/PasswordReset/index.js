@@ -6,7 +6,8 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
-  Image
+  Image,
+  Keyboard
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -62,6 +63,7 @@ const PasswordReset = () => {
   };
 
   const onClear = () => {
+    Keyboard.dismiss()
     setDefaultState(false);
     setEmail("");
     setInvalidcred(false);
