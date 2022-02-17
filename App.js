@@ -6,12 +6,12 @@ import {
 } from 'react-native';
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
-import { LoginScreen } from './src/screen/loginscreen';
+import { LoginScreen } from './src/screen/LoginScreen/loginscreen';
 
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
 import SplashScreen from 'react-native-splash-screen';
-import { FurnitureRequest } from './src/screen/school/furniturerequestscreen';
+import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/furniturerequestscreen';
 
 const App = () => {
   useEffect(() => {
