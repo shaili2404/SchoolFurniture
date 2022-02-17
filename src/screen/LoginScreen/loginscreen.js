@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Image,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -39,9 +40,13 @@ export const LoginScreen = () => {
   useEffect(() => {
     if (loginData) setLoader(false);
     const status = loginData?.err?.response?.status;
-    if (status === 401) {
+    if (status === 200) {
+      setInvalidcred(false);
+      setErrorMessage('');
+    }
+    else if (status === 401){
       setInvalidcred(true);
-      setErrorMessage(constants.invalidcred);
+      setErrorMessage(constants.ErrorCredential);
     }
   }, [loginData]);
 
@@ -78,7 +83,7 @@ export const LoginScreen = () => {
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView >
         <View>
           <LogoImg />
         </View>
@@ -106,6 +111,7 @@ export const LoginScreen = () => {
             />
             {invalidcred ? (
               <TouchableOpacity
+              disabled
                 style={Styles.errIcon}
                 onPress={() => {
                   textEntery === true
@@ -140,6 +146,7 @@ export const LoginScreen = () => {
             />
             {invalidcred ? (
               <TouchableOpacity
+              disabled
                 style={Styles.errIcon}
                 onPress={() => {
                   textEntery === true
