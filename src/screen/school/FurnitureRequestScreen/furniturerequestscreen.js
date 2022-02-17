@@ -20,7 +20,7 @@ import Styles from "./styles";
 
 export const FurnitureRequest = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
-  console.log(dummyData);
+  //console.log(dummyData);
   const rendercomponent = ({ item }) => {
     return (
       <FurnitureRequestList

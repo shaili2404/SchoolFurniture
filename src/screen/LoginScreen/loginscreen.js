@@ -35,19 +35,10 @@ export const LoginScreen = () => {
   const [invalidcred, setInvalidcred] = useState(false);
   const dispatch = useDispatch();
   const loginData = useSelector((state) => state.loginData);
-  console.log("LoginData", loginData);
+  //console.log("LoginData", loginData);
 
   useEffect(() => {
     if (loginData) setLoader(false);
-    const status = loginData?.err?.response?.status;
-    if (status === 200) {
-      setInvalidcred(false);
-      setErrorMessage('');
-    }
-    else if (status === 401){
-      setInvalidcred(true);
-      setErrorMessage(constants.ErrorCredential);
-    }
   }, [loginData]);
 
   const onChangeEmail = (email) => {
@@ -77,13 +68,31 @@ export const LoginScreen = () => {
       password: password,
     };
     dispatch(loginRequest(data));
+    const status = loginData?.err?.response?.status;
+    const errorMes = loginData?.err?.message;
+    if (status === 200) {
+      setInvalidcred(false);
+      setErrorMessage("");
+    } else {
+      setInvalidcred(true);
+      setErrorMessage(errorMes);
+    }
+  };
+
+  const onClear = () => {
+    setDefaultState(false);
+    setEmail("");
+    setPassword("");
+    setInvalidcred(false);
+    setErrorMessage1(false);
+    setErrorMessage2(false);
   };
 
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-      <KeyboardAvoidingView >
+      <KeyboardAvoidingView>
         <View>
           <LogoImg />
         </View>
@@ -111,7 +120,7 @@ export const LoginScreen = () => {
             />
             {invalidcred ? (
               <TouchableOpacity
-              disabled
+                disabled
                 style={Styles.errIcon}
                 onPress={() => {
                   textEntery === true
@@ -146,7 +155,7 @@ export const LoginScreen = () => {
             />
             {invalidcred ? (
               <TouchableOpacity
-              disabled
+                disabled
                 style={Styles.errIcon}
                 onPress={() => {
                   textEntery === true
@@ -173,7 +182,7 @@ export const LoginScreen = () => {
         {invalidcred ? (
           <View style={Styles.messageStyle}>
             <View style={Styles.credStyle}>
-              <Text style={Styles.errorStyle}>{constants.ErrorCredential}</Text>
+              <Text style={Styles.errorStyle}>{errorMessage}</Text>
             </View>
 
             <View>
@@ -205,7 +214,7 @@ export const LoginScreen = () => {
         </View>
 
         {defaultState === true ? (
-          <TouchableOpacity onPress={() => setDefaultState(false)}>
+          <TouchableOpacity onPress={onClear}>
             <Text style={Styles.clearStyle}>{constants.Clear}</Text>
           </TouchableOpacity>
         ) : (

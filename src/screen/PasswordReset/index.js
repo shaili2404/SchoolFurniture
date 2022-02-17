@@ -33,15 +33,7 @@ const PasswordReset = () => {
   useEffect(() => {
       
     if (resetData) setLoader(false);
-    const status = resetData?.err?.response?.status;
-    if (status === 200) {
-        setInvalidcred(false);
-        setErrorMessage('');
-      }
-      else if (status === 401){
-        setInvalidcred(true);
-        setErrorMessage(constants.ErrorCredential);
-      }
+    
   }, [resetData]);
 
   const onPressReset = () => {
@@ -50,6 +42,15 @@ const PasswordReset = () => {
       email: email,
     };
     useDispatch(resetRequest(data));
+    const status = resetData?.err?.response?.status;
+    const errorMes = resetData?.err?.message;
+    if (status === 200) {
+      setInvalidcred(false);
+      setErrorMessage("");
+    } else {
+      setInvalidcred(true);
+      setErrorMessage(errorMes);
+    }
   };
 
   const onChangeEmail = (email) => {
@@ -60,6 +61,14 @@ const PasswordReset = () => {
       setErrorMessage1(true);
       setEmail(email);
     }
+  };
+
+  const onClear = () => {
+    setDefaultState(false);
+    setEmail("");
+    setInvalidcred(false);
+    setErrorMessage1(false);
+    
   };
 
   return loader ? (
@@ -113,7 +122,7 @@ const PasswordReset = () => {
           {invalidcred ? (
             <View style={style.credStyle}>
               <Text style={style.errorStyle}>
-                {constants.ResetErrorCredential}
+                {errorMessage}
               </Text>
             </View>
           ) : null}
@@ -142,7 +151,7 @@ const PasswordReset = () => {
             </>
           ) : null}
           {defaultState === true ? (
-          <TouchableOpacity onPress={() => setDefaultState(false)}>
+          <TouchableOpacity onPress={onClear}>
             <Text style={style.clearStyle}>{constants.Clear}</Text>
           </TouchableOpacity>
         ) : (
