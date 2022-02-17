@@ -11,7 +11,8 @@ const constants = {
     Clear: 'Clear',
     EmailSent: 'Email Sent',
     EmailMsg: 'An email has been sent to the profiles email address',
-    ErrorCredential :'The username or password enter is incorrect',
-    ResetErrorCredential :'The username enter is incorrect',
+    ErrorCredential: 'The username or password enter is incorrect',
+    ResetErrorCredential: 'The username enter is incorrect',
+    createNewReq: '+ Create New Request'
 }
 export default constants

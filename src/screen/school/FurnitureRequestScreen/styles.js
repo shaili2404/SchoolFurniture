@@ -1,14 +1,14 @@
-import { StyleSheet,Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default StyleSheet.create({
   mainView: {
-    hiegth: height,
+    height: height,
+    position: 'relative'
   },
   halfView: {
     backgroundColor: COLORS.LightGreen,
-
     width: width,
   },
   searchButtonView: {
@@ -72,7 +72,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.White,
     width: "45%",
     height: 40,
-    marginLeft:20,
+    marginLeft: 20,
     paddingLeft: 10,
     marginTop: 10,
     alignSelf: "flex-start",
@@ -83,9 +83,11 @@ export default StyleSheet.create({
   },
   lastView: {
     marginHorizontal: 20,
-    width: width - 20,
+    width: '80%',
     paddingEnd: 20,
     paddingTop: 10,
+    position: 'absolute',
+    bottom: 30
   },
   lastText: {
     fontWeight: "bold",
@@ -112,6 +114,6 @@ export default StyleSheet.create({
   },
   imgsStyle: {
     width: 20,
-    height:10
+    height: 10
   },
 });

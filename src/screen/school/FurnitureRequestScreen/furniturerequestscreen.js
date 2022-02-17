@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Dimensions,
   SafeAreaView,
-  StyleSheet,
   View,
   Text,
   TouchableOpacity,
@@ -16,11 +14,11 @@ import Images from "../../../asset/images";
 import Dummydata from "../../../component/dummyData/dummyData";
 import { FurnitureRequestList } from "../../../component/school/furniturerequestList";
 import { ListHeader } from "../../../component/school/listHeader";
+import constants from "../../../locales/constants";
 import Styles from "./styles";
 
 export const FurnitureRequest = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
-  //console.log(dummyData);
   const rendercomponent = ({ item }) => {
     return (
       <FurnitureRequestList
@@ -83,8 +81,6 @@ export const FurnitureRequest = () => {
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
           />
-
-
           <TextInput
             style={Styles.dropsStyle}
             placeholder="End Date"
@@ -105,10 +101,9 @@ export const FurnitureRequest = () => {
           />
         </ScrollView>
       </View>
-
       <View style={Styles.lastView}>
         <TouchableOpacity style={Styles.lastButton}>
-          <Text style={Styles.lastText}>+ Create New Request</Text>
+          <Text style={Styles.lastText}>{constants.createNewReq}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
