@@ -5,6 +5,7 @@ INJECTED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/andr
 INJECTED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/AndroidManifest.xml:1:1-25:12
 INJECTED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/AndroidManifest.xml:1:1-25:12
 MERGED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/AndroidManifest.xml:1:1-25:12
+MERGED from [hermes-debug.aar] /Users/neosoft/.gradle/caches/transforms-3/71c6d01b7f835cde596e3680ed058a31/transformed/jetified-hermes-debug/AndroidManifest.xml:2:1-7:12
 MERGED from [com.facebook.flipper:flipper:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/dcdc153c61013fc5f27004c7a765b5b9/transformed/jetified-flipper-0.99.0/AndroidManifest.xml:8:1-18:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/9cb1845505624aa50d28f8adb1782aec/transformed/jetified-flipper-network-plugin-0.99.0/AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/60dfb80df62095003b1f13624d6ab8fc/transformed/jetified-flipper-fresco-plugin-0.99.0/AndroidManifest.xml:8:1-15:12
@@ -13,8 +14,7 @@ MERGED from [:react-native-safe-area-context] /Users/neosoft/Desktop/SchoolFurni
 MERGED from [:react-native-screens] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-screens/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.react:react-native:0.67.1] /Users/neosoft/.gradle/caches/transforms-3/8270182f30ff8de590cc8f97021af25d/transformed/jetified-react-native-0.67.1/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/neosoft/.gradle/caches/transforms-3/cb1f259e64410a9034d94b35e5fa98cd/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [org.webkit:android-jsc:r250230] /Users/neosoft/.gradle/caches/transforms-3/d9b0adf43f47c1ddd84732d70409b88d/transformed/jetified-android-jsc-r250230/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/0db690299642e12ca7d074cfb1358856/transformed/jetified-react-native-reanimated-67-jsc/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/dcf3f59ca64d3488e1e4abe6648624a6/transformed/jetified-react-native-reanimated-67-hermes/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:flipper:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/7ab2e67623a9292949c8ac3f185b98e4/transformed/jetified-flipper-2.5.0/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:stetho:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/8808e3426c333ca82e6f333d260b68b3/transformed/jetified-stetho-2.5.0/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:fresco:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/42e48582ae8a4d1f06d53942e7c5e288/transformed/jetified-fresco-2.5.0/AndroidManifest.xml:2:1-9:12
@@ -158,6 +158,8 @@ uses-sdk
 INJECTED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/AndroidManifest.xml
+MERGED from [hermes-debug.aar] /Users/neosoft/.gradle/caches/transforms-3/71c6d01b7f835cde596e3680ed058a31/transformed/jetified-hermes-debug/AndroidManifest.xml:5:5-44
+MERGED from [hermes-debug.aar] /Users/neosoft/.gradle/caches/transforms-3/71c6d01b7f835cde596e3680ed058a31/transformed/jetified-hermes-debug/AndroidManifest.xml:5:5-44
 MERGED from [com.facebook.flipper:flipper:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/dcdc153c61013fc5f27004c7a765b5b9/transformed/jetified-flipper-0.99.0/AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/dcdc153c61013fc5f27004c7a765b5b9/transformed/jetified-flipper-0.99.0/AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/9cb1845505624aa50d28f8adb1782aec/transformed/jetified-flipper-network-plugin-0.99.0/AndroidManifest.xml:11:5-13:41
@@ -174,10 +176,8 @@ MERGED from [com.facebook.react:react-native:0.67.1] /Users/neosoft/.gradle/cach
 MERGED from [com.facebook.react:react-native:0.67.1] /Users/neosoft/.gradle/caches/transforms-3/8270182f30ff8de590cc8f97021af25d/transformed/jetified-react-native-0.67.1/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/neosoft/.gradle/caches/transforms-3/cb1f259e64410a9034d94b35e5fa98cd/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/neosoft/.gradle/caches/transforms-3/cb1f259e64410a9034d94b35e5fa98cd/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [org.webkit:android-jsc:r250230] /Users/neosoft/.gradle/caches/transforms-3/d9b0adf43f47c1ddd84732d70409b88d/transformed/jetified-android-jsc-r250230/AndroidManifest.xml:7:5-9:41
-MERGED from [org.webkit:android-jsc:r250230] /Users/neosoft/.gradle/caches/transforms-3/d9b0adf43f47c1ddd84732d70409b88d/transformed/jetified-android-jsc-r250230/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/0db690299642e12ca7d074cfb1358856/transformed/jetified-react-native-reanimated-67-jsc/AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/0db690299642e12ca7d074cfb1358856/transformed/jetified-react-native-reanimated-67-jsc/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/dcf3f59ca64d3488e1e4abe6648624a6/transformed/jetified-react-native-reanimated-67-hermes/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/dcf3f59ca64d3488e1e4abe6648624a6/transformed/jetified-react-native-reanimated-67-hermes/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:flipper:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/7ab2e67623a9292949c8ac3f185b98e4/transformed/jetified-flipper-2.5.0/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:flipper:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/7ab2e67623a9292949c8ac3f185b98e4/transformed/jetified-flipper-2.5.0/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:stetho:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/8808e3426c333ca82e6f333d260b68b3/transformed/jetified-stetho-2.5.0/AndroidManifest.xml:5:5-7:41

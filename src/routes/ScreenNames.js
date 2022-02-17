@@ -1,8 +1,9 @@
 const NavigationRouteNames = {
-    HOME: "home",
+    HOME_SCREEN: "HomeScreen",
     LOGIN: "login",
     FORGOT_PASSWORD: "forgot_password",
-    SIGNUP: "SignUp",
+    First: "First",
+    Second: "Second",
 
 };
 
