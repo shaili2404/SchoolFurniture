@@ -58,16 +58,28 @@ const USER_ROLE = {
     ],
     school: [
       {
-        name: 'My Home',
+        name: 'Search',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
-        screenName: NavigationRouteNames.HOME_SCREEN
+        iconName: require('../assets/Images/Common/search_black_24dp.png'),
+        screenName: ""
       },
       {
-        name: 'Profile',
+        name: 'Furniture Replacement',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
+        iconName: require('../assets/Images/Common/published_with_changes_black_24dp.png'),
         screenName: ""
+      },
+      {
+        name: 'Reports',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
+        screenName: ""
+      },
+      {
+        name: 'Signout',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/logout_black_24dp.png'),
+        screenName: 'logout'
       },
     ],
     doe: [
