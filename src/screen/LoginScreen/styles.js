@@ -50,6 +50,12 @@ const height = Dimensions.get("window").height;
   inputStyles: {
     marginTop: 70,
   },
+  inputStyless: {
+    marginTop: 30,
+  },
+  inputSty: {
+    marginTop: 40,
+  },
   buttonStyle: {
     backgroundColor: COLORS.GreenBox,
     borderRadius: 5,
