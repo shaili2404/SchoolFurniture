@@ -83,18 +83,18 @@ const USER_ROLE = {
       },
     ],
     doe: [
-       {
-        name: 'My Home',
+      {
+        name: 'Reports',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
-        screenName: NavigationRouteNames.HOME_SCREEN
-       },
-       {
-        name: 'Profile',
-        color: '#F7A435',
-        iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
+        iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
         screenName: ""
-       },
+      },
+      {
+        name: 'Signout',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/logout_black_24dp.png'),
+        screenName: 'logout'
+      },
     ],
   };
 

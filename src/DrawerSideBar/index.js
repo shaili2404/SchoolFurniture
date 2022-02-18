@@ -60,7 +60,7 @@ const DrawerSideBar = (props) => {
                     </View>
                 </View>
                 <FlatList
-                    data={DRAWER_MENU["school"]}
+                    data={DRAWER_MENU["manufacturer"]}
                     keyExtractor={(_, index) => `${index}2`}
                     renderItem={({ index, item }) => onRenderMenu(index, item)}
                 />
