@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import SplashScreen from "react-native-splash-screen";
 import { loginReducer } from "../redux/reducers/loginReducer";
 import First from "../First";
 import Second from "../Second";
 // import DrawerSideBar from "../containers/DrawerSideBar/index";
 import DrawerSideBar from "../DrawerSideBar";
 import NavigationRouteNames from "./ScreenNames";
+//import LoginScreen from './src/screen/LoginScreen/loginscreen';
+import PasswordReset from "../screen/PasswordReset/index";
+import { LoginScreen } from "../screen/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -15,12 +19,29 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-      <Drawer.Screen component={First} name="First" />
+      {/* <Drawer.Screen component={First} name="First" /> */}
+      <Drawer.Screen component={LoginScreen} name="LoginScreen" options={{ headerShown: false }} />
     </Drawer.Navigator>
   );
 };
 
 const AppStack = (props) => {
+
+  // useEffect(() => {
+  //   // {
+  //   //   Platform.OS === 'ios' ?
+  //   //     null :
+  //   //     SplashScreen.hide();
+  //   // }
+  //   setTimeout(() => {
+  //     SplashScreen.hide();
+  //   }, 2500);
+  // }, []);
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, [])
+
   //  const user = props.loginReducer;
   //  console.log("user",user);
 
@@ -92,9 +113,9 @@ const AppStack = (props) => {
   };
 
   return (
-    <Stack.Navigator initialRouteName="First">
+    <Stack.Navigator initialRouteName="LoginScreen">
       <Stack.Screen
-        name="First"
+        name="LoginScreen"
         component={DrawerStack}
         options={{ headerShown: false }}
       />

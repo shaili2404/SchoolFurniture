@@ -4,6 +4,7 @@ const NavigationRouteNames = {
     FORGOT_PASSWORD: "forgot_password",
     First: "First",
     Second: "Second",
+    LoginScreen: "LoginScreen"
 
 };
 
