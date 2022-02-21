@@ -21,6 +21,7 @@ import constants from "../../locales/constants";
 import Loader from "../../component/loader";
 import Styles from "./styles";
 import { NetworkInfo } from "react-native-network-info";
+import style from "../doe/ManageUserScreen/style";
 
 export const LoginScreen = () => {
   const [defaultState, setDefaultState] = useState(false);
@@ -99,6 +100,7 @@ export const LoginScreen = () => {
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
+      <View style={Styles.subContainer}>
       <KeyboardAvoidingView behavior={Platform.OS==='android'?'position':null} keyboardVerticalOffset={0} >
         <LogoImg />
         <View style={Styles.loginView}>
@@ -210,7 +212,7 @@ export const LoginScreen = () => {
         ) : (
           false
         )}
-    
+    </View>
     </SafeAreaView>
   );
 };

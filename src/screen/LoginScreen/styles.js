@@ -4,13 +4,18 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
  export default StyleSheet.create({
   mainView: {
-    paddingEnd: 36,
-    marginHorizontal: 36,
-    width: width - 36,
-    hiegth: height,
+    height: height,
+    width: width,
+    alignItems: "center",
+    backgroundColor:COLORS.White
+  },
+  subContainer: {
+    width: "90%",
+    height: "100%",
+    position: "relative",
   },
   loginView: {
-    marginTop: 50,
+    marginTop: '10%',
   },
   loginText: {
     color: COLORS.ThemeGreen,
@@ -48,13 +53,13 @@ const height = Dimensions.get("window").height;
     paddingLeft: 30,
   },
   inputStyles: {
-    marginTop: 70,
+    marginTop: '15%',
   },
   inputStyless: {
-    marginTop: 30,
+    marginTop: '6%',
   },
   inputSty: {
-    marginTop: 40,
+    marginTop: '8%',
   },
   buttonStyle: {
     backgroundColor: COLORS.GreenBox,
@@ -98,8 +103,9 @@ const height = Dimensions.get("window").height;
   clearStyle: {
     textAlign: "center",
     color: COLORS.blue,
-    marginTop: 10,
     textDecorationLine: "underline",
+    position:'relative',
+    bottom:'5%'
   },
   errorStyle: {
     color: COLORS.red,

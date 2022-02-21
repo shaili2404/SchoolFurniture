@@ -13,7 +13,9 @@ export const Functionalities = (props)=>{
              <Text style={styles.textStyles}>Furniture Replacment - Collect Furniture item </Text>
          </View>
          <View style={styles.submainView}>
-             <View style={styles.unclickView}></View>
+             <View style={styles.unclickView}>
+                 
+             </View>
              <View style={styles.clickView}></View>
              <View style={styles.clickView}></View>
              <View style={styles.clickView}></View>

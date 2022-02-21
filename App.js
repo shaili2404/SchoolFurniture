@@ -15,6 +15,7 @@ import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/fur
 import { ManageUserDoe } from './src/screen/doe/ManageUserScreen/manageuserscreen';
 import { EditAddUserModal } from './src/component/doe/EditAddUserModal/editAdduserModal';
 import { Functionalities } from './src/component/doe/Functionalitiesuser';
+import { AlertMessage } from './src/Alert/alert';
 
 const App = () => {
   useEffect(() => {
@@ -27,13 +28,14 @@ const App = () => {
   return (
     <Provider store={store}>
       <View>
-        <LoginScreen />
+        {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
         {/* <ManageUserDoe/> */}
         {/* <EditAddUserModal/> */}
-        {/* <Functionalities/> */}
+        <Functionalities/>
+        {/* <AlertMessage/> */}
       </View>
     </Provider>
   )

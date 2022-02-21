@@ -56,7 +56,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    bottom: 10,
+    bottom: '5%',
     width: "100%",
   },
   BackText: {
