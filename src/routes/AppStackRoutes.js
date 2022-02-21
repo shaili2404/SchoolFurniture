@@ -6,11 +6,12 @@ import SplashScreen from "react-native-splash-screen";
 import { loginReducer } from "../redux/reducers/loginReducer";
 import First from "../First";
 import Second from "../Second";
+import PasswordReset from "../screen/PasswordReset/index"
 // import DrawerSideBar from "../containers/DrawerSideBar/index";
 import DrawerSideBar from "../DrawerSideBar";
 import NavigationRouteNames from "./ScreenNames";
 //import LoginScreen from './src/screen/LoginScreen/loginscreen';
-import PasswordReset from "../screen/PasswordReset/index";
+// import PasswordReset from "../screen/PasswordReset/index";
 import { LoginScreen } from "../screen/LoginScreen";
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,8 @@ const DrawerStack = () => {
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       {/* <Drawer.Screen component={First} name="First" /> */}
       <Drawer.Screen component={LoginScreen} name="LoginScreen" options={{ headerShown: false }} />
+      <Drawer.Screen component={PasswordReset} name="PasswordReset" options={{ headerShown: false }} />
+      <Drawer.Screen component={First} name="First" />
     </Drawer.Navigator>
   );
 };
@@ -120,6 +123,9 @@ const AppStack = (props) => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Second" component={Second} />
+      <Stack.Screen name="PasswordReset" component={PasswordReset} />
+      <Stack.Screen name="First" component={First} />
+      {/* <Stack.Screen name="LoginScreen" component={LoginScreen} /> */}
     </Stack.Navigator>
     // <Drawer.Navigator>
     //   <Drawer.Screen name="First" component={First} />

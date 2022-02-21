@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Text,
   View,
@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  Keyboard
+  Keyboard,
+  Platform
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,9 +20,10 @@ import style from "./styles";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 import Loader from "../../component/loader";
+import { useNavigation } from '@react-navigation/native';
 
 const PasswordReset = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [defaultState, setDefaultState] = useState(false);
   const [emptymail, setEmptyMail] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,20 +31,22 @@ const PasswordReset = () => {
   const [invalidcred, setInvalidcred] = useState(false);
   const resetData = useSelector((state) => state.resetpassData);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
     //console.log("ResetData", resetData)
-    if (resetData) setLoader(false);
+    if (resetData) setLoader(false) 
   }, [resetData]);
 
   const onPressReset = () => {
     setLoader(true);
     var data = {
-      email: email,
+      username: username,
     };
     dispatch(resetRequest(data));
-    const status = resetData?.err?.response?.status;
-    const errorMes = resetData?.err?.message;
+    console.log('44',resetData)
+    const status = resetData?.user?.data?.status;
+    const errorMes = resetData?.user?.data?.message;
     if (status === 200) {
       setInvalidcred(false);
       setErrorMessage("");
@@ -50,22 +54,25 @@ const PasswordReset = () => {
       setInvalidcred(true);
       setErrorMessage(errorMes);
     }
-  };
+    
+  }
+ 
+  
 
-  const onChangeEmail = (email) => {
-    if (email == "" || !regExpEmail.test(email)) {
+  const onChangeEmail = (username) => {
+    if (username == "") {
       setEmptyMail(true);
-      setEmail(email);
+      setUserName(username);
     } else {
       setEmptyMail(false);
-      setEmail(email);
+      setUserName(username);
     }
   };
 
   const onClear = () => {
     Keyboard.dismiss()
     setDefaultState(false);
-    setEmail("");
+    setUserName("");
     setInvalidcred(false);
     setEmptyMail(true);
   };
@@ -75,7 +82,7 @@ const PasswordReset = () => {
   ) : (
     <SafeAreaView style={style.mainView}>
       <View style={style.subContainer}>
-        <KeyboardAvoidingView >
+        <KeyboardAvoidingView behavior={Platform.OS==='android'?'position':''} >
           <View>
             <LogoImg />
           </View>
@@ -97,10 +104,10 @@ const PasswordReset = () => {
                   defaultState === true ? " " : constants.EnterUsername
                 }
                 placeholderTextColor={COLORS.Black}
-                value={email}
+                value={username}
                 onFocus={() => setDefaultState(true)}
-                onBlur={() => setDefaultState(false)}
-                onChangeText={(email) => onChangeEmail(email)}
+                // onBlur={() => setDefaultState(false)}
+                onChangeText={(username) => onChangeEmail(username)}
                 opacity={defaultState === true ? 1 : 0.5}
               />
               {invalidcred ? (
@@ -142,9 +149,10 @@ const PasswordReset = () => {
           )}
 
         </KeyboardAvoidingView>
-        <View style={style.backContainer}>
+        <TouchableOpacity style={style.backContainer}
+        onPress={()=> navigation.navigate('LoginScreen') }>
           <Text style={style.BackText}>{constants.BackToLogin}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

@@ -7,7 +7,7 @@ import {
 const initialState = {
     loading:false,
     user:[],
-    err:''
+    err: null,
 }
 
 const loginReducer = (state = initialState,action) => {
@@ -15,13 +15,14 @@ const loginReducer = (state = initialState,action) => {
         case LOGIN_REQUEST:
             return{
                 ...state,
-                loading:true
+                loading:true,
+                err: null,
             }
         case LOGIN_SUCEESS:
             return{
                 loading:false,
                 user:action.payload,
-                err:''
+                err: null,
             }
         case LOGIN_ERROR:
             return{

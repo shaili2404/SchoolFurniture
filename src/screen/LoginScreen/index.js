@@ -8,6 +8,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,10 +20,13 @@ import { LogoImg } from "../../atoms/logo";
 import constants from "../../locales/constants";
 import Loader from "../../component/loader";
 import Styles from "./styles";
+import { NetworkInfo } from "react-native-network-info";
+import style from "../doe/ManageUserScreen/style";
+import { useNavigation } from '@react-navigation/native';
 
 export const LoginScreen = () => {
   const [defaultState, setDefaultState] = useState(false);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [emptyEmail, setEmptyEmail] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -31,20 +35,34 @@ export const LoginScreen = () => {
   const [loader, setLoader] = useState(false);
   const [invalidcred, setInvalidcred] = useState(false);
   const dispatch = useDispatch();
-  const loginData = useSelector((state) => state.loginData);
-  // console.log("LoginData", loginData);
+  const loginData = useSelector((state) => state?.loginData);
+  const [idsAddresss, setIpAddress] = useState("");
+  const navigation = useNavigation();
 
+  
   useEffect(() => {
-    if (loginData) setLoader(false);
+    const { loading, err } = loginData;
+    setLoader(loading);
+    const { message } = err?.data || {};
+    setErrorMessage(message);
+
+    NetworkInfo.getIPAddress().then((ipAddress) => {
+      //console.log(ipAddress);
+      setIpAddress(ipAddress)
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      console.log(ipv4Address);
+      setIpAddress(ipv4Address)
+    });
   }, [loginData]);
 
   const onChangeEmail = (email) => {
-    if (email == "" || !regExpEmail.test(email)) {
+    if (email == "") {
       setEmptyEmail(true);
-      setEmail(email);
+      setUsername(email);
     } else {
       setEmptyEmail(false);
-      setEmail(email);
+      setUsername(email);
     }
   };
 
@@ -59,44 +77,35 @@ export const LoginScreen = () => {
   };
 
   const onLogin = () => {
-    setLoader(true);
     var data = {
-      email: email,
+      username: username,
       password: password,
+      ip: idsAddresss,
     };
-    dispatch(loginRequest(data));
-    const status = loginData?.err?.response?.status;
-    const errorMes = loginData?.err?.message;
-    if (status === 200) {
-      setInvalidcred(false);
-      setErrorMessage("");
-    } else {
-      setInvalidcred(true);
-      setErrorMessage(errorMes);
-    }
+    dispatch(loginRequest(data)); 
   };
 
   const onClear = () => {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
     setDefaultState(false);
-    setEmail("");
+    setUsername("");
     setPassword("");
-    setInvalidcred(false);
+    setErrorMessage("");
     setEmptyEmail(true);
     setEmptyPass(true);
-  
   };
 
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-      <KeyboardAvoidingView behavior={Platform.OS==='android'?'position':'height'} >
+      <View style={Styles.subContainer}>
+      <KeyboardAvoidingView behavior={Platform.OS==='android'?'position':null} keyboardVerticalOffset={0} >
         <LogoImg />
         <View style={Styles.loginView}>
           <Text style={Styles.loginText}>{constants.Login}</Text>
         </View>
-        <View style={Styles.inputStyles}>
+        <View style={defaultState === true ?Styles.inputSty:Styles.inputStyles }>
           {defaultState === true ? (
             <View style={Styles.changeView}>
               <Text style={Styles.changeText}>{constants.EnterUsername}</Text>
@@ -105,21 +114,20 @@ export const LoginScreen = () => {
           <View>
             <TextInput
               style={
-                invalidcred ? Styles.emailInputStyles : Styles.emailInputStyle
+                errorMessage ? Styles.emailInputStyles : Styles.emailInputStyle
               }
-              placeholder={defaultState === true ? " " : constants.EnterUsername}
+              placeholder={
+                defaultState === true ? " " : constants.EnterUsername
+              }
               placeholderTextColor={COLORS.Black}
-              value={email}
+              value={username}
               onFocus={() => setDefaultState(true)}
-              onBlur={() => setDefaultState(false)}
+              // onBlur={() => setDefaultState(false)}
               onChangeText={(email) => onChangeEmail(email)}
               opacity={defaultState === true ? 1 : 0.5}
             />
-            {invalidcred ? (
-              <TouchableOpacity
-                disabled
-                style={Styles.errIcon}
-              >
+            {errorMessage ? (
+              <TouchableOpacity disabled style={Styles.errIcon}>
                 <Image source={Images.error} style={Styles.errIconStyle} />
               </TouchableOpacity>
             ) : null}
@@ -132,7 +140,7 @@ export const LoginScreen = () => {
             ) : null}
             <TextInput
               style={
-                invalidcred ? Styles.passInputStyles : Styles.passInputStyle
+                errorMessage ? Styles.passInputStyles : Styles.passInputStyle
               }
               placeholder={
                 defaultState === true ? " " : constants.EnterPassword
@@ -140,12 +148,12 @@ export const LoginScreen = () => {
               placeholderTextColor={COLORS.Black}
               value={password}
               onFocus={() => setDefaultState(true)}
-              onBlur={() => setDefaultState(false)}
+               //onBlur={() => setDefaultState(false)}
               onChangeText={(password) => onChangePass(password)}
               secureTextEntry={textEntery}
               opacity={defaultState === true ? 1 : 0.5}
             />
-            {invalidcred ? (
+            {errorMessage ? (
               <TouchableOpacity
                 disabled
                 style={Styles.errIcon}
@@ -159,7 +167,7 @@ export const LoginScreen = () => {
               </TouchableOpacity>
             ) : null}
             <TouchableOpacity
-              style={invalidcred ? Styles.eyeStyles : Styles.eyeStyle}
+              style={errorMessage ? Styles.eyeStyles : Styles.eyeStyle}
               onPress={() => {
                 textEntery === true ? setTextEntry(false) : setTextEntry(true);
               }}
@@ -171,25 +179,28 @@ export const LoginScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-
-        <View style={{ flexDirection: invalidcred ? 'row' : 'column' }}>
-          {invalidcred ? (
+       
+        <View style={{ flexDirection: errorMessage ? "row" : "column" }}>
+          {errorMessage ? (
             <View style={Styles.credStyle}>
               <Text style={Styles.errorStyle}>{errorMessage}</Text>
             </View>
           ) : null}
           <View>
-            <TouchableOpacity onPress={() => setPassword("")}>
+            <TouchableOpacity 
+            onPress={()=> navigation.navigate('PasswordReset') }
+            >
               <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
             </TouchableOpacity>
           </View>
         </View>
+        </KeyboardAvoidingView>
 
-        <View style={Styles.inputStyles}>
+        <View style={defaultState === true? Styles.inputStyless : Styles.inputStyles}>
           <TouchableOpacity
             style={Styles.buttonStyle}
             onPress={onLogin}
-            disabled={emptyEmail || emptyPass}
+            // disabled={emptyEmail || emptyPass}
           >
             <Text style={Styles.buttonText}>{constants.Login}</Text>
           </TouchableOpacity>
@@ -202,7 +213,7 @@ export const LoginScreen = () => {
         ) : (
           false
         )}
-      </KeyboardAvoidingView>
+    </View>
     </SafeAreaView>
   );
 };

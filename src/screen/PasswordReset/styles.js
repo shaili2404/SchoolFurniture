@@ -52,13 +52,13 @@ const style = StyleSheet.create({
   inputStyles: {
     marginTop: 30,
   },
-  backContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    bottom: 10,
-    width: "100%",
-  },
+  // backContainer: {
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   position: "absolute",
+  //   bottom: 10,
+  //   width: "100%",
+  // },
   BackText: {
     fontSize: 16,
     color: COLORS.blue,
@@ -90,6 +90,13 @@ const style = StyleSheet.create({
     color: COLORS.blue,
     marginTop: 10,
     textDecorationLine: "underline",
+  },
+  backContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: '5%',
+    width: "100%",
   },
 });
 export default style;

@@ -5581,6 +5581,11 @@
     "lodash" "^4.17.21"
     "prop-types" "^15.7.2"
 
+"react-native-network-info@^5.2.1":
+  "integrity" "sha512-iam74xXtrSqqZurCl1/bSjZ9jXcsJY84g7brx1/4uVGCY26c6m+4CArHNSHOsz5ATg2NQT+81sjNy0KlCPyK4g=="
+  "resolved" "https://registry.npmjs.org/react-native-network-info/-/react-native-network-info-5.2.1.tgz"
+  "version" "5.2.1"
+
 "react-native-reanimated@^2.4.1", "react-native-reanimated@>= 1.0.0":
   "integrity" "sha512-kvf7ylGlwa5hxMQ+wpPFjQrI2c6eexf53/xRo+dvXBNefGmSYaYR5sFtD0XMMzIPQlkCB9tJ0Pu9+2WCQUY7Cg=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.4.1.tgz"
@@ -5612,7 +5617,7 @@
   "resolved" "https://registry.npmjs.org/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz"
   "version" "3.3.0"
 
-"react-native@*", "react-native@>=0.57.0", "react-native@0.67.1":
+"react-native@*", "react-native@>=0.47", "react-native@>=0.57.0", "react-native@0.67.1":
   "integrity" "sha512-doKN9qhtjilF+6p8603OVzqGKL4fq8EDAH5u00KPmZbL5ampHDQX9y8/uwlUvJggvHwZXlnvhW63u8Y1LA8rxw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.67.1.tgz"
   "version" "0.67.1"
