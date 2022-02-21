@@ -8,7 +8,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
-  Platform,
+  Platform
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
