@@ -7,7 +7,7 @@ import {
 const initialState = {
     loading: false,
     user: [],
-    err: ''
+    err: null
 }
 
 const resetPassReducer = (state = initialState, action) => {
@@ -15,13 +15,14 @@ const resetPassReducer = (state = initialState, action) => {
         case RESET_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                err: null
             }
         case RESET_SUCEESS:
             return {
                 loading: false,
                 user: action.payload,
-                err: ''
+                err: null
             }
         case RESET_ERROR:
             return {

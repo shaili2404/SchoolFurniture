@@ -13,6 +13,7 @@ import NavigationRouteNames from "./ScreenNames";
 //import LoginScreen from './src/screen/LoginScreen/loginscreen';
 // import PasswordReset from "../screen/PasswordReset/index";
 import { LoginScreen } from "../screen/LoginScreen";
+import EmailSent from "../component/emailSent";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -125,7 +126,7 @@ const AppStack = (props) => {
       <Stack.Screen name="Second" component={Second} />
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
       <Stack.Screen name="First" component={First} />
-      {/* <Stack.Screen name="LoginScreen" component={LoginScreen} /> */}
+      <Stack.Screen name="EmailSent" component={EmailSent} />
     </Stack.Navigator>
     // <Drawer.Navigator>
     //   <Drawer.Screen name="First" component={First} />
