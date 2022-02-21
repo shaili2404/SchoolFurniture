@@ -37,22 +37,22 @@ export const LoginScreen = () => {
   const [idsAddresss, setIpAddress] = useState("");
 
   
-
   useEffect(() => {
-    if (loginData) setLoader(false)
-    const errormess =  loginData?.user?.data?.message 
-    if (errormess) {
-      setInvalidcred(true)
-      setErrorMessage(errormess)
-    }
-  // NetworkInfo.getIPAddress().then((ipAddress) => {
-  //   console.log(ipAddress);
-  //   setIpAddress(ipAddress)
-  // });
-  // NetworkInfo.getIPV4Address().then((ipv4Address) => {
-  //   console.log(ipv4Address);
-  //   setIpAddress(ipv4Address)
-  // });
+    const { loading, err } = loginData;
+    setLoader(loading);
+    const { message } = err?.data || {};
+    console.log(message)
+    setErrorMessage(message);
+    {message?
+    setInvalidcred(true):setInvalidcred(false)}
+    NetworkInfo.getIPAddress().then((ipAddress) => {
+      //console.log(ipAddress);
+      setIpAddress(ipAddress)
+    });
+    NetworkInfo.getIPV4Address().then((ipv4Address) => {
+      console.log(ipv4Address);
+      setIpAddress(ipv4Address)
+    });
   }, [loginData]);
 
   const onChangeEmail = (email) => {
@@ -147,7 +147,7 @@ export const LoginScreen = () => {
               placeholderTextColor={COLORS.Black}
               value={password}
               onFocus={() => setDefaultState(true)}
-              // onBlur={() => setDefaultState(false)}
+               //onBlur={() => setDefaultState(false)}
               onChangeText={(password) => onChangePass(password)}
               secureTextEntry={textEntery}
               opacity={defaultState === true ? 1 : 0.5}
