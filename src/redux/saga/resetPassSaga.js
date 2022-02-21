@@ -8,7 +8,14 @@ import { resetPassService } from '../configration/service';
 function* resetPassSaga(action) {
     try {
         const data = yield call(resetPassService, action.payload)
-        yield put({ type: RESET_SUCEESS, payload: data })
+        if (data?.data?.status === 200) {
+            yield put({ type: RESET_SUCEESS, payload: data })
+            const navigation = useNavigation();
+            yield navigation.navigate("First");
+        } else {
+
+            yield put({ type: RESET_ERROR, payload: data })
+        }
     } catch (e) {
         yield put({ type: RESET_ERROR, payload: e })
     }

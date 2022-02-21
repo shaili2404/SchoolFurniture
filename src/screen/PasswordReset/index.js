@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -13,7 +13,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import { resetRequest } from "../../redux/actions/resetAction";
-import { regExpEmail } from "../../locales/regexp";
 import { LogoImg } from "../../atoms/logo";
 import constants from "../../locales/constants";
 import style from "./styles";
@@ -28,36 +27,25 @@ const PasswordReset = () => {
   const [emptymail, setEmptyMail] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [loader, setLoader] = useState(false);
-  const [invalidcred, setInvalidcred] = useState(false);
   const resetData = useSelector((state) => state.resetpassData);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
-    //console.log("ResetData", resetData)
-    if (resetData) setLoader(false) 
+    const { loading, err } = resetData;
+    setLoader(loading);
+    const { message } = err?.data || {};
+    setErrorMessage(message);
   }, [resetData]);
 
   const onPressReset = () => {
-    setLoader(true);
+  //  onPress={() => navigation.navigate('PasswordReset')}
+  //  return
     var data = {
       username: username,
     };
     dispatch(resetRequest(data));
-    console.log('44',resetData)
-    const status = resetData?.user?.data?.status;
-    const errorMes = resetData?.user?.data?.message;
-    if (status === 200) {
-      setInvalidcred(false);
-      setErrorMessage("");
-    } else {
-      setInvalidcred(true);
-      setErrorMessage(errorMes);
-    }
-    
   }
- 
-  
 
   const onChangeEmail = (username) => {
     if (username == "") {
@@ -73,7 +61,7 @@ const PasswordReset = () => {
     Keyboard.dismiss()
     setDefaultState(false);
     setUserName("");
-    setInvalidcred(false);
+    setErrorMessage("");
     setEmptyMail(true);
   };
 
@@ -82,7 +70,7 @@ const PasswordReset = () => {
   ) : (
     <SafeAreaView style={style.mainView}>
       <View style={style.subContainer}>
-        <KeyboardAvoidingView behavior={Platform.OS==='android'?'position':''} >
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'position' : ''} >
           <View>
             <LogoImg />
           </View>
@@ -98,7 +86,7 @@ const PasswordReset = () => {
             <View>
               <TextInput
                 style={
-                  invalidcred ? style.emailInputStyles : style.emailInputStyle
+                  errorMessage ? style.emailInputStyles : style.emailInputStyle
                 }
                 placeholder={
                   defaultState === true ? " " : constants.EnterUsername
@@ -110,7 +98,7 @@ const PasswordReset = () => {
                 onChangeText={(username) => onChangeEmail(username)}
                 opacity={defaultState === true ? 1 : 0.5}
               />
-              {invalidcred ? (
+              {errorMessage ? (
                 <TouchableOpacity
                   disabled
                   style={style.errIcon}
@@ -120,7 +108,7 @@ const PasswordReset = () => {
               ) : null}
             </View>
           </View>
-          {invalidcred ? (
+          {errorMessage ? (
             <View style={style.credStyle}>
               <Text style={style.errorStyle}>
                 {errorMessage}
@@ -133,6 +121,7 @@ const PasswordReset = () => {
               <TouchableOpacity
                 style={style.buttonStyle}
                 onPress={onPressReset}
+                // onPress={() => navigation.navigate('EmailSent')}
                 disabled={emptymail}
               >
                 <Text style={style.buttonText}>{constants.Reset}</Text>
@@ -150,7 +139,7 @@ const PasswordReset = () => {
 
         </KeyboardAvoidingView>
         <TouchableOpacity style={style.backContainer}
-        onPress={()=> navigation.navigate('LoginScreen') }>
+          onPress={() => navigation.navigate('LoginScreen')}>
           <Text style={style.BackText}>{constants.BackToLogin}</Text>
         </TouchableOpacity>
       </View>

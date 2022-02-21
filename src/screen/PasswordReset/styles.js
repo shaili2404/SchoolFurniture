@@ -8,6 +8,7 @@ const style = StyleSheet.create({
     height: height,
     width: width,
     alignItems: "center",
+    backgroundColor: '#fff'
   },
   subContainer: {
     width: "90%",
@@ -52,13 +53,6 @@ const style = StyleSheet.create({
   inputStyles: {
     marginTop: 30,
   },
-  // backContainer: {
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   position: "absolute",
-  //   bottom: 10,
-  //   width: "100%",
-  // },
   BackText: {
     fontSize: 16,
     color: COLORS.blue,

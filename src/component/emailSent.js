@@ -11,7 +11,7 @@ import COLORS from '../asset/color';
 import Images from "../asset/images";
 import constants from "../locales/constants";
 
-const EmailSent = () => {
+const EmailSent = () => { 
     return (
         <SafeAreaView style={Styles.mainContainer}>
             <KeyboardAvoidingView>
