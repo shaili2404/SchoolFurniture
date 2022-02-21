@@ -8,7 +8,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
-  Platform,
+  Platform
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -39,7 +39,7 @@ export const LoginScreen = () => {
   const [idsAddresss, setIpAddress] = useState("");
   const navigation = useNavigation();
 
-  
+
   useEffect(() => {
     const { loading, err } = loginData;
     setLoader(loading);
@@ -82,7 +82,7 @@ export const LoginScreen = () => {
       password: password,
       ip: idsAddresss,
     };
-    dispatch(loginRequest(data)); 
+    dispatch(loginRequest(data));
   };
 
   const onClear = () => {
@@ -100,107 +100,107 @@ export const LoginScreen = () => {
   ) : (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.subContainer}>
-      <KeyboardAvoidingView behavior={Platform.OS==='android'?'position':null} keyboardVerticalOffset={0} >
-        <LogoImg />
-        <View style={Styles.loginView}>
-          <Text style={Styles.loginText}>{constants.Login}</Text>
-        </View>
-        <View style={defaultState === true ?Styles.inputSty:Styles.inputStyles }>
-          {defaultState === true ? (
-            <View style={Styles.changeView}>
-              <Text style={Styles.changeText}>{constants.EnterUsername}</Text>
-            </View>
-          ) : null}
-          <View>
-            <TextInput
-              style={
-                errorMessage ? Styles.emailInputStyles : Styles.emailInputStyle
-              }
-              placeholder={
-                defaultState === true ? " " : constants.EnterUsername
-              }
-              placeholderTextColor={COLORS.Black}
-              value={username}
-              onFocus={() => setDefaultState(true)}
-              // onBlur={() => setDefaultState(false)}
-              onChangeText={(email) => onChangeEmail(email)}
-              opacity={defaultState === true ? 1 : 0.5}
-            />
-            {errorMessage ? (
-              <TouchableOpacity disabled style={Styles.errIcon}>
-                <Image source={Images.error} style={Styles.errIconStyle} />
-              </TouchableOpacity>
-            ) : null}
+        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'position' : null} keyboardVerticalOffset={0} >
+          <LogoImg />
+          <View style={Styles.loginView}>
+            <Text style={Styles.loginText}>{constants.Login}</Text>
           </View>
-          <View style={Styles.passView}>
+          <View style={defaultState === true ? Styles.inputSty : Styles.inputStyles}>
             {defaultState === true ? (
               <View style={Styles.changeView}>
-                <Text style={Styles.changeText}>{constants.EnterPassword}</Text>
+                <Text style={Styles.changeText}>{constants.EnterUsername}</Text>
               </View>
             ) : null}
-            <TextInput
-              style={
-                errorMessage ? Styles.passInputStyles : Styles.passInputStyle
-              }
-              placeholder={
-                defaultState === true ? " " : constants.EnterPassword
-              }
-              placeholderTextColor={COLORS.Black}
-              value={password}
-              onFocus={() => setDefaultState(true)}
-               //onBlur={() => setDefaultState(false)}
-              onChangeText={(password) => onChangePass(password)}
-              secureTextEntry={textEntery}
-              opacity={defaultState === true ? 1 : 0.5}
-            />
-            {errorMessage ? (
+            <View>
+              <TextInput
+                style={
+                  errorMessage ? Styles.emailInputStyles : Styles.emailInputStyle
+                }
+                placeholder={
+                  defaultState === true ? " " : constants.EnterUsername
+                }
+                placeholderTextColor={COLORS.Black}
+                value={username}
+                onFocus={() => setDefaultState(true)}
+                // onBlur={() => setDefaultState(false)}
+                onChangeText={(email) => onChangeEmail(email)}
+                opacity={defaultState === true ? 1 : 0.5}
+              />
+              {errorMessage ? (
+                <TouchableOpacity disabled style={Styles.errIcon}>
+                  <Image source={Images.error} style={Styles.errIconStyle} />
+                </TouchableOpacity>
+              ) : null}
+            </View>
+            <View style={Styles.passView}>
+              {defaultState === true ? (
+                <View style={Styles.changeView}>
+                  <Text style={Styles.changeText}>{constants.EnterPassword}</Text>
+                </View>
+              ) : null}
+              <TextInput
+                style={
+                  errorMessage ? Styles.passInputStyles : Styles.passInputStyle
+                }
+                placeholder={
+                  defaultState === true ? " " : constants.EnterPassword
+                }
+                placeholderTextColor={COLORS.Black}
+                value={password}
+                onFocus={() => setDefaultState(true)}
+                //onBlur={() => setDefaultState(false)}
+                onChangeText={(password) => onChangePass(password)}
+                secureTextEntry={textEntery}
+                opacity={defaultState === true ? 1 : 0.5}
+              />
+              {errorMessage ? (
+                <TouchableOpacity
+                  disabled
+                  style={Styles.errIcon}
+                  onPress={() => {
+                    textEntery === true
+                      ? setTextEntry(false)
+                      : setTextEntry(true);
+                  }}
+                >
+                  <Image source={Images.error} style={Styles.errIconStyle} />
+                </TouchableOpacity>
+              ) : null}
               <TouchableOpacity
-                disabled
-                style={Styles.errIcon}
+                style={errorMessage ? Styles.eyeStyles : Styles.eyeStyle}
                 onPress={() => {
-                  textEntery === true
-                    ? setTextEntry(false)
-                    : setTextEntry(true);
+                  textEntery === true ? setTextEntry(false) : setTextEntry(true);
                 }}
               >
-                <Image source={Images.error} style={Styles.errIconStyle} />
+                <Image
+                  source={defaultState === true ? Images.Eye_off : Images.Eye}
+                  style={Styles.imgStyle}
+                />
               </TouchableOpacity>
-            ) : null}
-            <TouchableOpacity
-              style={errorMessage ? Styles.eyeStyles : Styles.eyeStyle}
-              onPress={() => {
-                textEntery === true ? setTextEntry(false) : setTextEntry(true);
-              }}
-            >
-              <Image
-                source={defaultState === true ? Images.Eye_off : Images.Eye}
-                style={Styles.imgStyle}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-       
-        <View style={{ flexDirection: errorMessage ? "row" : "column" }}>
-          {errorMessage ? (
-            <View style={Styles.credStyle}>
-              <Text style={Styles.errorStyle}>{errorMessage}</Text>
             </View>
-          ) : null}
-          <View>
-            <TouchableOpacity 
-            onPress={()=> navigation.navigate('PasswordReset') }
-            >
-              <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
-            </TouchableOpacity>
           </View>
-        </View>
+
+          <View style={{ flexDirection: errorMessage ? "row" : "column" }}>
+            {errorMessage ? (
+              <View style={Styles.credStyle}>
+                <Text style={Styles.errorStyle}>{errorMessage}</Text>
+              </View>
+            ) : null}
+            <View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PasswordReset')}
+              >
+                <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </KeyboardAvoidingView>
 
-        <View style={defaultState === true? Styles.inputStyless : Styles.inputStyles}>
+        <View style={defaultState === true ? Styles.inputStyless : Styles.inputStyles}>
           <TouchableOpacity
             style={Styles.buttonStyle}
             onPress={onLogin}
-            // disabled={emptyEmail || emptyPass}
+          // disabled={emptyEmail || emptyPass}
           >
             <Text style={Styles.buttonText}>{constants.Login}</Text>
           </TouchableOpacity>
@@ -213,7 +213,7 @@ export const LoginScreen = () => {
         ) : (
           false
         )}
-    </View>
+      </View>
     </SafeAreaView>
   );
 };
