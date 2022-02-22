@@ -11,6 +11,7 @@ const Images = {
     editIcon:require('./images/edit.png'),
     leftarrow:require('./images/cricleleftarrow.png') ,
     rightarrow:require('./images/criclerightarrow.png'),
+    closeimage:require('./images/closeIcon.png'),
 
 }
 export default Images

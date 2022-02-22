@@ -12,6 +12,15 @@ import AppStack from './src/routes';
 // import SplashScreen from 'react-native-splash-screen';
 
 // const Stack = createNativeStackNavigator();
+import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/furniturerequestscreen';
+import { ManageUserDoe } from './src/screen/doe/ManageUserScreen/manageuserscreen';
+import { EditAddUserModal } from './src/component/doe/EditAddUserModal/editAdduserModal';
+import { Functionalities } from './src/component/doe/Functionalitiesuser';
+import { AlertMessage } from './src/Alert/alert';
+import { LoginScreen } from './src/screen/LoginScreen/loginscreen';
+
+import PasswordReset from './src/screen/PasswordReset';
+import EmailSent from './src/component/emailSent';
 
 const App = () => {
 
@@ -19,6 +28,14 @@ const App = () => {
     <NavigationContainer>
     <Provider store={store}>
     <AppStack />
+     {/* <LoginScreen /> */}
+        {/* <FurnitureRequest /> */}
+        {/* <PasswordReset /> */}
+        {/* <EmailSent /> */}
+        {/* <ManageUserDoe/> */}
+        {/* <EditAddUserModal/> */}
+        {/* <Functionalities/> */}
+        {/* <AlertMessage/> */}
     </Provider>
     </NavigationContainer>
   )
