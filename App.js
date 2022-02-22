@@ -27,12 +27,12 @@ const App = () => {
   return (
     <NavigationContainer>
     <Provider store={store}>
-    <AppStack />
+    {/* <AppStack /> */}
      {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
-        {/* <ManageUserDoe/> */}
+        <ManageUserDoe/>
         {/* <EditAddUserModal/> */}
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}

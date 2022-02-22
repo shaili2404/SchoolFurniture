@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -7,11 +7,25 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Modal,
 } from "react-native";
+import { AlertMessage } from "../../Alert/alert";
+import AlertText from "../../Alert/AlertText";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
+import { EditAddUserModal } from "./EditAddUserModal/editAdduserModal";
+import style from "./EditAddUserModal/Styles";
 
 export const ManageUserList = (props) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const onEdit = () => {
+    setModalVisible(true);
+  };
+  const onDelete = ()=>{
+    setAlert(true)
+  }
+
   return (
     <SafeAreaView style={Styles.firstView}>
       <View style={Styles.mainView}>
@@ -31,16 +45,43 @@ export const ManageUserList = (props) => {
           <Text style={Styles.textStyle}>{props.Organisation}</Text>
         </View>
         <View style={Styles.viewsssStyle}>
-          <TouchableOpacity>
-            <Image source={Images.editIcon}  />
+          <TouchableOpacity onPress={onEdit}>
+            <Image source={Images.editIcon} />
           </TouchableOpacity>
         </View>
         <View style={Styles.viewsssStyle}>
-          <TouchableOpacity>
-            <Image source={Images.deleteIcon}  />
+          <TouchableOpacity onPress={onDelete}>
+            <Image source={Images.deleteIcon} />
           </TouchableOpacity>
         </View>
       </View>
+
+      <Modal animationType="slide" visible={modalVisible}>
+        <SafeAreaView style={style.mainView}>
+          <View style={style.subContainer}>
+            <View style={style.inputStyles}>
+              <View style={style.textContainer}>
+                <Text style={style.EditText}>Edit User</Text>
+              </View>
+              <View>
+                <TouchableOpacity onPress={()=> setModalVisible(false)}>
+                  <Image source={Images.closeimage} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <EditAddUserModal edit="edit" />
+          </View>
+        </SafeAreaView>
+      </Modal>
+      {alert ? (
+        <AlertMessage
+          modalVisible={true}
+          mainMessage={AlertText.DeleteUser}
+          subMessage={AlertText.UndoMessgae}
+          type='question'
+        
+        />
+      ) : null}
     </SafeAreaView>
   );
 };

@@ -3,7 +3,7 @@ const constants = {
     ResetPassword: 'Reset Password',
     ValidEmail: 'Please Enter A Valid Email',
     VaildPass: 'Please Enter A valid Password',
-    EnterUsername: 'Enter Username',
+    EnterUsername: 'Username',
     ResetPassword: 'Reset Password',
     BackToLogin: 'Back to Login',
     Reset: 'Reset',
@@ -14,6 +14,8 @@ const constants = {
     ErrorCredential: 'The username or password enter is incorrect',
     ResetErrorCredential: 'The username enter is incorrect',
     createNewReq: '+ Create New Request',
-    searchText:'Search For User'
+    searchText:'Search For User',
+    nextText:'Next',
+    serverMessage:'Internal server error please try again'
 }
 export default constants
