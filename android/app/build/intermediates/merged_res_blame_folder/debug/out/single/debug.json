@@ -1,46 +1,74 @@
 [
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/layout_launch_screen.xml.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/layout/launch_screen.xml"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/drawable_background_splash.xml.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/drawable/background_splash.xml"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/drawable_rn_edit_text_material.xml.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/drawable/rn_edit_text_material.xml"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xxxhdpi_splash.jpg.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xxxhdpi/splash.jpg"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/drawable_rn_edit_text_material.xml.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/drawable/rn_edit_text_material.xml"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
     },
     {
-        "merged": "/Users/admin/Desktop/Furniture/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "/Users/admin/Desktop/Furniture/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xhdpi_splash.jpg.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xhdpi/splash.jpg"
+    },
+    {
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-xxhdpi_splash.jpg.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-xxhdpi/splash.jpg"
+    },
+    {
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-hdpi_splash.jpg.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-hdpi/splash.jpg"
+    },
+    {
+        "merged": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/build/intermediates/merged_res/debug/mipmap-mdpi_splash.jpg.flat",
+        "source": "/Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/main/res/mipmap-mdpi/splash.jpg"
     }
 ]
