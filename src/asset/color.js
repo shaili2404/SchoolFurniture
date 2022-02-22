@@ -10,6 +10,7 @@ const COLORS = {
     AlertYesColor:'#DC4635',
     AlertNoColor:'#4A72FF',
     AlertDoneColor:'#1492E6',
+    GreenBorder:'#4AA449'
     
 }
 export default COLORS

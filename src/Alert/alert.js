@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   TouchableOpacity,
-  Alert,
   Text,
   View,
   SafeAreaView,
   Modal,
 } from "react-native";
-import AlertText from "./AlertText";
 import Styles from "./Styles";
+import constants from "../locales/constants";
 
 export const AlertMessage = (props) => {
-  const [modalVisible, setModalVisible] = useState(props.modalVisible);
+  const { visible, setmodalVisible, onConfirm } = props;
 
   return (
-    <Modal animationType="slide" transparent={true} visible={modalVisible}>
+    <Modal animationType="slide" transparent={true} visible={visible}>
       <SafeAreaView style={Styles.Container}>
         <View style={Styles.subContainer}>
           <View style={Styles.alertView}>
@@ -25,21 +24,21 @@ export const AlertMessage = (props) => {
                 <View style={Styles.subButtonView}>
                   <TouchableOpacity
                     style={Styles.noView}
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => setmodalVisible(false)}
                   >
-                    <Text style={Styles.noText}>No</Text>
+                    <Text style={Styles.noText}>{constants.No}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={Styles.yesView}>
-                    <Text style={Styles.yesText}>Yes</Text>
+                  <TouchableOpacity style={Styles.yesView} onPress={() => onConfirm()}>
+                    <Text style={Styles.yesText}>{constants.Yes}</Text>
                   </TouchableOpacity>
                 </View>
               ) : (
                 <View style={Styles.subButtonView}>
                   <TouchableOpacity
                     style={Styles.doneView}
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => setmodalVisible(false)}
                   >
-                    <Text style={Styles.DoneText}>Done</Text>
+                    <Text style={Styles.DoneText}>{constants.Done}</Text>
                   </TouchableOpacity>
                 </View>
               )}

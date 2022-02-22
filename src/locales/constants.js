@@ -16,6 +16,12 @@ const constants = {
     createNewReq: '+ Create New Request',
     searchText:'Search For User',
     nextText:'Next',
-    serverMessage:'Internal server error please try again'
+    serverMessage:'Internal server error please try again',
+    SchoolDistrict :'School District',
+    School :'School',
+    SearchDistrict:'Search District',
+    No: 'No',
+    Yes: 'Yes',
+    Done: 'Done'
 }
 export default constants
