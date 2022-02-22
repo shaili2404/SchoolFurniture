@@ -21,52 +21,52 @@ export const ListHeader = ({
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag1}</Text>
         </View>
-        :nullll}
+        :null}
         {HeaderTag2?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag2}</Text>
         </View>
-        :nullll}
+        :null}
          {HeaderTag3?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag3}</Text>
         </View>
-        :nullll}
+        :null}
          {HeaderTag4?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag4}</Text>
         </View>
-        :nullll}
+        :null}
          {HeaderTag5?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag5}</Text>
         </View>
-        :nullll}
+        :null}
          {HeaderTag6?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag6}</Text>
         </View>
-        :nullll}
+        :null}
          {HeaderTag7?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag7}</Text>
         </View>
-        :nullll}
+        :null}
          {HeaderTag8?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag8}</Text>
         </View>
-        :nullll}
+        :null}
         {HeaderTag9?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag9}</Text>
         </View>
-        :nullll}
+        :null}
         {HeaderTag10?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{HeaderTag10}</Text>
         </View>
-        :nullll}
+        :null}
 
       </View>
     </SafeAreaView>
@@ -89,13 +89,9 @@ const Styles = StyleSheet.create({
     height: 46,
   },
   viewStyle: {
-    width: 120,
+    width: 180,
     marginTop: 12,
     marginHorizontal: 20,
   },
-  otherStyle: {
-    width: 200,
-    marginTop: 12,
-    marginHorizontal: 20,
-  },
+ 
 });

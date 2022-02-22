@@ -17,7 +17,7 @@ import { ManageUserDoe } from './src/screen/doe/ManageUserScreen/manageuserscree
 import { EditAddUserModal } from './src/component/doe/EditAddUserModal/editAdduserModal';
 import { Functionalities } from './src/component/doe/Functionalitiesuser';
 import { AlertMessage } from './src/Alert/alert';
-import { LoginScreen } from './src/screen/LoginScreen/loginscreen';
+import { LoginScreen } from './src/screen/LoginScreen/index';
 
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
@@ -29,14 +29,14 @@ const App = () => {
   return (
     <NavigationContainer>
     <Provider store={store}>
-    {/* <AppStack /> */}
+    <AppStack />
      {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
         {/* <ManageUserDoe/> */}
         {/* <EditAddUserModal/> */}
-        <Functionalities/>
+        {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
         {/* <Schoolmaintenancescreen/> */}
         {/* <SchoolDistrictList/> */}

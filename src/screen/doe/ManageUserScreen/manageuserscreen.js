@@ -15,24 +15,32 @@ import Images from "../../../asset/images";
 import { FurnitureRequestList } from "../../../component/school/furniturerequestList";
 
 import constants from "../../../locales/constants";
-import { ListHeaderManageUser } from "../../../component/doe/ListHeaderManageUser";
-import { ManageUserList } from "../../../component/doe/ManageUserList";
 import Dummydatauser from "../../../component/dummyData/DummyDatauser";
+import { DataDisplayList } from "../../../component/doe/displayListComman";
+import { ListHeader } from "../../../component/doe/ListHeaderComman";
 export const ManageUserDoe = () => {
   const [dummyData, setDummyData] = useState(Dummydatauser);
   const rendercomponent = ({ item }) => {
     return (
-      <ManageUserList
-        Name={item.Name}
-        Surname={item.Surname}
-        Username={item.Username}
-        Emailid={item.Emailid}
-        Organisation={item.Organisation}
+      <DataDisplayList
+        Value1={item.Name}
+        Value2={item.Surname}
+        Value3={item.Username}
+        Value4={item.Emailid}
+        Value5={item.Organisation}
       />
     );
   };
   const HeaderComponet = () => {
-    return <ListHeaderManageUser />;
+    return (
+      <ListHeader
+        HeaderTag1={"Name"}
+        HeaderTag2={"Surname"}
+        HeaderTag3={"username"}
+        HeaderTag4={"emaild Id"}
+        HeaderTag5={"Organisation"}
+      />
+    );
   };
   // useEffect(()=>{
   //     setDummyData(Dummydata)
@@ -54,15 +62,15 @@ export const ManageUserDoe = () => {
         </View>
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <FlatList
-          ListHeaderComponent={HeaderComponet}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id}
-          data={dummyData}
-          // horizontal
-          // pagingEnabled={true}
-          renderItem={rendercomponent}
-        />
+          <FlatList
+            ListHeaderComponent={HeaderComponet}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            data={dummyData}
+            // horizontal
+            // pagingEnabled={true}
+            renderItem={rendercomponent}
+          />
         </ScrollView>
       </View>
       <View style={Styles.lastView}>

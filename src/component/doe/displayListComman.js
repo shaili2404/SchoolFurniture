@@ -16,10 +16,7 @@ import Images from "../../asset/images";
 import { EditAddUserModal } from "../../component/doe/EditAddUserModal/editAdduserModal";
 import style from "./EditAddUserModal/Styles";
 
-export const DataDisplayList = ({
-    value1,value2,value3,value4,value5,value6,value7,value8,value9,value10
-
-}) => {
+export const DataDisplayList = ({value1,value2,value3,value4,value5,value6,value7,value8,value9,value10}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [alert, setAlert] = useState(false);
   const onEdit = () => {
@@ -32,43 +29,43 @@ export const DataDisplayList = ({
   return (
     <SafeAreaView style={Styles.firstView}>
       <View style={Styles.mainView}>
-          {value1?
+          {value1 && value1 != null ?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value1}</Text>
         </View>:null}
-        {value2?
+        {value2 && value2 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value2}</Text>
         </View>:null}
-        {value3?
+        {value3 && value3 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value3}</Text>
         </View>:null}
-        {value4?
+        {value4 && value4 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value4}</Text>
         </View>:null}
-        {value5?
+        {value5 && value5 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value5}</Text>
         </View>:null}
-        {value6?
+        {value6 && value6 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value6}</Text>
         </View>:null}
-        {value7?
+        {value7 && value7 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value7}</Text>
         </View>:null}
-        {value8?
+        {value8 && value8 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value8}</Text>
         </View>:null}
-        {value9?
+        {value9 && value9 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value9}</Text>
         </View>:null}
-        {value10?
+        {value10 && value10 != null?
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{value10}</Text>
         </View>:null}
@@ -126,7 +123,7 @@ const Styles = StyleSheet.create({
   },
   mainView: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    width:'100%'
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
@@ -139,14 +136,5 @@ const Styles = StyleSheet.create({
     marginTop: 12,
     marginHorizontal: 20,
   },
-  viewsssStyle: {
-    width: 30,
-    marginTop: 12,
-    marginHorizontal: 20,
-  },
-  otherStyle: {
-    width: 200,
-    marginTop: 12,
-    marginHorizontal: 20,
-  },
+ 
 });

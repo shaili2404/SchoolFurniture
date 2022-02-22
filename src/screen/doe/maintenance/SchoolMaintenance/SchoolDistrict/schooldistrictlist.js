@@ -18,9 +18,11 @@ import constants from "../../../../../locales/constants";
 import axios from "axios";
 import { DataDisplayList } from "../../../../../component/doe/displayListComman";
 import { ListHeader } from "../../../../../component/doe/ListHeaderComman";
+import Dummydatauser from "../../../../../component/dummyData/DummyDatauser";
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
   const rendercomponent = ({ item }) => {
+      console.log(item)
     return (
       <DataDisplayList
         value1={item.district_office}
@@ -31,20 +33,30 @@ export const SchoolDistrictList = () => {
         value6={item.address3}
         value7={item.address4}
         value8={item.street_code}
+        // district_office={item.district_office}
+        // director={item.director}
+        // tel={item.tel}
+        //   address1={item.address1}
+        //   address2={item.address2}
+        //   address3={item.address3}
+        //   address4={item.address4}
+        //   street_code={item.street_code}
       />
     );
   };
-  const HeaderComponet = async () => {
+  const HeaderComponet =  () => {
     return (
       <ListHeader
-        value1="District Office"
-        value2="Director"
-        value3="TelePhone no"
-        value4={item.address1}
-        value5={item.address2}
-        value6={item.address3}
-        value7={item.address4}
-        value8={item.street_code}
+       HeaderTag1={constants.DistrictOffice}
+       HeaderTag2={constants.Director}
+       HeaderTag3={constants.TelphoneNo}
+       HeaderTag4={constants.Address1}
+       HeaderTag5={constants.Address2}
+       HeaderTag6={constants.Address3}
+       HeaderTag7={constants.Address4}
+       HeaderTag8={constants.manage}
+
+
       />
     );
   };
@@ -54,7 +66,7 @@ export const SchoolDistrictList = () => {
       url: "https://furnitureapp.php-dev.in/api/user/school-district",
       headers: {
         Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9mdXJuaXR1cmVhcHAucGhwLWRldi5pblwvYXBpXC9sb2dpbiIsImlhdCI6MTY0NTUyMjAyNywiZXhwIjoxNjQ1NTI1NjI3LCJuYmYiOjE2NDU1MjIwMjcsImp0aSI6IjEzZk5TaUdhdjllMlVMNHAiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.wrcgObbSGa-Y7eu3Qxag7uRaE2A5Bb9hbkVRrvM98uA",
+          "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9mdXJuaXR1cmVhcHAucGhwLWRldi5pblwvYXBpXC9sb2dpbiIsImlhdCI6MTY0NTUzMTU0OSwiZXhwIjoxNjQ1NTM1MTQ5LCJuYmYiOjE2NDU1MzE1NDksImp0aSI6IlBHUjFNbW1sZndvN0k1dE0iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.aTcMm6NpWLpdClsrfcpC-ey6Lm8WisY5KKOxhuuj4HY",
       },
     };
 
@@ -70,6 +82,7 @@ export const SchoolDistrictList = () => {
   }, [apicall]);
   return (
     <SafeAreaView style={Styles.mainView}>
+
       <View style={Styles.halfView}>
         <View>
           <TouchableOpacity style={Styles.eyeStyle}>
@@ -85,7 +98,7 @@ export const SchoolDistrictList = () => {
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
-            // ListHeaderComponent={HeaderComponet}
+             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             data={listData}

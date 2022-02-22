@@ -22,6 +22,16 @@ const constants = {
     SearchDistrict:'Search District',
     No: 'No',
     Yes: 'Yes',
-    Done: 'Done'
+    Done: 'Done',
+    DistrictOffice :'District Office',
+    Director:'Director',
+    TelphoneNo:'Telephone No.',
+    Address1:'Street Address Line 1',
+    Address2:'Street Address Line 2',
+    Address3:'Street Address Line 3',
+    Address4:'Street Address Line 4',
+    streetCode:'Street Code',
+    manage:'Manage'
+
 }
 export default constants
