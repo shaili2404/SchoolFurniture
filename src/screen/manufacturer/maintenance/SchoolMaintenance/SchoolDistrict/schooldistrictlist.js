@@ -23,9 +23,14 @@ import endUrl from "../../../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
+import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
+import { Token } from "../../../../../component/dummyData/Token";
+
+
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
+  const [addUserModal,setAdduserModal] = useState(false)
   const tableKey = [
     "district_office",
     "director",
@@ -36,6 +41,16 @@ export const SchoolDistrictList = () => {
     "address4",
     "street_code",
   ]
+  const tableHeader = [constants.DistrictOffice,
+    constants.Director,
+    constants.TelphoneNo,
+    constants.Address1,
+    constants.Address2,
+    constants.Address3,
+    constants.Address4,
+    constants.streetCode,
+    constants.manage
+    ]
 
   const rendercomponent = ({ item }) => {
     return (
@@ -48,16 +63,7 @@ export const SchoolDistrictList = () => {
   };
 
   const HeaderComponet = () => {
-    const tableHeader = [constants.DistrictOffice,
-    constants.Director,
-    constants.TelphoneNo,
-    constants.Address1,
-    constants.Address2,
-    constants.Address3,
-    constants.Address4,
-    constants.streetCode,
-    constants.manage
-    ]
+   
     return (
       <ListHeaderComman tableHeader={tableHeader} />
     );
@@ -71,7 +77,7 @@ export const SchoolDistrictList = () => {
     const a = '${loginData?.user?.data?.access_token}'
     axios.defaults.headers.common[
       "Authorization"
-    ] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDU2MDg2NTksImV4cCI6MTY0NTYxMjI1OSwibmJmIjoxNjQ1NjA4NjU5LCJqdGkiOiJCTVM2eERaa0M2NDFZWXVsIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.m7AUJo8Xb5yfhtPNZ2Mzm95QSsYk4HMggK7tz3T9V4w`;
+    ] = `Bearer ${Token}`;
     try {
       const response = await axios.get(`${Baseurl}${endUrl.schoolDistList}`);
       setListData(response?.data?.data);
@@ -79,6 +85,10 @@ export const SchoolDistrictList = () => {
       console.log(e);
     }
   };
+
+  const OnAddPress=()=>{
+   setAdduserModal(true)
+  }
 
   useEffect(() => {
     apicall();
@@ -98,6 +108,13 @@ export const SchoolDistrictList = () => {
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
+        {/* Add MOdal */}
+        <View style={Styles.viewsssStyle}>
+          <TouchableOpacity onPress={OnAddPress}>
+            <Image source={Images.addCricleIcon} />
+          </TouchableOpacity>
+        </View>
+        {/*  */}
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
@@ -117,6 +134,17 @@ export const SchoolDistrictList = () => {
           <Image source={Images.rightarrow} />
         </TouchableOpacity>
       </View>
+      {addUserModal ? (
+        <AddUserModal
+          visible={addUserModal}
+          setmodalVisible={(val) => setAdduserModal(val)}
+          onSubmitDetails={() => onSubmitDetails()}
+          data = {tableHeader}
+         
+        />
+      ) : null}
+
+
     </SafeAreaView>
   );
 };
