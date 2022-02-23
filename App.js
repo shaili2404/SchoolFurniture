@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import {
   Text,
@@ -34,12 +34,12 @@ const App = () => {
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
-        {/* <ManageUserDoe/> */}
+        <ManageUserDoe />
         {/* <EditAddUserModal/> */}
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
         {/* <Schoolmaintenancescreen/> */}
-        <SchoolDistrictList/>
+        {/* <SchoolDistrictList/> */}
     </Provider>
     </NavigationContainer>
   )
