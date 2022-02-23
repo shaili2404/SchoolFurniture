@@ -21,9 +21,7 @@ import { LoginScreen } from './src/screen/LoginScreen/index';
 import { SchoolDistrictList } from './src/screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist'
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
-// import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 import { DataDisplayList } from './src/component/manufacturer/displayListComman';
-import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 import { AddUserModal } from './src/component/manufacturer/AddFormModal/AddFormModal';
 // import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
 
@@ -32,7 +30,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        {/* <AppStack /> */}
+        <AppStack />
         {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
@@ -42,7 +40,7 @@ const App = () => {
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
         {/* <Schoolmaintenancescreen /> */}
-        <SchoolDistrictList />
+        {/* <SchoolDistrictList /> */}
         {/* <DataDisplayList /> */}
         {/* <AddUserModal/> */}
       </Provider>

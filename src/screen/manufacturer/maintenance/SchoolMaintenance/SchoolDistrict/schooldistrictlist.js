@@ -30,7 +30,7 @@ import { Token } from "../../../../../component/dummyData/Token";
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
-  const [addUserModal,setAdduserModal] = useState(false)
+  const [addUserModal, setAdduserModal] = useState(false)
   const tableKey = [
     "district_office",
     "director",
@@ -42,15 +42,26 @@ export const SchoolDistrictList = () => {
     "street_code",
   ]
   const tableHeader = [constants.DistrictOffice,
-    constants.Director,
-    constants.TelphoneNo,
-    constants.Address1,
-    constants.Address2,
-    constants.Address3,
-    constants.Address4,
-    constants.streetCode,
-    constants.manage
-    ]
+  constants.Director,
+  constants.TelphoneNo,
+  constants.Address1,
+  constants.Address2,
+  constants.Address3,
+  constants.Address4,
+  constants.streetCode,
+  constants.manage
+  ]
+
+  const addArray = [
+    { key: "district_office", value: constants.DistrictOffice },
+    { key: "director", value: constants.Director },
+    { key: "tel", value: constants.TelphoneNo },
+    { key: "address1", value: constants.Address1 },
+    { key: "address2", value: constants.Address2 },
+    { key: "address3", value: constants.Address3 },
+    { key: "address4", value: constants.Address4 },
+    { key: "street_code", value: constants.streetCode },
+  ]
 
   const rendercomponent = ({ item }) => {
     return (
@@ -63,7 +74,7 @@ export const SchoolDistrictList = () => {
   };
 
   const HeaderComponet = () => {
-   
+
     return (
       <ListHeaderComman tableHeader={tableHeader} />
     );
@@ -86,8 +97,8 @@ export const SchoolDistrictList = () => {
     }
   };
 
-  const OnAddPress=()=>{
-   setAdduserModal(true)
+  const OnAddPress = () => {
+    setAdduserModal(true)
   }
 
   useEffect(() => {
@@ -139,8 +150,7 @@ export const SchoolDistrictList = () => {
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
           onSubmitDetails={() => onSubmitDetails()}
-          data = {tableHeader}
-         
+          data={addArray}
         />
       ) : null}
 
