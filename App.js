@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import {
   Text,
@@ -21,26 +21,26 @@ import { LoginScreen } from './src/screen/LoginScreen/index';
 
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
-import { Schoolmaintenancescreen } from './src/screen/doe/maintenance/SchoolMaintenance/schoolmaintenancescreen';
+// import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
 import { SchoolDistrictList } from './src/screen/doe/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 
 const App = () => {
 
   return (
     <NavigationContainer>
-    <Provider store={store}>
-    <AppStack />
-     {/* <LoginScreen /> */}
+      <Provider store={store}>
+        <AppStack />
+        {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
-        {/* <ManageUserDoe/> */}
+        {/* <ManageUserDoe /> */}
         {/* <EditAddUserModal/> */}
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
-        {/* <Schoolmaintenancescreen/> */}
+        {/* <Schoolmaintenancescreen /> */}
         {/* <SchoolDistrictList/> */}
-    </Provider>
+      </Provider>
     </NavigationContainer>
   )
 }
