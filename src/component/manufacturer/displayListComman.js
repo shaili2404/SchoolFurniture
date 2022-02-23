@@ -16,52 +16,50 @@ import Images from "../../asset/images";
 import { EditAddUserModal } from "./EditAddUserModal/editAdduserModal";
 import constants from "../../locales/constants";
 import style from "./EditAddUserModal/Styles";
+import axios from "axios";
+import { Baseurl } from "../../redux/configration/baseurl";
+import endUrl from "../../redux/configration/endUrl";
 
-export const DataDisplayList = (props) => {
+export const DataDisplayList = ({ item, tableKey, reloadList }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [alert, setAlert] = useState(false);
+
   const onEdit = () => {
     setModalVisible(true);
   };
+
   const onDelete = () => {
     setAlert(true)
   }
 
+  const onPressYes = async () => {
+    setAlert(false);
+    const token = "${loginData?.user?.data?.access_token}";
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDU2MDg2NTksImV4cCI6MTY0NTYxMjI1OSwibmJmIjoxNjQ1NjA4NjU5LCJqdGkiOiJCTVM2eERaa0M2NDFZWXVsIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.m7AUJo8Xb5yfhtPNZ2Mzm95QSsYk4HMggK7tz3T9V4w`;
+    try {
+      const response = await axios.delete(
+        `${Baseurl}${endUrl.schoolDistList}/${item.id}`
+      );
+      console.log("34", response.status);
+      if (response.status === 200) {
+        reloadList();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <SafeAreaView style={Styles.firstView}>
+
       <View style={Styles.mainView}>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.district_office}</Text>
-        </View>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.director}</Text>
-        </View>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.tel}</Text>
-        </View>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle} numberOfLines={2}>{props.address1}</Text>
-        </View>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.address2}</Text>
-        </View>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.address3}</Text>
-        </View>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.address4}</Text>
-        </View>
-
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.street_code}</Text>
-        </View>
+        {tableKey.map((val) =>
+          <View key={val} style={Styles.viewStyle}>
+            <Text style={Styles.textStyle}>{item[val]}</Text>
+          </View>
+        )}
 
         <View style={Styles.viewsssStyle}>
           <TouchableOpacity onPress={onEdit}>

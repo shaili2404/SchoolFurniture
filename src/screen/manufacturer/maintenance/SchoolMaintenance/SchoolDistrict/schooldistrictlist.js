@@ -26,21 +26,27 @@ import { ListHeaderComman } from "../../../../../component/manufacturer/ListHead
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
+  const tableKey = [
+    "district_office",
+    "director",
+    "tel",
+    "address1",
+    "address2",
+    "address3",
+    "address4",
+    "street_code",
+  ]
+
   const rendercomponent = ({ item }) => {
-    console.log(item)
     return (
       <DataDisplayList
-        district_office={item.district_office}
-        director={item.director}
-        tel={item.tel}
-        address1={item.address1}
-        address2={item.address2}
-        address3={item.address3}
-        address4={item.address4}
-        street_code={item.street_code}
+        item={item}
+        tableKey={tableKey}
+        reloadList={() => reloadList()}
       />
     );
   };
+
   const HeaderComponet = () => {
     const tableHeader = [constants.DistrictOffice,
     constants.Director,
@@ -50,20 +56,22 @@ export const SchoolDistrictList = () => {
     constants.Address3,
     constants.Address4,
     constants.streetCode,
-    constants.manage]
+    constants.manage
+    ]
     return (
-      <ListHeaderComman
-        tableHeader={tableHeader}
-      />
+      <ListHeaderComman tableHeader={tableHeader} />
     );
   };
+
+  const reloadList = () => {
+    apicall();
+  }
+
   const apicall = async () => {
     const a = '${loginData?.user?.data?.access_token}'
     axios.defaults.headers.common[
       "Authorization"
-    ] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDU2MDA3MjcsImV4cCI6MTY0NTYwNDMyNywibmJmIjoxNjQ1NjAwNzI3LCJqdGkiOiI3c1plRU1Rc0lpU0IzaUdiIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.x0F_9QBw1-egF_EcX-68OYnJdpBAvN9fZTeTc5Lf72Y`;
-
-
+    ] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDU2MDg2NTksImV4cCI6MTY0NTYxMjI1OSwibmJmIjoxNjQ1NjA4NjU5LCJqdGkiOiJCTVM2eERaa0M2NDFZWXVsIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.m7AUJo8Xb5yfhtPNZ2Mzm95QSsYk4HMggK7tz3T9V4w`;
     try {
       const response = await axios.get(`${Baseurl}${endUrl.schoolDistList}`);
       setListData(response?.data?.data);
@@ -71,15 +79,15 @@ export const SchoolDistrictList = () => {
       console.log(e);
     }
   };
+
   useEffect(() => {
     apicall();
   }, [apicall]);
+
   return (
     <SafeAreaView style={Styles.mainView}>
-
       <View style={Styles.halfView}>
         <View>
-
           <TextInput
             style={Styles.refrenceStyle}
             placeholder={constants.SearchDistrict}
