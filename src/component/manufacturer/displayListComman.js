@@ -23,49 +23,46 @@ export const DataDisplayList = (props) => {
   const onEdit = () => {
     setModalVisible(true);
   };
-  const onDelete = ()=>{
+  const onDelete = () => {
     setAlert(true)
   }
 
   return (
     <SafeAreaView style={Styles.firstView}>
       <View style={Styles.mainView}>
-          
+
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{props.district_office}</Text>
         </View>
-        
+
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{props.director}</Text>
         </View>
-       
+
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{props.tel}</Text>
         </View>
-        
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.address1}</Text>
+          <Text style={Styles.textStyle} numberOfLines={2}>{props.address1}</Text>
         </View>
-        
+
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{props.address2}</Text>
         </View>
-        
+
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{props.address3}</Text>
         </View>
-        
+
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{props.address4}</Text>
         </View>
-       
+
         <View style={Styles.viewStyle}>
           <Text style={Styles.textStyle}>{props.street_code}</Text>
         </View>
-        
-       
-        
-        
+
         <View style={Styles.viewsssStyle}>
           <TouchableOpacity onPress={onEdit}>
             <Image source={Images.editIcon} />
@@ -86,12 +83,12 @@ export const DataDisplayList = (props) => {
                 <Text style={style.EditText}>{constants.editDistrict}</Text>
               </View>
               <View>
-                <TouchableOpacity onPress={()=> setModalVisible(false)}>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
                   <Image source={Images.closeimage} />
                 </TouchableOpacity>
               </View>
             </View>
-            <EditAddUserModal   />
+            <EditAddUserModal />
           </View>
         </SafeAreaView>
       </Modal>
@@ -119,7 +116,7 @@ const Styles = StyleSheet.create({
   },
   mainView: {
     flexDirection: "row",
-    width:'100%'
+    width: '100%'
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
@@ -132,10 +129,10 @@ const Styles = StyleSheet.create({
     marginTop: 12,
     marginHorizontal: 20,
   },
-  viewsssStyle:{
+  viewsssStyle: {
     width: 20,
     marginTop: 12,
     marginHorizontal: 20,
   }
- 
+
 });

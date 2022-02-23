@@ -21,16 +21,17 @@ import { LoginScreen } from './src/screen/LoginScreen/index';
 
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
-import { Schoolmaintenancescreen } from './src/screen/manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen';
-import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
+import { SchoolDistrictList } from './src/screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
+import { DataDisplayList } from './src/component/manufacturer/displayListComman';
+// import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
 
 const App = () => {
 
   return (
     <NavigationContainer>
-    <Provider store={store}>
-    {/* <AppStack /> */}
-     {/* <LoginScreen /> */}
+      <Provider store={store}>
+        {/* <AppStack /> */}
+        {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
@@ -38,9 +39,10 @@ const App = () => {
         {/* <EditAddUserModal/> */}
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
-        {/* <Schoolmaintenancescreen/> */}
-        {/* <SchoolDistrictList/> */}
-    </Provider>
+        {/* <Schoolmaintenancescreen /> */}
+        <SchoolDistrictList />
+        {/* <DataDisplayList /> */}
+      </Provider>
     </NavigationContainer>
   )
 }

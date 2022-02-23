@@ -2,37 +2,14 @@ import React from "react";
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import COLORS from "../../asset/color";
 
-export const ListHeaderComman = (props) => {
+export const ListHeaderComman = ({ tableHeader }) => {
   return (
     <SafeAreaView style={Styles.firstView}>
       <View style={Styles.mainView}>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.DistrictOffice}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.Director}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.TelphoneNo}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.Address1}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.Address2}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.Address3}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.Address4}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.streetCode}</Text>
-        </View>
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{props.manage}</Text>
-        </View>
+        {tableHeader.map((header) =>
+          <View key={header} style={Styles.viewStyle}>
+            <Text style={Styles.textStyle}>{header}</Text>
+          </View>)}
       </View>
     </SafeAreaView>
   );
