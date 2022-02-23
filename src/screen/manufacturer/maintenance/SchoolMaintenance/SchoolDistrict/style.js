@@ -42,7 +42,7 @@ export default StyleSheet.create({
   eyeStyle: {
     alignSelf: "flex-end",
     position: "relative",
-    top: 60,
+    bottom: 45,
     right: 30,
   },
 

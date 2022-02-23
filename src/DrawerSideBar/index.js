@@ -45,7 +45,7 @@ const DrawerSideBar = (props) => {
   };
 
   const onPressYes = () => {
-    console.log("token", `${Baseurl}${endUrl.logout}`);
+    // console.log("token", `${Baseurl}${endUrl.logout}`);
 
     axios.defaults.headers.common[
       "Authorization"

@@ -31,7 +31,8 @@ const constants = {
     Address3:'Street Address Line 3',
     Address4:'Street Address Line 4',
     streetCode:'Street Code',
-    manage:'Manage'
+    manage:'Manage',
+    editDistrict:'Edit District'
 
 }
 export default constants

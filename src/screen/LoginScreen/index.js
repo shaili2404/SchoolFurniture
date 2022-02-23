@@ -36,7 +36,7 @@ export const LoginScreen = () => {
   const loginData = useSelector((state) => state?.loginData);
   const [idsAddresss, setIpAddress] = useState("");
   const navigation = useNavigation();
-   console.log(loginData)
+
   useEffect(() => {
     const { loading, err } = loginData;
     setLoader(loading);
@@ -185,7 +185,7 @@ export const LoginScreen = () => {
             ) : null}
             <View>
               <TouchableOpacity
-                onPress={() => navigation.navigate('First')}
+                onPress={() => navigation.navigate('PasswordReset')}
               >
                 <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
               </TouchableOpacity>
