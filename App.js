@@ -18,12 +18,11 @@ import { EditAddUserModal } from './src/component/doe/EditAddUserModal/editAddus
 import { Functionalities } from './src/component/doe/Functionalitiesuser';
 import { AlertMessage } from './src/Alert/alert';
 import { LoginScreen } from './src/screen/LoginScreen/index';
-
+import { SchoolDistrictList } from './src/screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist'
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
 // import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 import { DataDisplayList } from './src/component/manufacturer/displayListComman';
-import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 // import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
 
 const App = () => {
