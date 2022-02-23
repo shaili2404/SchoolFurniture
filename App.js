@@ -21,8 +21,9 @@ import { LoginScreen } from './src/screen/LoginScreen/index';
 
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
-import { SchoolDistrictList } from './src/screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
+// import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 import { DataDisplayList } from './src/component/manufacturer/displayListComman';
+import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 // import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
 
 const App = () => {
@@ -35,7 +36,7 @@ const App = () => {
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
-        <ManageUserDoe />
+        {/* <ManageUserDoe /> */}
         {/* <EditAddUserModal/> */}
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
