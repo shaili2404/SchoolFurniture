@@ -23,6 +23,8 @@ import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
 // import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 import { DataDisplayList } from './src/component/manufacturer/displayListComman';
+import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
+import { AddUserModal } from './src/component/manufacturer/AddFormModal/AddFormModal';
 // import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
 
 const App = () => {
@@ -42,6 +44,7 @@ const App = () => {
         {/* <Schoolmaintenancescreen /> */}
         <SchoolDistrictList />
         {/* <DataDisplayList /> */}
+        {/* <AddUserModal/> */}
       </Provider>
     </NavigationContainer>
   )

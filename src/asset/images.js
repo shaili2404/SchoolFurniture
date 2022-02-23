@@ -12,6 +12,7 @@ const Images = {
     leftarrow:require('./images/cricleleftarrow.png') ,
     rightarrow:require('./images/criclerightarrow.png'),
     closeimage:require('./images/closeIcon.png'),
+    addCricleIcon:require('./images/AddCircle.png'),
 
 }
 export default Images
