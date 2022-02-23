@@ -13,7 +13,7 @@ import AppStack from './src/routes';
 
 // const Stack = createNativeStackNavigator();
 import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/furniturerequestscreen';
-import { ManageUserDoe } from './src/screen/doe/ManageUserScreen/manageuserscreen';
+import { ManageUserDoe } from './src/screen/manufacturer/ManageUserScreen/manageuserscreen';
 import { EditAddUserModal } from './src/component/doe/EditAddUserModal/editAdduserModal';
 import { Functionalities } from './src/component/doe/Functionalitiesuser';
 import { AlertMessage } from './src/Alert/alert';
@@ -21,15 +21,16 @@ import { LoginScreen } from './src/screen/LoginScreen/index';
 
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
+import { SchoolDistrictList } from './src/screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
+import { DataDisplayList } from './src/component/manufacturer/displayListComman';
 // import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
-import { SchoolDistrictList } from './src/screen/doe/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 
 const App = () => {
 
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <AppStack />
+        {/* <AppStack /> */}
         {/* <LoginScreen /> */}
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
@@ -39,7 +40,8 @@ const App = () => {
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
         {/* <Schoolmaintenancescreen /> */}
-        {/* <SchoolDistrictList/> */}
+        <SchoolDistrictList />
+        {/* <DataDisplayList /> */}
       </Provider>
     </NavigationContainer>
   )

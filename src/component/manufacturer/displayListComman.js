@@ -13,63 +13,56 @@ import { AlertMessage } from "../../Alert/alert";
 import AlertText from "../../Alert/AlertText";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
-import { EditAddUserModal } from "../../component/doe/EditAddUserModal/editAdduserModal";
+import { EditAddUserModal } from "./EditAddUserModal/editAdduserModal";
+import constants from "../../locales/constants";
 import style from "./EditAddUserModal/Styles";
 
-export const DataDisplayList = ({value1,value2,value3,value4,value5,value6,value7,value8,value9,value10}) => {
+export const DataDisplayList = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [alert, setAlert] = useState(false);
   const onEdit = () => {
     setModalVisible(true);
   };
-  const onDelete = ()=>{
+  const onDelete = () => {
     setAlert(true)
   }
 
   return (
     <SafeAreaView style={Styles.firstView}>
       <View style={Styles.mainView}>
-          {value1 && value1 != null ?
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value1}</Text>
-        </View>:null}
-        {value2 && value2 != null?
+          <Text style={Styles.textStyle}>{props.district_office}</Text>
+        </View>
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value2}</Text>
-        </View>:null}
-        {value3 && value3 != null?
+          <Text style={Styles.textStyle}>{props.director}</Text>
+        </View>
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value3}</Text>
-        </View>:null}
-        {value4 && value4 != null?
+          <Text style={Styles.textStyle}>{props.tel}</Text>
+        </View>
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value4}</Text>
-        </View>:null}
-        {value5 && value5 != null?
+          <Text style={Styles.textStyle} numberOfLines={2}>{props.address1}</Text>
+        </View>
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value5}</Text>
-        </View>:null}
-        {value6 && value6 != null?
+          <Text style={Styles.textStyle}>{props.address2}</Text>
+        </View>
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value6}</Text>
-        </View>:null}
-        {value7 && value7 != null?
+          <Text style={Styles.textStyle}>{props.address3}</Text>
+        </View>
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value7}</Text>
-        </View>:null}
-        {value8 && value8 != null?
+          <Text style={Styles.textStyle}>{props.address4}</Text>
+        </View>
+
         <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value8}</Text>
-        </View>:null}
-        {value9 && value9 != null?
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value9}</Text>
-        </View>:null}
-        {value10 && value10 != null?
-        <View style={Styles.viewStyle}>
-          <Text style={Styles.textStyle}>{value10}</Text>
-        </View>:null}
-        
+          <Text style={Styles.textStyle}>{props.street_code}</Text>
+        </View>
+
         <View style={Styles.viewsssStyle}>
           <TouchableOpacity onPress={onEdit}>
             <Image source={Images.editIcon} />
@@ -87,15 +80,15 @@ export const DataDisplayList = ({value1,value2,value3,value4,value5,value6,value
           <View style={style.subContainer}>
             <View style={style.inputStyles}>
               <View style={style.textContainer}>
-                <Text style={style.EditText}>Edit User</Text>
+                <Text style={style.EditText}>{constants.editDistrict}</Text>
               </View>
               <View>
-                <TouchableOpacity onPress={()=> setModalVisible(false)}>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
                   <Image source={Images.closeimage} />
                 </TouchableOpacity>
               </View>
             </View>
-            <EditAddUserModal edit="edit" />
+            <EditAddUserModal />
           </View>
         </SafeAreaView>
       </Modal>
@@ -123,7 +116,7 @@ const Styles = StyleSheet.create({
   },
   mainView: {
     flexDirection: "row",
-    width:'100%'
+    width: '100%'
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
@@ -132,9 +125,14 @@ const Styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   viewStyle: {
-    width: 120,
+    width: 180,
     marginTop: 12,
     marginHorizontal: 20,
   },
- 
+  viewsssStyle: {
+    width: 20,
+    marginTop: 12,
+    marginHorizontal: 20,
+  }
+
 });
