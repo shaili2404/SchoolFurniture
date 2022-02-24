@@ -22,10 +22,10 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-      {/* <Drawer.Screen component={First} name="First" /> */}
+      <Drawer.Screen component={First} name="First" />
       <Drawer.Screen component={LoginScreen} name="LoginScreen" options={{ headerShown: false }} />
       <Drawer.Screen component={PasswordReset} name="PasswordReset" options={{ headerShown: false }} />
-      <Drawer.Screen component={First} name="First" />
+      {/* <Drawer.Screen component={First} name="First" /> */}
     </Drawer.Navigator>
   );
 };
@@ -123,15 +123,15 @@ const AppStack = (props) => {
   };
 
   return (
-    <Stack.Navigator initialRouteName="LoginScreen">
+    <Stack.Navigator initialRouteName="First">
       <Stack.Screen
-        name="LoginScreen"
+        name="First"
         component={DrawerStack}
          options={{ headerShown: false }}
       />
       <Stack.Screen name="Second" component={Second} />
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
-      <Stack.Screen name="First" component={First} />
+      {/* <Stack.Screen name="First" component={First} /> */}
       <Stack.Screen name="EmailSent" component={EmailSent} />
     </Stack.Navigator>
     // <Drawer.Navigator>
