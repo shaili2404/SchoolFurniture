@@ -27,7 +27,7 @@ import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal
 import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
 
-export const SchoolDistrictList = () => {
+export const SchoolList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
   const [addUserModal, setAdduserModal] = useState(false);
@@ -36,31 +36,29 @@ export const SchoolDistrictList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [searchStatus, setSearchStatus] = useState(false);
   const tableKey = [
-    "district_office",
-    "director",
+    "name",
+    "emis",
+    "district_name",
+    "school_principal",
     "tel",
-    "address1",
-    "address2",
-    "address3",
-    "address4",
-    "street_code",
+    `address1 `,
   ];
   const tableHeader = [
-    constants.DistrictOffice,
-    constants.Director,
-    constants.TelphoneNo,
-    constants.Address1,
-    constants.Address2,
-    constants.Address3,
-    constants.Address4,
-    constants.streetCode,
+    constants.School,
+    constants.schoolEmisNumber,
+    constants.SchoolDistrict,
+    constants.SchoolPrinciple,
+    constants.SchoolTelno,
+    constants.StreetAddress,
     constants.manage,
   ];
 
   const addArray = [
-    { key: "district_office", value: constants.DistrictOffice },
-    { key: "director", value: constants.Director },
-    { key: "tel", value: constants.TelphoneNo },
+    { key: "name", value: constants.School },
+    { key: "emis", value: constants.schoolEmisNumber },
+    { key: "district_name", value: constants.SchoolDistrict },
+    { key: "School Principle", value: constants.SchoolPrinciple },
+    { key: "tel", value: constants.SchoolTelno },
     { key: "address1", value: constants.Address1 },
     { key: "address2", value: constants.Address2 },
     { key: "address3", value: constants.Address3 },
@@ -74,7 +72,7 @@ export const SchoolDistrictList = () => {
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
-        Url={endUrl.schoolDistList}
+        Url={endUrl.schoolList}
       />
     );
   };
@@ -90,14 +88,12 @@ export const SchoolDistrictList = () => {
     // console.log("89", value);
     const a = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    const data = new FormData();
-    data.append(value);
+
     try {
       const response = await axios.post(
-        `${Baseurl}${endUrl.schoolDistList}`,
+        `${Baseurl}${endUrl.schoolList}`,
         value
       );
-      // console.log(response);
     } catch (e) {
       console.log(e);
     }
@@ -107,7 +103,7 @@ export const SchoolDistrictList = () => {
     const a = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
-      const response = await axios.get(`${Baseurl}${endUrl.schoolDistList}`);
+      const response = await axios.get(`${Baseurl}${endUrl.schoolList}`);
       setListData(response?.data?.data);
     } catch (e) {
       console.log(e);
@@ -117,11 +113,11 @@ export const SchoolDistrictList = () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
       const response = await axios.get(
-        `${Baseurl}${endUrl.districtSearch}${searchtask}`
+        `${Baseurl}${endUrl.searchSchool}${searchtask}`
       );
       setSearchData(response?.data?.data);
       setSearchStatus(true);
-      // console.log(searchData)
+      //  console.log(searchData)
     } catch (e) {
       console.log(e);
     }
@@ -133,7 +129,7 @@ export const SchoolDistrictList = () => {
   useEffect(() => {
     apicall();
     if (listData) setLoader(false);
-    if (searchtask === "") setSearchStatus(false);
+    if (searchtask === "") setSearchStatus(fals);
   }, [apicall]);
 
   return loader ? (
@@ -144,7 +140,7 @@ export const SchoolDistrictList = () => {
         <View>
           <TextInput
             style={Styles.refrenceStyle}
-            placeholder={constants.SearchDistrict}
+            placeholder={constants.SearchSchool}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
             value={searchtask}
@@ -154,13 +150,6 @@ export const SchoolDistrictList = () => {
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
-        {/* Add MOdal */}
-        <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={OnAddPress}>
-            <Image source={Images.addCricleIcon} />
-          </TouchableOpacity>
-        </View>
-        {/*  */}
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
@@ -172,13 +161,19 @@ export const SchoolDistrictList = () => {
           />
         </ScrollView>
       </View>
+      <View style={Styles.lastView}>
+        <TouchableOpacity onPress={OnAddPress}>
+          <Image source={Images.addCricleIcon} />
+        </TouchableOpacity>
+      </View>
+
       {addUserModal ? (
         <AddUserModal
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
           onSubmitDetails={(value) => onSubmitDetails(value)}
           data={addArray}
-          name={constants.District}
+          name={constants.School}
         />
       ) : null}
     </SafeAreaView>

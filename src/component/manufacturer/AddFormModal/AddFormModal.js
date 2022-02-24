@@ -18,7 +18,7 @@ import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 
 export const AddUserModal = (props) => {
-  const { visible, setmodalVisible, onConfirm, data, } = props;
+  const { visible, setmodalVisible, onSubmitDetails, data, name} = props;
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
 
@@ -36,12 +36,13 @@ export const AddUserModal = (props) => {
     data.forEach((val) => {
       obj[val.key] = "";
     })
-    console.log("obj", obj)
+    // console.log("obj", obj)
     setInputValues(obj);
   }, [data])
 
   const onNext = () => {
-    console.log(inputValues)
+    // console.log(inputValues)
+    onSubmitDetails(inputValues)
   }
 
   return (
@@ -52,7 +53,7 @@ export const AddUserModal = (props) => {
             <View style={style.subContainer}>
               <View style={style.inputStyles}>
                 <View style={style.textContainer}>
-                  <Text style={style.EditText}>{constants.editDistrict}</Text>
+                  <Text style={style.EditText}>{` Add ${props.name}`}</Text>
                 </View>
                 <View style={style.textContainer}>
                   <TouchableOpacity onPress={() => setmodalVisible(false)}>

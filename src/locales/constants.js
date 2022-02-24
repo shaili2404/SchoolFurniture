@@ -20,6 +20,7 @@ const constants = {
     SchoolDistrict :'School District',
     School :'School',
     SearchDistrict:'Search District',
+    SearchSchool:'Search School',
     No: 'No',
     Yes: 'Yes',
     Done: 'Done',
@@ -34,6 +35,13 @@ const constants = {
     manage:'Manage',
     editDistrict:'Edit District',
     District:'District',
+    School:'School',
+    schoolEmisNumber:'School Emis Number',
+    SchoolDistrict:'School District',
+    SchoolPrinciple:'School Principle',
+    SchoolTelno:'School Tel.no',
+    StreetAddress:'Street Address',
+
 
 }
 export default constants

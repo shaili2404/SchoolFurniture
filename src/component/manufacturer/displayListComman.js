@@ -19,8 +19,9 @@ import style from "./EditAddUserModal/Styles";
 import axios from "axios";
 import { Baseurl } from "../../redux/configration/baseurl";
 import endUrl from "../../redux/configration/endUrl";
+import { Token } from "../dummyData/Token";
 
-export const DataDisplayList = ({ item, tableKey, reloadList }) => {
+export const DataDisplayList = ({ item, tableKey, reloadList, Url }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [alert, setAlert] = useState(false);
 
@@ -29,20 +30,17 @@ export const DataDisplayList = ({ item, tableKey, reloadList }) => {
   };
 
   const onDelete = () => {
-    setAlert(true)
-  }
+    setAlert(true);
+  };
 
   const onPressYes = async () => {
     setAlert(false);
     const token = "${loginData?.user?.data?.access_token}";
-    axios.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDU2MDg2NTksImV4cCI6MTY0NTYxMjI1OSwibmJmIjoxNjQ1NjA4NjU5LCJqdGkiOiJCTVM2eERaa0M2NDFZWXVsIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.m7AUJo8Xb5yfhtPNZ2Mzm95QSsYk4HMggK7tz3T9V4w`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+    // console.log(`${Baseurl}${Url}/${item.id}`);
     try {
-      const response = await axios.delete(
-        `${Baseurl}${endUrl.schoolDistList}/${item.id}`
-      );
-      console.log("34", response.status);
+      const response = await axios.delete(`${Baseurl}${Url}/${item.id}`);
+
       if (response.status === 200) {
         reloadList();
       }
@@ -53,13 +51,12 @@ export const DataDisplayList = ({ item, tableKey, reloadList }) => {
 
   return (
     <SafeAreaView style={Styles.firstView}>
-
       <View style={Styles.mainView}>
-        {tableKey.map((val) =>
+        {tableKey.map((val) => (
           <View key={val} style={Styles.viewStyle}>
             <Text style={Styles.textStyle}>{item[val]}</Text>
           </View>
-        )}
+        ))}
 
         <View style={Styles.viewsssStyle}>
           <TouchableOpacity onPress={onEdit}>
@@ -96,7 +93,7 @@ export const DataDisplayList = ({ item, tableKey, reloadList }) => {
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={AlertText.DeleteUser}
           subMessage={AlertText.UndoMessgae}
-          type='question'
+          type="question"
           onConfirm={() => onPressYes()}
         />
       ) : null}
@@ -114,7 +111,7 @@ const Styles = StyleSheet.create({
   },
   mainView: {
     flexDirection: "row",
-    width: '100%'
+    width: "100%",
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
@@ -131,6 +128,5 @@ const Styles = StyleSheet.create({
     width: 20,
     marginTop: 12,
     marginHorizontal: 20,
-  }
-
+  },
 });
