@@ -86,16 +86,19 @@ export const SchoolDistrictList = () => {
   const reloadList = () => {
     apicall();
   };
-  const onSubmitDetails = async (value) => {
-    // console.log("89", value);
-    const a = "${loginData?.user?.data?.access_token}";
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+  const onSubmitDetails = async (values) => {
     const data = new FormData();
-    data.append(value);
+    // for (const [key, value] of Object.entries(values)) {
+    //   data.append(key, value);
+    // }
+    const a = "${loginData?.user?.data?.access_token}";
+    axios.defaults.headers.common["Authorization"] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDU2OTc3MDYsImV4cCI6MTY0NTcwMTMwNiwibmJmIjoxNjQ1Njk3NzA2LCJqdGkiOiJrNktMS1hjdDZFcHhxcDJmIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.d_l4BzxhaN7mWXSl-SayBj_WORvDkNSCqL8LcqeA9Fc`;
+    data.append("district_office", "nah")
+    console.log("data", data)
     try {
       const response = await axios.post(
         `${Baseurl}${endUrl.schoolDistList}`,
-        value
+        data
       );
       // console.log(response);
     } catch (e) {

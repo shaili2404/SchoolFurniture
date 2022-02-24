@@ -19,10 +19,12 @@ import { EditAddUserModal } from './src/component/doe/EditAddUserModal/editAddus
 import { Functionalities } from './src/component/doe/Functionalitiesuser';
 import { AlertMessage } from './src/Alert/alert';
 import { LoginScreen } from './src/screen/LoginScreen/index';
-import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist'
+import { SchoolDistrictList } from './src/screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist'
 import PasswordReset from './src/screen/PasswordReset';
 import EmailSent from './src/component/emailSent';
+// import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 import { DataDisplayList } from './src/component/manufacturer/displayListComman';
+//import { SchoolDistrictList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist';
 import { AddUserModal } from './src/component/manufacturer/AddFormModal/AddFormModal';
 import { SchoolList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList';
 // import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
@@ -42,10 +44,10 @@ const App = () => {
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
         {/* <Schoolmaintenancescreen /> */}
-        {/* <SchoolDistrictList /> */}
+        <SchoolDistrictList />
         {/* <DataDisplayList /> */}
         {/* <AddUserModal/> */}
-        <SchoolList/>
+        {/* <SchoolList /> */}
       </Provider>
     </NavigationContainer>
   )

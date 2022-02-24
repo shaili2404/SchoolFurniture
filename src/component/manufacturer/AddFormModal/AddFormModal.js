@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  Keyboard,
   Modal,
   ScrollView,
 } from "react-native";
@@ -18,9 +17,10 @@ import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 
 export const AddUserModal = (props) => {
-  const { visible, setmodalVisible, onSubmitDetails, data, name} = props;
+  const { visible, setmodalVisible, onSubmitDetails, data, name } = props;
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
+  const [disable, setDisable] = useState(true);
 
   const setValue = (key, value) => {
     setInputValues(prevState => {
@@ -32,23 +32,25 @@ export const AddUserModal = (props) => {
   }
 
   useEffect(() => {
+    inputValues.district_office == "" ? setDisable(true) : setDisable(false);
+  }, [inputValues])
+
+  useEffect(() => {
     const obj = {};
     data.forEach((val) => {
       obj[val.key] = "";
     })
-    // console.log("obj", obj)
     setInputValues(obj);
   }, [data])
 
   const onNext = () => {
-    // console.log(inputValues)
     onSubmitDetails(inputValues)
   }
 
   return (
     <>
       <SafeAreaView >
-        <Modal animationType="slide" visible={props.visible}>
+        <Modal animationType="slide" visible={visible}>
           <View style={style.mainView}>
             <View style={style.subContainer}>
               <View style={style.inputStyles}>
@@ -61,7 +63,7 @@ export const AddUserModal = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <KeyboardAvoidingView behavior={Platform.OS === 'android' || 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={0} >
+              <KeyboardAvoidingView behavior={Platform.OS === 'android' || 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={0} style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false} >
                   {data.map((input, index) =>
                     <View key={index}>
@@ -84,12 +86,12 @@ export const AddUserModal = (props) => {
                   )}
                 </ScrollView>
               </KeyboardAvoidingView>
+            </View>
 
-              <View style={style.backContainer}>
-                <TouchableOpacity style={style.buttonStyle} onPress={onNext}>
-                  <Text style={style.buttonText}>{constants.nextText}</Text>
-                </TouchableOpacity>
-              </View>
+            <View style={style.backContainer}>
+              <TouchableOpacity style={style.buttonStyle} onPress={onNext} disabled={disable}>
+                <Text style={style.buttonText}>{constants.nextText}</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
