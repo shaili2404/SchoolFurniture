@@ -14,6 +14,7 @@ import NavigationRouteNames from "./ScreenNames";
 // import PasswordReset from "../screen/PasswordReset/index";
 import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
+import { useDispatch, useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -30,6 +31,11 @@ const DrawerStack = () => {
 };
 
 const AppStack = (props) => {
+  const loginData = useSelector((state) => state?.loginData);
+  const token = loginData?.user?.data?.access_token;
+  console.log("checkdata",token);
+  const role = loginData?.user?.data?.data?.user?.role;
+  console.log("checkdatarole",role);
 
   // useEffect(() => {
   //   // {
@@ -121,7 +127,7 @@ const AppStack = (props) => {
       <Stack.Screen
         name="LoginScreen"
         component={DrawerStack}
-        options={{ headerShown: false }}
+         options={{ headerShown: false }}
       />
       <Stack.Screen name="Second" component={Second} />
       <Stack.Screen name="PasswordReset" component={PasswordReset} />

@@ -39,8 +39,8 @@ const PasswordReset = () => {
   }, [resetData]);
 
   const onPressReset = () => {
-  //  onPress={() => navigation.navigate('PasswordReset')}
-  //  return
+    // navigation.navigate('EmailSent');
+    // return
     var data = {
       username: username,
     };
