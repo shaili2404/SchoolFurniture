@@ -4,13 +4,13 @@ import {
     LOGIN_ERROR
 } from '../actionTypes'
 import { loginService } from '../configration/service';
-import { CommonActions } from '@react-navigation/native';
+import { navigate } from '../../routes/rootNavigation';
 
 function* loginSaga(action) {
     try {
         const data = yield call(loginService, action.payload)
         yield put({ type: LOGIN_SUCEESS, payload: data })
-        yield CommonActions.navigate({ name: "PasswordReset" })
+        navigate('PasswordReset');
     } catch (e) {
         yield put({ type: LOGIN_ERROR, payload: e })
     }

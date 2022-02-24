@@ -81,7 +81,7 @@ const AppStack = (props) => {
           </>
         );
 
-        case USER_ROLE.DOE:
+      case USER_ROLE.DOE:
         return (
           <>
             {/* Dashboard SCREEN */}

@@ -183,7 +183,7 @@ export const LoginScreen = () => {
             ) : null}
             <View>
               <TouchableOpacity
-                onPress={() => navigation.navigate('First')}
+                onPress={() => navigation.navigate('PasswordReset')}
               >
                 <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
               </TouchableOpacity>

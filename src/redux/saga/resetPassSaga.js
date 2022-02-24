@@ -4,13 +4,13 @@ import {
     RESET_SUCEESS
 } from '../actionTypes';
 import { resetPassService } from '../configration/service';
+import { navigate } from '../../routes/rootNavigation';
 
 function* resetPassSaga(action) {
     try {
         const data = yield call(resetPassService, action.payload)
-        console.log("reset", data)
         yield put({ type: RESET_SUCEESS, payload: data })
-        const navigation = useNavigation();
+        navigate('');
     } catch (e) {
         yield put({ type: RESET_ERROR, payload: e })
     }
