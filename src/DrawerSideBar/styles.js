@@ -47,7 +47,35 @@ const styles = StyleSheet.create({
     borderRadius:  35,
     resizeMode : 'stretch'
     
-  }
+  },
+  menuItemContainera: {
+    paddingVertical: 14,
+    marginLeft: 20,
+    marginRight: 20,
+    borderBottomColor: '#000',
+    borderBottomWidth: .5,
+    flexDirection: 'row',
+    // alignItems: 'center'
+  },
+  menuItemContainerb: {
+    // paddingVertical: 14,
+    // marginLeft: 20,
+     marginRight: 60,
+    // borderBottomColor: '#000',
+    // borderBottomWidth: .5,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  menuItemContainerc: {
+    paddingVertical: 14,
+    marginLeft: 20,
+    marginRight: 20,
+    borderBottomColor: '#000',
+    borderBottomWidth: .5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: "#F4F9F4"
+  },
 });
 
 export default styles;
