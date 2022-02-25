@@ -23,15 +23,6 @@ export const DataDisplayList = ({ item, tableKey, reloadList, Url, }) => {
   const[dataArray,setDataArray]=useState()
   const onEdit = () => {
     setUserModal(true);
-    for (const [key, value] of Object.entries(item)) {
-      setDataArray(previousitem=>{
-        return[
-          ...previousitem,
-          {key:value,value:key}
-        ]
-      })
-    }
-    console.log('dataArray',dataArray)
   };
 
   const onDelete = () => {
