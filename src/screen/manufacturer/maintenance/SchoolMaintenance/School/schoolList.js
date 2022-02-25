@@ -35,6 +35,7 @@ export const SchoolList = () => {
   const [searchData, setSearchData] = useState([]);
   const [searchtask, setSearchTask] = useState("");
   const [searchStatus, setSearchStatus] = useState(false);
+
   const tableKey = [
     "name",
     "emis",
@@ -85,7 +86,6 @@ export const SchoolList = () => {
     apicall();
   };
   const onSubmitDetails = async (value) => {
-    // console.log("89", value);
     const a = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
 
@@ -95,87 +95,84 @@ export const SchoolList = () => {
         value
       );
     } catch (e) {
-      console.log(e);
     }
   };
 
-  const apicall = async () => {
-    const a = "${loginData?.user?.data?.access_token}";
+  const apicall = () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    try {
-      const response = await axios.get(`${Baseurl}${endUrl.schoolList}`);
-      setListData(response?.data?.data);
-    } catch (e) {
-      console.log(e);
-    }
+    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) =>
+      setListData(res?.data?.data)
+    ).catch((e) =>
+      console.log('apicall', e)
+    )
   };
-  const onsearch = async () => {
+
+  const onsearch = () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    try {
-      const response = await axios.get(
-        `${Baseurl}${endUrl.searchSchool}${searchtask}`
-      );
-      setSearchData(response?.data?.data);
-      setSearchStatus(true);
-      //  console.log(searchData)
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const OnAddPress = () => {
-    setAdduserModal(true);
-  };
+    axios.get(`${Baseurl}${endUrl.searchSchool}${searchtask}`).then((res)=>{
+      setListData(res?.data?.data);
+    }).catch((e)=>{
+      console.log('search error',e)
+    })
+ };
+const OnAddPress = () => {
+  setAdduserModal(true);
+};
 
-  useEffect(() => {
-    apicall();
-    if (listData) setLoader(false);
-    if (searchtask === "") setSearchStatus(fals);
-  }, [apicall]);
+useEffect(() => {
+  apicall();
+  if (listData) setLoader(false);
+}, []);
 
-  return loader ? (
-    <Loader />
-  ) : (
-    <SafeAreaView style={Styles.mainView}>
-      <View style={Styles.halfView}>
-        <View>
-          <TextInput
-            style={Styles.refrenceStyle}
-            placeholder={constants.SearchSchool}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={searchtask}
-            onChangeText={(val) => setSearchTask(val)}
-          />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}>
-            <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
-          </TouchableOpacity>
-        </View>
+useEffect(() => {
+  if (searchtask == '') apicall();
+}, [searchtask]);
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <FlatList
-            ListHeaderComponent={HeaderComponet}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            data={searchStatus ? searchData : listData}
-            renderItem={rendercomponent}
-          />
-        </ScrollView>
-      </View>
-      <View style={Styles.lastView}>
-        <TouchableOpacity onPress={OnAddPress}>
-          <Image source={Images.addCricleIcon} />
+return loader ? (
+  <Loader />
+) : (
+  <SafeAreaView style={Styles.mainView}>
+    <View style={Styles.halfView}>
+      <View>
+        <TextInput
+          style={Styles.refrenceStyle}
+          placeholder={constants.SearchSchool}
+          placeholderTextColor={COLORS.Black}
+          opacity={0.5}
+          value={searchtask}
+          onChangeText={(val) => setSearchTask(val)}
+        />
+        <TouchableOpacity style={Styles.eyeStyle} onPress={onsearch}>
+          <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
         </TouchableOpacity>
       </View>
 
-      {addUserModal ? (
-        <AddUserModal
-          visible={addUserModal}
-          setmodalVisible={(val) => setAdduserModal(val)}
-          onSubmitDetails={(value) => onSubmitDetails(value)}
-          data={addArray}
-          name={constants.School}
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <FlatList
+          ListHeaderComponent={HeaderComponet}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          data={searchStatus ? searchData : listData}
+          renderItem={rendercomponent}
         />
-      ) : null}
-    </SafeAreaView>
-  );
+      </ScrollView>
+    </View>
+    <View style={Styles.lastView}>
+      <TouchableOpacity onPress={OnAddPress}>
+        <Image source={Images.addCricleIcon} />
+      </TouchableOpacity>
+    </View>
+
+    {addUserModal ? (
+      <AddUserModal
+        visible={addUserModal}
+        setmodalVisible={(val) => setAdduserModal(val)}
+        onSubmitDetails={(value) => onSubmitDetails(value)}
+        data={addArray}
+        name={`Add ${constants.School}`}
+        buttonVal = {constants.add}
+      />
+    ) : null}
+  </SafeAreaView>
+);
 };

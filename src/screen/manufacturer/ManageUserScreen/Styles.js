@@ -14,10 +14,9 @@ export default StyleSheet.create({
   refrenceStyle: {
     backgroundColor: COLORS.LightGreen,
     width: "100%",
-    height: 50,
+    height: 70,
     paddingLeft: 30,
     marginTop: 15,
-    borderWidth: 1,
     fontSize: 16,
   },
 
@@ -30,7 +29,15 @@ export default StyleSheet.create({
     justifyContent:'space-between',
     width: "30%",
     position: "absolute",
-    bottom: 30,
+    bottom: 80,
+    alignSelf: "center",
+  },
+  plusView: {
+    flexDirection: "row",
+    justifyContent:'flex-end',
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
     alignSelf: "center",
   },
   lastText: {
@@ -43,7 +50,7 @@ export default StyleSheet.create({
   eyeStyle: {
     alignSelf: "flex-end",
     position: "relative",
-    top: 50,
+    bottom: 45,
     right: 30,
   },
 
