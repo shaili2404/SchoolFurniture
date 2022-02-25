@@ -6,6 +6,7 @@ export default StyleSheet.create({
   mainView: {
     height: height,
     position: "relative",
+    width:width
   },
   halfView: {
     width: width,
@@ -26,11 +27,18 @@ export default StyleSheet.create({
   },
   lastView: {
     flexDirection: "row",
+    justifyContent:'space-between',
+    width: "30%",
+    position: "absolute",
+    bottom: 130,
+    alignSelf: "center",
+  },
+  plusView: {
+    flexDirection: "row",
     justifyContent:'flex-end',
     width: "100%",
     position: "absolute",
-    bottom: 30,
-    alignSelf: "center",
+    bottom:65,
   },
   lastText: {
     fontWeight: "bold",

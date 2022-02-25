@@ -29,8 +29,15 @@ export default StyleSheet.create({
     justifyContent:'space-between',
     width: "30%",
     position: "absolute",
-    bottom: 30,
+    bottom: 130,
     alignSelf: "center",
+  },
+  plusView: {
+    flexDirection: "row",
+    justifyContent:'flex-end',
+    width: "100%",
+    position: "absolute",
+    bottom:65,
   },
   lastText: {
     fontWeight: "bold",

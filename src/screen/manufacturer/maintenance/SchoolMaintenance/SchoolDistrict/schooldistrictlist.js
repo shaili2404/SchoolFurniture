@@ -25,15 +25,14 @@ import { DataDisplayList } from "../../../../../component/manufacturer/displayLi
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
 import Loader from "../../../../../component/loader";
+import { Token } from "../../../../../component/dummyData/Token";
 
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
   const [addUserModal, setAdduserModal] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [searchData, setSearchData] = useState([]);
   const [searchtask, setSearchTask] = useState("");
-  const [searchStatus, setSearchStatus] = useState(false);
   const token = useSelector((state)=>state?.loginData?.user?.data?.access_token)
   const tableKey = [
     "district_office",
@@ -87,7 +86,7 @@ export const SchoolDistrictList = () => {
     apicall();
   };
   const onSubmitDetails = async (value) => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     const data = new FormData();
     data.append(value);
     try {
@@ -102,37 +101,32 @@ export const SchoolDistrictList = () => {
   };
 
   const apicall = async () => {
-    console.log('token',loginData)
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    try {
-      const response = await axios.get(`${Baseurl}${endUrl.schoolDistList}`);
-      setListData(response?.data?.data);
-    } catch (e) {
-      console.log(e);
-    }
+    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+    axios.get(`${Baseurl}${endUrl.schoolDistList}`).then((res) =>
+      setListData(res?.data?.data)
+    ).catch((e) =>
+      console.log('apicall', e)
+    )
   };
   const onsearch = async () => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    try {
-      const response = await axios.get(
-        `${Baseurl}${endUrl.districtSearch}${searchtask}`
-      );
-      setSearchData(response?.data?.data);
-      setSearchStatus(true);
-      // console.log(searchData)
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const OnAddPress = () => {
-    setAdduserModal(true);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+    axios.get(`${Baseurl}${endUrl.districtSearch}${searchtask}`).then((res)=>{
+      setListData(res?.data?.data);
+    }).catch((e)=>{
+      console.log('search error',e)
+    })
+ };
+const OnAddPress = () => {
+  setAdduserModal(true);
   };
 
   useEffect(() => {
     apicall();
     if (listData) setLoader(false);
-    if (searchtask === "") setSearchStatus(false);
-  }, [apicall]);
+  }, []);
+  useEffect(() => {
+    if (searchtask == '') apicall();
+  }, [searchtask]);
 
   return loader ? (
     <Loader />
@@ -152,24 +146,30 @@ export const SchoolDistrictList = () => {
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
-        {/* Add MOdal */}
-        <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={OnAddPress}>
-            <Image source={Images.addCricleIcon} />
-          </TouchableOpacity>
-        </View>
-        {/*  */}
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={searchStatus ? searchData : listData}
+            data={listData}
             renderItem={rendercomponent}
           />
         </ScrollView>
       </View>
+      <View style={Styles.lastView}>
+                <TouchableOpacity>
+                    <Image source={Images.leftarrow} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image source={Images.rightarrow} />
+                </TouchableOpacity>
+            </View>
+    <View style={Styles.plusView}>
+      <TouchableOpacity onPress={OnAddPress}>
+        <Image source={Images.addCricleIcon} />
+      </TouchableOpacity>
+    </View>
       {addUserModal ? (
         <AddUserModal
           visible={addUserModal}

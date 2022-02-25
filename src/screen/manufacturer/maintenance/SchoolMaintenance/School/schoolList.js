@@ -158,6 +158,14 @@ return loader ? (
       </ScrollView>
     </View>
     <View style={Styles.lastView}>
+                <TouchableOpacity>
+                    <Image source={Images.leftarrow} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image source={Images.rightarrow} />
+                </TouchableOpacity>
+            </View>
+    <View style={Styles.plusView}>
       <TouchableOpacity onPress={OnAddPress}>
         <Image source={Images.addCricleIcon} />
       </TouchableOpacity>

@@ -138,7 +138,7 @@ export const ManageUserScreen = () => {
         <View>
           <TextInput
             style={Styles.refrenceStyle}
-            placeholder={constants.SearchSchool}
+            placeholder={constants.searchuser}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
             value={searchtask}
