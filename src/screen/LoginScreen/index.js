@@ -36,15 +36,13 @@ export const LoginScreen = () => {
   const loginData = useSelector((state) => state?.loginData);
   const [idsAddresss, setIpAddress] = useState("");
   const navigation = useNavigation();
-
   useEffect(() => {
     const { loading, err } = loginData;
     setLoader(loading);
-    const { message } = err?.data || {};
+    const { message } = err?.response?.data || {};
     setErrorMessage(message);
 
     NetworkInfo.getIPAddress().then((ipAddress) => {
-      //console.log(ipAddress);
       setIpAddress(ipAddress)
     });
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
@@ -185,7 +183,7 @@ export const LoginScreen = () => {
             ) : null}
             <View>
               <TouchableOpacity
-                onPress={() => navigation.navigate('PasswordReset')}
+                onPress={() => navigation.navigate('First')}
               >
                 <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
               </TouchableOpacity>

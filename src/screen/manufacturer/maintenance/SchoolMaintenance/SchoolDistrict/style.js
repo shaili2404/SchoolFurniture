@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import COLORS from "../../../asset/color";
+import COLORS from "../../../../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default StyleSheet.create({
@@ -14,10 +14,9 @@ export default StyleSheet.create({
   refrenceStyle: {
     backgroundColor: COLORS.LightGreen,
     width: "100%",
-    height: 50,
+    height: 70,
     paddingLeft: 30,
     marginTop: 15,
-    borderWidth: 1,
     fontSize: 16,
   },
 
@@ -43,7 +42,7 @@ export default StyleSheet.create({
   eyeStyle: {
     alignSelf: "flex-end",
     position: "relative",
-    top: 50,
+    bottom: 45,
     right: 30,
   },
 

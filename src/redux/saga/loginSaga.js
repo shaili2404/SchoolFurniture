@@ -8,9 +8,9 @@ import { loginService } from '../configration/service';
 import { storeData, getSaveData, removeData, clearAll } from '../../utils/helpers';
 import { navigate } from '../../routes/rootNavigation';
 
+import { CommonActions } from '@react-navigation/native';
 
 function* loginSaga(action) {
-      //const navigation = useNavigation();
     try {
         const data = yield call(loginService, action.payload)
         console.log("check",data);
@@ -22,6 +22,7 @@ function* loginSaga(action) {
         } else {
             yield put({ type: LOGIN_ERROR, payload: data })
         }
+       
     } catch (e) {
         yield put({ type: LOGIN_ERROR, payload: e })
     }

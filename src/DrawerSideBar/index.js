@@ -1,5 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+    FlatList,
+    View,
+    Text,
+    TouchableOpacity,
+    Image,
+    ScrollView,
+    SafeAreaView
+} from "react-native";
 // import { removeData, getSaveData } from '../../utils/helpers';
 // import { LOCAL_STORAGE_DATA_KEY } from '../../utils/constants';
 
@@ -9,11 +18,18 @@ import Styles from "./styles";
 import newLocal from '../assets/Images/Common/Asset2@4x-100.png';
 import dropdownOpen from '../assets/Images/Common/Iconmaterial-arrow-drop-down.png';
 import dropdownClose from '../assets/Images/Common/arrow-drop-down.png';
+import { AlertMessage } from "../Alert/alert";
+import AlertText from "../Alert/AlertText";
+import axios from "axios";
+import endUrl from "../redux/configration/endUrl";
+import { Baseurl } from "../redux/configration/baseurl";
 
 const DrawerSideBar = (props) => {
     const [name, setName] = useState("");
     const { navigation } = props;
     const [status, setStatus] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const loginData = useSelector((state) => state?.loginData);
 
     // useEffect(() => {
     //     async function getUserName() {
@@ -23,20 +39,40 @@ const DrawerSideBar = (props) => {
     //     getUserName();
     // }, [userRole]);
 
-    // const handleUserLogout = async () => {
-    //     await removeData(LOCAL_STORAGE_DATA_KEY.JWT_TOKEN);
-    //     await removeData(LOCAL_STORAGE_DATA_KEY.USER_ROLE);
-    //     // await removeData(LOCAL_STORAGE_DATA_KEY.USER_NAME);
-    //     setLogin(false);
-    // };
+    const handleUserLogout = async () => {
+        // await removeData(LOCAL_STORAGE_DATA_KEY.JWT_TOKEN);
+        // await removeData(LOCAL_STORAGE_DATA_KEY.USER_ROLE);
+        // // await removeData(LOCAL_STORAGE_DATA_KEY.USER_NAME);
+        // setLogin(false);
+        setAlert(true);
+    };
+
+    const onPressYes = () => {
+        const token = loginData?.user?.data?.access_token;
+        axios.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${token}`;
+
+        axios
+            .post(`${Baseurl}${endUrl.logout}`)
+            .then((res) => {
+                if (res?.data?.status === 200) {
+                    navigation.navigate("LoginScreen");
+                    setAlert(false);
+                }
+            })
+            .catch((err) => {
+                console.log("ERROR", err);
+            });
+    };
 
     const onNavigation = (screenName) => {
-        if (screenName === 'logout') {
+        if (screenName === "logout") {
             handleUserLogout();
         } else {
-            navigation.navigate(screenName) 
+            navigation.navigate(screenName);
         }
-    }
+    };
 
     const showHide = () => {
         setStatus(!status)
@@ -137,33 +173,35 @@ const DrawerSideBar = (props) => {
         
     }
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View>
-                <View style={Styles.userSectionContainer}>
-                    <View style={Styles.logoView}>
-                        <Image source={newLocal}  style = {Styles.logoImg}/>
+        <>
+            <SafeAreaView>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View>
+                        <View style={Styles.userSectionContainer}>
+                            <View style={Styles.logoView}>
+                                <Image source={newLocal} style={Styles.logoImg} />
+                            </View>
+                        </View>
+                        <FlatList
+                            data={DRAWER_MENU["manufacturer"]}
+                            keyExtractor={(_, index) => `${index}2`}
+                            renderItem={({ index, item }) => onRenderMenu(index, item)}
+                        />
                     </View>
-                </View>
-                
-                {/* <View style={Styles.userSectionContainer}>
-                    <View style={{marginLeft: 10, marginRight: 10}}>
-                        <Image source={newLocal}  style = {Styles.userProfile}/>
-                    </View>
-                    <View style={{flex: 1, marginRight: 10}}>
-                        <Text style={{fontSize: 18, color: '#000'}}>School User Name</Text>
-                        <Text style={{fontSize: 18, color: '#000'}}>Active Since</Text>
-                  
-                    </View>
-                </View> */}
-
-                <FlatList
-                    data={DRAWER_MENU["manufacturer"]}
-                    keyExtractor={(_, index) => `${index}2`}
-                    renderItem={({ index, item }) => onRenderMenu(index, item)}
-                />
-            </View>
-        </ScrollView>
-    )
-}
+                </ScrollView>
+                {alert ? (
+                    <AlertMessage
+                        visible={alert}
+                        setmodalVisible={(val) => setAlert(val)}
+                        mainMessage={AlertText.signout}
+                        subMessage={AlertText.UndoMessgae}
+                        type="question"
+                        onConfirm={() => onPressYes()}
+                    />
+                ) : null}
+            </SafeAreaView>
+        </>
+    );
+};
 
 export default DrawerSideBar;

@@ -34,7 +34,7 @@ const PasswordReset = () => {
   useEffect(() => {
     const { loading, err } = resetData;
     setLoader(loading);
-    const { message } = err?.data || {};
+    const { message } = err?.response?.data || {};
     setErrorMessage(message);
   }, [resetData]);
 

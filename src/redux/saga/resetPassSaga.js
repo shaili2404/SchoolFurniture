@@ -18,6 +18,9 @@ function* resetPassSaga(action) {
 
             yield put({ type: RESET_ERROR, payload: data })
         }
+        // console.log("reset", data)
+        // yield put({ type: RESET_SUCEESS, payload: data })
+        // const navigation = useNavigation();
     } catch (e) {
         yield put({ type: RESET_ERROR, payload: e })
     }
