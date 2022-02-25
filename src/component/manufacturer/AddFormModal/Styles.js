@@ -10,13 +10,14 @@ const style = StyleSheet.create({
     width: width,
     alignItems: "center",
     position: "relative",
+    flex: 1
   },
   subContainer: {
     width: "90%",
-    height: "100%",
+    height: "90%",
   },
   textContainer: {
-    marginTop:'10%'
+    marginTop: '10%'
   },
   emailInputStyle: {
     borderRadius: 5,
@@ -62,8 +63,9 @@ const style = StyleSheet.create({
     justifyContent: "center",
     position: "absolute",
     bottom: 10,
-    width: "100%",
+    width: "90%",
+    height: '10%'
   },
-  
+
 });
 export default style;

@@ -4,34 +4,40 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   Image,
   TouchableOpacity,
-  Modal,
 } from "react-native";
 import { AlertMessage } from "../../Alert/alert";
 import AlertText from "../../Alert/AlertText";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
-import { EditAddUserModal } from "./EditAddUserModal/editAdduserModal";
 import constants from "../../locales/constants";
-import style from "./EditAddUserModal/Styles";
 import axios from "axios";
 import { Baseurl } from "../../redux/configration/baseurl";
-import endUrl from "../../redux/configration/endUrl";
 import { Token } from "../dummyData/Token";
+import { AddUserModal } from "./AddFormModal/AddFormModal";
 
-export const DataDisplayList = ({ item, tableKey, reloadList, Url }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+export const DataDisplayList = ({ item, tableKey, reloadList, Url, }) => {
+  const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
-
+  const[dataArray,setDataArray]=useState()
   const onEdit = () => {
-    setModalVisible(true);
+    setUserModal(true);
+    for (const [key, value] of Object.entries(item)) {
+      setDataArray(previousitem=>{
+        return[
+          ...previousitem,
+          {key:value,value:key}
+        ]
+      })
+    }
+    console.log('dataArray',dataArray)
   };
 
   const onDelete = () => {
     setAlert(true);
   };
+  
 
   const onPressYes = async () => {
     setAlert(false);
@@ -70,23 +76,17 @@ export const DataDisplayList = ({ item, tableKey, reloadList, Url }) => {
         </View>
       </View>
 
-      <Modal animationType="slide" visible={modalVisible}>
-        <SafeAreaView style={style.mainView}>
-          <View style={style.subContainer}>
-            <View style={style.inputStyles}>
-              <View style={style.textContainer}>
-                <Text style={style.EditText}>{constants.editDistrict}</Text>
-              </View>
-              <View>
-                <TouchableOpacity onPress={() => setModalVisible(false)}>
-                  <Image source={Images.closeimage} />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <EditAddUserModal />
-          </View>
-        </SafeAreaView>
-      </Modal>
+      {userModal ? (
+      <AddUserModal
+        visible={userModal}
+        setmodalVisible={(val) => setUserModal(val)}
+        // onSubmitDetails={(value) => onSubmitDetails(value)}
+         data={item}
+        name={`Edit ${constants.School}`}
+        buttonVal = {constants.update}
+      />
+    ) : null}
+
       {alert ? (
         <AlertMessage
           visible={alert}

@@ -16,7 +16,7 @@ import style from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 
-export const AddUserModal = (props) => {
+export const EditModal = (props) => {
   const { visible, setmodalVisible, onSubmitDetails, data, name,buttonVal } = props;
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
@@ -31,17 +31,17 @@ export const AddUserModal = (props) => {
     })
   }
 
-  useEffect(() => {
-    inputValues.district_office == "" ? setDisable(true) : setDisable(false);
-  }, [inputValues])
+//   useEffect(() => {
+//     inputValues.district_office == "" ? setDisable(true) : setDisable(false);
+//   }, [inputValues])
 
-  useEffect(() => {
-    const obj = {};
-    data.forEach((val) => {
-      obj[val.key] = "";
-    })
-    setInputValues(obj);
-  }, [data])
+//   useEffect(() => {
+//     const obj = {};
+//     data.forEach((val) => {
+//       obj[val.key] = "";
+//     })
+//     setInputValues(obj);
+//   }, [data])
 
   const onNext = () => {
     onSubmitDetails(inputValues)

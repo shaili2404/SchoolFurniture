@@ -41,6 +41,14 @@ const constants = {
     SchoolPrinciple:'School Principle',
     SchoolTelno:'School Tel.no',
     StreetAddress:'Street Address',
+    name:'Name',
+    surname:'Surname',
+    username:'Username',
+    emailId:'Email Id',
+    organisation:'organisation',
+    update:'Update',
+    add:'Add',
+
 
 
 }

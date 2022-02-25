@@ -13,7 +13,7 @@ import AppStack from './src/routes';
 
 // const Stack = createNativeStackNavigator();
 import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/furniturerequestscreen';
-import { ManageUserDoe } from './src/screen/manufacturer/ManageUserScreen/manageuserscreen';
+import {ManageUserScreen } from './src/screen/manufacturer/ManageUserScreen/manageuserscreen';
 import { EditAddUserModal } from './src/component/doe/EditAddUserModal/editAdduserModal';
 import { Functionalities } from './src/component/doe/Functionalitiesuser';
 import { AlertMessage } from './src/Alert/alert';
@@ -25,9 +25,15 @@ import { DataDisplayList } from './src/component/manufacturer/displayListComman'
 import { AddUserModal } from './src/component/manufacturer/AddFormModal/AddFormModal';
 import { SchoolList } from './src/screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList';
 // import { Schoolmaintenancescreen } from './src/screen/Manufacturer/SchoolMaintenance/';
-
+import SplashScreen from 'react-native-splash-screen';
 const App = () => {
-
+  useEffect(() => {
+    {
+      Platform.OS === 'ios' ?
+        null :
+        SplashScreen.hide();
+    }
+  }, [])
   return (
     <NavigationContainer>
       <Provider store={store}>
@@ -36,7 +42,7 @@ const App = () => {
         {/* <FurnitureRequest /> */}
         {/* <PasswordReset /> */}
         {/* <EmailSent /> */}
-        {/* <ManageUserDoe /> */}
+        {/* <ManageUserScreen/> */}
         {/* <EditAddUserModal/> */}
         {/* <Functionalities/> */}
         {/* <AlertMessage/> */}
