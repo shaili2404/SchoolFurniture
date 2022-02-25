@@ -35,6 +35,9 @@ export const SchoolDistrictList = () => {
   const [searchData, setSearchData] = useState([]);
   const [searchtask, setSearchTask] = useState("");
   const [searchStatus, setSearchStatus] = useState(false);
+  const [operation, setOperation] = useState("");
+  const [updateItem, setUpdateItem] = useState({});
+
   const tableKey = [
     "district_office",
     "director",
@@ -45,6 +48,7 @@ export const SchoolDistrictList = () => {
     "address4",
     "street_code",
   ];
+
   const tableHeader = [
     constants.DistrictOffice,
     constants.Director,
@@ -74,10 +78,16 @@ export const SchoolDistrictList = () => {
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
-        Url={endUrl.schoolDistList}
+        onEdit={(item, task) => onEdit(item, task)}
       />
     );
   };
+
+  const onEdit = (item, task) => {
+    setOperation(task);
+    setUpdateItem(item);
+    setAdduserModal(true)
+  }
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -86,23 +96,31 @@ export const SchoolDistrictList = () => {
   const reloadList = () => {
     apicall();
   };
-  const onSubmitDetails = async (values) => {
-    const data = new FormData();
-    // for (const [key, value] of Object.entries(values)) {
-    //   data.append(key, value);
-    // }
-    const a = "${loginData?.user?.data?.access_token}";
-    axios.defaults.headers.common["Authorization"] = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDU2OTc3MDYsImV4cCI6MTY0NTcwMTMwNiwibmJmIjoxNjQ1Njk3NzA2LCJqdGkiOiJrNktMS1hjdDZFcHhxcDJmIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.d_l4BzxhaN7mWXSl-SayBj_WORvDkNSCqL8LcqeA9Fc`;
-    data.append("district_office", "nah")
-    console.log("data", data)
-    try {
-      const response = await axios.post(
-        `${Baseurl}${endUrl.schoolDistList}`,
-        data
-      );
-      // console.log(response);
-    } catch (e) {
-      console.log(e);
+
+  const onSubmitDetails = async (values, oper) => {
+
+    setAdduserModal(false);
+    let obj = {};
+    Object.entries(values).forEach(([key, value]) => {
+      if (value != "") obj[key] = value;
+    })
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+
+    if (oper == "Add") {
+      try {
+        const response = await axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj);
+        // console.log("response", response);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      try {
+        const response = await axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, values);
+        // console.log("response", response);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -113,9 +131,10 @@ export const SchoolDistrictList = () => {
       const response = await axios.get(`${Baseurl}${endUrl.schoolDistList}`);
       setListData(response?.data?.data);
     } catch (e) {
-      console.log(e);
+      console.log("getError", e);
     }
   };
+
   const onsearch = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
@@ -124,12 +143,13 @@ export const SchoolDistrictList = () => {
       );
       setSearchData(response?.data?.data);
       setSearchStatus(true);
-      // console.log(searchData)
     } catch (e) {
       console.log(e);
     }
   };
-  const OnAddPress = () => {
+
+  const onAddPress = (task) => {
+    setOperation(task);
     setAdduserModal(true);
   };
 
@@ -159,7 +179,7 @@ export const SchoolDistrictList = () => {
         </View>
         {/* Add MOdal */}
         <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={OnAddPress}>
+          <TouchableOpacity onPress={() => onAddPress("Add")}>
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
@@ -170,7 +190,7 @@ export const SchoolDistrictList = () => {
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={searchStatus ? searchData : listData}
+            data={listData}
             renderItem={rendercomponent}
           />
         </ScrollView>
@@ -179,9 +199,11 @@ export const SchoolDistrictList = () => {
         <AddUserModal
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
-          onSubmitDetails={(value) => onSubmitDetails(value)}
+          onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}
           data={addArray}
           name={constants.District}
+          operation={operation}
+          updateItem={updateItem}
         />
       ) : null}
     </SafeAreaView>

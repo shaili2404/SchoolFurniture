@@ -16,28 +16,22 @@ import axios from "axios";
 import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../dummyData/Token";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
+import endUrl from "../../redux/configration/endUrl";
 
-export const DataDisplayList = ({ item, tableKey, reloadList, Url, }) => {
+export const DataDisplayList = ({ item, tableKey, reloadList, onEdit }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
-  const[dataArray,setDataArray]=useState()
-  const onEdit = () => {
-    setUserModal(true);
-  };
 
   const onDelete = () => {
     setAlert(true);
   };
-  
 
   const onPressYes = async () => {
     setAlert(false);
     const token = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    // console.log(`${Baseurl}${Url}/${item.id}`);
     try {
-      const response = await axios.delete(`${Baseurl}${Url}/${item.id}`);
-
+      const response = await axios.delete(`${Baseurl}${endUrl.schoolDistList}/${item.id}`);
       if (response.status === 200) {
         reloadList();
       }
@@ -56,7 +50,7 @@ export const DataDisplayList = ({ item, tableKey, reloadList, Url, }) => {
         ))}
 
         <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={onEdit}>
+          <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
             <Image source={Images.editIcon} />
           </TouchableOpacity>
         </View>
@@ -68,15 +62,15 @@ export const DataDisplayList = ({ item, tableKey, reloadList, Url, }) => {
       </View>
 
       {userModal ? (
-      <AddUserModal
-        visible={userModal}
-        setmodalVisible={(val) => setUserModal(val)}
-        // onSubmitDetails={(value) => onSubmitDetails(value)}
-         data={item}
-        name={`Edit ${constants.School}`}
-        buttonVal = {constants.update}
-      />
-    ) : null}
+        <AddUserModal
+          visible={userModal}
+          setmodalVisible={(val) => setUserModal(val)}
+          // onSubmitDetails={(value) => onSubmitDetails(value)}
+          data={item}
+          name={`Edit ${constants.School}`}
+          buttonVal={constants.update}
+        />
+      ) : null}
 
       {alert ? (
         <AlertMessage
