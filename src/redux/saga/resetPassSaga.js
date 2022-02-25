@@ -4,10 +4,12 @@ import {
     RESET_SUCEESS
 } from '../actionTypes';
 import { resetPassService } from '../configration/service';
+import { navigate } from '../../routes/rootNavigation';
 
 function* resetPassSaga(action) {
     try {
         const data = yield call(resetPassService, action.payload)
+        navigate('EmailSent');
         if (data?.data?.status === 200) {
             yield put({ type: RESET_SUCEESS, payload: data })
             const navigation = useNavigation();

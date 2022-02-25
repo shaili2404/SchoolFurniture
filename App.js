@@ -9,6 +9,7 @@ import store from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AppStack from './src/routes';
+import { navigationRef } from './src/routes/rootNavigation';
 // import SplashScreen from 'react-native-splash-screen';
 
 // const Stack = createNativeStackNavigator();
@@ -16,7 +17,7 @@ import AppStack from './src/routes';
 const App = () => {
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
     <Provider store={store}>
     <AppStack />
     </Provider>
