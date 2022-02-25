@@ -139,33 +139,22 @@ const DrawerSideBar = (props) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View>
-            {/* {DRAWER_MENU["manufacturer"] ? 
                 <View style={Styles.userSectionContainer}>
                     <View style={Styles.logoView}>
                         <Image source={newLocal}  style = {Styles.logoImg}/>
                     </View>
                 </View>
-
-                : 
-                   <View>
-                       <Text>Ram</Text>
-                   </View>
-                } */}
                 
-                <View style={Styles.userSectionContainer}>
+                {/* <View style={Styles.userSectionContainer}>
                     <View style={{marginLeft: 10, marginRight: 10}}>
                         <Image source={newLocal}  style = {Styles.userProfile}/>
                     </View>
                     <View style={{flex: 1, marginRight: 10}}>
                         <Text style={{fontSize: 18, color: '#000'}}>School User Name</Text>
                         <Text style={{fontSize: 18, color: '#000'}}>Active Since</Text>
-                        {/* <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={() => { viewProfile() }}>
-                            <Text style={{color: '#000'}}>View Profile</Text>
-                        </TouchableOpacity> */}
+                  
                     </View>
-                </View>
+                </View> */}
 
                 <FlatList
                     data={DRAWER_MENU["manufacturer"]}
