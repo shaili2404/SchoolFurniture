@@ -176,7 +176,8 @@ const OnAddPress = () => {
           setmodalVisible={(val) => setAdduserModal(val)}
           onSubmitDetails={(value) => onSubmitDetails(value)}
           data={addArray}
-          name={constants.District}
+          name={`Add ${constants.District}`}
+          buttonVal = {constants.add}
         />
       ) : null}
     </SafeAreaView>
