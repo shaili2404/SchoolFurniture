@@ -17,6 +17,10 @@ import { USER_ROLE } from "./Constants";
 import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
 import { useDispatch, useSelector } from "react-redux";
+import { Schoolmaintenancescreen } from "../screen/manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen";
+import { ManageUserScreen } from "../screen/manufacturer/ManageUserScreen/manageuserscreen";
+import { SchoolDistrictList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
+import { SchoolList } from "../screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -97,6 +101,22 @@ const AppStack = (props) => {
             <Stack.Screen
               name="Second"
               component={Second}
+            />
+            <Stack.Screen
+            name="School Maintenance"
+            component={Schoolmaintenancescreen}
+            />
+            <Stack.Screen
+            name="Manage User"
+            component={ManageUserScreen}
+            />
+            <Stack.Screen
+            name="School District"
+            component={SchoolDistrictList}
+            />
+            <Stack.Screen
+            name="School"
+            component={SchoolList}
             />
           </>
         );

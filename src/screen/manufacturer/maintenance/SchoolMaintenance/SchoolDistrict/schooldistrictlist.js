@@ -24,7 +24,6 @@ import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
-import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
 
 export const SchoolDistrictList = () => {
@@ -35,6 +34,7 @@ export const SchoolDistrictList = () => {
   const [searchData, setSearchData] = useState([]);
   const [searchtask, setSearchTask] = useState("");
   const [searchStatus, setSearchStatus] = useState(false);
+  const token = useSelector((state)=>state?.loginData?.user?.data?.access_token)
   const tableKey = [
     "district_office",
     "director",
@@ -87,9 +87,7 @@ export const SchoolDistrictList = () => {
     apicall();
   };
   const onSubmitDetails = async (value) => {
-    // console.log("89", value);
-    const a = "${loginData?.user?.data?.access_token}";
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     const data = new FormData();
     data.append(value);
     try {
@@ -104,8 +102,8 @@ export const SchoolDistrictList = () => {
   };
 
   const apicall = async () => {
-    const a = "${loginData?.user?.data?.access_token}";
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+    console.log('token',loginData)
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     try {
       const response = await axios.get(`${Baseurl}${endUrl.schoolDistList}`);
       setListData(response?.data?.data);
@@ -114,7 +112,7 @@ export const SchoolDistrictList = () => {
     }
   };
   const onsearch = async () => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     try {
       const response = await axios.get(
         `${Baseurl}${endUrl.districtSearch}${searchtask}`

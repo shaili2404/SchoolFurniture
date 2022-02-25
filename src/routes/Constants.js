@@ -54,7 +54,7 @@ const USER_ROLE = {
         name: 'Manage Users',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/group_black_24dp.png'),
-        screenName: ""
+        screenName: NavigationRouteNames.manageuserscreen
       },
       {
         name: 'Signout',
@@ -114,7 +114,7 @@ const USER_ROLE = {
         name: 'School',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/school_black_24dp.png'),
-        screenName: ""
+        screenName: NavigationRouteNames.schoolMaintenace
       },
     ],
   };
