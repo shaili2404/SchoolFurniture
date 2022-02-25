@@ -154,7 +154,7 @@ export const ManageUserScreen = () => {
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={searchStatus ? searchData : listData}
+            data={listData}
             renderItem={rendercomponent}
           />
         </ScrollView>
