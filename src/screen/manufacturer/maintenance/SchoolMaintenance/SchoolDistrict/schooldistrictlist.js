@@ -26,6 +26,8 @@ import { ListHeaderComman } from "../../../../../component/manufacturer/ListHead
 import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
 import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
+import AlertText from "../../../../../Alert/AlertText";
+import { AlertMessage } from "../../../../../Alert/alert";
 
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
@@ -37,6 +39,7 @@ export const SchoolDistrictList = () => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
+  const [alert, setAlert] = useState(false);
 
   const tableKey = [
     "district_office",
@@ -98,30 +101,23 @@ export const SchoolDistrictList = () => {
   };
 
   const onSubmitDetails = async (values, oper) => {
-
     setAdduserModal(false);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != "") obj[key] = value;
+      if (value != null && value != "") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
 
-    if (oper == "Add") {
-      try {
-        const response = await axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj);
-        // console.log("response", response);
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      try {
-        const response = await axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, values);
-        // console.log("response", response);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    const service = oper == "Add" ? axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj) : axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, obj);
+    service.then((res) => {
+      setLoader(false);
+      setAlert(true);
+    }).catch((e) => {
+      setLoader(false);
+      console.log("getError", e);
+      console.log(obj)
+    })
   };
 
   const apicall = async () => {
@@ -206,6 +202,14 @@ export const SchoolDistrictList = () => {
           updateItem={updateItem}
         />
       ) : null}
+      {alert ? (
+        <AlertMessage
+          visible={alert}
+          setmodalVisible={(val) => setAlert(val)}
+          mainMessage={operation == "Add" ? AlertText.districtAdd : AlertText.districtUpdate}
+          subMessage={operation == "Add" ? AlertText.districtUpdateSub : AlertText.districtUpdateSub}
+          onConfirm={() => onPressYes()}
+        />) : null}
     </SafeAreaView>
   );
 };

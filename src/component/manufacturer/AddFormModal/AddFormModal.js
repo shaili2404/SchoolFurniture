@@ -49,7 +49,7 @@ export const AddUserModal = (props) => {
     setInputValues(obj);
   }, [])
 
-  const onNext = (operation) => {
+  const onNext = () => {
     onSubmitDetails(inputValues, operation)
   }
 
