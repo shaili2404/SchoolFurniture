@@ -7,6 +7,10 @@ const AlertText = {
     districtAdd: 'Added Successfully',
     districtUpdateSub: 'School District Added Successfully',
     districtUpdate: 'Updated Successfully',
-    districtUpdateSub: 'School District Updated Successfully'
+    districtUpdateSub: 'School District Updated Successfully',
+    SchoolUpdate: 'Updated Successfully',
+    SchoolUpdateSub: 'School User Updated Successfully',
+    AddedSuccessFully: 'Added Successfully',
+    SchoolAddedSub: 'School Added Successfully'
 }
 export default AlertText

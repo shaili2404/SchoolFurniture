@@ -3,21 +3,17 @@ import Styles from "./style";
 import {
   SafeAreaView,
   View,
-  Text,
   TouchableOpacity,
   TextInput,
   FlatList,
   ScrollView,
   Image,
-  Alert,
 } from "react-native";
 import COLORS from "../../../../../asset/color";
 import Images from "../../../../../asset/images";
-import { FurnitureRequestList } from "../../../component/school/furniturerequestList";
 
 import constants from "../../../../../locales/constants";
 import axios from "axios";
-import Dummydatauser from "../../../../../component/dummyData/DummyDatauser";
 import { Baseurl } from "../../../../../redux/configration/baseurl";
 import endUrl from "../../../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
@@ -118,6 +114,7 @@ export const SchoolDistrictList = () => {
       console.log(obj)
     })
   };
+
   const apicall = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios.get(`${Baseurl}${endUrl.schoolDistList}`).then((res) =>
@@ -126,6 +123,7 @@ export const SchoolDistrictList = () => {
       console.log('apicall', e)
     )
   };
+
   const onsearch = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios.get(`${Baseurl}${endUrl.districtSearch}${searchtask}`).then((res) => {
@@ -143,9 +141,11 @@ export const SchoolDistrictList = () => {
   useEffect(() => {
     apicall();
   }, []);
+
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData])
+
   useEffect(() => {
     if (searchtask == '') apicall();
   }, [searchtask]);
@@ -204,15 +204,6 @@ export const SchoolDistrictList = () => {
           operation={operation}
           updateItem={updateItem}
           buttonVal={constants.add}
-        />
-      ) : null}
-      {alert ? (
-        <AlertMessage
-          visible={alert}
-          setmodalVisible={(val) => setAlert(val)}
-          mainMessage={AlertText.districtAdd}
-          subMessage={AlertText.schoolDistrict}
-          onConfirm={() => onPressYes()}
         />
       ) : null}
       {alert ? (
