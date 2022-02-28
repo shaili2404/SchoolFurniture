@@ -138,7 +138,7 @@ export const ManageUserScreen = () => {
         <View>
           <TextInput
             style={Styles.refrenceStyle}
-            placeholder={constants.SearchSchool}
+            placeholder={constants.searchuser}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
             value={searchtask}
@@ -154,7 +154,7 @@ export const ManageUserScreen = () => {
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={searchStatus ? searchData : listData}
+            data={listData}
             renderItem={rendercomponent}
           />
         </ScrollView>

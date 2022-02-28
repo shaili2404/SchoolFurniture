@@ -4,7 +4,9 @@ const NavigationRouteNames = {
     FORGOT_PASSWORD: "forgot_password",
     First: "First",
     Second: "Second",
-    LoginScreen: "LoginScreen"
+    LoginScreen: "LoginScreen",
+    schoolMaintenace:'School Maintenance',
+    manageuserscreen:'Manage User',
 
 };
 

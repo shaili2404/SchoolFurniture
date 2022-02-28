@@ -29,8 +29,14 @@ export default StyleSheet.create({
     justifyContent:'space-between',
     width: "30%",
     position: "absolute",
-    bottom: 30,
+    bottom: 130,
     alignSelf: "center",
+  },
+  plusView: {
+    width: "20%",
+    position: "absolute",
+    bottom:65,
+    right:0
   },
   lastText: {
     fontWeight: "bold",

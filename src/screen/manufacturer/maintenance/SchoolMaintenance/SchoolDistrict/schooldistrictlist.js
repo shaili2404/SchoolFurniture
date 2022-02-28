@@ -34,9 +34,7 @@ export const SchoolDistrictList = () => {
   const loginData = useSelector((state) => state?.loginData);
   const [addUserModal, setAdduserModal] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [searchData, setSearchData] = useState([]);
   const [searchtask, setSearchTask] = useState("");
-  const [searchStatus, setSearchStatus] = useState(false);
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
   const [alert, setAlert] = useState(false);
@@ -102,6 +100,7 @@ export const SchoolDistrictList = () => {
 
   const onSubmitDetails = async (values, oper) => {
     setAdduserModal(false);
+    setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
       if (value != null && value != "") obj[key] = value;
@@ -119,29 +118,21 @@ export const SchoolDistrictList = () => {
       console.log(obj)
     })
   };
-
   const apicall = async () => {
-    const a = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    try {
-      const response = await axios.get(`${Baseurl}${endUrl.schoolDistList}`);
-      setListData(response?.data?.data);
-    } catch (e) {
-      console.log("getError", e);
-    }
+    axios.get(`${Baseurl}${endUrl.schoolDistList}`).then((res) =>
+      setListData(res?.data?.data)
+    ).catch((e) =>
+      console.log('apicall', e)
+    )
   };
-
   const onsearch = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    try {
-      const response = await axios.get(
-        `${Baseurl}${endUrl.districtSearch}${searchtask}`
-      );
-      setSearchData(response?.data?.data);
-      setSearchStatus(true);
-    } catch (e) {
-      console.log(e);
-    }
+    axios.get(`${Baseurl}${endUrl.districtSearch}${searchtask}`).then((res) => {
+      setListData(res?.data?.data);
+    }).catch((e) => {
+      console.log('search error', e)
+    })
   };
 
   const onAddPress = (task) => {
@@ -151,9 +142,14 @@ export const SchoolDistrictList = () => {
 
   useEffect(() => {
     apicall();
+  }, []);
+  useEffect(() => {
     if (listData) setLoader(false);
-    if (searchtask === "") setSearchStatus(false);
-  }, [apicall]);
+  }, [listData])
+  useEffect(() => {
+    if (searchtask == '') apicall();
+  }, [searchtask]);
+
 
   return loader ? (
     <Loader />
@@ -173,13 +169,7 @@ export const SchoolDistrictList = () => {
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
-        {/* Add MOdal */}
-        <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={() => onAddPress("Add")}>
-            <Image source={Images.addCricleIcon} />
-          </TouchableOpacity>
-        </View>
-        {/*  */}
+
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
@@ -191,6 +181,19 @@ export const SchoolDistrictList = () => {
           />
         </ScrollView>
       </View>
+      <View style={Styles.lastView}>
+        <TouchableOpacity>
+          <Image source={Images.leftarrow} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={Images.rightarrow} />
+        </TouchableOpacity>
+      </View>
+      <View style={Styles.plusView}>
+        <TouchableOpacity onPress={() => onAddPress("Add")}>
+          <Image source={Images.addCricleIcon} />
+        </TouchableOpacity>
+      </View>
       {addUserModal ? (
         <AddUserModal
           visible={addUserModal}
@@ -200,6 +203,16 @@ export const SchoolDistrictList = () => {
           name={constants.District}
           operation={operation}
           updateItem={updateItem}
+          buttonVal={constants.add}
+        />
+      ) : null}
+      {alert ? (
+        <AlertMessage
+          visible={alert}
+          setmodalVisible={(val) => setAlert(val)}
+          mainMessage={AlertText.districtAdd}
+          subMessage={AlertText.schoolDistrict}
+          onConfirm={() => onPressYes()}
         />
       ) : null}
       {alert ? (

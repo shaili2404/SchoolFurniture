@@ -8,6 +8,7 @@ const USER_ROLE = {
     MANUFACTURER: "manufacturer",
     SCHOOL: "school",
     DOE: "doe",
+    SUPERADMIN: "Super-Admin",
   };
 
   const DRAWER_MENU = {
@@ -48,6 +49,12 @@ const USER_ROLE = {
         color: '#F7A435',
         iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
         screenName: NavigationRouteNames.Second
+      },
+      {
+        name: 'Manage Users',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/group_black_24dp.png'),
+        screenName: NavigationRouteNames.manageuserscreen
       },
       {
         name: 'Signout',
@@ -94,6 +101,20 @@ const USER_ROLE = {
         color: '#F7A435',
         iconName: require('../assets/Images/Common/logout_black_24dp.png'),
         screenName: 'logout'
+      },
+    ],
+    submenu: [
+      {
+        name: 'Stock',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/inventory_black_24dp.png'),
+        screenName: ""
+      },
+      {
+        name: 'School',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/school_black_24dp.png'),
+        screenName: NavigationRouteNames.schoolMaintenace
       },
     ],
   };

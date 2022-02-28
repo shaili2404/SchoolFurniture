@@ -29,7 +29,7 @@ export default StyleSheet.create({
     justifyContent:'space-between',
     width: "30%",
     position: "absolute",
-    bottom: 80,
+    bottom: 130,
     alignSelf: "center",
   },
   plusView: {
@@ -37,8 +37,7 @@ export default StyleSheet.create({
     justifyContent:'flex-end',
     width: "100%",
     position: "absolute",
-    bottom: 0,
-    alignSelf: "center",
+    bottom:65,
   },
   lastText: {
     fontWeight: "bold",
