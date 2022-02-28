@@ -33,11 +33,10 @@ export default StyleSheet.create({
     alignSelf: "center",
   },
   plusView: {
-    flexDirection: "row",
-    justifyContent:'flex-end',
-    width: "100%",
+    width: "20%",
     position: "absolute",
     bottom:65,
+    right:0
   },
   lastText: {
     fontWeight: "bold",

@@ -17,7 +17,7 @@ import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 
 export const AddUserModal = (props) => {
-  const { visible, setmodalVisible, onSubmitDetails, data, name,buttonVal } = props;
+  const { visible, setmodalVisible, onSubmitDetails, data, operation, updateItem,buttonVal } = props;
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
@@ -37,14 +37,20 @@ export const AddUserModal = (props) => {
 
   useEffect(() => {
     const obj = {};
-    data.forEach((val) => {
-      obj[val.key] = "";
-    })
+    if (operation == "Edit") {
+      data.forEach((val) => {
+        obj[val.key] = updateItem[val.key];
+      })
+    } else {
+      data.forEach((val) => {
+        obj[val.key] = "";
+      })
+    }
     setInputValues(obj);
-  }, [data])
+  }, [])
 
   const onNext = () => {
-    onSubmitDetails(inputValues)
+    onSubmitDetails(inputValues, operation) 
   }
 
   return (
@@ -53,9 +59,10 @@ export const AddUserModal = (props) => {
         <Modal animationType="slide" visible={visible}>
           <View style={style.mainView}>
             <View style={style.subContainer}>
+
               <View style={style.inputStyles}>
                 <View style={style.textContainer}>
-                  <Text style={style.EditText}>{`${props.name}`}</Text>
+                  <Text style={style.EditText}>{` ${operation} ${props.name}`}</Text>
                 </View>
                 <View style={style.textContainer}>
                   <TouchableOpacity onPress={() => setmodalVisible(false)}>
@@ -63,6 +70,7 @@ export const AddUserModal = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
+
               <KeyboardAvoidingView behavior={Platform.OS === 'android' || 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={0} style={{ flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false} >
                   {data.map((input, index) =>

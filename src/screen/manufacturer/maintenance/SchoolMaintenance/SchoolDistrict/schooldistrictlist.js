@@ -24,8 +24,9 @@ import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
-import Loader from "../../../../../component/loader";
 import { Token } from "../../../../../component/dummyData/Token";
+import Loader from "../../../../../component/loader";
+import AlertText from "../../../../../Alert/AlertText";
 
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
@@ -33,7 +34,10 @@ export const SchoolDistrictList = () => {
   const [addUserModal, setAdduserModal] = useState(false);
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
-  const token = useSelector((state)=>state?.loginData?.user?.data?.access_token)
+  const [operation, setOperation] = useState("");
+  const [updateItem, setUpdateItem] = useState({});
+  const [alert, setAlert] = useState(false);
+
   const tableKey = [
     "district_office",
     "director",
@@ -44,6 +48,7 @@ export const SchoolDistrictList = () => {
     "address4",
     "street_code",
   ];
+
   const tableHeader = [
     constants.DistrictOffice,
     constants.Director,
@@ -73,10 +78,16 @@ export const SchoolDistrictList = () => {
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
-        Url={endUrl.schoolDistList}
+        onEdit={(item, task) => onEdit(item, task)}
       />
     );
   };
+
+  const onEdit = (item, task) => {
+    setOperation(task);
+    setUpdateItem(item);
+    setAdduserModal(true)
+  }
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -85,21 +96,28 @@ export const SchoolDistrictList = () => {
   const reloadList = () => {
     apicall();
   };
-  const onSubmitDetails = async (value) => {
+
+  const onSubmitDetails = async (values, oper) => {
+    console.log(values,oper)
+    setAdduserModal(false);
+    setLoader(true);
+    let obj = {};
+    Object.entries(values).forEach(([key, value]) => {
+      if (value !== null && value !== "") obj[key] = value;
+    })
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    const data = new FormData();
-    data.append(value);
-    try {
-      const response = await axios.post(
-        `${Baseurl}${endUrl.schoolDistList}`,
-        value
-      );
-      // console.log(response);
-    } catch (e) {
-      console.log(e);
+    if (oper == "Add") {
+      try {
+        const response = await axios.post(`${Baseurl}${endUrl.schoolDistList}`,values);
+        console.log(response)
+        setLoader(false)
+        apicall()
+      } catch (e) {
+        console.log("getError", e);
+      }
     }
   };
-
   const apicall = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios.get(`${Baseurl}${endUrl.schoolDistList}`).then((res) =>
@@ -116,17 +134,22 @@ export const SchoolDistrictList = () => {
       console.log('search error',e)
     })
  };
-const OnAddPress = () => {
-  setAdduserModal(true);
+
+  const onAddPress = (task) => {
+    setOperation(task);
+    setAdduserModal(true);
   };
 
   useEffect(() => {
     apicall();
-    if (listData) setLoader(false);
   }, []);
+  useEffect(()=>{
+    if (listData) setLoader(false);
+  },[listData])
   useEffect(() => {
     if (searchtask == '') apicall();
   }, [searchtask]);
+
 
   return loader ? (
     <Loader />
@@ -146,6 +169,7 @@ const OnAddPress = () => {
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
+        
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
@@ -166,7 +190,7 @@ const OnAddPress = () => {
                 </TouchableOpacity>
             </View>
     <View style={Styles.plusView}>
-      <TouchableOpacity onPress={OnAddPress}>
+      <TouchableOpacity  onPress={() => onAddPress("Add")}>
         <Image source={Images.addCricleIcon} />
       </TouchableOpacity>
     </View>
@@ -174,10 +198,21 @@ const OnAddPress = () => {
         <AddUserModal
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
-          onSubmitDetails={(value) => onSubmitDetails(value)}
+          onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}
           data={addArray}
-          name={`Add ${constants.District}`}
-          buttonVal = {constants.add}
+          name={constants.District}
+          operation={operation}
+          updateItem={updateItem}
+          buttonVal={constants.add}
+        />
+      ) : null}
+      {alert ? (
+        <AlertMessage
+          visible={alert}
+          setmodalVisible={(val) => setAlert(val)}
+          mainMessage={AlertText.districtAdd}
+          subMessage={AlertText.schoolDistrict}
+          onConfirm={() => onPressYes()}
         />
       ) : null}
     </SafeAreaView>
