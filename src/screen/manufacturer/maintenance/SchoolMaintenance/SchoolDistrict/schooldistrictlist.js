@@ -27,6 +27,9 @@ import { AlertMessage } from "../../../../../Alert/alert";
 
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
+  const [remaningData, setRemaningData] = useState([]);
+  const [previousdata, setPreviousData] = useState([]);
+  const [pageNumber, setPageNumber] = useState(10);
   const loginData = useSelector((state) => state?.loginData);
   const [addUserModal, setAdduserModal] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -34,7 +37,8 @@ export const SchoolDistrictList = () => {
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
   const [alert, setAlert] = useState(false);
-
+  const [leftarrow, setleftArrow] = useState(true);
+  const [rightarrow, setrightArrow] = useState(true);
   const tableKey = [
     "district_office",
     "director",
@@ -83,8 +87,8 @@ export const SchoolDistrictList = () => {
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
-    setAdduserModal(true)
-  }
+    setAdduserModal(true);
+  };
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -117,20 +121,52 @@ export const SchoolDistrictList = () => {
 
   const apicall = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    axios.get(`${Baseurl}${endUrl.schoolDistList}`).then((res) =>
-      setListData(res?.data?.data)
-    ).catch((e) =>
-      console.log('apicall', e)
-    )
+    axios
+      .get(`${Baseurl}${endUrl.schoolDistList}`)
+      .then((res) => {
+        // setListData(res?.data?.data)
+        getdata(res?.data?.data);
+      })
+      .catch((e) => console.log("apicall", e));
+  };
+
+  const getdata = (val) => {
+    if (val && val.length > 10) {
+      setListData(val.splice(0, 10));
+      setrightArrow(false);
+      // setPreviousData((predata) => {
+      //   return {
+      //     ...predata,
+      //     listData,
+      //   };
+      // });
+      setRemaningData(val);
+    } else {
+      setListData(val);
+      setrightArrow(true);
+    }
+  };
+
+  const loadmoredata = () => {
+    getdata(remaningData);
+  };
+  const lessdata = () => {
+    if (previousdata.length > 0) {
+      setrightArrow(false);
+    }
+    getdata(previousdata);
   };
 
   const onsearch = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    axios.get(`${Baseurl}${endUrl.districtSearch}${searchtask}`).then((res) => {
-      setListData(res?.data?.data);
-    }).catch((e) => {
-      console.log('search error', e)
-    })
+    axios
+      .get(`${Baseurl}${endUrl.districtSearch}${searchtask}`)
+      .then((res) => {
+        setListData(res?.data?.data);
+      })
+      .catch((e) => {
+        console.log("search error", e);
+      });
   };
 
   const onAddPress = (task) => {
@@ -144,12 +180,11 @@ export const SchoolDistrictList = () => {
 
   useEffect(() => {
     if (listData) setLoader(false);
-  }, [listData])
+  }, [listData]);
 
   useEffect(() => {
-    if (searchtask == '') apicall();
+    if (searchtask == "") apicall();
   }, [searchtask]);
-
 
   return loader ? (
     <Loader />
@@ -170,7 +205,6 @@ export const SchoolDistrictList = () => {
           </TouchableOpacity>
         </View>
 
-
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
             ListHeaderComponent={HeaderComponet}
@@ -182,11 +216,25 @@ export const SchoolDistrictList = () => {
         </ScrollView>
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity>
-          <Image source={Images.leftarrow} />
+        <TouchableOpacity onPress={lessdata} disabled={leftarrow}>
+          {leftarrow ? (
+            <Image source={Images.leftarrow} />
+          ) : (
+            <Image
+              source={Images.rightarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          )}
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={Images.rightarrow} />
+        <TouchableOpacity onPress={loadmoredata} disabled={rightarrow}>
+          {rightarrow ? (
+            <Image
+              source={Images.leftarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          ) : (
+            <Image source={Images.rightarrow} />
+          )}
         </TouchableOpacity>
       </View>
       <View style={Styles.plusView}>
