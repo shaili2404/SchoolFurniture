@@ -3,21 +3,17 @@ import Styles from "./style";
 import {
   SafeAreaView,
   View,
-  Text,
   TouchableOpacity,
   TextInput,
   FlatList,
   ScrollView,
   Image,
-  Alert,
 } from "react-native";
 import COLORS from "../../../../../asset/color";
 import Images from "../../../../../asset/images";
-import { FurnitureRequestList } from "../../../component/school/furniturerequestList";
 
 import constants from "../../../../../locales/constants";
 import axios from "axios";
-import Dummydatauser from "../../../../../component/dummyData/DummyDatauser";
 import { Baseurl } from "../../../../../redux/configration/baseurl";
 import endUrl from "../../../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
@@ -27,6 +23,7 @@ import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal
 import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
 import AlertText from "../../../../../Alert/AlertText";
+import { AlertMessage } from "../../../../../Alert/alert";
 
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
@@ -102,29 +99,26 @@ export const SchoolDistrictList = () => {
   };
 
   const onSubmitDetails = async (values, oper) => {
-    console.log(values, oper);
     setAdduserModal(false);
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value !== null && value !== "") obj[key] = value;
-    });
-    axios.defaults.headers.common["Content-Type"] = "application/json";
+      if (value != null && value != "") obj[key] = value;
+    })
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    if (oper == "Add") {
-      try {
-        const response = await axios.post(
-          `${Baseurl}${endUrl.schoolDistList}`,
-          values
-        );
-        console.log(response);
-        setLoader(false);
-        apicall();
-      } catch (e) {
-        console.log("getError", e);
-      }
-    }
+
+    const service = oper == "Add" ? axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj) : axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, obj);
+    service.then((res) => {
+      setLoader(false);
+      setAlert(true);
+    }).catch((e) => {
+      setLoader(false);
+      console.log("getError", e);
+      console.log(obj)
+    })
   };
+
   const apicall = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
@@ -262,11 +256,10 @@ export const SchoolDistrictList = () => {
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={AlertText.districtAdd}
-          subMessage={AlertText.schoolDistrict}
+          mainMessage={operation == "Add" ? AlertText.districtAdd : AlertText.districtUpdate}
+          subMessage={operation == "Add" ? AlertText.districtUpdateSub : AlertText.districtUpdateSub}
           onConfirm={() => onPressYes()}
-        />
-      ) : null}
+        />) : null}
     </SafeAreaView>
   );
 };

@@ -11,13 +11,12 @@ import {
   ScrollView,
 } from "react-native";
 
-import constants from "../../../locales/constants";
 import style from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 
 export const AddUserModal = (props) => {
-  const { visible, setmodalVisible, onSubmitDetails, data, operation, updateItem,buttonVal } = props;
+  const { visible, setmodalVisible, onSubmitDetails, data, operation, updateItem, buttonVal } = props;
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
@@ -50,7 +49,7 @@ export const AddUserModal = (props) => {
   }, [])
 
   const onNext = () => {
-    onSubmitDetails(inputValues, operation) 
+    onSubmitDetails(inputValues, operation)
   }
 
   return (
