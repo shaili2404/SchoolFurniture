@@ -26,6 +26,7 @@ import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComm
 import { AddUserModal } from "../../../component/manufacturer/AddFormModal/AddFormModal";
 import { Token } from "../../../component/dummyData/Token";
 import Loader from "../../../component/loader";
+import { useNavigation } from '@react-navigation/native';
 
 export const ManageUserScreen = () => {
   const [listData, setListData] = useState([]);
@@ -35,12 +36,13 @@ export const ManageUserScreen = () => {
   const [searchData, setSearchData] = useState([]);
   const [searchtask, setSearchTask] = useState("");
   const [searchStatus, setSearchStatus] = useState(false);
+  const navigation = useNavigation();
   const tableKey = [
+    "name",
     "tel",
     "emis",
     "district_name",
     "school_principal",
-    "name",
   ];
   const tableHeader = [
     constants.name,
@@ -51,18 +53,18 @@ export const ManageUserScreen = () => {
     constants.manage,
   ];
 
-  // const addArray = [
-  //   { key: "name", value: constants.School },
-  //   { key: "emis", value: constants.schoolEmisNumber },
-  //   { key: "district_name", value: constants.SchoolDistrict },
-  //   { key: "School Principle", value: constants.SchoolPrinciple },
-  //   { key: "tel", value: constants.SchoolTelno },
-  //   { key: "address1", value: constants.Address1 },
-  //   { key: "address2", value: constants.Address2 },
-  //   { key: "address3", value: constants.Address3 },
-  //   { key: "address4", value: constants.Address4 },
-  //   { key: "street_code", value: constants.streetCode },
-  // ];
+  const addArray = [
+    { key: "name", value: constants.School },
+    { key: "emis", value: constants.schoolEmisNumber },
+    { key: "district_name", value: constants.SchoolDistrict },
+    { key: "School Principle", value: constants.SchoolPrinciple },
+    { key: "tel", value: constants.SchoolTelno },
+    { key: "address1", value: constants.Address1 },
+    { key: "address2", value: constants.Address2 },
+    { key: "address3", value: constants.Address3 },
+    { key: "address4", value: constants.Address4 },
+    { key: "street_code", value: constants.streetCode },
+  ];
 
   const rendercomponent = ({ item }) => {
     return (
@@ -154,7 +156,7 @@ export const ManageUserScreen = () => {
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={listData}
+            data={listData.sort((a, b) => a.name.localeCompare(b.name))}
             renderItem={rendercomponent}
           />
         </ScrollView>
@@ -168,7 +170,7 @@ export const ManageUserScreen = () => {
                 </TouchableOpacity>
             </View>
       <View style={Styles.plusView}>
-        <TouchableOpacity onPress={OnAddPress}>
+        <TouchableOpacity onPress={()=> navigation.navigate('AddNewUsers')}>
           <Image source={Images.addCricleIcon} />
         </TouchableOpacity>
       </View>

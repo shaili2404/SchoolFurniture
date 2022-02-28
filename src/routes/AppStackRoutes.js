@@ -4,9 +4,11 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import SplashScreen from "react-native-splash-screen";
 import First from "../First";
 import Second from "../Second";
-import PasswordReset from "../screen/PasswordReset/index"
+import PasswordReset from "../screen/PasswordReset/index";
+// import DrawerSideBar from "../containers/DrawerSideBar/index";
 import DrawerSideBar from "../DrawerSideBar";
-import { getSaveData } from '../utils/helpers';
+import NavigationRouteNames from "./ScreenNames";
+import { storeData, getSaveData, removeData, clearAll } from "../utils/helpers";
 import { USER_ROLE } from "./Constants";
 import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
@@ -15,6 +17,7 @@ import { Schoolmaintenancescreen } from "../screen/manufacturer/maintenance/Scho
 import { ManageUserScreen } from "../screen/manufacturer/ManageUserScreen/manageuserscreen";
 import { SchoolDistrictList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
 import { SchoolList } from "../screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList";
+import AddNewUsers from "../screen/manufacturer/AddNewUsers/AddNewUsers";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,7 +25,10 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-      <Drawer.Screen component={First} name="First" />
+      <Drawer.Screen 
+        component={First} 
+        name={NavigationRouteNames.FIRST} 
+      />
       {/* <Drawer.Screen component={LoginScreen} name="LoginScreen" options={{ headerShown: false }} />
       <Drawer.Screen component={PasswordReset} name="PasswordReset" options={{ headerShown: false }} /> */}
       {/* <Drawer.Screen component={First} name="First" /> */}
@@ -35,20 +41,20 @@ const AppStack = (props) => {
 
   useEffect(() => {
     async function getToken() {
-      const token = await getSaveData('token');
+      const token = await getSaveData("token");
       console.log("hi", token);
       if (token != null) {
-        setLogin(true)
+        setLogin(true);
       }
-    };
+    }
 
     // async function getToken() {
     //   const token = await getSaveData("token");
-    //   const role = await getSaveData(LOCAL_STORAGE_DATA_KEY.USER_ROLE);     
+    //   const role = await getSaveData(LOCAL_STORAGE_DATA_KEY.USER_ROLE);
     //   if (token) {
     //     setLogin(true);
     //     setUserRole(role);
-    //   }     
+    //   }
     //   setTimeout(() => {
     //     SplashScreen.hide();
     //   }, 2500);
@@ -61,8 +67,6 @@ const AppStack = (props) => {
   console.log("checkdata", token);
   const role = loginData?.user?.data?.data?.user?.role;
   console.log("checkdatarole", role);
-
-
 
   // useEffect(() => {
   //   // {
@@ -77,7 +81,7 @@ const AppStack = (props) => {
 
   useEffect(() => {
     SplashScreen.hide();
-  }, [])
+  }, []);
 
   //  const user = props.loginReducer;
   //  console.log("user",user);
@@ -88,18 +92,19 @@ const AppStack = (props) => {
         return (
           <>
             <Stack.Screen
-              name="First"
+              name={NavigationRouteNames.FIRST}
               component={DrawerStack}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="Second"
-              component={Second}
+            <Stack.Screen 
+              name={NavigationRouteNames.SECOND}
+              component={Second} 
             />
             <Stack.Screen
               name="School Maintenance"
               component={Schoolmaintenancescreen}
             />
+            <Stack.Screen name="Manage User" component={ManageUserScreen} />
             <Stack.Screen
               name="Manage User"
               component={ManageUserScreen}
@@ -112,68 +117,65 @@ const AppStack = (props) => {
               name="School"
               component={SchoolList}
             />
+            <Stack.Screen name="School" component={SchoolList} />
+            {/* dummy Screen  */}
+          <Stack.Screen 
+            name={NavigationRouteNames.ADDNEWUSERS}
+            component={AddNewUsers} 
+          />
           </>
         );
 
       case USER_ROLE.SCHOOL:
         return (
           <>
-            <Stack.Screen
-              name="First"
-              component={DrawerStack}
-            />
-            <Stack.Screen
-              name="Second"
-              component={Second}
-            />
+            <Stack.Screen name="First" component={DrawerStack} />
+            <Stack.Screen name="Second" component={Second} />
           </>
         );
 
       case USER_ROLE.DOE:
         return (
           <>
-            <Stack.Screen
-              name="First"
-              component={DrawerStack}
-            />
-            <Stack.Screen
-              name="Second"
-              component={Second}
-            />
+            <Stack.Screen name="First" component={DrawerStack} />
+            <Stack.Screen name="Second" component={Second} />
           </>
         );
 
       default:
         return (
           <>
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-            />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
 
-            <Stack.Screen
-              name="PasswordReset"
-              component={PasswordReset}
-            />
+            <Stack.Screen name="PasswordReset" component={PasswordReset} />
+            
           </>
         );
     }
   };
 
   return (
-    <Stack.Navigator initialRouteName={
-      !login ? LoginScreen : First
-    }>
+    <Stack.Navigator initialRouteName={!login ? LoginScreen : First}>
       {!login ? (
         <>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="PasswordReset" component={PasswordReset} options={{ headerShown: false }} />
-          <Stack.Screen name="EmailSent" component={EmailSent} />
-          <Stack.Screen name="First" component={First} />
+          <Stack.Screen 
+            name={NavigationRouteNames.LOGINSCREEN}
+            component={LoginScreen} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name={NavigationRouteNames.PASSWORDRESET}
+            component={PasswordReset}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name={NavigationRouteNames.EMAILSENT}
+            component={EmailSent} 
+          />
         </>
-      ) :
+      ) : (
         SwitchNavigation("manufacturer")
-      }
+      )}
     </Stack.Navigator>
   );
 };
