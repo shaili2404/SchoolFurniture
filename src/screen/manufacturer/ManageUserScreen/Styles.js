@@ -37,7 +37,7 @@ export default StyleSheet.create({
     justifyContent:'flex-end',
     width: "100%",
     position: "absolute",
-    bottom: 0,
+    bottom: 60,
     alignSelf: "center",
   },
   lastText: {
