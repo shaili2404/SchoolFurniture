@@ -66,6 +66,26 @@ const style = StyleSheet.create({
     width: "90%",
     height: '10%'
   },
-
+  container: {
+    borderRadius: 5,
+    backgroundColor: COLORS.LightGreen,
+    width: "100%",
+    height: 70,
+    paddingLeft: 20,
+    marginBottom: 20,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  eyeStyle: {
+    position: "relative",
+     bottom: 55,
+     left: 310,
+  },
+  imgsStyle: {
+    width: 20,
+    height: 10
+  },
 });
 export default style;

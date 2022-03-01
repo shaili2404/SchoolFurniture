@@ -26,6 +26,8 @@ import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/Ad
 import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
 
+const PAGESIZE = 10;
+
 export const SchoolList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
@@ -34,6 +36,7 @@ export const SchoolList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
+  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
 
   const tableKey = [
     "name",
@@ -105,6 +108,7 @@ export const SchoolList = () => {
     service.then((res) => {
       setLoader(false);
       setAlert(true);
+      apicall()
     }).catch((e) => {
       setLoader(false);
       console.log("getError", e);
@@ -114,11 +118,52 @@ export const SchoolList = () => {
 
   const apicall = () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) =>
+    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) =>{
+      initialPagination(res?.data?.data);
       setListData(res?.data?.data)
+    }
     ).catch((e) =>
       console.log('apicall', e)
     )
+  };
+  const initialPagination = (list) => {
+    const len = list.length;
+    const totalPage = Math.ceil(len / PAGESIZE);
+    setPagination({
+      currentPage: 1,
+      totalPage: totalPage,
+      startIndex: 0,
+      endIndex: len > PAGESIZE ? PAGESIZE : len
+    })
+  }
+
+  const onNext = () => {
+    let { currentPage, totalPage } = pagination;
+    if (currentPage === totalPage) {
+      return;
+    }
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage + 1,
+        startIndex: currentPage * PAGESIZE,
+        endIndex: (currentPage + 1) * PAGESIZE > listData.length ? listData.length : (currentPage + 1) * PAGESIZE
+      }
+    })
+  };
+  const onPrevious = () => {
+    let { currentPage } = pagination;
+    if (currentPage === 1) {
+      return;
+    }
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage - 1,
+        startIndex: (currentPage - 2) * PAGESIZE,
+        endIndex: (currentPage - 1) * PAGESIZE
+      }
+    })
   };
 
   const onsearch = () => {
@@ -177,11 +222,26 @@ export const SchoolList = () => {
         </ScrollView>
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity>
-          <Image source={Images.leftarrow} />
+        <TouchableOpacity onPress={onPrevious} >
+          {pagination.currentPage === 1 ? (
+            <Image source={Images.leftarrow} />
+          ) : (
+            <Image
+              source={Images.rightarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          )}
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={Images.rightarrow} />
+
+        <TouchableOpacity onPress={onNext} >
+          {pagination.currentPage === pagination.totalPage ? (
+            <Image
+              source={Images.leftarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          ) : (
+            <Image source={Images.rightarrow} />
+          )}
         </TouchableOpacity>
       </View>
       <View style={Styles.plusView}>

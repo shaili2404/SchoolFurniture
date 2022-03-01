@@ -7,7 +7,7 @@ const NavigationRouteNames = {
     schoolMaintenace:'School Maintenance',
     manageuserscreen:'Manage User',
     ADDNEWUSERS: "AddNewUsers",
-
+    Furniturereplacment:'Furniture Replacment'
 };
 
 export default NavigationRouteNames;

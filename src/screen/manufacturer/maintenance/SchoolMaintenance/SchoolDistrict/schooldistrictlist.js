@@ -25,11 +25,10 @@ import Loader from "../../../../../component/loader";
 import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
 
+const PAGESIZE = 10;
+
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
-  const [remaningData, setRemaningData] = useState([]);
-  const [previousdata, setPreviousData] = useState([]);
-  const [pageNumber, setPageNumber] = useState(10);
   const loginData = useSelector((state) => state?.loginData);
   const [addUserModal, setAdduserModal] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -37,8 +36,9 @@ export const SchoolDistrictList = () => {
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
   const [alert, setAlert] = useState(false);
-  const [leftarrow, setleftArrow] = useState(true);
-  const [rightarrow, setrightArrow] = useState(true);
+  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
+
+
   const tableKey = [
     "district_office",
     "director",
@@ -112,6 +112,7 @@ export const SchoolDistrictList = () => {
     service.then((res) => {
       setLoader(false);
       setAlert(true);
+      apicall()
     }).catch((e) => {
       setLoader(false);
       console.log("getError", e);
@@ -124,37 +125,51 @@ export const SchoolDistrictList = () => {
     axios
       .get(`${Baseurl}${endUrl.schoolDistList}`)
       .then((res) => {
-        // setListData(res?.data?.data)
-        getdata(res?.data?.data);
+        initialPagination(res?.data?.data);
+        setListData(res?.data?.data)
       })
       .catch((e) => console.log("apicall", e));
   };
 
-  const getdata = (val) => {
-    if (val && val.length > 10) {
-      setListData(val.splice(0, 10));
-      setrightArrow(false);
-      // setPreviousData((predata) => {
-      //   return {
-      //     ...predata,
-      //     listData,
-      //   };
-      // });
-      setRemaningData(val);
-    } else {
-      setListData(val);
-      setrightArrow(true);
+  const initialPagination = (list) => {
+    const len = list.length;
+    const totalPage = Math.ceil(len / PAGESIZE);
+    setPagination({
+      currentPage: 1,
+      totalPage: totalPage,
+      startIndex: 0,
+      endIndex: len > PAGESIZE ? PAGESIZE : len
+    })
+  }
+
+  const onNext = () => {
+    let { currentPage, totalPage } = pagination;
+    if (currentPage === totalPage) {
+      return;
     }
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage + 1,
+        startIndex: currentPage * PAGESIZE,
+        endIndex: (currentPage + 1) * PAGESIZE > listData.length ? listData.length : (currentPage + 1) * PAGESIZE
+      }
+    })
   };
 
-  const loadmoredata = () => {
-    getdata(remaningData);
-  };
-  const lessdata = () => {
-    if (previousdata.length > 0) {
-      setrightArrow(false);
+  const onPrevious = () => {
+    let { currentPage } = pagination;
+    if (currentPage === 1) {
+      return;
     }
-    getdata(previousdata);
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage - 1,
+        startIndex: (currentPage - 2) * PAGESIZE,
+        endIndex: (currentPage - 1) * PAGESIZE
+      }
+    })
   };
 
   const onsearch = async () => {
@@ -180,6 +195,7 @@ export const SchoolDistrictList = () => {
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
+
   useEffect(() => {
     if (searchtask == "") apicall();
   }, [searchtask]);
@@ -208,14 +224,14 @@ export const SchoolDistrictList = () => {
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={listData}
+            data={listData.slice(pagination.startIndex, pagination.endIndex)}
             renderItem={rendercomponent}
           />
         </ScrollView>
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={lessdata} disabled={leftarrow}>
-          {leftarrow ? (
+        <TouchableOpacity onPress={onPrevious} >
+          {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
             <Image
@@ -224,8 +240,9 @@ export const SchoolDistrictList = () => {
             />
           )}
         </TouchableOpacity>
-        <TouchableOpacity onPress={loadmoredata} disabled={rightarrow}>
-          {rightarrow ? (
+
+        <TouchableOpacity onPress={onNext} >
+          {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}

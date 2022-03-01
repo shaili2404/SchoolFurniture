@@ -18,6 +18,7 @@ import { ManageUserScreen } from "../screen/manufacturer/ManageUserScreen/manage
 import { SchoolDistrictList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
 import { SchoolList } from "../screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList";
 import AddNewUsers from "../screen/manufacturer/AddNewUsers/AddNewUsers";
+import { FurnitureReplacmentManfacturer } from "../screen/manufacturer/furniturereplacementScreen/furniturerequestscreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -104,7 +105,6 @@ const AppStack = (props) => {
               name="School Maintenance"
               component={Schoolmaintenancescreen}
             />
-            <Stack.Screen name="Manage User" component={ManageUserScreen} />
             <Stack.Screen
               name="Manage User"
               component={ManageUserScreen}
@@ -117,7 +117,10 @@ const AppStack = (props) => {
               name="School"
               component={SchoolList}
             />
-            <Stack.Screen name="School" component={SchoolList} />
+             <Stack.Screen
+              name="Furniture Replacment"
+              component={FurnitureReplacmentManfacturer}
+            />
             {/* dummy Screen  */}
           <Stack.Screen 
             name={NavigationRouteNames.ADDNEWUSERS}

@@ -30,7 +30,7 @@ const USER_ROLE = {
         name: 'Furniture Replacement',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/published_with_changes_black_24dp.png'),
-        screenName: NavigationRouteNames.SECOND
+        screenName: NavigationRouteNames.Furniturereplacment
       },
       {
         name: 'Manage Request',
