@@ -48,10 +48,13 @@ const constants = {
     organisation: 'organisation',
     update: 'Update',
     add: 'Add',
-    searchuser: 'search User'
-
-
-
-
+    searchuser: 'search User',
+    transactionSearch: 'Transaction Search',
+    search: 'Search',
+    refrenceNumber: 'Refrence Number',
+    startDate: 'Start Date',
+    emisNumber: 'EMIS Number',
+    endDate: "End Date",
+    status: "status"
 }
 export default constants

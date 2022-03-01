@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './src/routes';
 import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
+import { FurnitureRequest } from './src/screen/school/FurnitureRequestScreen/furniturerequestscreen';
 
 const App = () => {
   useEffect(() => {
@@ -18,7 +19,7 @@ const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
-        <AppStack />
+        <FurnitureRequest />
       </Provider>
     </NavigationContainer>
   )
