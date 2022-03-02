@@ -16,13 +16,22 @@ import axios from "axios";
 import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../dummyData/Token";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
+import { useNavigation } from '@react-navigation/native';
 
 export const DataDisplayList = ({ item, tableKey, reloadList, Url, }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const[dataArray,setDataArray]=useState()
-  const onEdit = () => {
-    setUserModal(true);
+  const navigation = useNavigation();
+
+  const onEdit = (item) => {
+    if(userModal){
+      setUserModal(true);
+    } else {
+      // console.log("jjj",item);
+      navigation.navigate('AddNewUsers',{Item: item, btnStatus: '0'});
+    }
+    
   };
 
   const onDelete = () => {
@@ -56,7 +65,7 @@ export const DataDisplayList = ({ item, tableKey, reloadList, Url, }) => {
         ))}
 
         <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={onEdit}>
+          <TouchableOpacity onPress={()=> onEdit(item)}>
             <Image source={Images.editIcon} />
           </TouchableOpacity>
         </View>

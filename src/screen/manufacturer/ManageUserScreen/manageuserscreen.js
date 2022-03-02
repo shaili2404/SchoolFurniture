@@ -39,10 +39,14 @@ export const ManageUserScreen = () => {
   const navigation = useNavigation();
   const tableKey = [
     "name",
-    "tel",
-    "emis",
-    "district_name",
-    "school_principal",
+    "surname",
+    "username",
+    "email",
+    "organization",
+    // "tel",
+    // "emis",
+    // "district_name",
+    // "school_principal",
   ];
   const tableHeader = [
     constants.name,
@@ -72,7 +76,7 @@ export const ManageUserScreen = () => {
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
-        Url={endUrl.schoolList}
+        Url={endUrl.userList}
       />
     );
   };
@@ -102,7 +106,7 @@ export const ManageUserScreen = () => {
   const apicall = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
-      const response = await axios.get(`${Baseurl}${endUrl.organisation}`);
+      const response = await axios.get(`${Baseurl}${endUrl.userList}`);
       console.log(response?.data?.data)
       setListData(response?.data?.data);
     } catch (e) {
@@ -170,7 +174,7 @@ export const ManageUserScreen = () => {
                 </TouchableOpacity>
             </View>
       <View style={Styles.plusView}>
-        <TouchableOpacity onPress={()=> navigation.navigate('AddNewUsers')}>
+        <TouchableOpacity onPress={()=> navigation.navigate('AddNewUsers',{btnStatus: '1'})}>
           <Image source={Images.addCricleIcon} />
         </TouchableOpacity>
       </View>
