@@ -18,7 +18,6 @@ const Dropdown= ({ label, data, onSelect }) => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(undefined);
   const [dropdownTop, setDropdownTop] = useState(0);
-   console.log(data)
   const toggleDropdown = ()=> {
     visible ? setVisible(false) : openDropdown();
   };

@@ -9,6 +9,7 @@ import {
   ScrollView,
   Image,
 } from "react-native";
+import DatePicker from 'react-native-date-picker'
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 import Dummydata from "../../../component/dummyData/dummyData";
@@ -19,6 +20,11 @@ import Styles from "./styles";
 
 export const FurnitureRequest = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
+  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
+  const [startDate, setStartDate] = useState(new Date())
+  const [endData, setEndDate] = useState(new Date())
+  const [close, setCLose] = useState(false)
+  const [open, setOpen] = useState(false)
   const rendercomponent = ({ item }) => {
     return (
       <FurnitureRequestList
@@ -37,19 +43,21 @@ export const FurnitureRequest = () => {
   //     setDummyData(Dummydata)
   //     console.log(dummyData.request)
   // },[])
+
+  // console.log("startDate", startDate.substring(1, 10))
   return (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View style={Styles.searchButtonView}>
-          <Text style={Styles.transactionText}>Transaction Search</Text>
+          <Text style={Styles.transactionText}>{constants.transactionSearch}</Text>
           <TouchableOpacity style={Styles.searchButton}>
-            <Text style={Styles.searchText}>Search</Text>
+            <Text style={Styles.searchText}>{constants.search}</Text>
           </TouchableOpacity>
         </View>
         <View style={Styles.refView}>
           <TextInput
             style={Styles.refrenceStyle}
-            placeholder="Refrence Number"
+            placeholder={constants.refrenceNumber}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
           />
@@ -57,7 +65,7 @@ export const FurnitureRequest = () => {
         <View style={Styles.viewInputStyle}>
           <TextInput
             style={Styles.dropStyle}
-            placeholder="Status"
+            placeholder={constants.status}
             placeholderTextColor={COLORS.Black}
             opacity={1}
           />
@@ -66,29 +74,53 @@ export const FurnitureRequest = () => {
           </TouchableOpacity>
           <TextInput
             style={Styles.dropStyle}
-            placeholder="Start Date"
-            placeholderTextColor={COLORS.Black}
-            opacity={1}
-          />
-          <TouchableOpacity style={Styles.eyeStyle}>
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-          </TouchableOpacity>
-        </View>
-        <View style={Styles.viewInputStyle}>
-          <TextInput
-            style={Styles.dropStyle}
-            placeholder="EMIS Number"
+            placeholder={constants.emisNumber}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
           />
-          <TextInput
-            style={Styles.dropsStyle}
-            placeholder="End Date"
-            placeholderTextColor={COLORS.Black}
-            opacity={1}
-          />
-          <TouchableOpacity style={Styles.eyeStyle}>
+        </View>
+        <View style={Styles.viewInputStyle}>
+          <View style={Styles.dropStyle}>
+          <Text
+              style={Styles.textStyle}
+          > {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}</Text>
+          </View>
+          <TouchableOpacity style={Styles.eyeStyle} onPress={() => setOpen(true)}>
             <Image source={Images.Calender} style={Styles.imgStyle} />
+            <DatePicker
+              modal
+              open={open}
+              date={startDate}
+              mode="date"
+              onConfirm={(date) => {
+                setOpen(false)
+                setStartDate(date)
+              }}
+              onCancel={() => {
+                setOpen(false)
+              }}
+            />
+          </TouchableOpacity>
+          <View style={Styles.dropStyle}>
+          <Text
+              style={Styles.textStyle}
+          > {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}</Text>
+          </View>
+          <TouchableOpacity style={Styles.eyeStyle} onPress={() => setCLose(true)}>
+            <Image source={Images.Calender} style={Styles.imgStyle} />
+            <DatePicker
+              modal
+              open={close}
+              date={endData}
+              mode="date"
+              onConfirm={(date) => {
+                setCLose(false)
+                setEndDate(date)
+              }}
+              onCancel={() => {
+                setCLose(false)
+              }}
+            />
           </TouchableOpacity>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

@@ -16,9 +16,16 @@ import axios from "axios";
 import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../dummyData/Token";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
-import endUrl from "../../redux/configration/endUrl";
 
-export const DataDisplayList = ({ item, tableKey, reloadList, onEdit }) => {
+export const DataDisplayList = ({
+  item,
+  tableKey,
+  reloadList,
+  onEdit,
+  link,
+  mainMessage,
+  submessage,
+}) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
 
@@ -27,16 +34,19 @@ export const DataDisplayList = ({ item, tableKey, reloadList, onEdit }) => {
   };
 
   const onPressYes = async () => {
+    console.log(`${Baseurl}${link}/${item.id}`)
     setAlert(false);
     const token = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
-      const response = await axios.delete(`${Baseurl}${endUrl.schoolDistList}/${item.id}`);
+      const response = await axios.delete(
+        `${Baseurl}${link}/${item.id}`
+      );
       if (response.status === 200) {
         reloadList();
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   };
 
@@ -76,8 +86,8 @@ export const DataDisplayList = ({ item, tableKey, reloadList, onEdit }) => {
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={AlertText.DeleteUser}
-          subMessage={AlertText.UndoMessgae}
+          mainMessage={mainMessage}
+          subMessage={submessage}
           type="question"
           onConfirm={() => onPressYes()}
         />

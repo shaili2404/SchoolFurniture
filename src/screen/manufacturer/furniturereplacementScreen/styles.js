@@ -15,13 +15,15 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 20,
-    width: width - 20,
+    width: '90%',
     paddingEnd: 20,
   },
   refView: {
     marginHorizontal: 20,
-    width: width - 20,
+    width: '90%',
     paddingEnd: 20,
+    flexDirection:'row',
+    justifyContent:"space-around"
   },
   transactionText: {
     textAlign: "left",
@@ -47,7 +49,7 @@ export default StyleSheet.create({
   },
   refrenceStyle: {
     backgroundColor: COLORS.White,
-    width: "100%",
+    width: "45%",
     height: 40,
     paddingLeft: 20,
     marginTop: 15,
@@ -57,7 +59,13 @@ export default StyleSheet.create({
     marginTop: 15,
     justifyContent: "space-between",
     marginHorizontal: 20,
-    width: width - 20,
+    width: '100%',
+    paddingEnd: 20,
+  },
+  viewInputS: {
+    marginTop: 15,
+    marginHorizontal: 20,
+    width: '100%',
     paddingEnd: 20,
   },
   dropStyle: {
@@ -65,9 +73,21 @@ export default StyleSheet.create({
     width: "45%",
     height: 40,
     paddingLeft: 10,
-    marginTop: 10,
+    marginTop: 15,
     alignSelf: "flex-start",
   },
+  dropS: {
+    backgroundColor: COLORS.White,
+    width: "90%",
+    height: 40,
+    paddingLeft: 10,
+    marginTop: 15,
+    alignSelf: "flex-start",
+  },
+  textStyle:{
+    marginLeft:10,
+    marginTop:10
+  } , 
   dropsStyle: {
     backgroundColor: COLORS.White,
     width: "45%",
@@ -109,11 +129,24 @@ export default StyleSheet.create({
     top: 20,
     right: 30,
   },
+  dropdowwnButton: {
+    position: "relative",
+    bottom: 25,
+    left:300
+  },
   imgStyle: {
     width: 20,
   },
   imgsStyle: {
     width: 20,
     height: 10
+  },
+  lastView: {
+    flexDirection: "row",
+    justifyContent:'space-between',
+    width: "30%",
+    position: "absolute",
+    bottom: 130,
+    alignSelf: "center",
   },
 });

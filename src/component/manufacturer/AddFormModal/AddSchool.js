@@ -35,7 +35,6 @@ export const AddSchool = (props) => {
   const [disable, setDisable] = useState(true);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
-  console.log('38',selected)
  
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -44,7 +43,6 @@ export const AddSchool = (props) => {
         [key]: value,
       };
     });
-    console.log(inputValues.district_name,selected.district_name)
   };
 
   const getDistrictList = async () => {
@@ -67,7 +65,6 @@ export const AddSchool = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("updateItem", updateItem);
     const obj = {};
     if (operation == "Edit") {
       data.forEach((val) => {
@@ -79,12 +76,11 @@ export const AddSchool = (props) => {
         
       });
     }
-    console.log(inputValues.district_name,selected.district_name)
-    console.log('abcdefg',inputValues)
     setInputValues(obj);
   }, []);
 
   const onNext = () => {
+    inputValues.district_id = selected.id;
     onSubmitDetails(inputValues, operation);
   };
 
@@ -114,6 +110,7 @@ export const AddSchool = (props) => {
                 keyboardVerticalOffset={0}
                 style={{ flex: 1 }}
               >
+                
                 <ScrollView showsVerticalScrollIndicator={false}>
                   {data.map((input, index) => (
                     <View key={index}>
@@ -147,6 +144,8 @@ export const AddSchool = (props) => {
                     </View>
                   ))}
                 </ScrollView>
+
+
               </KeyboardAvoidingView>
             </View>
 
@@ -154,7 +153,7 @@ export const AddSchool = (props) => {
               <TouchableOpacity
                 style={style.buttonStyle}
                 onPress={onNext}
-                // disabled={disable}
+                 disabled={disable}
               >
                 <Text style={style.buttonText}>{buttonVal}</Text>
               </TouchableOpacity>

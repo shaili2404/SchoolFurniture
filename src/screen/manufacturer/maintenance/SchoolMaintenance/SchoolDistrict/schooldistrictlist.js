@@ -8,6 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
+  Text,
 } from "react-native";
 import COLORS from "../../../../../asset/color";
 import Images from "../../../../../asset/images";
@@ -36,8 +37,14 @@ export const SchoolDistrictList = () => {
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
   const [alert, setAlert] = useState(false);
-  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
-
+  const [erroralert, seterrorAlert] = useState(false);
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPage: 0,
+    startIndex: 0,
+    endIndex: 0,
+  });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const tableKey = [
     "district_office",
@@ -80,6 +87,9 @@ export const SchoolDistrictList = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         onEdit={(item, task) => onEdit(item, task)}
+        link={endUrl.schoolDistList}
+        mainMessage={AlertText.deletedistrict}
+        submessage={AlertText.UndoMessgae}
       />
     );
   };
@@ -104,29 +114,37 @@ export const SchoolDistrictList = () => {
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
       if (value != null && value != "") obj[key] = value;
-    })
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    });
+    axios.defaults.headers.common["Content-Type"] = "application/json";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
 
-    const service = oper == "Add" ? axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj) : axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, obj);
-    service.then((res) => {
-      setLoader(false);
-      setAlert(true);
-      apicall()
-    }).catch((e) => {
-      setLoader(false);
-      console.log("getError", e);
-      console.log(obj)
-    })
+    const service =
+      oper == "Add"
+        ? axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj)
+        : axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, obj);
+    service
+      .then((res) => {
+        setLoader(false);
+        setAlert(true);
+        apicall();
+      })
+      .catch((e) => {
+        setLoader(false);
+        console.log("getError", e);
+        seterrorAlert(true)
+        console.log(obj);
+      });
   };
 
   const apicall = async () => {
+    setLoader(true)
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
       .get(`${Baseurl}${endUrl.schoolDistList}`)
       .then((res) => {
         initialPagination(res?.data?.data);
-        setListData(res?.data?.data)
+        setListData(res?.data?.data);
+        setLoader(false)
       })
       .catch((e) => console.log("apicall", e));
   };
@@ -138,11 +156,12 @@ export const SchoolDistrictList = () => {
       currentPage: 1,
       totalPage: totalPage,
       startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len
-    })
-  }
+      endIndex: len > PAGESIZE ? PAGESIZE : len,
+    });
+  };
 
   const onNext = () => {
+    setLoader(true)
     let { currentPage, totalPage } = pagination;
     if (currentPage === totalPage) {
       return;
@@ -152,12 +171,17 @@ export const SchoolDistrictList = () => {
         ...prevState,
         currentPage: currentPage + 1,
         startIndex: currentPage * PAGESIZE,
-        endIndex: (currentPage + 1) * PAGESIZE > listData.length ? listData.length : (currentPage + 1) * PAGESIZE
-      }
-    })
+        endIndex:
+          (currentPage + 1) * PAGESIZE > listData.length
+            ? listData.length
+            : (currentPage + 1) * PAGESIZE,
+      };
+    });
+    setLoader(false)
   };
 
   const onPrevious = () => {
+    setLoader(true)
     let { currentPage } = pagination;
     if (currentPage === 1) {
       return;
@@ -167,20 +191,26 @@ export const SchoolDistrictList = () => {
         ...prevState,
         currentPage: currentPage - 1,
         startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE
-      }
-    })
+        endIndex: (currentPage - 1) * PAGESIZE,
+      };
+    });
+    setLoader(false)
   };
 
   const onsearch = async () => {
+    setLoader(true)
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
       .get(`${Baseurl}${endUrl.districtSearch}${searchtask}`)
       .then((res) => {
         setListData(res?.data?.data);
+        setLoader(false)
       })
       .catch((e) => {
-        console.log("search error", e);
+        if (e) {
+          setLoader(false)
+          setErrorMessage(constants.DistrictFound);
+        }
       });
   };
 
@@ -197,7 +227,11 @@ export const SchoolDistrictList = () => {
   }, [listData]);
 
   useEffect(() => {
-    if (searchtask == "") apicall();
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false)
+    }
   }, [searchtask]);
 
   return loader ? (
@@ -214,23 +248,30 @@ export const SchoolDistrictList = () => {
             value={searchtask}
             onChangeText={(val) => setSearchTask(val)}
           />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}>
+          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}  disabled={searchtask?false:true}>
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
-
+        {errorMessage ? (
+            <View style={Styles.errorView}>
+            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+            </View>
+          ) : (
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <FlatList
-            ListHeaderComponent={HeaderComponet}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            data={listData.slice(pagination.startIndex, pagination.endIndex)}
-            renderItem={rendercomponent}
-          />
-        </ScrollView>
+          
+            <FlatList
+              ListHeaderComponent={HeaderComponet}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              data={listData.slice(pagination.startIndex, pagination.endIndex)}
+              renderItem={rendercomponent}
+            />
+             </ScrollView>
+          )}
+       
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} >
+        <TouchableOpacity onPress={onPrevious}>
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -241,7 +282,7 @@ export const SchoolDistrictList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} >
+        <TouchableOpacity onPress={onNext}>
           {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}
@@ -273,10 +314,31 @@ export const SchoolDistrictList = () => {
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={operation == "Add" ? AlertText.districtAdd : AlertText.districtUpdate}
-          subMessage={operation == "Add" ? AlertText.districtUpdateSub : AlertText.districtUpdateSub}
+          mainMessage={
+            operation == "Add"
+              ? AlertText.districtAdd
+              : AlertText.districtUpdate
+          }
+          subMessage={
+            operation == "Add"
+              ? AlertText.districtUpdateSub
+              : AlertText.districtUpdateSub
+          }
           onConfirm={() => onPressYes()}
-        />) : null}
+        />
+      ) : null}
+       {erroralert ? (
+        <AlertMessage
+          visible={erroralert}
+          setmodalVisible={(val) => seterrorAlert(val)}
+          mainMessage={
+            operation == "Add"
+              ? AlertText.districtAdded
+              : AlertText.editfailure
+          }
+          onConfirm={() => onPressokay()}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };
