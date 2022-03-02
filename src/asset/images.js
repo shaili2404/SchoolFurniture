@@ -13,7 +13,22 @@ const Images = {
     rightarrow: require('./images/criclerightarrow.png'),
     closeimage: require('./images/closeIcon.png'),
     addCricleIcon: require('./images/AddCircle.png'),
-    rightIcon: require('./images/rightIcon.png')
+    rightIcon: require('./images/rightIcon.png'),
+    DownArrow: require('./images/downarrow.png'),
+    SearchIcon: require('./images/search.png'),
+    deleteIcon: require('./images/delete.png'),
+    editIcon: require('./images/edit.png'),
+    leftarrow: require('./images/cricleleftarrow.png'),
+    rightarrow: require('./images/criclerightarrow.png'),
+    closeimage: require('./images/closeIcon.png'),
+    addCricleIcon: require('./images/AddCircle.png'),
+    headerLine: require('./images/headerLine.png'),
+    transactionlist: require('./images/TransactionList.png'),
+    createRequestSuccess: require('./images/createrequestsuccess.png'),
+    collectFurnitureScccess: require('./images/collectFurscuccess.png'),
+    repairReplanishSuccess: require('./images/repairsuccess.png'),
+    rightArrowSuccess: require('./images/rightarrow.png'),
+    dilveryIconInProgress: require('./images/dilveryinprogress.png'),
 
 }
 export default Images

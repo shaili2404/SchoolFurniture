@@ -8,6 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
+  Text
 } from "react-native";
 import COLORS from "../../../../../asset/color";
 import Images from "../../../../../asset/images";
@@ -33,7 +34,11 @@ export const SchoolList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
+  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
+
 
   const tableKey = [
     "name",
@@ -73,6 +78,9 @@ export const SchoolList = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         onEdit={(item, task) => onEdit(item, task)}
+        link={endUrl.schoolList}
+        mainMessage={AlertText.deleteschool}
+        submessage={AlertText.UndoMessgae}
       />
     );
   };
@@ -107,26 +115,32 @@ export const SchoolList = () => {
       setAlert(true);
     }).catch((e) => {
       setLoader(false);
-      console.log("getError", e);
-      console.log(obj)
+      seterrorAlert(true)
+      console.log(obj);
     })
   };
 
   const apicall = () => {
+    setLoader(true)
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) =>
+    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) => {
       setListData(res?.data?.data)
-    ).catch((e) =>
+      setLoader(false)
+    }).catch((e) =>
       console.log('apicall', e)
     )
   };
 
   const onsearch = () => {
+    setLoader(true)
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios.get(`${Baseurl}${endUrl.searchSchool}${searchtask}`).then((res) => {
       setListData(res?.data?.data);
+      setLoader(false)
     }).catch((e) => {
       console.log('search error', e)
+      setLoader(false)
+      setErrorMessage(constants.SchoolFound);
     })
   };
 
@@ -145,7 +159,11 @@ export const SchoolList = () => {
   }, [listData]);
 
   useEffect(() => {
-    if (searchtask == '') apicall();
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false)
+    }
   }, [searchtask]);
 
   return loader ? (
@@ -166,16 +184,21 @@ export const SchoolList = () => {
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
-
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <FlatList
-            ListHeaderComponent={HeaderComponet}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            data={listData}
-            renderItem={rendercomponent}
-          />
-        </ScrollView>
+        {errorMessage ? (
+          <View style={Styles.errorView}>
+            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+          </View>
+        ) : (
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <FlatList
+              ListHeaderComponent={HeaderComponet}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              data={listData}
+              renderItem={rendercomponent}
+            />
+          </ScrollView>
+        )}
       </View>
       <View style={Styles.lastView}>
         <TouchableOpacity>
@@ -211,6 +234,18 @@ export const SchoolList = () => {
           subMessage={operation == "Add" ? AlertText.SchoolAddedSub : AlertText.SchoolUpdateSub}
           onConfirm={() => onPressYes()}
         />) : null}
+      {erroralert ? (
+        <AlertMessage
+          visible={erroralert}
+          setmodalVisible={(val) => seterrorAlert(val)}
+          mainMessage={
+            operation == "Add"
+              ? AlertText.schoolAdded
+              : AlertText.editfailure
+          }
+          onConfirm={() => onPressokay()}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };

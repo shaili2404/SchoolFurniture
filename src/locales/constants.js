@@ -60,6 +60,18 @@ const constants = {
     create: "Create",
     read: "Read",
     update: "Update",
-    delete: "Delete"
+    delete: "Delete",
+    FurReplacment: "Furniture Replacment",
+    DistrictFound: 'District Not Found',
+    SchoolFound: 'School Not Found',
+    FurnitureReplacmnetProcess: 'Furniture Replacment Process',
+    TransactionList: 'Transaction List',
+    createRequest: 'Create Request',
+    coolectFurnitureRequest: 'Collect Furniture Item',
+    RepairReplnish: 'Repair/Replenish',
+    DilverFurItem: 'Dilver Furniture Item',
+    Accept: 'Accept',
+    Accepted: 'Accepted',
+
 }
 export default constants

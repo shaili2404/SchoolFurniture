@@ -22,8 +22,9 @@ export const FurnitureRequest = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
   const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
   const [startDate, setStartDate] = useState(new Date())
+  const [endData, setEndDate] = useState(new Date())
+  const [close, setCLose] = useState(false)
   const [open, setOpen] = useState(false)
-
   const rendercomponent = ({ item }) => {
     return (
       <FurnitureRequestList
@@ -78,13 +79,11 @@ export const FurnitureRequest = () => {
           />
         </View>
         <View style={Styles.viewInputStyle}>
-          <TextInput
-            style={Styles.dropStyle}
-            // placeholder={constants.startDate}
-            placeholderTextColor={COLORS.Black}
-            opacity={1}
-            value={startDate}
-          />
+          <View style={Styles.dropStyle}>
+            <Text
+              style={Styles.textStyle}
+            > {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}</Text>
+          </View>
           <TouchableOpacity style={Styles.eyeStyle} onPress={() => setOpen(true)}>
             <Image source={Images.Calender} style={Styles.imgStyle} />
             <DatePicker
@@ -101,14 +100,26 @@ export const FurnitureRequest = () => {
               }}
             />
           </TouchableOpacity>
-          <TextInput
-            style={Styles.dropsStyle}
-            placeholder={constants.endDate}
-            placeholderTextColor={COLORS.Black}
-            opacity={1}
-          />
-          <TouchableOpacity style={Styles.eyeStyle}>
+          <View style={Styles.dropStyle}>
+            <Text
+              style={Styles.textStyle}
+            > {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}</Text>
+          </View>
+          <TouchableOpacity style={Styles.eyeStyle} onPress={() => setCLose(true)}>
             <Image source={Images.Calender} style={Styles.imgStyle} />
+            <DatePicker
+              modal
+              open={close}
+              date={endData}
+              mode="date"
+              onConfirm={(date) => {
+                setCLose(false)
+                setEndDate(date)
+              }}
+              onCancel={() => {
+                setCLose(false)
+              }}
+            />
           </TouchableOpacity>
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

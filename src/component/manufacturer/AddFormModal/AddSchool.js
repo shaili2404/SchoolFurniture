@@ -111,6 +111,7 @@ export const AddSchool = (props) => {
                 keyboardVerticalOffset={0}
                 style={{ flex: 1 }}
               >
+
                 <ScrollView showsVerticalScrollIndicator={false}>
                   {data.map((input, index) => (
                     <View key={index}>
@@ -144,6 +145,8 @@ export const AddSchool = (props) => {
                     </View>
                   ))}
                 </ScrollView>
+
+
               </KeyboardAvoidingView>
             </View>
 

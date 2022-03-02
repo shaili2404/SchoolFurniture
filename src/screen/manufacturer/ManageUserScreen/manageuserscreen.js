@@ -83,7 +83,6 @@ export const ManageUserScreen = () => {
     apicall();
   };
   const onSubmitDetails = async (value) => {
-    // console.log("89", value);
     const a = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
 
@@ -93,7 +92,6 @@ export const ManageUserScreen = () => {
         value
       );
     } catch (e) {
-      console.log(e);
     }
   };
 
@@ -104,7 +102,6 @@ export const ManageUserScreen = () => {
       console.log(response?.data?.data)
       setListData(response?.data?.data);
     } catch (e) {
-      console.log(e);
     }
   };
   const onsearch = async () => {
@@ -115,9 +112,7 @@ export const ManageUserScreen = () => {
       );
       setSearchData(response?.data?.data);
       setSearchStatus(true);
-      //  console.log(searchData)
     } catch (e) {
-      console.log(e);
     }
   };
   const OnAddPress = () => {

@@ -57,7 +57,7 @@ export default StyleSheet.create({
     marginTop: 15,
     justifyContent: "space-between",
     marginHorizontal: 20,
-    width: width - 20,
+    width: '100%',
     paddingEnd: 20,
   },
   dropStyle: {
@@ -68,6 +68,10 @@ export default StyleSheet.create({
     marginTop: 10,
     alignSelf: "flex-start",
   },
+  textStyle:{
+    marginLeft:10,
+    marginTop:10
+  } , 
   dropsStyle: {
     backgroundColor: COLORS.White,
     width: "45%",

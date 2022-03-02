@@ -58,4 +58,13 @@ export default StyleSheet.create({
     width: 20,
     height: 20,
   },
+  errormessStyle:{
+    textAlign:'center',
+    color:COLORS.red,
+    fontSize:22
+  },
+  errorView:{
+    width:'100%',
+    alignContent:'center'
+  }
 });
