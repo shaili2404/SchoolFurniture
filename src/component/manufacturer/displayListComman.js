@@ -16,6 +16,7 @@ import axios from "axios";
 import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../dummyData/Token";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
+import { useNavigation } from '@react-navigation/native';
 
 export const DataDisplayList = ({
   item,
@@ -28,6 +29,18 @@ export const DataDisplayList = ({
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
+  const[dataArray,setDataArray]=useState()
+  const navigation = useNavigation();
+
+  // const onEdit = (item) => {
+  //   if(userModal){
+  //     setUserModal(true);
+  //   } else {
+  //     // console.log("jjj",item);
+  //     navigation.navigate('AddNewUsers',{Item: item, btnStatus: '0'});
+  //   }
+    
+  // };
 
   const onDelete = () => {
     setAlert(true);
