@@ -9,6 +9,7 @@ const endUrl = {
     organisation:'user/organization',
     userList: 'user/manage',
     addUser: 'user/manage',
+    usersearch:'user/search/query?query='
     
 }
 

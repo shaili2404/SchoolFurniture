@@ -33,12 +33,10 @@ export default StyleSheet.create({
     alignSelf: "center",
   },
   plusView: {
-    flexDirection: "row",
-    justifyContent:'flex-end',
-    width: "100%",
+    width: "20%",
     position: "absolute",
-    bottom: 60,
-    alignSelf: "center",
+    bottom:65,
+    right:0
   },
   lastText: {
     fontWeight: "bold",
@@ -58,4 +56,13 @@ export default StyleSheet.create({
     width: 20,
     height: 20,
   },
+  errormessStyle:{
+    textAlign:'center',
+    color:COLORS.red,
+    fontSize:22
+  },
+  errorView:{
+    width:'100%',
+    alignContent:'center'
+  }
 });
