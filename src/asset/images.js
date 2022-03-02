@@ -14,6 +14,12 @@ const Images = {
     closeimage:require('./images/closeIcon.png'),
     addCricleIcon:require('./images/AddCircle.png'),
     headerLine : require('./images/headerLine.png'),
+    transactionlist: require('./images/TransactionList.png'),
+    createRequestSuccess: require('./images/createrequestsuccess.png'),
+    collectFurnitureScccess:require('./images/collectFurscuccess.png'),
+    repairReplanishSuccess : require('./images/repairsuccess.png'),
+    rightArrowSuccess : require('./images/rightarrow.png'),
+    dilveryIconInProgress : require('./images/dilveryinprogress.png'),
 
 }
 export default Images

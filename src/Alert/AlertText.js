@@ -15,7 +15,7 @@ const AlertText = {
     AddedSuccessFully: 'Added Successfully',
     SchoolAddedSub: 'School Added Successfully',
     districtAdded:'District is already added',
-    schoolAdded:'District is already added',
+    schoolAdded:'School is already added',
     editfailure:'Please try To edit again'
 }
 export default AlertText
