@@ -55,6 +55,11 @@ const constants = {
     startDate: 'Start Date',
     emisNumber: 'EMIS Number',
     endDate: "End Date",
-    status: "status"
+    status: "status",
+    functionalities: "Functionalities",
+    create: "Create",
+    read: "Read",
+    update: "Update",
+    delete: "Delete"
 }
 export default constants

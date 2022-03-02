@@ -19,7 +19,6 @@ import endUrl from "../../../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
-import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
 import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
 import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
@@ -34,6 +33,7 @@ export const SchoolList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
+  const [alert, setAlert] = useState(false);
 
   const tableKey = [
     "name",
@@ -96,7 +96,7 @@ export const SchoolList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "") obj[key] = value;
+      if (value != null && value != "" && key != "district_name") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;

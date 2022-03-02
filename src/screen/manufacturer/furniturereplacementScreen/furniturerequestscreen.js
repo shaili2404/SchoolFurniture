@@ -9,7 +9,6 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import DatePicker from 'react-native-date-picker'
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 import Dummydata from "../../../component/dummyData/dummyData";
@@ -18,12 +17,8 @@ import { ListHeader } from "../../../component/school/listHeader";
 import constants from "../../../locales/constants";
 import Styles from "./styles";
 
-export const FurnitureRequest = () => {
+export const FurnitureReplacmentManfacturer = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
-  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
-  const [startDate, setStartDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
-
   const rendercomponent = ({ item }) => {
     return (
       <FurnitureRequestList
@@ -42,20 +37,19 @@ export const FurnitureRequest = () => {
   //     setDummyData(Dummydata)
   //     console.log(dummyData.request)
   // },[])
-
   return (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View style={Styles.searchButtonView}>
-          <Text style={Styles.transactionText}>{constants.transactionSearch}</Text>
+          <Text style={Styles.transactionText}>Transaction Search</Text>
           <TouchableOpacity style={Styles.searchButton}>
-            <Text style={Styles.searchText}>{constants.search}</Text>
+            <Text style={Styles.searchText}>Search</Text>
           </TouchableOpacity>
         </View>
         <View style={Styles.refView}>
           <TextInput
             style={Styles.refrenceStyle}
-            placeholder={constants.refrenceNumber}
+            placeholder="Refrence Number"
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
           />
@@ -63,7 +57,7 @@ export const FurnitureRequest = () => {
         <View style={Styles.viewInputStyle}>
           <TextInput
             style={Styles.dropStyle}
-            placeholder={constants.status}
+            placeholder="Status"
             placeholderTextColor={COLORS.Black}
             opacity={1}
           />
@@ -72,38 +66,24 @@ export const FurnitureRequest = () => {
           </TouchableOpacity>
           <TextInput
             style={Styles.dropStyle}
-            placeholder={constants.emisNumber}
+            placeholder="Start Date"
             placeholderTextColor={COLORS.Black}
-            opacity={0.5}
+            opacity={1}
           />
+          <TouchableOpacity style={Styles.eyeStyle}>
+            <Image source={Images.Calender} style={Styles.imgStyle} />
+          </TouchableOpacity>
         </View>
         <View style={Styles.viewInputStyle}>
           <TextInput
             style={Styles.dropStyle}
-            // placeholder={constants.startDate}
+            placeholder="EMIS Number"
             placeholderTextColor={COLORS.Black}
-            opacity={1}
-            value={startDate}
+            opacity={0.5}
           />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => setOpen(true)}>
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-            <DatePicker
-              modal
-              open={open}
-              date={startDate}
-              mode="date"
-              onConfirm={(date) => {
-                setOpen(false)
-                setStartDate(date)
-              }}
-              onCancel={() => {
-                setOpen(false)
-              }}
-            />
-          </TouchableOpacity>
           <TextInput
             style={Styles.dropsStyle}
-            placeholder={constants.endDate}
+            placeholder="End Date"
             placeholderTextColor={COLORS.Black}
             opacity={1}
           />
