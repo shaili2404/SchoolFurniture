@@ -42,7 +42,6 @@ export const DataDisplayList = ({ item, tableKey, reloadList, onEdit,
   };
 
   const onPressYes = async () => {
-    console.log(`${Baseurl}${link}/${item.id}`)
     setAlert(false);
     const token = "${loginData?.user?.data?.access_token}";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
@@ -54,7 +53,6 @@ export const DataDisplayList = ({ item, tableKey, reloadList, onEdit,
         reloadList();
       }
     } catch (e) {
-      console.log(e)
     }
   };
 

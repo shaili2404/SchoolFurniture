@@ -20,6 +20,8 @@ import { Baseurl } from "../../../redux/configration/baseurl";
 import endUrl from "../../../redux/configration/endUrl";
 import { Token } from "../../dummyData/Token";
 
+
+
 export const AddSchool = (props) => {
   const {
     visible,
@@ -30,13 +32,12 @@ export const AddSchool = (props) => {
     updateItem,
     buttonVal,
   } = props;
-  console.log(data)
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
- 
+  
   const setValue = (key, value) => {
     setInputValues((prevState) => {
       return {
@@ -55,9 +56,9 @@ export const AddSchool = (props) => {
       })
       .catch((e) => console.log("apicall", e));
   };
-  useEffect(()=>{
-    getDistrictList()
-  },[])
+  useEffect(() => {
+    getDistrictList();
+  }, []);
 
   useEffect(() => {
     inputValues.name == "" && inputValues.emis == ""
@@ -68,21 +69,29 @@ export const AddSchool = (props) => {
   useEffect(() => {
     const obj = {};
     if (operation == "Edit") {
+      updateItem.street_code =
+        updateItem.street_code === null ? null : String(updateItem.street_code);
+      updateItem.emis = String(updateItem.emis);
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       });
     } else {
       data.forEach((val) => {
         obj[val.key] = "";
-        
       });
     }
     setInputValues(obj);
   }, []);
 
   const onNext = () => {
-    inputValues.district_id = selected.id;
+    if (selected == {}){
+      inputValues.district_id = selected.id
+    }
+    else{
+    inputValues.district_id = updateItem.district_id
+    }
     onSubmitDetails(inputValues, operation);
+    console.log(inputValues);
   };
 
   return (
@@ -111,7 +120,6 @@ export const AddSchool = (props) => {
                 keyboardVerticalOffset={0}
                 style={{ flex: 1 }}
               >
-                
                 <ScrollView showsVerticalScrollIndicator={false}>
                   {data.map((input, index) => (
                     <View key={index}>
@@ -121,16 +129,20 @@ export const AddSchool = (props) => {
                         </View>
                       ) : null}
                       {input.value == "School District" ? (
-                          <>
-                        <View style={style.container}>
-                          <Dropdown
-                            label={input.value}
-                            data={distList}
-                            onSelect={setSelected}
-                            task="district_office"
-                          />
-                        </View>
-                      </>
+                        <>
+                          <View style={style.container}>
+                            <Dropdown
+                              label={
+                                operation === "Edit"
+                                  ? inputValues[input.key]
+                                  : input.value
+                              }
+                              data={distList}
+                              onSelect={setSelected}
+                              task="district_office"
+                            />
+                          </View>
+                        </>
                       ) : (
                         <TextInput
                           style={style.emailInputStyle}
@@ -146,8 +158,6 @@ export const AddSchool = (props) => {
                     </View>
                   ))}
                 </ScrollView>
-
-
               </KeyboardAvoidingView>
             </View>
 
@@ -155,7 +165,7 @@ export const AddSchool = (props) => {
               <TouchableOpacity
                 style={style.buttonStyle}
                 onPress={onNext}
-                 disabled={disable}
+                disabled={disable}
               >
                 <Text style={style.buttonText}>{buttonVal}</Text>
               </TouchableOpacity>
@@ -166,4 +176,3 @@ export const AddSchool = (props) => {
     </>
   );
 };
-

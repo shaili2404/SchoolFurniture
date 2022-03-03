@@ -1,51 +1,43 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Image, ScrollView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Image,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import Styles from "./Styles";
 import constants from "../../../locales/constants";
 import axios from "axios";
 import { Baseurl } from "../../../redux/configration/baseurl";
 import endUrl from "../../../redux/configration/endUrl";
-import { useSelector } from "react-redux";
 import { Token } from "../../../component/dummyData/Token";
-import Loader from "../../../component/loader";
-import { Picker } from "@react-native-picker/picker";
-import { exportDefaultSpecifier } from "@babel/types";
 import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
 import { useRoute } from "@react-navigation/native";
 import Dropdown from "../../../component/DropDown/dropdown";
+import { useNavigation } from "@react-navigation/native";
 
-const AddNewUsers = (Item) => {
+const AddNewUsers = () => {
   const [organizationList, setOrganizationList] = useState([]);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [emis, setEmis] = useState("");
+  const [schoolName, setSchoolName] = useState("");
   const [dropdata, setDropdowndata] = useState("");
   const [schoolData, setSchoolData] = useState([]);
   const [status, setStatus] = useState(false);
   const [selected, setSelected] = useState({});
   const route = useRoute();
-  const tableKey = [
-    "name",
-    "emis",
-    // "surname",
-    // "username",
-    // "email",
-    // "organization",
-    // "tel",
-    // "emis",
-    // "district_name",
-    // "school_principal",
-  ];
-  const tableHeader = [
-    constants.school,
-    constants.emis,
-    // constants.username,
-    // constants.emailId,
-    // constants.organisation,
-    // constants.manage,
-  ];
+  const navigation = useNavigation();
+  const { btnStatus } = route.params;
+
+  const tableKey = ["name", "emis"];
+  const tableHeader = [constants.school, constants.emis];
 
   const imgSearch = require("../../../assets/Images/Common/ionic-ios-search.png");
 
@@ -54,18 +46,27 @@ const AddNewUsers = (Item) => {
     addSchool();
   }, []);
 
+  useEffect(() => {
+    const { btnStatus } = route.params;
+    if (btnStatus == 0) {
+    } else {
+      setName("");
+      setSurname("");
+      setEmail("");
+      setSchoolName('');
+      setEmis('')
+    }
+  }, [selected]);
+
   const apicall = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
       const response = await axios.get(`${Baseurl}${endUrl.organisation}`);
-      console.log("manageuser", response?.data?.data);
 
       var tempList = [];
       tempList = response?.data?.data;
-      console.log("Temp", tempList);
 
       setOrganizationList(tempList);
-      console.log("organizationdata", organizationList);
     } catch (e) {
       console.log(e);
     }
@@ -75,15 +76,7 @@ const AddNewUsers = (Item) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
       const response = await axios.get(`${Baseurl}${endUrl.schoolList}`);
-      console.log("schoolList",response?.data?.data)
       setSchoolData(response?.data?.data);
-      
-      // var tempList = [];
-      // tempList = response?.data?.data;
-      // console.log("Temp",tempList);
-
-      // setOrganizationList(tempList);
-      // console.log("organizationdata",organizationList);
     } catch (e) {
       console.log(e);
     }
@@ -91,59 +84,17 @@ const AddNewUsers = (Item) => {
 
   useLayoutEffect(() => {
     const { btnStatus } = route.params;
-    console.log("mmm", btnStatus);
     if (btnStatus == "0") {
       const { Item } = route.params;
-      console.log("checkitemdata", Item);
       setDropdowndata(Item.organization);
-      console.log("checkitemd", setDropdowndata);
       setEmail(Item.email);
       setName(Item.name);
       setSurname(Item.surname);
+      setEmis(Item.emis);
+      setSchoolName(Item.name);
     }
   }, []);
 
-  const onSubmitDetails = async (values, btnStatus) => {
-    // setAdduserModal(false);
-    // setLoader(true);
-    // let obj = {};
-
-    let obj = { email: email, name: name, surname: surname };
-    // Object.entries(values).forEach(([key, value]) => {
-    //   if (value != null && value != "") obj[key] = value;
-    // })
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    console.log("aaa", obj);
-    // const service = oper == "Add" ? axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj) : axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, obj);
-    const service =
-      btnStatus == "0"
-        ? axios.put(`${Baseurl}${endUrl.addUser}/${updateItem.id}`, obj)
-        : axios.post(`${Baseurl}${endUrl.addUser}`, obj);
-    service
-      .then((res) => {
-        // setLoader(false);
-        // setAlert(true);
-        // apicall()
-        console.log("response", res);
-      })
-      .catch((e) => {
-        // setLoader(false);
-        console.log("getError", e);
-        console.log(obj);
-      });
-  };
-
-  // const apicall = async () => {
-  //   axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-  //   axios
-  //     .get(`${Baseurl}${endUrl.schoolDistList}`)
-  //     .then((res) => {
-  //       initialPagination(res?.data?.data);
-  //       setListData(res?.data?.data)
-  //     })
-  //     .catch((e) => console.log("apicall", e));
-  // };
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
@@ -156,9 +107,16 @@ const AddNewUsers = (Item) => {
         reloadList={() => reloadList()}
         Url={endUrl.schoolList}
         data={"0"}
-        schoolDataList={(value)=> schoolDataList(value)}
+        schoolDataList={(value) => schoolDataList(value)}
+        onEdit={(item, task) => onEdit(item, task)}
       />
     );
+  };
+
+  const onEdit = (item, task) => {
+    // setOperation(task);
+    // setUpdateItem(item);
+    // setAdduserModal(true);
   };
 
   const reloadList = () => {
@@ -166,15 +124,27 @@ const AddNewUsers = (Item) => {
   };
 
   const showHide = () => {
-    setStatus(!status)
-}
+    setStatus(!status);
+  };
 
-const schoolDataList = (value) => {
-    console.log("dataabcccddd",value);
-    setName(value.name)
-    setEmis(value.emis)
-    setStatus(!status)
-}
+  const schoolDataList = (value) => {
+    setSchoolName(value.name);
+    setEmis(String(value.emis));
+    setStatus(!status);
+  };
+
+  const goToPermision = () => {
+    // let obj = {};
+    // organization.id == 2 ? obj.scoolName:
+    let obj = {
+      email: email,
+      name: name,
+      surname: surname,
+      organization: selected.id,
+    };
+    console.log("getValue", obj);
+    navigation.navigate("Functionalities", { reqData: obj });
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -185,40 +155,17 @@ const schoolDataList = (value) => {
       >
         <View style={Styles.container}>
           <Dropdown
-            label="Select Organisation"
+            label={btnStatus == 0 ? dropdata : constants.selectOrg}
             data={organizationList}
             onSelect={setSelected}
             task="name"
           />
         </View>
 
-        {/* <Picker
-        style={Styles.userPicker}
-        selectedValue={dropdata}
-        onValueChange={(itemValue, itemIndex) => setDropdowndata(itemValue)}
-        >
-        {organizationList != undefined ?
-        organizationList.map((item, index)=>(
-            <Picker.Item key={index} value={item.name} label={item.name} />)
-            ) : null } */}
-        {/* <Picker.Item label="Select Organisation" value="Select Organisation" />
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" /> */}
-
-        {/* <Picker       
-         mode={mode} onValueChange={onValueChange} selectedValue={selectedValue}>
-          <Item label={placeholderText} value="" />
-          {dropDownData.map((item, index) => (
-            <Item key={index} value={item.value} label={item.label} />
-          ))}
-        </Picker> */}
-
-        {/* </Picker> */}
-
-        {selected.name == "Dinnovation" ? (
+        {dropdata == "Dinnovation" || selected.name == "Dinnovation" ? (
           <View>
             <TextInput
-              placeholder="Enter Name"
+              placeholder={constants.enterName}
               style={Styles.inputTxtStyle}
               value={name}
               onChangeText={(txt) => setName(txt)}
@@ -226,7 +173,7 @@ const schoolDataList = (value) => {
             />
 
             <TextInput
-              placeholder="Enter Surname"
+              placeholder={constants.surname}
               style={Styles.inputTxtStyle}
               value={surname}
               onChangeText={(txt) => setSurname(txt)}
@@ -234,7 +181,7 @@ const schoolDataList = (value) => {
             />
 
             <TextInput
-              placeholder="Enter Email id"
+              placeholder={constants.emailId}
               style={Styles.inputTxtStyle}
               value={email}
               onChangeText={(txt) => setEmail(txt)}
@@ -243,7 +190,7 @@ const schoolDataList = (value) => {
           </View>
         ) : null}
 
-        {selected.name == "School" ? (
+        {dropdata == "School" || selected.name == "School" ? (
           <View>
             <View
               style={{
@@ -253,16 +200,13 @@ const schoolDataList = (value) => {
               }}
             >
               <TextInput
-                placeholder="School Name"
+                placeholder={constants.schoolName}
                 style={Styles.inputTextStyle}
-                value={name}
-                onChangeText={(txt) => setName(txt)}
+                value={schoolName}
+                onChangeText={(txt) => setSchoolName(txt)}
                 maxLength={50}
               />
-              <TouchableOpacity
-                //  style={Styles.buttonStyle}
-                onPress={() => showHide()}
-              >
+              <TouchableOpacity onPress={() => showHide()}>
                 <Image
                   source={imgSearch}
                   style={{
@@ -293,7 +237,7 @@ const schoolDataList = (value) => {
             ) : null}
 
             <TextInput
-              placeholder="Email id"
+              placeholder={constants.email}
               style={Styles.inputTxtStyle}
               value={email}
               onChangeText={(txt) => setEmail(txt)}
@@ -301,7 +245,7 @@ const schoolDataList = (value) => {
             />
 
             <TextInput
-              placeholder="Emis Number"
+              placeholder={constants.emisNumber}
               keyboardType="numeric"
               style={Styles.inputTxtStyle}
               value={emis}
@@ -311,10 +255,11 @@ const schoolDataList = (value) => {
           </View>
         ) : null}
 
-        {selected.name == "Department of Education" ? (
+        {dropdata == "Department of Education" ||
+        selected.name == "Department of Education" ? (
           <View>
             <TextInput
-              placeholder="Enter Name"
+              placeholder={constants.enterName}
               style={Styles.inputTxtStyle}
               value={name}
               onChangeText={(txt) => setName(txt)}
@@ -322,7 +267,7 @@ const schoolDataList = (value) => {
             />
 
             <TextInput
-              placeholder="Enter Surname"
+              placeholder={constants.surname}
               style={Styles.inputTxtStyle}
               value={surname}
               onChangeText={(txt) => setSurname(txt)}
@@ -330,7 +275,7 @@ const schoolDataList = (value) => {
             />
 
             <TextInput
-              placeholder="Enter Email id"
+              placeholder={constants.emailId}
               style={Styles.inputTxtStyle}
               value={email}
               onChangeText={(txt) => setEmail(txt)}
@@ -338,20 +283,32 @@ const schoolDataList = (value) => {
             />
           </View>
         ) : null}
-
-
-        
-
       </KeyboardAvoidingView>
-      <TouchableOpacity
-        style={Styles.buttonStyle}
-        onPress={() => onSubmitDetails()}
-      >
-        <Text style={Styles.buttonText}>Next</Text>
-      </TouchableOpacity>
+      {dropdata == "School" || selected.name == "School" ? (
+        <>
+          {schoolName && email && emis ? (
+            <TouchableOpacity
+              style={Styles.buttonStyle}
+              onPress={goToPermision}
+            >
+              <Text style={Styles.buttonText}>{constants.nextText}</Text>
+            </TouchableOpacity>
+          ) : null}
+        </>
+      ) : (
+        <>
+          {name && surname && email ? (
+            <TouchableOpacity
+              style={Styles.buttonStyle}
+              onPress={goToPermision}
+            >
+              <Text style={Styles.buttonText}>{constants.nextText}</Text>
+            </TouchableOpacity>
+          ) : null}
+        </>
+      )}
     </View>
   );
 };
 
 export default AddNewUsers;
-

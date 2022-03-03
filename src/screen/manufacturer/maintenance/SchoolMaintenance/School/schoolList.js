@@ -111,7 +111,7 @@ export const SchoolList = () => {
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-
+    console.log('114',obj)
     const service = oper == "Add" ? axios.post(`${Baseurl}${endUrl.schoolList}`, obj) : axios.put(`${Baseurl}${endUrl.schoolList}/${updateItem.id}`, obj);
     service.then((res) => {
       setLoader(false);
@@ -120,7 +120,7 @@ export const SchoolList = () => {
     }).catch((e) => {
       setLoader(false);
       seterrorAlert(true)
-      console.log(obj);
+      console.log(e);
     })
   };
 
@@ -282,7 +282,7 @@ export const SchoolList = () => {
           name={constants.School}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={constants.add}
+          buttonVal={ operation === 'Add'? constants.add : constants.update}
         />
       ) : null}
       {alert ? (
