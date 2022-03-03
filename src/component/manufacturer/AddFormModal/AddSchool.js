@@ -30,6 +30,7 @@ export const AddSchool = (props) => {
     updateItem,
     buttonVal,
   } = props;
+  console.log(data)
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
@@ -127,6 +128,7 @@ export const AddSchool = (props) => {
                               label={input.value}
                               data={distList}
                               onSelect={setSelected}
+                              task="district_office"
                             />
                           </View>
                         </>
@@ -165,3 +167,4 @@ export const AddSchool = (props) => {
     </>
   );
 };
+
