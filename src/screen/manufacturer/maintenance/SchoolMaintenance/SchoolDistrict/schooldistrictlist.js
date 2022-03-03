@@ -146,7 +146,7 @@ export const SchoolDistrictList = () => {
         setListData(res?.data?.data);
         setLoader(false)
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => setLoader(false));
   };
 
   const initialPagination = (list) => {

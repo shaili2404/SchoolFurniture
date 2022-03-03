@@ -26,21 +26,34 @@ import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComm
 import { AddUserModal } from "../../../component/manufacturer/AddFormModal/AddFormModal";
 import { Token } from "../../../component/dummyData/Token";
 import Loader from "../../../component/loader";
+import { useNavigation } from "@react-navigation/native";
+
+const PAGESIZE = 10;
 
 export const ManageUserScreen = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
   const [addUserModal, setAdduserModal] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [searchData, setSearchData] = useState([]);
   const [searchtask, setSearchTask] = useState("");
-  const [searchStatus, setSearchStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPage: 0,
+    startIndex: 0,
+    endIndex: 0,
+  });
+  const navigation = useNavigation();
   const tableKey = [
-    "tel",
-    "emis",
-    "district_name",
-    "school_principal",
     "name",
+    "surname",
+    "username",
+    "email",
+    "organization",
+    // "tel",
+    // "emis",
+    // "district_name",
+    // "school_principal",
   ];
   const tableHeader = [
     constants.name,
@@ -70,7 +83,7 @@ export const ManageUserScreen = () => {
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
-        Url={endUrl.schoolList}
+        Url={endUrl.userList}
       />
     );
   };
@@ -91,39 +104,99 @@ export const ManageUserScreen = () => {
         `${Baseurl}${endUrl.schoolList}`,
         value
       );
-    } catch (e) {
-    }
+    } catch (e) { }
   };
 
-  const apicall = async () => {
+  const apicall = () => {
+    setLoader(true);
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    try {
-      const response = await axios.get(`${Baseurl}${endUrl.organisation}`);
-      console.log(response?.data?.data)
-      setListData(response?.data?.data);
-    } catch (e) {
-    }
+    axios
+      .get(`${Baseurl}${endUrl.userList}`)
+      .then((res) => {
+        initialPagination(res?.data?.data);
+        setListData(res?.data?.data);
+        setLoader(false);
+      })
+      .catch((e) => {
+        setLoader(false)
+        console.log("apicall", e)
+      })
+      ;
   };
-  const onsearch = async () => {
+
+  const initialPagination = (list) => {
+    const len = list.length;
+    const totalPage = Math.ceil(len / PAGESIZE);
+    setPagination({
+      currentPage: 1,
+      totalPage: totalPage,
+      startIndex: 0,
+      endIndex: len > PAGESIZE ? PAGESIZE : len,
+    });
+  };
+
+  const onNext = () => {
+    let { currentPage, totalPage } = pagination;
+    if (currentPage === totalPage) {
+      return;
+    }
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage + 1,
+        startIndex: currentPage * PAGESIZE,
+        endIndex:
+          (currentPage + 1) * PAGESIZE > listData.length
+            ? listData.length
+            : (currentPage + 1) * PAGESIZE,
+      };
+    });
+  };
+  const onPrevious = () => {
+    let { currentPage } = pagination;
+    if (currentPage === 1) {
+      return;
+    }
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage - 1,
+        startIndex: (currentPage - 2) * PAGESIZE,
+        endIndex: (currentPage - 1) * PAGESIZE,
+      };
+    });
+  };
+  const onsearch = () => {
+    setLoader(true);
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    try {
-      const response = await axios.get(
-        `${Baseurl}${endUrl.searchSchool}${searchtask}`
-      );
-      setSearchData(response?.data?.data);
-      setSearchStatus(true);
-    } catch (e) {
-    }
-  };
-  const OnAddPress = () => {
-    setAdduserModal(true);
+    axios
+      .get(`${Baseurl}${endUrl.usersearch}${searchtask}`)
+      .then((res) => {
+        setListData(res?.data?.data);
+        setLoader(false);
+      })
+      .catch((e) => {
+        console.log("search error", e);
+        setLoader(false);
+        setErrorMessage(constants.userNotFound);
+      });
   };
 
   useEffect(() => {
     apicall();
+  }, []);
+
+  useEffect(() => {
     if (listData) setLoader(false);
-    if (searchtask === "") setSearchStatus(false);
-  }, [apicall]);
+  }, [listData]);
+
+  useEffect(() => {
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false);
+    }
+  }, [searchtask]);
 
   return loader ? (
     <Loader />
@@ -143,27 +216,49 @@ export const ManageUserScreen = () => {
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
-
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <FlatList
-            ListHeaderComponent={HeaderComponet}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            data={listData}
-            renderItem={rendercomponent}
-          />
-        </ScrollView>
+        {errorMessage ? (
+          <View style={Styles.errorView}>
+            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+          </View>
+        ) : (
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <FlatList
+              ListHeaderComponent={HeaderComponet}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              data={listData.sort((a, b) => a.name.localeCompare(b.name)).slice(pagination.startIndex, pagination.endIndex)}
+              renderItem={rendercomponent}
+            />
+          </ScrollView>
+        )}
       </View>
       <View style={Styles.lastView}>
-                <TouchableOpacity>
-                    <Image source={Images.leftarrow} />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image source={Images.rightarrow} />
-                </TouchableOpacity>
-            </View>
+        <TouchableOpacity onPress={onPrevious}>
+          {pagination.currentPage === 1 ? (
+            <Image source={Images.leftarrow} />
+          ) : (
+            <Image
+              source={Images.rightarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onNext}>
+          {pagination.currentPage === pagination.totalPage ? (
+            <Image
+              source={Images.leftarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          ) : (
+            <Image source={Images.rightarrow} />
+          )}
+        </TouchableOpacity>
+      </View>
       <View style={Styles.plusView}>
-        <TouchableOpacity onPress={OnAddPress}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("AddNewUsers", { btnStatus: "1" })}
+        >
           <Image source={Images.addCricleIcon} />
         </TouchableOpacity>
       </View>

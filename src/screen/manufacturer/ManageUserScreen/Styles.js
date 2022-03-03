@@ -26,18 +26,17 @@ export default StyleSheet.create({
   },
   lastView: {
     flexDirection: "row",
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     width: "30%",
     position: "absolute",
     bottom: 130,
     alignSelf: "center",
   },
   plusView: {
-    flexDirection: "row",
-    justifyContent:'flex-end',
-    width: "100%",
+    width: "20%",
     position: "absolute",
-    bottom:65,
+    bottom: 65,
+    right: 0
   },
   lastText: {
     fontWeight: "bold",
@@ -57,4 +56,13 @@ export default StyleSheet.create({
     width: 20,
     height: 20,
   },
+  errormessStyle: {
+    textAlign: 'center',
+    color: COLORS.red,
+    fontSize: 22
+  },
+  errorView: {
+    width: '100%',
+    alignContent: 'center'
+  }
 });

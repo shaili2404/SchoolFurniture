@@ -7,6 +7,9 @@ const endUrl = {
     searchSchool: 'user/search/school?query=',
     districtSearch: 'user/search/district?query=',
     organisation: 'user/organization',
+    userList: 'user/manage',
+    addUser: 'user/manage',
+    usersearch: 'user/search/query?query=',
     allPermission: 'all-permissions',
     organisationPermission: 'user/organization'
 

@@ -48,7 +48,7 @@ const constants = {
     organisation: 'organisation',
     update: 'Update',
     add: 'Add',
-    searchuser: 'search User',
+    searchuser: 'Search User',
     transactionSearch: 'Transaction Search',
     search: 'Search',
     refrenceNumber: 'Refrence Number',
@@ -72,6 +72,6 @@ const constants = {
     DilverFurItem: 'Dilver Furniture Item',
     Accept: 'Accept',
     Accepted: 'Accepted',
-
+    userNotFound: "User Not Found"
 }
 export default constants
