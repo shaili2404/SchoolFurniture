@@ -1,4 +1,5 @@
 import { StyleSheet,  } from 'react-native';
+import COLORS from '../../../asset/color';
 
 export default StyleSheet.create({
     mainView: {
@@ -16,6 +17,11 @@ export default StyleSheet.create({
         backgroundColor: "#F4F9F4",
         marginTop: 30,
         paddingLeft: 20,
+        height:70,
+        width: "90%",
+        alignItems: 'center',
+        alignSelf:'center',
+        justifyContent: 'center',
       },
       inputTextStyle: {
         borderRadius: 10,
@@ -25,7 +31,11 @@ export default StyleSheet.create({
         backgroundColor: "#F4F9F4",
         marginTop: 30,
         paddingLeft: 20,
-        flex: 1,
+        height:70,
+        width: "90%",
+        alignItems: 'center',
+        alignSelf:'center',
+        justifyContent: 'center',
       },
       buttonStyle: {
         backgroundColor: "#44A244",
@@ -41,5 +51,18 @@ export default StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
         fontSize: 22,
+      },
+      container: {
+        borderRadius: 5,
+        backgroundColor: COLORS.LightGreen,
+        width: "90%",
+        height: 70,
+        paddingLeft: 20,
+        marginBottom: 20,
+        alignItems: 'center',
+        alignSelf:'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        marginTop:20
       },
 });
