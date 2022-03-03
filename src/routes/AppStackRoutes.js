@@ -22,7 +22,10 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-      <Drawer.Screen component={First} name="First" />
+      <Drawer.Screen
+        component={First}
+        name={NavigationRouteNames.FIRST}
+      />
       {/* <Drawer.Screen component={LoginScreen} name="LoginScreen" options={{ headerShown: false }} />
       <Drawer.Screen component={PasswordReset} name="PasswordReset" options={{ headerShown: false }} /> */}
       {/* <Drawer.Screen component={First} name="First" /> */}
