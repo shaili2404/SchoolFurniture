@@ -48,7 +48,8 @@ const constants = {
     organisation:'organisation',
     update:'Update',
     add:'Add',
-
+    school: 'School',
+    emis: 'EMIS Number',
 
 
 }
