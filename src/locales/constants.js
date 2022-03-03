@@ -72,6 +72,8 @@ const constants = {
     DilverFurItem: 'Dilver Furniture Item',
     Accept: 'Accept',
     Accepted: 'Accepted',
-    userNotFound: "User Not Found"
+    userNotFound: "User Not Found",
+    school: 'School',
+    emis: 'EMIS Number',
 }
 export default constants

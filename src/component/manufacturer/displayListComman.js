@@ -18,15 +18,10 @@ import { Token } from "../dummyData/Token";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
 import { useNavigation } from '@react-navigation/native';
 
-export const DataDisplayList = ({
-  item,
-  tableKey,
-  reloadList,
-  onEdit,
+export const DataDisplayList = ({ item, tableKey, reloadList, onEdit,
   link,
   mainMessage,
-  submessage,
-}) => {
+  submessage, Url, data, schoolDataList}) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const[dataArray,setDataArray]=useState()
@@ -63,8 +58,19 @@ export const DataDisplayList = ({
     }
   };
 
+
   return (
     <SafeAreaView style={Styles.firstView}>
+      { data == "0" ? 
+     <View style={Styles.mainView}>
+     {tableKey.map((val,index) => (
+       <TouchableOpacity onPress={()=> schoolDataList(item)}>
+       <View key={val} style={Styles.viewStyle}>
+         <Text style={Styles.textStyle}>{item[val]}</Text>
+       </View>
+       </TouchableOpacity>
+     ))}
+      </View>: 
       <View style={Styles.mainView}>
         {tableKey.map((val) => (
           <View key={val} style={Styles.viewStyle}>
@@ -82,7 +88,7 @@ export const DataDisplayList = ({
             <Image source={Images.deleteIcon} />
           </TouchableOpacity>
         </View>
-      </View>
+      </View> }
 
       {userModal ? (
         <AddUserModal
@@ -123,7 +129,7 @@ const Styles = StyleSheet.create({
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
-    height: 46,
+    height: 56,
     borderBottomColor: COLORS.Black,
     borderBottomWidth: 1,
   },
