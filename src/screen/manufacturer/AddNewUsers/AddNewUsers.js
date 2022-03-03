@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Image, ScrollView, FlatList } from "react-native";
 import Styles from "./Styles";
 import constants from "../../../locales/constants";
 import axios from "axios";
@@ -11,6 +11,8 @@ import Loader from "../../../component/loader";
 import { Picker } from "@react-native-picker/picker";
 import { exportDefaultSpecifier } from "@babel/types";
 import { useRoute } from '@react-navigation/native';
+import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
+import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
 
 const AddNewUsers = (Item) => {
   const [organizationList, setOrganizationList] = useState([]);
@@ -19,12 +21,35 @@ const AddNewUsers = (Item) => {
   const [email, setEmail] = useState("");
   const [emis, setEmis] = useState("");
   const [dropdata, setDropdowndata] = useState("");
+  const [schoolData, setSchoolData] = useState([]);
+  const [status, setStatus] = useState(false);
   const route = useRoute();
+  const tableKey = [
+    "name",
+    "emis",
+    // "surname",
+    // "username",
+    // "email",
+    // "organization",
+    // "tel",
+    // "emis",
+    // "district_name",
+    // "school_principal",
+  ];
+  const tableHeader = [
+    constants.school,
+    constants.emis,
+    // constants.username,
+    // constants.emailId,
+    // constants.organisation,
+    // constants.manage,
+  ];
 
   const imgSearch = require('../../../assets/Images/Common/ionic-ios-search.png');
 
   useEffect(() => {
     apicall();
+    addSchool();
   }, []);
 
   const apicall = async () => {
@@ -44,20 +69,23 @@ const AddNewUsers = (Item) => {
     }
   };
 
-  // const onAddUser = async (value) => {
-  //   console.log("89", value);
-  //   const a = "${loginData?.user?.data?.access_token}";
-  //   axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+  const addSchool = async () => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+    try {
+      const response = await axios.get(`${Baseurl}${endUrl.schoolList}`);
+      console.log("schoolList",response?.data?.data)
+      setSchoolData(response?.data?.data);
+      
+      // var tempList = [];
+      // tempList = response?.data?.data;
+      // console.log("Temp",tempList);
 
-  //   try {
-  //     const response = await axios.post(
-  //       `${Baseurl}${endUrl.addUser}`,
-  //       value
-  //     );
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+      // setOrganizationList(tempList);
+      // console.log("organizationdata",organizationList);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useLayoutEffect(() => {
     const { btnStatus } = route.params;
@@ -112,6 +140,37 @@ const AddNewUsers = (Item) => {
   //     })
   //     .catch((e) => console.log("apicall", e));
   // };
+  const HeaderComponet = () => {
+    return <ListHeaderComman tableHeader={tableHeader} />;
+  };
+
+  const rendercomponent = ({ item }) => {
+    return (
+      <DataDisplayList
+        item={item}
+        tableKey={tableKey}
+        reloadList={() => reloadList()}
+        Url={endUrl.schoolList}
+        data={"0"}
+        schoolDataList={(value)=> schoolDataList(value)}
+      />
+    );
+  };
+
+  const reloadList = () => {
+    addSchool();
+  };
+
+  const showHide = () => {
+    setStatus(!status)
+}
+
+const schoolDataList = (value) => {
+    console.log("dataabcccddd",value);
+    setName(value.name)
+    setEmis(value.emis)
+    setStatus(!status)
+}
 
 
   return (
@@ -179,22 +238,39 @@ const AddNewUsers = (Item) => {
         onChangeText={(txt) => setName(txt)}
         maxLength={50}
       />
-        <Image source={imgSearch} style={{position: "absolute", alignItems: "center", right: 50, bottom: 15, justifyContent: "center",}}/>
+        <TouchableOpacity
+          //  style={Styles.buttonStyle}
+           onPress={()=> showHide()}>
+        <Image source={imgSearch} style={{position: "absolute", alignItems: "center", right: 50, justifyContent: "center", top: 5}}/>
+        </TouchableOpacity>
       </View>
+      
+      { status ? 
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginHorizontal: 30}}>
+          <FlatList
+            ListHeaderComponent={HeaderComponet}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            data={schoolData}
+            renderItem={rendercomponent}
+          />
+        </ScrollView>
+        : null}
 
       <TextInput
         placeholder="Email id"
         style={Styles.inputTxtStyle}
         value={email}
-        onChangeText={(txt) => setSurname(txt)}
+        onChangeText={(txt) => setEmail(txt)}
         maxLength={50}
       />
 
       <TextInput
         placeholder="Emis Number"
+        keyboardType = 'numeric'
         style={Styles.inputTxtStyle}
         value={emis}
-        onChangeText={(txt) => setEmail(txt)}
+        onChangeText={(txt) => setEmis(txt)}
         maxLength={50}
       />
     </View> : null }
@@ -225,6 +301,9 @@ const AddNewUsers = (Item) => {
         maxLength={50}
       />
     </View> : null }
+
+
+   
 
       
 

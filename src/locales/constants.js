@@ -24,6 +24,7 @@ const constants = {
     No: 'No',
     Yes: 'Yes',
     Done: 'Done',
+<<<<<<< HEAD
     DistrictOffice: 'District Office',
     Director: 'Director',
     TelphoneNo: 'Telephone No.',
@@ -69,5 +70,35 @@ const constants = {
     Accepted:'Accepted',
     userNotFound:"User Not Found"
     
+=======
+    DistrictOffice :'District Office',
+    Director:'Director',
+    TelphoneNo:'Telephone No.',
+    Address1:'Street Address Line 1',
+    Address2:'Street Address Line 2',
+    Address3:'Street Address Line 3',
+    Address4:'Street Address Line 4',
+    streetCode:'Street Code',
+    manage:'Manage',
+    editDistrict:'Edit District',
+    District:'District',
+    School:'School',
+    schoolEmisNumber:'School Emis Number',
+    SchoolDistrict:'School District',
+    SchoolPrinciple:'School Principle',
+    SchoolTelno:'School Tel.no',
+    StreetAddress:'Street Address',
+    name:'Name',
+    surname:'Surname',
+    username:'Username',
+    emailId:'Email Id',
+    organisation:'organisation',
+    update:'Update',
+    add:'Add',
+    school: 'School',
+    emis: 'EMIS Number',
+
+
+>>>>>>> dev_Arvindk
 }
 export default constants
