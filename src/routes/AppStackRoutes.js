@@ -27,7 +27,7 @@ const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       <Drawer.Screen 
-        component={First} 
+        component={First}  
         name={NavigationRouteNames.FIRST} 
       />
       {/* <Drawer.Screen component={LoginScreen} name="LoginScreen" options={{ headerShown: false }} />
