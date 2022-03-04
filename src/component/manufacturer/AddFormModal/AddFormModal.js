@@ -14,14 +14,16 @@ import {
 import style from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
+import { numberonly } from "../../../locales/regexp";
 
 export const AddUserModal = (props) => {
   const { visible, setmodalVisible, onSubmitDetails, data, operation, updateItem, buttonVal } = props;
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
-
+  const [errorMessage,setErrorMessage] = useState('')
   const setValue = (key, value) => {
+    {!numberonly.test(inputValues.district_office)? setErrorMessage('hey'):setErrorMessage('')}
     setInputValues(prevState => {
       return {
         ...prevState,
@@ -37,6 +39,7 @@ export const AddUserModal = (props) => {
   useEffect(() => {
     const obj = {};
     if (operation == "Edit") {
+      updateItem.street_code = String(updateItem.street_code)
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       })

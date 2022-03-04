@@ -41,7 +41,6 @@ export const FurnitureRequest = () => {
   };
   // useEffect(()=>{
   //     setDummyData(Dummydata)
-  //     console.log(dummyData.request)
   // },[])
 
   return (

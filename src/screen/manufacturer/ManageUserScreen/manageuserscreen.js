@@ -84,9 +84,18 @@ export const ManageUserScreen = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         Url={endUrl.userList}
+        onEdit={(item, task) => onEdit(item, task)}
       />
     );
   };
+
+  const onEdit = (item, task) => {
+    let btnStatus;
+    if (task == "Edit") {
+      btnStatus = '0'
+    }
+    navigation.navigate('AddNewUsers', { Item: item, btnStatus: btnStatus });
+  }
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;

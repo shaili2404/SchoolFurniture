@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     height: 10,
   },
   flatStyle: {
-    height: 200,
+    height: 220,
     paddingVertical: 15,
   },
   flatStyles: {

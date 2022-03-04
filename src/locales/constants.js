@@ -75,5 +75,15 @@ const constants = {
     userNotFound: "User Not Found",
     school: 'School',
     emis: 'EMIS Number',
+    emailId: 'Enter Email id',
+    surname: 'Enter Surname',
+    enterName: 'Enter Name',
+    email: 'Email id',
+    schoolName: 'School Name',
+    selectOrg: 'Select Organisation',
+    cancel: 'Cancel',
+    submit: 'submit',
+    userAdded: ' User Added SuccessFully '
+
 }
 export default constants

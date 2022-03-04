@@ -12,7 +12,6 @@ const endUrl = {
     usersearch: 'user/search/query?query=',
     allPermission: 'all-permissions',
     organisationPermission: 'user/organization'
-
 }
 
 export default endUrl;

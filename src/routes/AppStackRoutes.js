@@ -11,10 +11,13 @@ import { USER_ROLE } from "./Constants";
 import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
 import { useSelector } from "react-redux";
-import { Schoolmaintenancescreen } from "../screen/Manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen";
-import { ManageUserScreen } from "../screen/Manufacturer/ManageUserScreen/manageuserscreen";
-import { SchoolDistrictList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
-import { SchoolList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/School/schoolList";
+import { Schoolmaintenancescreen } from "../screen/manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen";
+import { ManageUserScreen } from "../screen/manufacturer/ManageUserScreen/manageuserscreen";
+import { SchoolDistrictList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
+import { SchoolList } from "../screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList";
+import AddNewUsers from "../screen/manufacturer/AddNewUsers/AddNewUsers";
+import { FurnitureReplacmentManfacturer } from "../screen/manufacturer/furniturereplacementScreen/furniturerequestscreen";
+import { Functionalities } from "../component/manufacturer/Functionalitiesuser";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -114,6 +117,19 @@ const AppStack = (props) => {
             <Stack.Screen
               name="School"
               component={SchoolList}
+            />
+            <Stack.Screen
+              name="Furniture Replacment"
+              component={FurnitureReplacmentManfacturer}
+            />
+            {/* dummy Screen  */}
+            <Stack.Screen
+              name={NavigationRouteNames.ADDNEWUSERS}
+              component={AddNewUsers}
+            />
+            <Stack.Screen
+              name="Functionalities"
+              component={Functionalities}
             />
           </>
         );
