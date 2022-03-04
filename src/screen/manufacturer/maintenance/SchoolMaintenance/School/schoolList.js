@@ -62,7 +62,7 @@ export const SchoolList = () => {
     { key: "name", value: constants.School },
     { key: "emis", value: constants.schoolEmisNumber },
     { key: "district_name", value: constants.SchoolDistrict },
-    { key: "School Principle", value: constants.SchoolPrinciple },
+    { key: "school_principal", value: constants.SchoolPrinciple },
     { key: "tel", value: constants.SchoolTelno },
     { key: "address1", value: constants.Address1 },
     { key: "address2", value: constants.Address2 },

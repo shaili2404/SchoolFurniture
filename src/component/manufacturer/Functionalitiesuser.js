@@ -18,6 +18,7 @@ import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../../component/dummyData/Token";
 import { useRoute } from "@react-navigation/native";
 import { AlertMessage } from "../../Alert/alert";
+import LinearGradient from "react-native-linear-gradient";
 import AlertText from "../../Alert/AlertText";
 import { useNavigation } from "@react-navigation/native";
 import Loader from "../../component/loader";
@@ -244,16 +245,23 @@ export const Functionalities = () => {
 export const Header = ({ tableHeader }) => {
     return (
         <SafeAreaView style={styles.firstView}>
-            <View style={styles.mainView}>
-                {tableHeader.map((header) => (
-                    <View
-                        key={header}
-                        style={header === "Functionalities" ? styles.funcStyle : styles.viewStyle}
-                    >
-                        <Text style={styles.textStyle}>{header}</Text>
-                    </View>
-                ))}
-            </View>
+            <LinearGradient
+                colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 0, y: 0 }}
+                style={styles.firstView}
+            >
+                <View style={styles.mainView}>
+                    {tableHeader.map((header) => (
+                        <View
+                            key={header}
+                            style={header === "Functionalities" ? styles.funcStyle : styles.viewStyle}
+                        >
+                            <Text style={styles.textStyle}>{header}</Text>
+                        </View>
+                    ))}
+                </View>
+            </LinearGradient>
         </SafeAreaView>
     );
 };

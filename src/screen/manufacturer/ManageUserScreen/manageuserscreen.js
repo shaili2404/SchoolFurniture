@@ -28,7 +28,7 @@ import { Token } from "../../../component/dummyData/Token";
 import Loader from "../../../component/loader";
 import { useNavigation } from "@react-navigation/native";
 
-const PAGESIZE = 10;
+const PAGESIZE = 7;
 
 export const ManageUserScreen = () => {
   const [listData, setListData] = useState([]);
