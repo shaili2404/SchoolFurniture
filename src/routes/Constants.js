@@ -18,37 +18,37 @@ const USER_ROLE = {
         name: 'Dashboard',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.SECOND
       },
       {
         name: 'Search',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/search_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.SECOND
       },
       {
         name: 'Furniture Replacement',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/published_with_changes_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.Furniturereplacment
       },
       {
         name: 'Manage Request',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/circle_notifications_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.SECOND
       },
       {
         name: 'Maintenance',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/engineering_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.SECOND
       },
       {
         name: 'Reports',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.SECOND
       },
       {
         name: 'Manage Users',
