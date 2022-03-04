@@ -10,7 +10,7 @@ import Styles from "./Styles";
 import constants from "../locales/constants";
 
 export const AlertMessage = (props) => {
-  const { visible, setmodalVisible, onConfirm } = props;
+  const { visible, setmodalVisible, onConfirm, onPressDone, innerRoute } = props;
 
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
@@ -34,12 +34,20 @@ export const AlertMessage = (props) => {
                 </View>
               ) : (
                 <View style={Styles.subButtonView}>
-                  <TouchableOpacity
-                    style={Styles.doneView}
-                    onPress={() => setmodalVisible(false)}
-                  >
-                    <Text style={Styles.DoneText}>{constants.Done}</Text>
-                  </TouchableOpacity>
+                  {!innerRoute ? (
+                    <TouchableOpacity
+                      style={Styles.doneView}
+                      onPress={() => setmodalVisible(false)}
+                    >
+                      <Text style={Styles.DoneText}>{constants.Done}</Text>
+                    </TouchableOpacity>
+                  ) :
+                    <TouchableOpacity
+                      style={Styles.doneView}
+                      onPress={() => onPressDone()}
+                    >
+                      <Text style={Styles.DoneText}>{constants.Done}</Text>
+                    </TouchableOpacity>}
                 </View>
               )}
             </View>

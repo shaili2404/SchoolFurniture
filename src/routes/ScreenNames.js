@@ -1,12 +1,13 @@
 const NavigationRouteNames = {
-    HOME_SCREEN: "HomeScreen",
-    LOGIN: "login",
-    FORGOT_PASSWORD: "forgot_password",
-    First: "First",
-    Second: "Second",
-    LoginScreen: "LoginScreen",
-    schoolMaintenace:'School Maintenance',
-    manageuserscreen:'Manage User',
+    FIRST: "First",
+    SECOND: "Second",
+    LOGINSCREEN: "LoginScreen",
+    PASSWORDRESET: "PasswordReset",
+    EMAILSENT: "EmailSent",
+    schoolMaintenace: 'School Maintenance',
+    manageuserscreen: 'Manage User',
+    ADDNEWUSERS: "AddNewUsers",
+    Furniturereplacment: 'Furniture Replacment',
 
 };
 

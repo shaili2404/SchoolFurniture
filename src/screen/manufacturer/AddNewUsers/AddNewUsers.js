@@ -34,7 +34,7 @@ const AddNewUsers = () => {
   const [selected, setSelected] = useState({});
   const route = useRoute();
   const navigation = useNavigation();
-  const { btnStatus } = route.params;
+  const { btnStatus, Item } = route.params;
 
   const tableKey = ["name", "emis"];
   const tableHeader = [constants.school, constants.emis];
@@ -47,7 +47,6 @@ const AddNewUsers = () => {
   }, []);
 
   useEffect(() => {
-    const { btnStatus } = route.params;
     if (btnStatus == 0) {
     } else {
       setName("");
@@ -83,9 +82,7 @@ const AddNewUsers = () => {
   };
 
   useLayoutEffect(() => {
-    const { btnStatus } = route.params;
     if (btnStatus == "0") {
-      const { Item } = route.params;
       setDropdowndata(Item.organization);
       setEmail(Item.email);
       setName(Item.name);
@@ -108,15 +105,8 @@ const AddNewUsers = () => {
         Url={endUrl.schoolList}
         data={"0"}
         schoolDataList={(value) => schoolDataList(value)}
-        onEdit={(item, task) => onEdit(item, task)}
       />
     );
-  };
-
-  const onEdit = (item, task) => {
-    // setOperation(task);
-    // setUpdateItem(item);
-    // setAdduserModal(true);
   };
 
   const reloadList = () => {
@@ -134,16 +124,26 @@ const AddNewUsers = () => {
   };
 
   const goToPermision = () => {
-    // let obj = {};
-    // organization.id == 2 ? obj.scoolName:
     let obj = {
       email: email,
-      name: name,
-      surname: surname,
-      organization: selected.id,
     };
-    console.log("getValue", obj);
-    navigation.navigate("Functionalities", { reqData: obj });
+    if (selected.id == 2) {
+      obj.emis = emis;
+      obj.name = schoolName;
+    } else {
+      obj.surname = surname;
+      obj.name = name
+    };
+
+    let item;
+    if (btnStatus == '0') {
+      item = Item
+      obj.organization = Item.organization_id
+    } else {
+      item = null
+      obj.organization = selected.id
+    }
+    navigation.navigate("Functionalities", { reqData: obj, itemObj: item, btnStatus: btnStatus });
   };
 
   return (
@@ -256,7 +256,7 @@ const AddNewUsers = () => {
         ) : null}
 
         {dropdata == "Department of Education" ||
-        selected.name == "Department of Education" ? (
+          selected.name == "Department of Education" ? (
           <View>
             <TextInput
               placeholder={constants.enterName}

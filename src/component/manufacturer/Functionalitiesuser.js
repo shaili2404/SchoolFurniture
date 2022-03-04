@@ -18,6 +18,9 @@ import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../../component/dummyData/Token";
 import { useRoute } from "@react-navigation/native";
 import { AlertMessage } from "../../Alert/alert";
+import AlertText from "../../Alert/AlertText";
+import { useNavigation } from "@react-navigation/native";
+import Loader from "../../component/loader";
 
 const SECTIONNAME = {
     district: "Maintenance - School District",
@@ -35,15 +38,17 @@ const tableHeader = [
 
 export const Functionalities = () => {
     const [section, setSection] = useState({});
-    const [permissionData, setPermissionData] = useState([]);
-    const [listData, setListData] = useState([]);
     const route = useRoute();
-    const { reqData, btnStatus } = route.params;
+    const navigation = useNavigation();
+    const { reqData, btnStatus, itemObj } = route.params;
     const [alert, setAlert] = useState(false);
+    const [permissions, setPermissions] = useState(new Map());
+    const [permissionIds, setPermissionId] = useState([]);
+    const [loader, setLoader] = useState(true);
+    const [innerRoute, setInnerRoute] = useState(true)
 
     useEffect(() => {
         getId();
-        getOrgPermission();
     }, []);
 
     // const data = [
@@ -66,32 +71,67 @@ export const Functionalities = () => {
         axios
             .get(Baseurl + endUrl.allPermission)
             .then((res) => {
-                setListData(res?.data?.data);
+                setLoader(false);
                 generateSection(res?.data?.data);
+                getOrgPermission(res?.data?.data);
             })
-            .catch((e) => console.log("apicall", e));
+            .catch((e) => {
+                console.log("apicall", e)
+                setLoader(false);
+            });
     };
 
-    const getOrgPermission = () => {
+    const getOrgPermission = (list) => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
         axios
             .get(Baseurl + endUrl.organisationPermission)
             .then((res) => {
-                setPermissionData(res?.data?.data[2].permissons || []);
+                const permission = itemObj?.permissions;
+                let permissionMap = new Map();
+                if (btnStatus == '0') {
+                    permission.forEach((input) => {
+                        permissionMap.set(input.id, input)
+                    })
+                } else {
+                    const permissionIds = res?.data?.data[(reqData.organization) - 1].permissons || [];
+                    setPermissionId(permissionIds);
+                    list.forEach((input) => {
+                        if (permissionIds.includes(input.id)) {
+                            permissionMap.set(input.id, input);
+                        }
+                    })
+                }
+                setPermissions(permissionMap);
             })
             .catch((e) => console.log("apicall", e));
     };
 
     const checkPermission = (id) => {
-        return permissionData.includes(id);
+        return permissions.has(id)
     };
 
-    const onChangePermission = (id) => {
-        const array = [...permissionData];
-        setPermissionData(
-            array.includes(id) ? array.filter((d) => d !== id) : [...array, id]
-        );
+    const onChangePermission = (section) => {
+        const updatedPermission = new Map(permissions);
+        if (updatedPermission.has(section.id)) {
+            updatedPermission.delete(section.id);
+        } else {
+            updatedPermission.set(section.id, section);
+        }
+        setPermissions(updatedPermission);
     };
+
+    const checkDisable = (id) => {
+        return !permissionIds.includes(id);
+    }
+
+    const onPressDone = () => {
+        setAlert(false);
+        navigation.navigate("Manage User");
+    }
+
+    const onPressCancel = () => {
+        navigation.navigate("Manage User");
+    }
 
     const generateSection = (IDS) => {
         const results = {};
@@ -101,8 +141,7 @@ export const Functionalities = () => {
             let sectionTitle = SECTIONNAME[key];
 
             let op = {
-                ...eachId,
-                permission: false,
+                ...eachId
             };
 
             if (results[sectionTitle]) {
@@ -116,32 +155,24 @@ export const Functionalities = () => {
     };
 
     const onSubmitDetails = async () => {
-        let arr = [];
-        for (let i = 0; i < listData.length; i++) {
-            for (let j = 0; j < permissionData.length; j++) {
-                if (permissionData[j] == listData[i].id) {
-                    arr.push(listData[i]);
-                }
-            }
-        }
+        setLoader(true);
+        let arr = Array.from(permissions.values());
         reqData.permission = arr;
 
-        console.log("request", reqData, `${Baseurl}${endUrl.updateUser}`);
         axios.defaults.headers.common["Content-Type"] = "application/json";
         axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
         const service =
             btnStatus == "0"
-                ? axios.put(
-                    `${Baseurl}${endUrl.addManageUser}/${updateItem.id}`,
-                    reqData
-                )
-                : axios.post(`${Baseurl}${endUrl.updateUser}`, reqData);
+                ? axios.put(`${Baseurl}${endUrl.addUser}/${itemObj.id}`, reqData)
+                : axios.post(`${Baseurl}${endUrl.addUser}`, reqData);
+        console.log(`${Baseurl}${endUrl.addUser}`, reqData, "Request")
         service
             .then((res) => {
+                setLoader(false);
                 setAlert(true);
-                console.log("response", res);
             })
             .catch((e) => {
+                setLoader(false);
                 console.log("getError", e);
             });
     };
@@ -159,8 +190,9 @@ export const Functionalities = () => {
                             style={styles.clickView}
                             key={subSection.id}
                             onPress={() => {
-                                onChangePermission(subSection.id);
+                                onChangePermission(subSection);
                             }}
+                            disabled={checkDisable(subSection.id)}
                         >
                             {checkPermission(subSection.id) && (
                                 <Image
@@ -180,12 +212,14 @@ export const Functionalities = () => {
         ));
     };
 
-    return (
+    return loader ? (
+        <Loader />
+    ) : (
         <SafeAreaView style={styles.containerView}>
             <Header tableHeader={tableHeader} />
             <ScrollView>{rendercomponent()}</ScrollView>
-            <View style={{ flexDirection: "row", marginTop: 20 }}>
-                <Text>{constants.cancel}</Text>
+            <View style={styles.lastView}>
+                <Text style={styles.cancelText} onPress={onPressCancel}>{constants.cancel}</Text>
                 <TouchableOpacity style={styles.buttonStyle} onPress={onSubmitDetails}>
                     <Text style={styles.buttonText}>{constants.submit}</Text>
                 </TouchableOpacity>
@@ -194,8 +228,13 @@ export const Functionalities = () => {
                 <AlertMessage
                     visible={alert}
                     setmodalVisible={(val) => setAlert(val)}
-                    mainMessage={constants.userAdded}
-                    onConfirm={() => onPressokay()}
+                    mainMessage={
+                        btnStatus == "1"
+                            ? AlertText.createSuccess
+                            : AlertText.updateSuccess
+                    }
+                    onPressDone={() => onPressDone()}
+                    innerRoute={innerRoute}
                 />
             ) : null}
         </SafeAreaView>
@@ -209,9 +248,7 @@ export const Header = ({ tableHeader }) => {
                 {tableHeader.map((header) => (
                     <View
                         key={header}
-                        style={
-                            header === "Functionalities" ? styles.funcStyle : styles.viewStyle
-                        }
+                        style={header === "Functionalities" ? styles.funcStyle : styles.viewStyle}
                     >
                         <Text style={styles.textStyle}>{header}</Text>
                     </View>
@@ -221,10 +258,13 @@ export const Header = ({ tableHeader }) => {
     );
 };
 
+const height = Dimensions.get('window').height
 const styles = StyleSheet.create({
     containerView: {
         backgroundColor: COLORS.LightGreen,
         paddingTop: 10,
+        position: 'relative',
+        height: height
     },
     subView: {
         paddingHorizontal: 10,
@@ -274,11 +314,36 @@ const styles = StyleSheet.create({
     },
     buttonStyle: {
         backgroundColor: COLORS.GreenBox,
-        borderRadius: 5,
-        width: "40%",
-        height: 50,
+        width: "50%",
+        height: 70,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 30,
+        borderRadius: 39,
     },
+    lastView: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        width: "100%",
+        position: "absolute",
+        bottom: 90,
+        alignSelf: "center",
+        alignContent: 'center',
+        paddingHorizontal: '15%',
+        paddingVertical: '4%',
+        backgroundColor: COLORS.White,
+        height: 110
+    },
+    buttonText: {
+
+        color: COLORS.White,
+        fontSize: 22,
+        fontWeight: "bold"
+    },
+    cancelText: {
+
+        color: COLORS.blue,
+        textDecorationLine: 'underline',
+        fontSize: 16,
+        marginTop: 25
+    }
 });
