@@ -13,7 +13,6 @@ import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 
 const Dropdown = ({ label, data, onSelect, task }) => {
-  console.log("17", data, task);
   const DropdownButton = useRef();
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(undefined);
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
     height: 10,
   },
   flatStyle:{
-    height:200,
+    height:220,
     paddingVertical :15 ,
   },
   flatStyles:{

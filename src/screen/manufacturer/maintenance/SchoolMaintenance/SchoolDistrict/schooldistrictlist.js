@@ -117,7 +117,7 @@ export const SchoolDistrictList = () => {
     });
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-
+    console.log(obj)
     const service =
       oper == "Add"
         ? axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj)
@@ -130,9 +130,8 @@ export const SchoolDistrictList = () => {
       })
       .catch((e) => {
         setLoader(false);
-        console.log("getError", e);
         seterrorAlert(true)
-        console.log(obj);
+        console.log(JSON.stringify(e))
       });
   };
 
@@ -307,7 +306,7 @@ export const SchoolDistrictList = () => {
           name={constants.District}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={constants.add}
+          buttonVal={ operation === 'Add'? constants.add : constants.update}
         />
       ) : null}
       {alert ? (

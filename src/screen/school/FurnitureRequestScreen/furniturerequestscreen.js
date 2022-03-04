@@ -41,10 +41,8 @@ export const FurnitureRequest = () => {
   };
   // useEffect(()=>{
   //     setDummyData(Dummydata)
-  //     console.log(dummyData.request)
   // },[])
 
-  // console.log("startDate", startDate.substring(1, 10))
   return (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>

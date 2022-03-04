@@ -19,6 +19,7 @@ import { SchoolDistrictList } from "../screen/manufacturer/maintenance/SchoolMai
 import { SchoolList } from "../screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList";
 import AddNewUsers from "../screen/manufacturer/AddNewUsers/AddNewUsers";
 import { FurnitureReplacmentManfacturer } from "../screen/manufacturer/furniturereplacementScreen/furniturerequestscreen";
+import { Functionalities } from "../component/manufacturer/Functionalitiesuser";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -125,6 +126,10 @@ const AppStack = (props) => {
           <Stack.Screen 
             name={NavigationRouteNames.ADDNEWUSERS}
             component={AddNewUsers} 
+          />
+          <Stack.Screen 
+          name="Functionalities"
+          component={Functionalities}
           />
           </>
         );
