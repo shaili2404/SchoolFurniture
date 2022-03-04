@@ -64,18 +64,18 @@ export const ManageUserScreen = () => {
     constants.manage,
   ];
 
-  const addArray = [
-    { key: "name", value: constants.School },
-    { key: "emis", value: constants.schoolEmisNumber },
-    { key: "district_name", value: constants.SchoolDistrict },
-    { key: "School Principle", value: constants.SchoolPrinciple },
-    { key: "tel", value: constants.SchoolTelno },
-    { key: "address1", value: constants.Address1 },
-    { key: "address2", value: constants.Address2 },
-    { key: "address3", value: constants.Address3 },
-    { key: "address4", value: constants.Address4 },
-    { key: "street_code", value: constants.streetCode },
-  ];
+  // const addArray = [
+  //   { key: "name", value: constants.School },
+  //   { key: "emis", value: constants.schoolEmisNumber },
+  //   { key: "district_name", value: constants.SchoolDistrict },
+  //   { key: "School Principle", value: constants.SchoolPrinciple },
+  //   { key: "tel", value: constants.SchoolTelno },
+  //   { key: "address1", value: constants.Address1 },
+  //   { key: "address2", value: constants.Address2 },
+  //   { key: "address3", value: constants.Address3 },
+  //   { key: "address4", value: constants.Address4 },
+  //   { key: "street_code", value: constants.streetCode },
+  // ];
 
   const rendercomponent = ({ item }) => {
     return (
@@ -113,7 +113,7 @@ export const ManageUserScreen = () => {
         `${Baseurl}${endUrl.schoolList}`,
         value
       );
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const apicall = () => {
@@ -126,9 +126,9 @@ export const ManageUserScreen = () => {
         setListData(res?.data?.data);
         setLoader(false);
       })
-      .catch((e) =>{ 
+      .catch((e) => {
         setLoader(false)
-         console.log("apicall", e)
+        console.log("apicall", e)
       })
       ;
   };

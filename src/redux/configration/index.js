@@ -15,3 +15,11 @@ export const postRequest = (url, data) => {
 export const putRequest = (url, data) => {
     return axios.put(url, data)
 }
+
+export const setBasseUrl = () => {
+    axios.defaults.baseURL = Baseurl
+}
+
+export const setAuthentication = (Token) => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
+}

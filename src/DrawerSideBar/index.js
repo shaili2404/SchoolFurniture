@@ -9,6 +9,8 @@ import {
     ScrollView,
     SafeAreaView
 } from "react-native";
+// import { removeData, getSaveData } from '../../utils/helpers';
+// import { LOCAL_STORAGE_DATA_KEY } from '../../utils/constants';
 
 import { DRAWER_MENU } from "../routes/Constants";
 import Styles from "./styles";
@@ -21,7 +23,6 @@ import AlertText from "../Alert/AlertText";
 import axios from "axios";
 import endUrl from "../redux/configration/endUrl";
 import { Baseurl } from "../redux/configration/baseurl";
-import { storeData, getSaveData, removeData, clearAll } from "../utils/helpers";
 
 const DrawerSideBar = (props) => {
     const [name, setName] = useState("");
@@ -39,8 +40,7 @@ const DrawerSideBar = (props) => {
     // }, [userRole]);
 
     const handleUserLogout = async () => {
-        const tokenRemove =  await removeData("token");
-        console.log("tokenRemove",tokenRemove);
+        // await removeData(LOCAL_STORAGE_DATA_KEY.JWT_TOKEN);
         // await removeData(LOCAL_STORAGE_DATA_KEY.USER_ROLE);
         // // await removeData(LOCAL_STORAGE_DATA_KEY.USER_NAME);
         // setLogin(false);

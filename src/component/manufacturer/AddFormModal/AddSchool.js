@@ -38,7 +38,7 @@ export const AddSchool = (props) => {
   const [disable, setDisable] = useState(true);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
-  
+
   const setValue = (key, value) => {
     !numberonly.test(inputValues.street_code)
     ? setDisable(true)
@@ -65,7 +65,7 @@ export const AddSchool = (props) => {
   }, []);
 
   useEffect(() => {
-    inputValues.name == "" && inputValues.emis == ""
+    inputValues.name == "" && inputValues.emis == "" && selected == ""
       ? setDisable(true)
       : setDisable(false);
       !numberonly.test(inputValues.emis)
@@ -92,11 +92,11 @@ export const AddSchool = (props) => {
   }, []);
 
   const onNext = () => {
-    if (selected == {}){
+    if (selected == {}) {
       inputValues.district_id = selected.id
     }
-    else{
-    inputValues.district_id = updateItem.district_id
+    else {
+      inputValues.district_id = updateItem.district_id
     }
     onSubmitDetails(inputValues, operation);
     console.log(inputValues);

@@ -8,14 +8,12 @@ import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import { ManageUserScreen } from './src/screen/manufacturer/ManageUserScreen/manageuserscreen';
 
-
 const App = () => {
   useEffect(() => {
-    {
-      Platform.OS === 'ios' ?
-        null :
-        SplashScreen.hide();
-    }
+    Platform.OS === 'ios' ?
+      null :
+      SplashScreen.hide();
+    //setBasseUrl();
   }, [])
   return (
     <NavigationContainer ref={navigationRef}>

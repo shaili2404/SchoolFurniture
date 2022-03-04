@@ -20,14 +20,11 @@ import endUrl from "../../../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
-import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
 import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
 import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
 import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
-
-const PAGESIZE = 10;
 
 export const SchoolList = () => {
   const [listData, setListData] = useState([]);
@@ -107,7 +104,7 @@ export const SchoolList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "") obj[key] = value;
+      if (value != null && value != "" && key != "district_name") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
@@ -116,7 +113,6 @@ export const SchoolList = () => {
     service.then((res) => {
       setLoader(false);
       setAlert(true);
-      apicall()
     }).catch((e) => {
       setLoader(false);
       seterrorAlert(true)
@@ -127,53 +123,12 @@ export const SchoolList = () => {
   const apicall = () => {
     setLoader(true)
     axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) =>{
-      initialPagination(res?.data?.data);
+    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) => {
       setListData(res?.data?.data)
       setLoader(false)
-    }
-    ).catch((e) =>
+    }).catch((e) =>
       console.log('apicall', e)
     )
-  };
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len
-    })
-  }
-
-  const onNext = () => {
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex: (currentPage + 1) * PAGESIZE > listData.length ? listData.length : (currentPage + 1) * PAGESIZE
-      }
-    })
-  };
-  const onPrevious = () => {
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE
-      }
-    })
   };
 
   const onsearch = () => {
@@ -199,6 +154,7 @@ export const SchoolList = () => {
   }, []);
 
   useEffect(() => {
+    apicall();
     if (listData) setLoader(false);
   }, [listData]);
 
@@ -229,42 +185,27 @@ export const SchoolList = () => {
           </TouchableOpacity>
         </View>
         {errorMessage ? (
-            <View style={Styles.errorView}>
+          <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-            </View>
-          ) : (
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <FlatList
-            ListHeaderComponent={HeaderComponet}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            data={listData}
-            renderItem={rendercomponent}
-          />
-        </ScrollView>
-          )}
+          </View>
+        ) : (
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <FlatList
+              ListHeaderComponent={HeaderComponet}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              data={listData}
+              renderItem={rendercomponent}
+            />
+          </ScrollView>
+        )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} >
-          {pagination.currentPage === 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
+        <TouchableOpacity>
+          <Image source={Images.leftarrow} />
         </TouchableOpacity>
-
-        <TouchableOpacity onPress={onNext} >
-          {pagination.currentPage === pagination.totalPage ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
+        <TouchableOpacity>
+          <Image source={Images.rightarrow} />
         </TouchableOpacity>
       </View>
       <View style={Styles.plusView}>
@@ -293,7 +234,7 @@ export const SchoolList = () => {
           subMessage={operation == "Add" ? AlertText.SchoolAddedSub : AlertText.SchoolUpdateSub}
           onConfirm={() => onPressYes()}
         />) : null}
-        {erroralert ? (
+      {erroralert ? (
         <AlertMessage
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}

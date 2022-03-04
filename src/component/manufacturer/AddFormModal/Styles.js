@@ -80,8 +80,8 @@ const style = StyleSheet.create({
   },
   eyeStyle: {
     position: "relative",
-     bottom: 55,
-     left: 310,
+    bottom: 55,
+    left: 310,
   },
   imgsStyle: {
     width: 20,

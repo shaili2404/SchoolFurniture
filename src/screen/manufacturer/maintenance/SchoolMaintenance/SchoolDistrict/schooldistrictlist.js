@@ -221,6 +221,7 @@ export const SchoolDistrictList = () => {
   useEffect(() => {
     apicall();
   }, []);
+
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
@@ -247,17 +248,17 @@ export const SchoolDistrictList = () => {
             value={searchtask}
             onChangeText={(val) => setSearchTask(val)}
           />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}  disabled={searchtask?false:true}>
+          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()} disabled={searchtask ? false : true}>
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
         {errorMessage ? (
-            <View style={Styles.errorView}>
+          <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-            </View>
-          ) : (
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          
+          </View>
+        ) : (
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+
             <FlatList
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
@@ -265,9 +266,9 @@ export const SchoolDistrictList = () => {
               data={listData.slice(pagination.startIndex, pagination.endIndex)}
               renderItem={rendercomponent}
             />
-             </ScrollView>
-          )}
-       
+          </ScrollView>
+        )}
+
       </View>
       <View style={Styles.lastView}>
         <TouchableOpacity onPress={onPrevious}>
@@ -326,7 +327,7 @@ export const SchoolDistrictList = () => {
           onConfirm={() => onPressYes()}
         />
       ) : null}
-       {erroralert ? (
+      {erroralert ? (
         <AlertMessage
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}

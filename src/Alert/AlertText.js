@@ -3,8 +3,8 @@ const AlertText = {
     UndoMessgae: 'You Cannot Undo This action',
     cancelProcessMessgae: 'Do you want to cancel the process ?',
     DeleteUser: 'Do You Want To Delete This User ?',
-    deletedistrict:'Do You Want To Delete This Distict',
-    deleteschool:'Do You Want To Delete This School',
+    deletedistrict: 'Do You Want To Delete This Distict',
+    deleteschool: 'Do You Want To Delete This School',
     signout: 'Do you want to Signout ?',
     districtAdd: 'Added Successfully',
     districtUpdateSub: 'School District Added Successfully',
@@ -14,8 +14,10 @@ const AlertText = {
     SchoolUpdateSub: 'School User Updated Successfully',
     AddedSuccessFully: 'Added Successfully',
     SchoolAddedSub: 'School Added Successfully',
-    districtAdded:'District is already added',
-    schoolAdded:'School is already added',
-    editfailure:'Please try To edit again'
+    districtAdded: 'District is already added',
+    schoolAdded: 'School is already added',
+    editfailure: 'Please try To edit again',
+    createSuccess: 'User Created Successful',
+    updateSuccess: 'User Updated Successful'
 }
 export default AlertText

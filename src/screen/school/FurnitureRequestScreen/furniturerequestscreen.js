@@ -79,9 +79,9 @@ export const FurnitureRequest = () => {
         </View>
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropStyle}>
-          <Text
+            <Text
               style={Styles.textStyle}
-          > {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}</Text>
+            > {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}</Text>
           </View>
           <TouchableOpacity style={Styles.eyeStyle} onPress={() => setOpen(true)}>
             <Image source={Images.Calender} style={Styles.imgStyle} />
@@ -100,9 +100,9 @@ export const FurnitureRequest = () => {
             />
           </TouchableOpacity>
           <View style={Styles.dropStyle}>
-          <Text
+            <Text
               style={Styles.textStyle}
-          > {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}</Text>
+            > {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}</Text>
           </View>
           <TouchableOpacity style={Styles.eyeStyle} onPress={() => setCLose(true)}>
             <Image source={Images.Calender} style={Styles.imgStyle} />
