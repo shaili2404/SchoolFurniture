@@ -20,6 +20,6 @@ const Images = {
     repairReplanishSuccess : require('./images/repairsuccess.png'),
     rightArrowSuccess : require('./images/rightarrow.png'),
     dilveryIconInProgress : require('./images/dilveryinprogress.png'),
-
+ 
 }
 export default Images

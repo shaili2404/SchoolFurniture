@@ -12,7 +12,7 @@ import {
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 
-const Dropdown = ({ label, data, onSelect, task }) => {
+const Dropdown = ({ label, data, onSelect, task,way }) => {
   const DropdownButton = useRef();
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState(undefined);
@@ -75,6 +75,7 @@ const Dropdown = ({ label, data, onSelect, task }) => {
         style={styles.eyeStyle}
         ref={DropdownButton}
         onPress={toggleDropdown}
+        disabled={way == 'Edit' ? true : false }
       >
         <Image source={Images.DownArrow} style={styles.imgsStyle} />
       </TouchableOpacity>

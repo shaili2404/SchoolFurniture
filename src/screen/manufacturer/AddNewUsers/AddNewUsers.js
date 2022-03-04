@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useDebugValue } from "react";
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import { DataDisplayList } from "../../../component/manufacturer/displayListComm
 import { useRoute } from "@react-navigation/native";
 import Dropdown from "../../../component/DropDown/dropdown";
 import { useNavigation } from "@react-navigation/native";
+import { regExpEmail } from "../../../locales/regexp";
 
 const AddNewUsers = () => {
   const [organizationList, setOrganizationList] = useState([]);
@@ -30,6 +31,7 @@ const AddNewUsers = () => {
   const [schoolName, setSchoolName] = useState("");
   const [dropdata, setDropdowndata] = useState("");
   const [schoolData, setSchoolData] = useState([]);
+  const [disable, setDisable] = useState(true);
   const [status, setStatus] = useState(false);
   const [selected, setSelected] = useState({});
   const route = useRoute();
@@ -41,6 +43,9 @@ const AddNewUsers = () => {
 
   const imgSearch = require("../../../assets/Images/Common/ionic-ios-search.png");
 
+  useEffect(()=>{
+    {!regExpEmail.test(email)? setDisable(true) : setDisable(false)}
+  },[email])
   useEffect(() => {
     apicall();
     addSchool();
@@ -159,6 +164,7 @@ const AddNewUsers = () => {
             data={organizationList}
             onSelect={setSelected}
             task="name"
+            way={btnStatus == 0 ?  'Edit' : null }
           />
         </View>
 
@@ -290,6 +296,7 @@ const AddNewUsers = () => {
             <TouchableOpacity
               style={Styles.buttonStyle}
               onPress={goToPermision}
+              disabled={disable}
             >
               <Text style={Styles.buttonText}>{constants.nextText}</Text>
             </TouchableOpacity>
@@ -301,6 +308,7 @@ const AddNewUsers = () => {
             <TouchableOpacity
               style={Styles.buttonStyle}
               onPress={goToPermision}
+              disabled={disable}
             >
               <Text style={Styles.buttonText}>{constants.nextText}</Text>
             </TouchableOpacity>

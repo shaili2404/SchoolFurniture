@@ -6,6 +6,7 @@ export default StyleSheet.create({
   mainView: {
     height: height,
     position: "relative",
+    backgroundColor:COLORS.White
   },
   halfView: {
     width: width,
@@ -15,8 +16,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.LightGreen,
     width: "100%",
     height: 70,
-    paddingLeft: 30,
-    marginTop: 15,
+    paddingLeft: 20,
     fontSize: 16,
   },
 
@@ -47,8 +47,8 @@ export default StyleSheet.create({
   },
   eyeStyle: {
     alignSelf: "flex-end",
-    position: "relative",
-    bottom: 45,
+    position: "absolute",
+    bottom: 25,
     right: 30,
   },
 

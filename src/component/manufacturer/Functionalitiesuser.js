@@ -18,6 +18,7 @@ import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../../component/dummyData/Token";
 import { useRoute } from "@react-navigation/native";
 import { AlertMessage } from "../../Alert/alert";
+import LinearGradient from "react-native-linear-gradient";
 
 const SECTIONNAME = {
   district: "Maintenance - School District",
@@ -184,8 +185,8 @@ export const Functionalities = () => {
     <SafeAreaView style={styles.containerView}>
       <Header tableHeader={tableHeader} />
       <ScrollView>{rendercomponent()}</ScrollView>
-      <View style={{ flexDirection: "row", marginTop: 20 }}>
-        <Text>{constants.cancel}</Text>
+      <View style={styles.lastView}>
+        <Text style={styles.cancelText}>{constants.cancel}</Text>
         <TouchableOpacity style={styles.buttonStyle} onPress={onSubmitDetails}>
           <Text style={styles.buttonText}>{constants.submit}</Text>
         </TouchableOpacity>
@@ -204,7 +205,13 @@ export const Functionalities = () => {
 
 export const Header = ({ tableHeader }) => {
   return (
-    <SafeAreaView style={styles.firstView}>
+    <SafeAreaView >
+      <LinearGradient
+        colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
+        start={{ x: 1, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        style={styles.firstView}
+      >
       <View style={styles.mainView}>
         {tableHeader.map((header) => (
           <View
@@ -217,14 +224,18 @@ export const Header = ({ tableHeader }) => {
           </View>
         ))}
       </View>
+      </LinearGradient>
     </SafeAreaView>
   );
 };
 
+const height = Dimensions.get('window').height
 const styles = StyleSheet.create({
   containerView: {
     backgroundColor: COLORS.LightGreen,
     paddingTop: 10,
+    position:'relative',
+    height:height
   },
   subView: {
     paddingHorizontal: 10,
@@ -259,8 +270,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   firstView: {
-    backgroundColor: COLORS.GreenBox,
     height: 46,
+    opacity:1
   },
   viewStyle: {
     width: "15%",
@@ -274,11 +285,34 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: COLORS.GreenBox,
-    borderRadius: 5,
-    width: "40%",
-    height: 50,
+    width: "50%",
+    height: 70,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 30,
+    borderRadius: 39,
   },
+  lastView: {
+    flexDirection: "row",
+    justifyContent:'space-between',
+    width: "100%",
+    position: "absolute",
+    bottom: 90,
+    alignSelf: "center",
+    alignContent:'center',
+    paddingHorizontal:'15%',
+    paddingVertical:'4%',
+    backgroundColor:COLORS.White,
+    height:110
+  },
+  buttonText:{
+    color:COLORS.White,
+    fontSize:22,
+    fontWeight:"bold"
+  },
+  cancelText:{
+    color:COLORS.blue,
+    textDecorationLine:'underline',
+    fontSize:16,
+    marginTop:25
+  }
 });
