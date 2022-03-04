@@ -48,13 +48,9 @@ const DrawerSideBar = (props) => {
     };
 
     const onPressYes = () => {
-        const token = loginData?.user?.data?.access_token;
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${token}`;
-
+       
         axios
-            .post(`${Baseurl}${endUrl.logout}`)
+            .post(`${endUrl.logout}`)
             .then((res) => {
                 if (res?.data?.status === 200) {
                     navigation.navigate("LoginScreen");

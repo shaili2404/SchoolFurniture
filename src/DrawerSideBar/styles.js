@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
   iconNameContainer: {
     fontSize: 16, 
     color: "#359934", 
-    fontFamily: "Segoe UI",
   },
   logoView: {
     marginLeft: 10, 

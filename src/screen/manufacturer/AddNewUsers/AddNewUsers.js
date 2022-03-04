@@ -63,7 +63,6 @@ const AddNewUsers = () => {
   }, [selected]);
 
   const apicall = async () => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
       const response = await axios.get(`${Baseurl}${endUrl.organisation}`);
 
@@ -77,9 +76,8 @@ const AddNewUsers = () => {
   };
 
   const addSchool = async () => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
-      const response = await axios.get(`${Baseurl}${endUrl.schoolList}`);
+      const response = await axios.get(`${endUrl.schoolList}`);
       setSchoolData(response?.data?.data);
     } catch (e) {
       console.log(e);
@@ -257,6 +255,7 @@ const AddNewUsers = () => {
               value={emis}
               onChangeText={(txt) => setEmis(txt)}
               maxLength={50}
+              editable={false}
             />
           </View>
         ) : null}

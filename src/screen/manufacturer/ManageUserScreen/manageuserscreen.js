@@ -28,7 +28,7 @@ import { Token } from "../../../component/dummyData/Token";
 import Loader from "../../../component/loader";
 import { useNavigation } from "@react-navigation/native";
 
-const PAGESIZE = 7;
+const PAGESIZE = 10;
 
 export const ManageUserScreen = () => {
   const [listData, setListData] = useState([]);
@@ -106,11 +106,10 @@ export const ManageUserScreen = () => {
   };
   const onSubmitDetails = async (value) => {
     const a = "${loginData?.user?.data?.access_token}";
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
 
     try {
       const response = await axios.post(
-        `${Baseurl}${endUrl.schoolList}`,
+        `${endUrl.schoolList}`,
         value
       );
     } catch (e) { }
@@ -118,9 +117,8 @@ export const ManageUserScreen = () => {
 
   const apicall = () => {
     setLoader(true);
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
-      .get(`${Baseurl}${endUrl.userList}`)
+      .get(`${endUrl.userList}`)
       .then((res) => {
         initialPagination(res?.data?.data);
         setListData(res?.data?.data);
@@ -177,9 +175,8 @@ export const ManageUserScreen = () => {
   };
   const onsearch = () => {
     setLoader(true);
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
-      .get(`${Baseurl}${endUrl.usersearch}${searchtask}`)
+      .get(`${endUrl.usersearch}${searchtask}`)
       .then((res) => {
         setListData(res?.data?.data);
         setLoader(false);
