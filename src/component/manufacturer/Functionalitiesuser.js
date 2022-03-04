@@ -18,6 +18,7 @@ import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../../component/dummyData/Token";
 import { useRoute } from "@react-navigation/native";
 import { AlertMessage } from "../../Alert/alert";
+import LinearGradient from "react-native-linear-gradient";
 
 const SECTIONNAME = {
   district: "Maintenance - School District",
@@ -204,7 +205,13 @@ export const Functionalities = () => {
 
 export const Header = ({ tableHeader }) => {
   return (
-    <SafeAreaView style={styles.firstView}>
+    <SafeAreaView >
+      <LinearGradient
+        colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
+        start={{ x: 1, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        style={styles.firstView}
+      >
       <View style={styles.mainView}>
         {tableHeader.map((header) => (
           <View
@@ -217,6 +224,7 @@ export const Header = ({ tableHeader }) => {
           </View>
         ))}
       </View>
+      </LinearGradient>
     </SafeAreaView>
   );
 };
@@ -262,8 +270,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   firstView: {
-    backgroundColor: COLORS.GreenBox,
     height: 46,
+    opacity:1
   },
   viewStyle: {
     width: "15%",
