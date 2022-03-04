@@ -184,8 +184,8 @@ export const Functionalities = () => {
     <SafeAreaView style={styles.containerView}>
       <Header tableHeader={tableHeader} />
       <ScrollView>{rendercomponent()}</ScrollView>
-      <View style={{ flexDirection: "row", marginTop: 20 }}>
-        <Text>{constants.cancel}</Text>
+      <View style={styles.lastView}>
+        <Text style={styles.cancelText}>{constants.cancel}</Text>
         <TouchableOpacity style={styles.buttonStyle} onPress={onSubmitDetails}>
           <Text style={styles.buttonText}>{constants.submit}</Text>
         </TouchableOpacity>
@@ -221,10 +221,13 @@ export const Header = ({ tableHeader }) => {
   );
 };
 
+const height = Dimensions.get('window').height
 const styles = StyleSheet.create({
   containerView: {
     backgroundColor: COLORS.LightGreen,
     paddingTop: 10,
+    position:'relative',
+    height:height
   },
   subView: {
     paddingHorizontal: 10,
@@ -274,11 +277,34 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: COLORS.GreenBox,
-    borderRadius: 5,
-    width: "40%",
-    height: 50,
+    width: "50%",
+    height: 70,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 30,
+    borderRadius: 39,
   },
+  lastView: {
+    flexDirection: "row",
+    justifyContent:'space-between',
+    width: "100%",
+    position: "absolute",
+    bottom: 90,
+    alignSelf: "center",
+    alignContent:'center',
+    paddingHorizontal:'15%',
+    paddingVertical:'4%',
+    backgroundColor:COLORS.White,
+    height:110
+  },
+  buttonText:{
+    color:COLORS.White,
+    fontSize:22,
+    fontWeight:"bold"
+  },
+  cancelText:{
+    color:COLORS.blue,
+    textDecorationLine:'underline',
+    fontSize:16,
+    marginTop:25
+  }
 });

@@ -23,7 +23,7 @@ export const AddUserModal = (props) => {
   const [disable, setDisable] = useState(true);
   const [errorMessage,setErrorMessage] = useState('')
   const setValue = (key, value) => {
-    {!numberonly.test(inputValues.district_office)? setErrorMessage('hey'):setErrorMessage('')}
+    {!numberonly.test(inputValues.tel)?  setDisable(true) : setDisable(false)}
     setInputValues(prevState => {
       return {
         ...prevState,

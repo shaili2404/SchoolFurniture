@@ -19,6 +19,7 @@ import axios from "axios";
 import { Baseurl } from "../../../redux/configration/baseurl";
 import endUrl from "../../../redux/configration/endUrl";
 import { Token } from "../../dummyData/Token";
+import { numberonly } from "../../../locales/regexp";
 
 
 
@@ -39,6 +40,9 @@ export const AddSchool = (props) => {
   const [selected, setSelected] = useState({});
   
   const setValue = (key, value) => {
+    !numberonly.test(inputValues.street_code)
+    ? setDisable(true)
+    : setDisable(false);
     setInputValues((prevState) => {
       return {
         ...prevState,
@@ -64,7 +68,11 @@ export const AddSchool = (props) => {
     inputValues.name == "" && inputValues.emis == ""
       ? setDisable(true)
       : setDisable(false);
-  }, []);
+      !numberonly.test(inputValues.emis)
+      ? setDisable(true)
+      : setDisable(false);
+   
+  }, [inputValues]);
 
   useEffect(() => {
     const obj = {};
