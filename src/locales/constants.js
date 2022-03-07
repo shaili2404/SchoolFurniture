@@ -90,5 +90,7 @@ const constants = {
     searchItem:'Search Item',
     categories:'Categories',
     Items:'Items',
+    StockCategories: 'Stock Categories',
+
 }
 export default constants

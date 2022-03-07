@@ -20,7 +20,7 @@ const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
-        <StockItems />
+        <AppStack />
       </Provider>
     </NavigationContainer>
   )
