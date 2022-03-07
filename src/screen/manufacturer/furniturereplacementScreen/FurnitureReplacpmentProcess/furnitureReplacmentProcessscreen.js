@@ -6,6 +6,7 @@ import Images from "../../../../asset/images";
 import { IconBar } from "./iconbar";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { TaskSection } from "./TaskSection/taskSection";
+import { FooterFur } from "./Footer/footer";
 
 export const FurnitureReplacmentProcess = () => {
   return (
@@ -15,8 +16,18 @@ export const FurnitureReplacmentProcess = () => {
           {constants.FurnitureReplacmnetProcess}
         </Text>
       </View>
-      <IconBar/>
-      <TaskSection/>
+      <IconBar />
+      <TaskSection
+        name={constants.coolectFurnitureRequest}
+        button={true}
+        buttonvalue={constants.Accept}
+      />
+      <TaskSection
+        name={constants.BrokenFurnitureItem}
+        button={false}
+        buttonvalue={constants.printPickupSLip}
+      />
+      <FooterFur/>
     </SafeAreaView>
   );
 };

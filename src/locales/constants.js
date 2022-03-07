@@ -91,6 +91,9 @@ const constants = {
     categories:'Categories',
     Items:'Items',
     StockCategories: 'Stock Categories',
+    BrokenFurnitureItem:'Broken Furniture Items',
+    printPickupSLip:'Print Pickup Slip',
+    save:'save'
 
 }
 export default constants

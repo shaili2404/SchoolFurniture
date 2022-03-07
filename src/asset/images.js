@@ -30,6 +30,6 @@ const Images = {
     rightArrowSuccess: require('./images/rightarrow.png'),
     dilveryIconInProgress: require('./images/dilveryinprogress.png'),
     SearchIconWhite: require('./images/searchIconWhite.png'),
-
+    PrintIcon : require('./images/PrintIcon.png')
 }
 export default Images
