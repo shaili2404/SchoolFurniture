@@ -8,6 +8,7 @@ import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import { ManageUserScreen } from './src/screen/Manufacturer/ManageUserScreen/manageuserscreen';
 import { setBasseUrl } from './src/redux/configration';
+import { StockItems } from './src/screen/Manufacturer/maintenance/StockMaintenance/stockItems/StockItems';
 
 const App = () => {
   useEffect(() => {
@@ -19,7 +20,7 @@ const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
-        <AppStack />
+        <StockItems />
       </Provider>
     </NavigationContainer>
   )

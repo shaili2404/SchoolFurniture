@@ -36,5 +36,3 @@ export const storeData = async (key, value) => {
       await AsyncStorage.removeItem('token');
     } catch (e) { }
   };
-
-  export const STANDARD_SCREEN_SIZE = 812;
