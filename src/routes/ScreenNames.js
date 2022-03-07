@@ -10,7 +10,9 @@ const NavigationRouteNames = {
     Furniturereplacment: 'Furniture Replacment',
     STOCKMAINTENANCE: "StockMaintenanceScreen",
     Functionalities: 'Functionalities',
+    STOCKMAINTENANCE: "Stock Maintenance",
     STOCKCATEGORY: "StockCategory",
+    STOCKITEM: "Stock Item",
 
 };
 

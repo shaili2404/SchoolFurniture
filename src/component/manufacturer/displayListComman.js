@@ -13,6 +13,7 @@ import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import axios from "axios";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
+import { useNavigation } from "@react-navigation/native";
 
 export const DataDisplayList = ({
   item,
@@ -23,10 +24,13 @@ export const DataDisplayList = ({
   mainMessage,
   submessage,
   data,
-  schoolDataList
+  schoolDataList,
+  List,
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [dataArray, setDataArray] = useState();
+  const navigation = useNavigation();
 
   const onDelete = () => {
     setAlert(true);
@@ -35,20 +39,17 @@ export const DataDisplayList = ({
   const onPressYes = async () => {
     setAlert(false);
     try {
-      const response = await axios.delete(
-        `${link}/${item.id}`
-      );
+      const response = await axios.delete(`${link}/${item.id}`);
       if (response.status === 200) {
         reloadList();
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   };
 
   return (
     <SafeAreaView style={Styles.firstView}>
       {data == "0" ?
-        <View style={Styles.mainView}>
+        (<View style={Styles.mainView}>
           {tableKey.map((val, index) => (
             <TouchableOpacity onPress={() => schoolDataList(item)} key={index}>
               <View key={val} style={Styles.viewStyle}>
@@ -56,10 +57,14 @@ export const DataDisplayList = ({
               </View>
             </TouchableOpacity>
           ))}
-        </View> :
+        </View>
+      ) : (
         <View style={Styles.mainView}>
-          {tableKey.map((val, index) => (
-            <View key={val} style={Styles.viewStyle} key={index}>
+          {tableKey.map((val) => (
+            <View
+              key={val}
+              style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
+            >
               <Text style={Styles.textStyle}>{item[val]}</Text>
             </View>
           ))}
@@ -74,7 +79,8 @@ export const DataDisplayList = ({
               <Image source={Images.deleteIcon} />
             </TouchableOpacity>
           </View>
-        </View>}
+        </View>
+      )}
 
       {userModal ? (
         <AddUserModal
@@ -127,5 +133,10 @@ const Styles = StyleSheet.create({
     width: 20,
     marginTop: 12,
     marginHorizontal: 20,
+  },
+  screenStyle: {
+    width: "30%",
+    marginTop: 12,
+    marginHorizontal: 4,
   },
 });

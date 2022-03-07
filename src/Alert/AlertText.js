@@ -20,6 +20,7 @@ const AlertText = {
     createSuccess: 'User Created Successful',
     updateSuccess: 'User Updated Successful',
     deleteUser: 'Do you want to delete this User?',
-    canNotUndo: 'You cannot undo this action'
+    canNotUndo: 'You cannot undo this action',
+    deleteStock :'Do You Want To This Stock',
 }
 export default AlertText

@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import COLORS from "../../asset/color";
 import LinearGradient from "react-native-linear-gradient";
 
-export const ListHeaderComman = ({ tableHeader }) => {
+export const ListHeaderComman = ({ tableHeader, List }) => {
   return (
     <SafeAreaView>
       <LinearGradient
@@ -14,7 +14,10 @@ export const ListHeaderComman = ({ tableHeader }) => {
       >
         <View style={Styles.mainView}>
           {tableHeader.map((header) => (
-            <View key={header} style={Styles.viewStyle}>
+            <View
+              key={header}
+              style={List === "screen" ? Styles.ScreenStyles : Styles.viewStyle}
+            >
               <Text style={Styles.textStyle}>{header}</Text>
             </View>
           ))}
@@ -43,5 +46,10 @@ const Styles = StyleSheet.create({
     width: 180,
     marginTop: 12,
     marginHorizontal: 20,
+  },
+  ScreenStyles: {
+    width: "30%",
+    marginTop: 12,
+    marginHorizontal:4,
   },
 });

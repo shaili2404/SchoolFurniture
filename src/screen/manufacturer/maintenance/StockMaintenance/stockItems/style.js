@@ -11,6 +11,7 @@ export default StyleSheet.create({
     width: "90%",
     height: 70,
     paddingLeft: 20,
+    marginTop:20,
     marginBottom: 20,
     alignItems: "center",
     alignSelf:'center',
@@ -21,6 +22,7 @@ export default StyleSheet.create({
     height: height,
     width: width,
     position: "relative",
+    backgroundColor:COLORS.White,
   },
   changeText: {
     fontSize: 10,
@@ -31,6 +33,7 @@ export default StyleSheet.create({
     top: 2,
     backgroundColor: COLORS.White,
     width: 90,
+    
     
   },
   emailInputStyle: {
@@ -83,7 +86,10 @@ export default StyleSheet.create({
       width:'90%',
       justifyContent:'space-between',
       alignSelf:'center',
-      marginTop:'15%'
+  },
+  boxDefault:{
+    
+    marginTop:'15%'
   },
   main: {
     flexDirection: "row",

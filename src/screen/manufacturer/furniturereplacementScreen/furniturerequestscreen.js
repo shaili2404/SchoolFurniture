@@ -10,22 +10,28 @@ import {
   Image,
 } from "react-native";
 import COLORS from "../../../asset/color";
-import DatePicker from 'react-native-date-picker'
+import DatePicker from "react-native-date-picker";
 import Images from "../../../asset/images";
 import Dummydata from "../../../component/dummyData/dummyData";
 import { FurnitureRequestList } from "../../../component/school/furniturerequestList";
 import { ListHeader } from "../../../component/school/listHeader";
 import constants from "../../../locales/constants";
 import Styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 export const FurnitureReplacmentManfacturer = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
-  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
-  const [startDate, setStartDate] = useState(new Date())
-  const [endData, setEndDate] = useState(new Date())
-  const [close, setCLose] = useState(false)
-  const [open, setOpen] = useState(false)
-
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPage: 0,
+    startIndex: 0,
+    endIndex: 0,
+  });
+  const navigation = useNavigation()
+  const [startDate, setStartDate] = useState(new Date());
+  const [endData, setEndDate] = useState(new Date());
+  const [close, setCLose] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const initialPagination = (list) => {
     const len = list.length;
@@ -34,9 +40,9 @@ export const FurnitureReplacmentManfacturer = () => {
       currentPage: 1,
       totalPage: totalPage,
       startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len
-    })
-  }
+      endIndex: len > PAGESIZE ? PAGESIZE : len,
+    });
+  };
 
   const onNext = () => {
     let { currentPage, totalPage } = pagination;
@@ -48,9 +54,12 @@ export const FurnitureReplacmentManfacturer = () => {
         ...prevState,
         currentPage: currentPage + 1,
         startIndex: currentPage * PAGESIZE,
-        endIndex: (currentPage + 1) * PAGESIZE > listData.length ? listData.length : (currentPage + 1) * PAGESIZE
-      }
-    })
+        endIndex:
+          (currentPage + 1) * PAGESIZE > listData.length
+            ? listData.length
+            : (currentPage + 1) * PAGESIZE,
+      };
+    });
   };
   const onPrevious = () => {
     let { currentPage } = pagination;
@@ -62,11 +71,10 @@ export const FurnitureReplacmentManfacturer = () => {
         ...prevState,
         currentPage: currentPage - 1,
         startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE
-      }
-    })
+        endIndex: (currentPage - 1) * PAGESIZE,
+      };
+    });
   };
-
 
   const rendercomponent = ({ item }) => {
     return (
@@ -82,13 +90,15 @@ export const FurnitureReplacmentManfacturer = () => {
   const HeaderComponet = () => {
     return <ListHeader />;
   };
-  
+
   return (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View style={Styles.searchButtonView}>
-          <Text style={Styles.transactionText}>{constants.transactionSearch}</Text>
-          <TouchableOpacity style={Styles.searchButton}>
+          <Text style={Styles.transactionText}>
+            {constants.transactionSearch}
+          </Text>
+          <TouchableOpacity style={Styles.searchButton} onPress={()=>navigation.navigate('FurnitureReplacmentProcess')}>
             <Text style={Styles.searchText}>{constants.search}</Text>
           </TouchableOpacity>
         </View>
@@ -99,7 +109,7 @@ export const FurnitureReplacmentManfacturer = () => {
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
           />
-           <TextInput
+          <TextInput
             style={Styles.dropStyle}
             placeholder={constants.emisNumber}
             placeholderTextColor={COLORS.Black}
@@ -119,11 +129,15 @@ export const FurnitureReplacmentManfacturer = () => {
         </View>
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropStyle}>
-          <Text
-              style={Styles.textStyle}
-          > {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}</Text>
+            <Text style={Styles.textStyle}>
+              {" "}
+              {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
+            </Text>
           </View>
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => setOpen(true)}>
+          <TouchableOpacity
+            style={Styles.eyeStyle}
+            onPress={() => setOpen(true)}
+          >
             <Image source={Images.Calender} style={Styles.imgStyle} />
             <DatePicker
               modal
@@ -131,20 +145,24 @@ export const FurnitureReplacmentManfacturer = () => {
               date={startDate}
               mode="date"
               onConfirm={(date) => {
-                setOpen(false)
-                setStartDate(date)
+                setOpen(false);
+                setStartDate(date);
               }}
               onCancel={() => {
-                setOpen(false)
+                setOpen(false);
               }}
             />
           </TouchableOpacity>
           <View style={Styles.dropStyle}>
-          <Text
-              style={Styles.textStyle}
-          > {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}</Text>
+            <Text style={Styles.textStyle}>
+              {" "}
+              {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
+            </Text>
           </View>
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => setCLose(true)}>
+          <TouchableOpacity
+            style={Styles.eyeStyle}
+            onPress={() => setCLose(true)}
+          >
             <Image source={Images.Calender} style={Styles.imgStyle} />
             <DatePicker
               modal
@@ -152,11 +170,11 @@ export const FurnitureReplacmentManfacturer = () => {
               date={endData}
               mode="date"
               onConfirm={(date) => {
-                setCLose(false)
-                setEndDate(date)
+                setCLose(false);
+                setEndDate(date);
               }}
               onCancel={() => {
-                setCLose(false)
+                setCLose(false);
               }}
             />
           </TouchableOpacity>
@@ -172,7 +190,7 @@ export const FurnitureReplacmentManfacturer = () => {
         </ScrollView>
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} >
+        <TouchableOpacity onPress={onPrevious}>
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -183,7 +201,7 @@ export const FurnitureReplacmentManfacturer = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} >
+        <TouchableOpacity onPress={onNext}>
           {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}

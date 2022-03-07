@@ -9,11 +9,12 @@ import {
   FlatList,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import AlertText from "../../../../../Alert/AlertText";
 import COLORS from "../../../../../asset/color";
 import Images from "../../../../../asset/images";
 import Dropdown from "../../../../../component/DropDown/dropdown";
-import { ListDataSTocks } from "../../../../../component/manufacturer/stockMaintenancce/ListDataStocks";
-import { HeaderStocks } from "../../../../../component/manufacturer/stockMaintenancce/ListHeaderstock";
+import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
+import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import constants from "../../../../../locales/constants";
 import DummydataDropDown from "./DummyItems";
 import style from "./style";
@@ -22,16 +23,39 @@ const tableHeader = [constants.categories, constants.Items, constants.manage];
 const tableKey = ["id", "item"];
 
 export const StockItems = () => {
-  const renderComponent = ({ item }) => {
-    return <ListDataSTocks item={item} tableKey={tableKey} />;
-  };
   const [dList, setDList] = useState(DummydataDropDown);
   const [dataList, setDataList] = useState(DummydataDropDown);
   const [selected, setSelected] = useState({});
   const [defaultState, setDefaultState] = useState(false);
+  const [editState, setEditState] = useState(false);
+  const [stockCategoryName, setStockCategoryName] = useState("");
+  const [defaultStockCategory, setDefaultStockCategory] = useState("");
+
+  const renderComponent = ({ item }) => {
+    return (
+      <DataDisplayList
+        item={item}
+        tableKey={tableKey}
+        List="screen"
+        mainMessage={AlertText.deleteStock}
+        submessage={AlertText.UndoMessgae}
+        onEdit={(item, task) => onEdit(item, task)}
+      />
+    );
+  };
+
+  const onEdit = ({ item, task }) => {
+    setEditState(true);
+    setDefaultStockCategory(item);
+  };
+
+  const onUpdate = () => {
+    setEditState(false);
+  };
+  const onAdd = () => {};
 
   const HeaderComponent = () => {
-    return <HeaderStocks tableHeader={tableHeader} />;
+    return <ListHeaderComman tableHeader={tableHeader} List="screen" />;
   };
 
   return (
@@ -58,21 +82,29 @@ export const StockItems = () => {
             onFocus={() => setDefaultState(true)}
             onBlur={() => setDefaultState(false)}
             opacity={defaultState === true ? 1 : 0.5}
+            value={
+              editState === true ? defaultStockCategory : stockCategoryName
+            }
           />
         </View>
       </View>
-      <TouchableOpacity style={style.addStyling}>
+      <TouchableOpacity
+        style={style.addStyling}
+        onPress={editState === true ? onUpdate : onAdd}
+      >
         <LinearGradient
           colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
           start={{ x: 1, y: 1 }}
           end={{ x: 0, y: 0 }}
           style={style.addButton}
         >
-          <Text style={style.addText}>{constants.add}</Text>
+          <Text style={style.addText}>
+            {editState === true ? constants.update : constants.add}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
 
-      <View>
+      <View style={style.boxDefault}>
         {defaultState === true ? (
           <View style={style.changeView}>
             <Text style={style.changeText}>{constants.searchItem}</Text>
