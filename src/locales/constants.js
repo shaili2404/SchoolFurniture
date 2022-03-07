@@ -83,7 +83,9 @@ const constants = {
     selectOrg: 'Select Organisation',
     cancel: 'Cancel',
     submit: 'submit',
-    userAdded: ' User Added SuccessFully '
+    userAdded: ' User Added SuccessFully ',
+    stockCategory :'Stock Category',
+    stockitems:'Stock Items',
 
 }
 export default constants
