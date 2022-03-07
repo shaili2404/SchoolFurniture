@@ -34,6 +34,7 @@ export const AddUserModal = (props) => {
 
   useEffect(() => {
     inputValues.district_office == "" ? setDisable(true) : setDisable(false);
+   
   }, [inputValues])
 
   useEffect(() => {

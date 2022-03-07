@@ -68,9 +68,8 @@ export const Functionalities = () => {
     // ];
 
     const getId = () => {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
         axios
-            .get(Baseurl + endUrl.allPermission)
+            .get(endUrl.allPermission)
             .then((res) => {
                 setLoader(false);
                 generateSection(res?.data?.data);
@@ -83,9 +82,8 @@ export const Functionalities = () => {
     };
 
     const getOrgPermission = (list) => {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
         axios
-            .get(Baseurl + endUrl.organisationPermission)
+            .get(endUrl.organisationPermission)
             .then((res) => {
                 const permission = itemObj?.permissions;
                 let permissionMap = new Map();
@@ -161,12 +159,10 @@ export const Functionalities = () => {
         reqData.permission = arr;
 
         axios.defaults.headers.common["Content-Type"] = "application/json";
-        axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
         const service =
             btnStatus == "0"
-                ? axios.put(`${Baseurl}${endUrl.addUser}/${itemObj.id}`, reqData)
-                : axios.post(`${Baseurl}${endUrl.addUser}`, reqData);
-        console.log(`${Baseurl}${endUrl.addUser}`, reqData, "Request")
+                ? axios.put(`${endUrl.addUser}/${itemObj.id}`, reqData)
+                : axios.post(`${endUrl.addUser}`, reqData);
         service
             .then((res) => {
                 setLoader(false);
@@ -203,6 +199,7 @@ export const Functionalities = () => {
                                         width: 20,
                                         justifyContent: "center",
                                         alignSelf: "center",
+                                        marginTop:10
                                     }}
                                 ></Image>
                             )}

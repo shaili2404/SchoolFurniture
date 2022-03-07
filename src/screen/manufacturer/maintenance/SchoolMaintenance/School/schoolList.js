@@ -26,6 +26,9 @@ import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/Ad
 import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
 
+const PAGESIZE = 10;
+
+
 export const SchoolList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
@@ -38,7 +41,7 @@ export const SchoolList = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
-
+  
 
   const tableKey = [
     "name",
@@ -107,12 +110,12 @@ export const SchoolList = () => {
       if (value != null && value != "" && key != "district_name") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     console.log('114',obj)
-    const service = oper == "Add" ? axios.post(`${Baseurl}${endUrl.schoolList}`, obj) : axios.put(`${Baseurl}${endUrl.schoolList}/${updateItem.id}`, obj);
+    const service = oper == "Add" ? axios.post(`${endUrl.schoolList}`, obj) : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
     service.then((res) => {
       setLoader(false);
       setAlert(true);
+      apicall()
     }).catch((e) => {
       setLoader(false);
       seterrorAlert(true)
@@ -122,19 +125,65 @@ export const SchoolList = () => {
 
   const apicall = () => {
     setLoader(true)
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    axios.get(`${Baseurl}${endUrl.schoolList}`).then((res) => {
-      setListData(res?.data?.data)
+    axios.get(`${endUrl.schoolList}`).then((res) => {
+      initialPagination(res?.data?.data);
+      setListData(res?.data?.data);
       setLoader(false)
     }).catch((e) =>
       console.log('apicall', e)
     )
   };
+  const initialPagination = (list) => {
+    const len = list.length;
+    const totalPage = Math.ceil(len / PAGESIZE);
+    setPagination({
+      currentPage: 1,
+      totalPage: totalPage,
+      startIndex: 0,
+      endIndex: len > PAGESIZE ? PAGESIZE : len,
+    });
+  };
+
+  const onNext = () => {
+    setLoader(true)
+    let { currentPage, totalPage } = pagination;
+    if (currentPage === totalPage) {
+      return;
+    }
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage + 1,
+        startIndex: currentPage * PAGESIZE,
+        endIndex:
+          (currentPage + 1) * PAGESIZE > listData.length
+            ? listData.length
+            : (currentPage + 1) * PAGESIZE,
+      };
+    });
+    setLoader(false)
+  };
+
+  const onPrevious = () => {
+    setLoader(true)
+    let { currentPage } = pagination;
+    if (currentPage === 1) {
+      return;
+    }
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        currentPage: currentPage - 1,
+        startIndex: (currentPage - 2) * PAGESIZE,
+        endIndex: (currentPage - 1) * PAGESIZE,
+      };
+    });
+    setLoader(false)
+  };
 
   const onsearch = () => {
     setLoader(true)
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
-    axios.get(`${Baseurl}${endUrl.searchSchool}${searchtask}`).then((res) => {
+    axios.get(`${endUrl.searchSchool}${searchtask}`).then((res) => {
       setListData(res?.data?.data);
       setLoader(false)
     }).catch((e) => {
@@ -154,7 +203,6 @@ export const SchoolList = () => {
   }, []);
 
   useEffect(() => {
-    apicall();
     if (listData) setLoader(false);
   }, [listData]);
 
@@ -201,11 +249,26 @@ export const SchoolList = () => {
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity>
-          <Image source={Images.leftarrow} />
+        <TouchableOpacity onPress={onPrevious}>
+          {pagination.currentPage === 1 ? (
+            <Image source={Images.leftarrow} />
+          ) : (
+            <Image
+              source={Images.rightarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          )}
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Image source={Images.rightarrow} />
+
+        <TouchableOpacity onPress={onNext}>
+          {pagination.currentPage === pagination.totalPage ? (
+            <Image
+              source={Images.leftarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          ) : (
+            <Image source={Images.rightarrow} />
+          )}
         </TouchableOpacity>
       </View>
       <View style={Styles.plusView}>
