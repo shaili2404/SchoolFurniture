@@ -9,6 +9,8 @@ MERGED from [hermes-debug.aar] /Users/neosoft/.gradle/caches/transforms-3/71c6d0
 MERGED from [com.facebook.flipper:flipper:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/dcdc153c61013fc5f27004c7a765b5b9/transformed/jetified-flipper-0.99.0/AndroidManifest.xml:8:1-18:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/9cb1845505624aa50d28f8adb1782aec/transformed/jetified-flipper-network-plugin-0.99.0/AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/60dfb80df62095003b1f13624d6ab8fc/transformed/jetified-flipper-fresco-plugin-0.99.0/AndroidManifest.xml:8:1-15:12
+MERGED from [:react-native-async-storage_async-storage] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/@react-native-async-storage/async-storage/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-date-picker] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-date-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-gesture-handler] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-network-info] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-network-info/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-13:12
 MERGED from [:react-native-safe-area-context] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-safe-area-context/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
@@ -16,6 +18,7 @@ MERGED from [:react-native-screens] /Users/neosoft/Desktop/SchoolFurnitureProjec
 MERGED from [:react-native-splash-screen] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-splash-screen/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.react:react-native:0.67.1] /Users/neosoft/.gradle/caches/transforms-3/8270182f30ff8de590cc8f97021af25d/transformed/jetified-react-native-0.67.1/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/neosoft/.gradle/caches/transforms-3/cb1f259e64410a9034d94b35e5fa98cd/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [:react-native-linear-gradient] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-linear-gradient/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/dcf3f59ca64d3488e1e4abe6648624a6/transformed/jetified-react-native-reanimated-67-hermes/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:flipper:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/7ab2e67623a9292949c8ac3f185b98e4/transformed/jetified-flipper-2.5.0/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:stetho:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/8808e3426c333ca82e6f333d260b68b3/transformed/jetified-stetho-2.5.0/AndroidManifest.xml:2:1-9:12
@@ -66,6 +69,8 @@ MERGED from [androidx.tracing:tracing:1.0.0] /Users/neosoft/.gradle/caches/trans
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/neosoft/.gradle/caches/transforms-3/f5b0207e27d111adfc8fe0798ba3f31d/transformed/lifecycle-livedata-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] /Users/neosoft/.gradle/caches/transforms-3/4b9ea3bdacace7533c90e0dfca8b356c/transformed/lifecycle-livedata-core-2.3.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/neosoft/.gradle/caches/transforms-3/417738dbb68e7c8be76f6006f88545aa/transformed/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.github.henninghall:numberpickerview:v1.1.5] /Users/neosoft/.gradle/caches/transforms-3/c83dc71e80622c67b26d6c2ff3e8b8d7/transformed/jetified-numberpickerview-v1.1.5/AndroidManifest.xml:2:1-11:12
+MERGED from [net.time4j:time4j-android:4.8-2021a] /Users/neosoft/.gradle/caches/transforms-3/e90ca8d21e9a537bd7a2d1ad3a936bf5/transformed/jetified-time4j-android-4.8-2021a/AndroidManifest.xml:2:1-13:12
 MERGED from [com.facebook.fresco:fbcore:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/0adb7967d927befd8322995621b71c44/transformed/jetified-fbcore-2.5.0/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/neosoft/.gradle/caches/transforms-3/d4d8a64e342d5f7360962b6d766b1f2a/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:17:1-24:12
 INJECTED from /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/android/app/src/debug/AndroidManifest.xml:2:1-13:12
@@ -110,6 +115,8 @@ MERGED from [androidx.core:core:1.6.0] /Users/neosoft/.gradle/caches/transforms-
 MERGED from [androidx.core:core:1.6.0] /Users/neosoft/.gradle/caches/transforms-3/2c28cffc1346de6a33e00a19c46b6b43/transformed/core-1.6.0/AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/neosoft/.gradle/caches/transforms-3/eac56fae14db340a69b5ebdeea73afe1/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/neosoft/.gradle/caches/transforms-3/eac56fae14db340a69b5ebdeea73afe1/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [net.time4j:time4j-android:4.8-2021a] /Users/neosoft/.gradle/caches/transforms-3/e90ca8d21e9a537bd7a2d1ad3a936bf5/transformed/jetified-time4j-android-4.8-2021a/AndroidManifest.xml:11:5-20
+MERGED from [net.time4j:time4j-android:4.8-2021a] /Users/neosoft/.gradle/caches/transforms-3/e90ca8d21e9a537bd7a2d1ad3a936bf5/transformed/jetified-time4j-android-4.8-2021a/AndroidManifest.xml:11:5-20
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.6.0] /Users/neosoft/.gradle/caches/transforms-3/2c28cffc1346de6a33e00a19c46b6b43/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
 	android:label
@@ -180,6 +187,10 @@ MERGED from [com.facebook.flipper:flipper-network-plugin:0.99.0] /Users/neosoft/
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/9cb1845505624aa50d28f8adb1782aec/transformed/jetified-flipper-network-plugin-0.99.0/AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/60dfb80df62095003b1f13624d6ab8fc/transformed/jetified-flipper-fresco-plugin-0.99.0/AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.99.0] /Users/neosoft/.gradle/caches/transforms-3/60dfb80df62095003b1f13624d6ab8fc/transformed/jetified-flipper-fresco-plugin-0.99.0/AndroidManifest.xml:11:5-13:41
+MERGED from [:react-native-async-storage_async-storage] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/@react-native-async-storage/async-storage/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-async-storage_async-storage] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/@react-native-async-storage/async-storage/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-date-picker] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-date-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-date-picker] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-date-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-gesture-handler] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-gesture-handler] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-gesture-handler/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-network-info] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-network-info/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
@@ -194,6 +205,8 @@ MERGED from [com.facebook.react:react-native:0.67.1] /Users/neosoft/.gradle/cach
 MERGED from [com.facebook.react:react-native:0.67.1] /Users/neosoft/.gradle/caches/transforms-3/8270182f30ff8de590cc8f97021af25d/transformed/jetified-react-native-0.67.1/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/neosoft/.gradle/caches/transforms-3/cb1f259e64410a9034d94b35e5fa98cd/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/neosoft/.gradle/caches/transforms-3/cb1f259e64410a9034d94b35e5fa98cd/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [:react-native-linear-gradient] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-linear-gradient/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-linear-gradient] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-linear-gradient/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/dcf3f59ca64d3488e1e4abe6648624a6/transformed/jetified-react-native-reanimated-67-hermes/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-reanimated] /Users/neosoft/Desktop/SchoolFurnitureProject/SchoolFurniture/node_modules/react-native-reanimated/android/build/.transforms/dcf3f59ca64d3488e1e4abe6648624a6/transformed/jetified-react-native-reanimated-67-hermes/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:flipper:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/7ab2e67623a9292949c8ac3f185b98e4/transformed/jetified-flipper-2.5.0/AndroidManifest.xml:5:5-7:41
@@ -294,6 +307,10 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] /Users/neosoft/.g
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] /Users/neosoft/.gradle/caches/transforms-3/4b9ea3bdacace7533c90e0dfca8b356c/transformed/lifecycle-livedata-core-2.3.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/neosoft/.gradle/caches/transforms-3/417738dbb68e7c8be76f6006f88545aa/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/neosoft/.gradle/caches/transforms-3/417738dbb68e7c8be76f6006f88545aa/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.github.henninghall:numberpickerview:v1.1.5] /Users/neosoft/.gradle/caches/transforms-3/c83dc71e80622c67b26d6c2ff3e8b8d7/transformed/jetified-numberpickerview-v1.1.5/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.henninghall:numberpickerview:v1.1.5] /Users/neosoft/.gradle/caches/transforms-3/c83dc71e80622c67b26d6c2ff3e8b8d7/transformed/jetified-numberpickerview-v1.1.5/AndroidManifest.xml:7:5-9:41
+MERGED from [net.time4j:time4j-android:4.8-2021a] /Users/neosoft/.gradle/caches/transforms-3/e90ca8d21e9a537bd7a2d1ad3a936bf5/transformed/jetified-time4j-android-4.8-2021a/AndroidManifest.xml:7:5-9:41
+MERGED from [net.time4j:time4j-android:4.8-2021a] /Users/neosoft/.gradle/caches/transforms-3/e90ca8d21e9a537bd7a2d1ad3a936bf5/transformed/jetified-time4j-android-4.8-2021a/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.fresco:fbcore:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/0adb7967d927befd8322995621b71c44/transformed/jetified-fbcore-2.5.0/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:fbcore:2.5.0] /Users/neosoft/.gradle/caches/transforms-3/0adb7967d927befd8322995621b71c44/transformed/jetified-fbcore-2.5.0/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /Users/neosoft/.gradle/caches/transforms-3/d4d8a64e342d5f7360962b6d766b1f2a/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
