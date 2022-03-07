@@ -52,9 +52,8 @@ export const AddSchool = (props) => {
   };
 
   const getDistrictList = async () => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
-      .get(`${Baseurl}${endUrl.schoolDistList}`)
+      .get(`${endUrl.schoolDistList}`)
       .then((res) => {
         setDistList(res?.data?.data);
       })
@@ -92,12 +91,17 @@ export const AddSchool = (props) => {
   }, []);
 
   const onNext = () => {
+    if (operation == 'Edit'){
     if (selected == {}) {
       inputValues.district_id = selected.id
     }
     else {
       inputValues.district_id = updateItem.district_id
     }
+  }
+  else{
+    inputValues.district_id = selected.id
+  }
     onSubmitDetails(inputValues, operation);
     console.log(inputValues);
   };

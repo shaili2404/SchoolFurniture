@@ -6,14 +6,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './src/routes';
 import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
-import { ManageUserScreen } from './src/screen/manufacturer/ManageUserScreen/manageuserscreen';
+import { ManageUserScreen } from './src/screen/Manufacturer/ManageUserScreen/manageuserscreen';
+import { setBasseUrl } from './src/redux/configration';
 
 const App = () => {
   useEffect(() => {
     Platform.OS === 'ios' ?
       null :
       SplashScreen.hide();
-    //setBasseUrl();
+    setBasseUrl();
   }, [])
   return (
     <NavigationContainer ref={navigationRef}>

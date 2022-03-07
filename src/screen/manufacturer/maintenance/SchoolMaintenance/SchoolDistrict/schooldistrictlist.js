@@ -116,12 +116,11 @@ export const SchoolDistrictList = () => {
       if (value != null && value != "") obj[key] = value;
     });
     axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     console.log(obj)
     const service =
       oper == "Add"
-        ? axios.post(`${Baseurl}${endUrl.schoolDistList}`, obj)
-        : axios.put(`${Baseurl}${endUrl.schoolDistList}/${updateItem.id}`, obj);
+        ? axios.post(`${endUrl.schoolDistList}`, obj)
+        : axios.put(`${endUrl.schoolDistList}/${updateItem.id}`, obj);
     service
       .then((res) => {
         setLoader(false);
@@ -137,7 +136,6 @@ export const SchoolDistrictList = () => {
 
   const apicall = async () => {
     setLoader(true)
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
       .get(`${Baseurl}${endUrl.schoolDistList}`)
       .then((res) => {
@@ -198,7 +196,6 @@ export const SchoolDistrictList = () => {
 
   const onsearch = async () => {
     setLoader(true)
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     axios
       .get(`${Baseurl}${endUrl.districtSearch}${searchtask}`)
       .then((res) => {

@@ -44,10 +44,9 @@ export const DataDisplayList = ({ item, tableKey, reloadList, onEdit,
   const onPressYes = async () => {
     setAlert(false);
     const token = "${loginData?.user?.data?.access_token}";
-    axios.defaults.headers.common["Authorization"] = `Bearer ${Token}`;
     try {
       const response = await axios.delete(
-        `${Baseurl}${link}/${item.id}`
+        `${link}/${item.id}`
       );
       if (response.status === 200) {
         reloadList();
