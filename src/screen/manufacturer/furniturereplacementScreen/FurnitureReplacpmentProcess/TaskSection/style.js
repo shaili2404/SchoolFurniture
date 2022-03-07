@@ -10,7 +10,7 @@ export default StyleSheet.create({
         flexDirection:'row',
         width:'90%',
         justifyContent:'space-between',
-        alignSelf:'center'
+        alignSelf:'center',
     },
     textView:{
        fontWeight:'500',
@@ -30,5 +30,16 @@ export default StyleSheet.create({
         fontSize:16,
         color:COLORS.White,
         alignSelf:'center'
+    },
+    pickSlip:{
+        fontSize:14,
+        textDecorationLine:'underline',
+        color:COLORS.Black,
+        alignSelf:'center',
+       
+    },
+    lastView:{
+        flexDirection:'row',
+        marginTop:7
     }
 })
