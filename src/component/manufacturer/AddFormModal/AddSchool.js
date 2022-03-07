@@ -16,12 +16,8 @@ import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
-import { Baseurl } from "../../../redux/configration/baseurl";
 import endUrl from "../../../redux/configration/endUrl";
-import { Token } from "../../dummyData/Token";
 import { numberonly } from "../../../locales/regexp";
-
-
 
 export const AddSchool = (props) => {
   const {
@@ -41,8 +37,8 @@ export const AddSchool = (props) => {
 
   const setValue = (key, value) => {
     !numberonly.test(inputValues.street_code)
-    ? setDisable(true)
-    : setDisable(false);
+      ? setDisable(true)
+      : setDisable(false);
     setInputValues((prevState) => {
       return {
         ...prevState,
@@ -67,10 +63,10 @@ export const AddSchool = (props) => {
     inputValues.name == "" && inputValues.emis == "" && selected == ""
       ? setDisable(true)
       : setDisable(false);
-      !numberonly.test(inputValues.emis)
+    !numberonly.test(inputValues.emis)
       ? setDisable(true)
       : setDisable(false);
-   
+
   }, [inputValues]);
 
   useEffect(() => {
@@ -91,17 +87,17 @@ export const AddSchool = (props) => {
   }, []);
 
   const onNext = () => {
-    if (operation == 'Edit'){
-    if (selected == {}) {
-      inputValues.district_id = selected.id
+    if (operation == 'Edit') {
+      if (selected == {}) {
+        inputValues.district_id = selected.id
+      }
+      else {
+        inputValues.district_id = updateItem.district_id
+      }
     }
     else {
-      inputValues.district_id = updateItem.district_id
+      inputValues.district_id = selected.id
     }
-  }
-  else{
-    inputValues.district_id = selected.id
-  }
     onSubmitDetails(inputValues, operation);
     console.log(inputValues);
   };

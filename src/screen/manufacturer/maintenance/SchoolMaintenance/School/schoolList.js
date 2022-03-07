@@ -15,12 +15,10 @@ import Images from "../../../../../asset/images";
 
 import constants from "../../../../../locales/constants";
 import axios from "axios";
-import { Baseurl } from "../../../../../redux/configration/baseurl";
 import endUrl from "../../../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
-import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
 import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
 import AlertText from "../../../../../Alert/AlertText";
@@ -41,7 +39,7 @@ export const SchoolList = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
-  
+
 
   const tableKey = [
     "name",
@@ -110,7 +108,6 @@ export const SchoolList = () => {
       if (value != null && value != "" && key != "district_name") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
-    console.log('114',obj)
     const service = oper == "Add" ? axios.post(`${endUrl.schoolList}`, obj) : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
     service.then((res) => {
       setLoader(false);
@@ -187,9 +184,9 @@ export const SchoolList = () => {
       setListData(res?.data?.data);
       setLoader(false)
     }).catch((e) => {
-      console.log('search error', e)
-      setLoader(false)
-      setErrorMessage(constants.SchoolFound);
+      let errorMsg = e?.response?.data?.message;
+      setLoader(false);
+      setErrorMessage(errorMsg);
     })
   };
 
@@ -286,7 +283,7 @@ export const SchoolList = () => {
           name={constants.School}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={ operation === 'Add'? constants.add : constants.update}
+          buttonVal={operation === 'Add' ? constants.add : constants.update}
         />
       ) : null}
       {alert ? (

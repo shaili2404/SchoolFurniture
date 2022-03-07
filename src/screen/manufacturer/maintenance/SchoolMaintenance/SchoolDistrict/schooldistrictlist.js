@@ -15,13 +15,11 @@ import Images from "../../../../../asset/images";
 
 import constants from "../../../../../locales/constants";
 import axios from "axios";
-import { Baseurl } from "../../../../../redux/configration/baseurl";
 import endUrl from "../../../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
-import { Token } from "../../../../../component/dummyData/Token";
 import Loader from "../../../../../component/loader";
 import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
@@ -45,6 +43,7 @@ export const SchoolDistrictList = () => {
     endIndex: 0,
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [permissionArr, setpermissionArr] = useState([]);
 
   const tableKey = [
     "district_office",
@@ -79,6 +78,13 @@ export const SchoolDistrictList = () => {
     { key: "address4", value: constants.Address4 },
     { key: "street_code", value: constants.streetCode },
   ];
+
+  // useEffect(() => {
+  //   setpermissionArr(loginData?.user?.data?.data?.permissions);
+  //   permissionArr.forEach((input) => {
+  //     console.log("getResponse", permissionArr.includes(input.id == 6))
+  //   })
+  // }, [loginData]);
 
   const rendercomponent = ({ item }) => {
     return (
@@ -116,7 +122,6 @@ export const SchoolDistrictList = () => {
       if (value != null && value != "") obj[key] = value;
     });
     axios.defaults.headers.common["Content-Type"] = "application/json";
-    console.log(obj)
     const service =
       oper == "Add"
         ? axios.post(`${endUrl.schoolDistList}`, obj)
@@ -130,14 +135,13 @@ export const SchoolDistrictList = () => {
       .catch((e) => {
         setLoader(false);
         seterrorAlert(true)
-        console.log(JSON.stringify(e))
+        console.log(e)
       });
   };
 
   const apicall = async () => {
     setLoader(true)
-    axios
-      .get(`${Baseurl}${endUrl.schoolDistList}`)
+    axios.get(endUrl.schoolDistList)
       .then((res) => {
         initialPagination(res?.data?.data);
         setListData(res?.data?.data);
@@ -197,16 +201,15 @@ export const SchoolDistrictList = () => {
   const onsearch = async () => {
     setLoader(true)
     axios
-      .get(`${Baseurl}${endUrl.districtSearch}${searchtask}`)
+      .get(`${endUrl.districtSearch}${searchtask}`)
       .then((res) => {
         setListData(res?.data?.data);
         setLoader(false)
       })
       .catch((e) => {
-        if (e) {
-          setLoader(false)
-          setErrorMessage(constants.DistrictFound);
-        }
+        let errorMsg = e?.response?.data?.message;
+        setLoader(false);
+        setErrorMessage(errorMsg);
       });
   };
 
@@ -304,7 +307,7 @@ export const SchoolDistrictList = () => {
           name={constants.District}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={ operation === 'Add'? constants.add : constants.update}
+          buttonVal={operation === 'Add' ? constants.add : constants.update}
         />
       ) : null}
       {alert ? (
@@ -328,11 +331,7 @@ export const SchoolDistrictList = () => {
         <AlertMessage
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}
-          mainMessage={
-            operation == "Add"
-              ? AlertText.districtAdded
-              : AlertText.editfailure
-          }
+          mainMessage={operation == "Add" ? AlertText.districtAdded : AlertText.editfailure}
           onConfirm={() => onPressokay()}
         />
       ) : null}

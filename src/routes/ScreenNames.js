@@ -8,7 +8,7 @@ const NavigationRouteNames = {
     manageuserscreen: 'Manage User',
     ADDNEWUSERS: "AddNewUsers",
     Furniturereplacment: 'Furniture Replacment',
-
+    Functionalities: 'Functionalities'
 };
 
 export default NavigationRouteNames;

@@ -5,10 +5,8 @@ import SplashScreen from "react-native-splash-screen";
 import First from "../First";
 import Second from "../Second";
 import PasswordReset from "../screen/PasswordReset/index";
-// import DrawerSideBar from "../containers/DrawerSideBar/index";
 import DrawerSideBar from "../DrawerSideBar";
 import NavigationRouteNames from "./ScreenNames";
-import { storeData, getSaveData, removeData, clearAll } from "../utils/helpers";
 import { USER_ROLE } from "./Constants";
 import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
@@ -19,17 +17,18 @@ import { SchoolDistrictList } from "../screen/Manufacturer/maintenance/SchoolMai
 import { SchoolList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/School/schoolList";
 import AddNewUsers from "../screen/Manufacturer/AddNewUsers/AddNewUsers";
 import { FurnitureReplacmentManfacturer } from "../screen/Manufacturer/furniturereplacementScreen/furniturerequestscreen";
+import { Functionalities } from '../component/manufacturer/Functionalitiesuser'
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const CommonHeaderStyle = { headerTitleStyle: { color: '#359934'} };
+const CommonHeaderStyle = { headerTitleStyle: { color: '#359934' } };
 
 const DrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-      <Drawer.Screen 
-        component={First}  
+      <Drawer.Screen
+        component={First}
         name="First"
         options={CommonHeaderStyle}
       />
@@ -40,11 +39,11 @@ const DrawerStack = () => {
 const ManageUserDrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-      <Drawer.Screen 
-              component={ManageUserScreen}
-              name="Manage User"
-              options={CommonHeaderStyle}
-            />
+      <Drawer.Screen
+        component={ManageUserScreen}
+        name="Manage User"
+        options={CommonHeaderStyle}
+      />
     </Drawer.Navigator>
   );
 };
@@ -52,11 +51,11 @@ const ManageUserDrawerStack = () => {
 const SchoolMaintenanceDrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-            <Drawer.Screen 
-              name="School Maintenance"
-              component={Schoolmaintenancescreen}
-              options={CommonHeaderStyle}
-            />
+      <Drawer.Screen
+        name="School Maintenance"
+        component={Schoolmaintenancescreen}
+        options={CommonHeaderStyle}
+      />
     </Drawer.Navigator>
   );
 };
@@ -64,11 +63,11 @@ const SchoolMaintenanceDrawerStack = () => {
 const FurnitureReplaceDrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-            <Drawer.Screen 
-              name="Furniture Replacment"
-              component={FurnitureReplacmentManfacturer}
-              options={CommonHeaderStyle}
-            />
+      <Drawer.Screen
+        name="Furniture Replacment"
+        component={FurnitureReplacmentManfacturer}
+        options={CommonHeaderStyle}
+      />
     </Drawer.Navigator>
   );
 };
@@ -76,40 +75,13 @@ const FurnitureReplaceDrawerStack = () => {
 const AppStack = (props) => {
   const [login, setLogin] = useState(false);
 
-  // useEffect(() => {
-  //   async function getToken() {
-  //     const token = await getSaveData("token");
-  //     console.log("hi", token);
-  //     if (token != null) {
-  //       setLogin(true);
-  //     }
-  //   }
-  //   getToken();
-  // }, []);
-
   const loginData = useSelector((state) => state?.loginData);
   const token = loginData?.user?.data?.access_token;
-  console.log("checkdata", token);
   const role = loginData?.user?.data?.data?.user?.role;
-  console.log("checkdatarole", role);
-
-  // useEffect(() => {
-  //   // {
-  //   //   Platform.OS === 'ios' ?
-  //   //     null :
-  //   //     SplashScreen.hide();
-  //   // }
-  //   setTimeout(() => {
-  //     SplashScreen.hide();
-  //   }, 2500);
-  // }, []);
 
   useEffect(() => {
     SplashScreen.hide();
   }, []);
-
-  //  const user = props.loginReducer;
-  //  console.log("user",user);
 
   const SwitchNavigation = (role) => {
     switch (role) {
@@ -121,9 +93,9 @@ const AppStack = (props) => {
               component={DrawerStack}
               options={{ headerShown: false }}
             />
-            <Stack.Screen 
+            <Stack.Screen
               name={NavigationRouteNames.SECOND}
-              component={Second} 
+              component={Second}
               options={CommonHeaderStyle}
             />
             <Stack.Screen
@@ -146,17 +118,17 @@ const AppStack = (props) => {
               component={SchoolList}
               options={CommonHeaderStyle}
             />
-             <Stack.Screen
+            <Stack.Screen
               name="Furniture Replacment"
               component={FurnitureReplaceDrawerStack}
               options={{ headerShown: false }}
             />
             {/* dummy Screen  */}
-          <Stack.Screen 
-            name={NavigationRouteNames.ADDNEWUSERS}
-            component={AddNewUsers} 
-            options={CommonHeaderStyle}
-          />
+            <Stack.Screen
+              name={NavigationRouteNames.ADDNEWUSERS}
+              component={AddNewUsers}
+              options={CommonHeaderStyle}
+            />
           </>
         );
 
@@ -180,10 +152,9 @@ const AppStack = (props) => {
         return (
           <>
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
-
             <Stack.Screen name="PasswordReset" component={PasswordReset} />
             <Stack.Screen name="First" component={DrawerStack} />
-            
+
           </>
         );
     }
@@ -192,65 +163,70 @@ const AppStack = (props) => {
   return (
     <Stack.Navigator initialRouteName="LOGINSCREEN">
       {/* {!login ? ( */}
-        <>
-          <Stack.Screen 
-            name={NavigationRouteNames.LOGINSCREEN}
-            component={LoginScreen} 
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name={NavigationRouteNames.PASSWORDRESET}
-            component={PasswordReset}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen 
-            name={NavigationRouteNames.EMAILSENT}
-            component={EmailSent} 
-            options={CommonHeaderStyle}
-          />
-          {/* After Login Screen */}
-          <Stack.Screen
-              name={NavigationRouteNames.FIRST}
-              component={DrawerStack}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen 
-              name={NavigationRouteNames.SECOND}
-              component={Second} 
-              options={CommonHeaderStyle}
-            />
-            <Stack.Screen
-              name="School Maintenance"
-              component={SchoolMaintenanceDrawerStack}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Manage User"
-              component={ManageUserDrawerStack}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="School District"
-              component={SchoolDistrictList}
-              options={CommonHeaderStyle}
-            />
-            <Stack.Screen
-              name="School"
-              component={SchoolList}
-              options={CommonHeaderStyle}
-            />
-             <Stack.Screen
-              name="Furniture Replacment"
-              component={FurnitureReplaceDrawerStack}
-              options={{ headerShown: false }}
-            />
-            {/* dummy Screen  */}
-          <Stack.Screen 
-            name={NavigationRouteNames.ADDNEWUSERS}
-            component={AddNewUsers} 
-            options={CommonHeaderStyle}
-          />
-        </>
+      <>
+        <Stack.Screen
+          name={NavigationRouteNames.LOGINSCREEN}
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.PASSWORDRESET}
+          component={PasswordReset}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.EMAILSENT}
+          component={EmailSent}
+          options={CommonHeaderStyle}
+        />
+        {/* After Login Screen */}
+        <Stack.Screen
+          name={NavigationRouteNames.FIRST}
+          component={DrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.SECOND}
+          component={Second}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name="School Maintenance"
+          component={SchoolMaintenanceDrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Manage User"
+          component={ManageUserDrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="School District"
+          component={SchoolDistrictList}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name="School"
+          component={SchoolList}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name="Furniture Replacment"
+          component={FurnitureReplaceDrawerStack}
+          options={{ headerShown: false }}
+        />
+        {/* dummy Screen  */}
+        <Stack.Screen
+          name={NavigationRouteNames.ADDNEWUSERS}
+          component={AddNewUsers}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.Functionalities}
+          component={Functionalities}
+          options={CommonHeaderStyle}
+        />
+      </>
       {/* ) : (
         SwitchNavigation("manufacturer")
       )} */}
