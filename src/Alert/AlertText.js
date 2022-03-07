@@ -18,6 +18,7 @@ const AlertText = {
     schoolAdded: 'School is already added',
     editfailure: 'Please try To edit again',
     createSuccess: 'User Created Successful',
-    updateSuccess: 'User Updated Successful'
+    updateSuccess: 'User Updated Successful',
+    deleteStock :'Do You Want To This Stock'
 }
 export default AlertText

@@ -16,26 +16,24 @@ import axios from "axios";
 import { Baseurl } from "../../redux/configration/baseurl";
 import { Token } from "../dummyData/Token";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
-export const DataDisplayList = ({ item, tableKey, reloadList, onEdit,
+export const DataDisplayList = ({
+  item,
+  tableKey,
+  reloadList,
+  onEdit,
   link,
   mainMessage,
-  submessage, Url, data, schoolDataList}) => {
+  submessage,
+  data,
+  schoolDataList,
+  List,
+}) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
-  const[dataArray,setDataArray]=useState()
+  const [dataArray, setDataArray] = useState();
   const navigation = useNavigation();
-
-  // const onEdit = (item) => {
-  //   if(userModal){
-  //     setUserModal(true);
-  //   } else {
-  //     // console.log("jjj",item);
-  //     navigation.navigate('AddNewUsers',{Item: item, btnStatus: '0'});
-  //   }
-    
-  // };
 
   const onDelete = () => {
     setAlert(true);
@@ -45,47 +43,48 @@ export const DataDisplayList = ({ item, tableKey, reloadList, onEdit,
     setAlert(false);
     const token = "${loginData?.user?.data?.access_token}";
     try {
-      const response = await axios.delete(
-        `${link}/${item.id}`
-      );
+      const response = await axios.delete(`${link}/${item.id}`);
       if (response.status === 200) {
         reloadList();
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   };
-
 
   return (
     <SafeAreaView style={Styles.firstView}>
-      { data == "0" ? 
-     <View style={Styles.mainView}>
-     {tableKey.map((val,index) => (
-       <TouchableOpacity onPress={()=> schoolDataList(item)}>
-       <View key={val} style={Styles.viewStyle}>
-         <Text style={Styles.textStyle}>{item[val]}</Text>
-       </View>
-       </TouchableOpacity>
-     ))}
-      </View>: 
-      <View style={Styles.mainView}>
-        {tableKey.map((val) => (
-          <View key={val} style={Styles.viewStyle}>
-            <Text style={Styles.textStyle}>{item[val]}</Text>
-          </View>
-        ))}
+      {data == "0" ? (
+        <View style={Styles.mainView}>
+          {tableKey.map((val, index) => (
+            <TouchableOpacity onPress={() => schoolDataList(item)}>
+              <View key={val} style={Styles.viewStyle}>
+                <Text style={Styles.textStyle}>{item[val]}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      ) : (
+        <View style={Styles.mainView}>
+          {tableKey.map((val) => (
+            <View
+              key={val}
+              style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
+            >
+              <Text style={Styles.textStyle}>{item[val]}</Text>
+            </View>
+          ))}
 
-        <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
-            <Image source={Images.editIcon} />
-          </TouchableOpacity>
+          <View style={Styles.viewsssStyle}>
+            <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
+              <Image source={Images.editIcon} />
+            </TouchableOpacity>
+          </View>
+          <View style={Styles.viewsssStyle}>
+            <TouchableOpacity onPress={onDelete}>
+              <Image source={Images.deleteIcon} />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={Styles.viewsssStyle}>
-          <TouchableOpacity onPress={onDelete}>
-            <Image source={Images.deleteIcon} />
-          </TouchableOpacity>
-        </View>
-      </View> }
+      )}
 
       {userModal ? (
         <AddUserModal
@@ -139,5 +138,10 @@ const Styles = StyleSheet.create({
     width: 20,
     marginTop: 12,
     marginHorizontal: 20,
+  },
+  screenStyle: {
+    width: "30%",
+    marginTop: 12,
+    marginHorizontal: 4,
   },
 });

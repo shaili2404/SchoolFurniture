@@ -9,6 +9,7 @@ export default StyleSheet.create({
     height: height,
     alignContent: "center",
     justifyContent: "center",
+    backgroundColor:COLORS.White
   },
   districtButton: {
     width: "60%",
@@ -21,13 +22,13 @@ export default StyleSheet.create({
     justifyContent: "center",
     borderRadius: 39,
   },
-  districttext: {
+  stockCategory: {
     fontSize: 22,
     color: COLORS.borderGreen,
     textAlign: "center",
     fontWeight: "bold",
   },
-  stockCategory: {
+  stockitemButton: {
     width: "60%",
     height: 78,
     backgroundColor: COLORS.ThemeGreen,

@@ -22,6 +22,7 @@ import { FurnitureReplacmentManfacturer } from "../screen/Manufacturer/furniture
 import { StockMaintenanceScreen } from "../screen/Manufacturer/maintenance/StockMaintenance/stockmaintenanncescreen";
 import { Functionalities } from "../component/manufacturer/Functionalitiesuser";
 import StockCategory from "../screen/Manufacturer/maintenance/StockCategory/StockCategory";
+import { StockItems } from "../screen/Manufacturer/maintenance/StockMaintenance/stockItems/StockItems";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -277,6 +278,11 @@ const AppStack = (props) => {
           <Stack.Screen 
             name={NavigationRouteNames.STOCKCATEGORY}
             component={StockCategory} 
+            options={CommonHeaderStyle}
+          />
+           <Stack.Screen 
+            name={NavigationRouteNames.STOCKITEM}
+            component={StockItems} 
             options={CommonHeaderStyle}
           />
       </>

@@ -15,7 +15,7 @@ export const StockMaintenanceScreen = ()=>{
                     {constants.stockCategory}
                    </Text>
                </TouchableOpacity >
-               <TouchableOpacity style={style.schoolButton} >
+               <TouchableOpacity style={style.stockitemButton} onPress={()=> navigation.navigate("Stock Item")}  >
                    <Text style={style.stockitems}>
                    {constants.stockitems}
                    </Text>
