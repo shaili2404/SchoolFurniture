@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BVLinearGradient.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CocoaAsyncSocket.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -259,7 +264,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-<<<<<<< HEAD
 		<key>react-native-date-picker.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -280,8 +284,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-=======
->>>>>>> dev_mohan_2
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict/>
