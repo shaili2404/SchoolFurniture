@@ -5,10 +5,8 @@ import SplashScreen from "react-native-splash-screen";
 import First from "../First";
 import Second from "../Second";
 import PasswordReset from "../screen/PasswordReset/index";
-// import DrawerSideBar from "../containers/DrawerSideBar/index";
 import DrawerSideBar from "../DrawerSideBar";
 import NavigationRouteNames from "./ScreenNames";
-import { storeData, getSaveData, removeData, clearAll } from "../utils/helpers";
 import { USER_ROLE } from "./Constants";
 import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
@@ -78,11 +76,11 @@ const FurnitureReplaceDrawerStack = () => {
 const StockMaintenanceDrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
-            <Drawer.Screen 
-              name={NavigationRouteNames.STOCKMAINTENANCE}
-              component={StockMaintenanceScreen}
-              options={CommonHeaderStyle}
-            />
+      <Drawer.Screen
+        name={NavigationRouteNames.STOCKMAINTENANCE}
+        component={StockMaintenanceScreen}
+        options={CommonHeaderStyle}
+      />
     </Drawer.Navigator>
   );
 };
@@ -92,40 +90,13 @@ const StockMaintenanceDrawerStack = () => {
 const AppStack = (props) => {
   const [login, setLogin] = useState(false);
 
-  // useEffect(() => {
-  //   async function getToken() {
-  //     const token = await getSaveData("token");
-  //     console.log("hi", token);
-  //     if (token != null) {
-  //       setLogin(true);
-  //     }
-  //   }
-  //   getToken();
-  // }, []);
-
   const loginData = useSelector((state) => state?.loginData);
   const token = loginData?.user?.data?.access_token;
-  console.log("checkdata", token);
   const role = loginData?.user?.data?.data?.user?.role;
-  console.log("checkdatarole", role);
-
-  // useEffect(() => {
-  //   // {
-  //   //   Platform.OS === 'ios' ?
-  //   //     null :
-  //   //     SplashScreen.hide();
-  //   // }
-  //   setTimeout(() => {
-  //     SplashScreen.hide();
-  //   }, 2500);
-  // }, []);
 
   useEffect(() => {
     SplashScreen.hide();
   }, []);
-
-  //  const user = props.loginReducer;
-  //  console.log("user",user);
 
   const SwitchNavigation = (role) => {
     switch (role) {
@@ -168,6 +139,7 @@ const AppStack = (props) => {
               options={{ headerShown: false }}
             />
 
+            {/* dummy Screen  */}
             <Stack.Screen
               name={NavigationRouteNames.ADDNEWUSERS}
               component={AddNewUsers}
@@ -198,13 +170,15 @@ const AppStack = (props) => {
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="PasswordReset" component={PasswordReset} />
             <Stack.Screen name="First" component={DrawerStack} />
+
           </>
         );
     }
   };
 
   return (
-    <Stack.Navigator initialRouteName="LoginScreen">
+    <Stack.Navigator initialRouteName="LOGINSCREEN">
+      {/* {!login ? ( */}
       <>
         <Stack.Screen
           name={NavigationRouteNames.LOGINSCREEN}
@@ -222,6 +196,7 @@ const AppStack = (props) => {
           options={CommonHeaderStyle}
         />
 
+        {/* After Login Screen */}
         <Stack.Screen
           name={NavigationRouteNames.FIRST}
           component={DrawerStack}
@@ -258,13 +233,14 @@ const AppStack = (props) => {
           options={{ headerShown: false }}
         />
 
+        {/* dummy Screen  */}
         <Stack.Screen
           name={NavigationRouteNames.ADDNEWUSERS}
           component={AddNewUsers}
           options={CommonHeaderStyle}
         />
         <Stack.Screen
-          name="Functionalities"
+          name={NavigationRouteNames.Functionalities}
           component={Functionalities}
           options={CommonHeaderStyle}
         />

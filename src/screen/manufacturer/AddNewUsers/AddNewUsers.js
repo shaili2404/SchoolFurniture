@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useDebugValue } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -12,15 +12,13 @@ import {
 import Styles from "./Styles";
 import constants from "../../../locales/constants";
 import axios from "axios";
-import { Baseurl } from "../../../redux/configration/baseurl";
 import endUrl from "../../../redux/configration/endUrl";
-import { Token } from "../../../component/dummyData/Token";
 import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import Dropdown from "../../../component/DropDown/dropdown";
-import { useNavigation } from "@react-navigation/native";
 import { regExpEmail } from "../../../locales/regexp";
+import Images from "../../../asset/images";
 
 const AddNewUsers = () => {
   const [organizationList, setOrganizationList] = useState([]);
@@ -41,11 +39,9 @@ const AddNewUsers = () => {
   const tableKey = ["name", "emis"];
   const tableHeader = [constants.school, constants.emis];
 
-  const imgSearch = require("../../../assets/Images/Common/ionic-ios-search.png");
-
-  useEffect(()=>{
-    {!regExpEmail.test(email)? setDisable(true) : setDisable(false)}
-  },[email])
+  useEffect(() => {
+    { !regExpEmail.test(email) ? setDisable(true) : setDisable(false) }
+  }, [email])
   useEffect(() => {
     apicall();
     addSchool();
@@ -64,7 +60,7 @@ const AddNewUsers = () => {
 
   const apicall = async () => {
     try {
-      const response = await axios.get(`${Baseurl}${endUrl.organisation}`);
+      const response = await axios.get(endUrl.organisation);
 
       var tempList = [];
       tempList = response?.data?.data;
@@ -162,7 +158,7 @@ const AddNewUsers = () => {
             data={organizationList}
             onSelect={setSelected}
             task="name"
-            way={btnStatus == 0 ?  'Edit' : null }
+            way={btnStatus == 0 ? 'Edit' : null}
           />
         </View>
 
@@ -212,7 +208,7 @@ const AddNewUsers = () => {
               />
               <TouchableOpacity onPress={() => showHide()}>
                 <Image
-                  source={imgSearch}
+                  source={Images.SearchIcon}
                   style={{
                     position: "absolute",
                     alignItems: "center",

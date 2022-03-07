@@ -9,24 +9,20 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Alert,
 } from "react-native";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
-import { FurnitureRequestList } from "../../../component/school/furniturerequestList";
 
 import constants from "../../../locales/constants";
 import axios from "axios";
-import Dummydatauser from "../../../component/dummyData/DummyDatauser";
-import { Baseurl } from "../../../redux/configration/baseurl";
 import endUrl from "../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
 import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import { AddUserModal } from "../../../component/manufacturer/AddFormModal/AddFormModal";
-import { Token } from "../../../component/dummyData/Token";
 import Loader from "../../../component/loader";
 import { useNavigation } from "@react-navigation/native";
+import AlertText from "../../../Alert/AlertText";
 
 const PAGESIZE = 10;
 
@@ -50,10 +46,6 @@ export const ManageUserScreen = () => {
     "username",
     "email",
     "organization",
-    // "tel",
-    // "emis",
-    // "district_name",
-    // "school_principal",
   ];
   const tableHeader = [
     constants.name,
@@ -64,19 +56,6 @@ export const ManageUserScreen = () => {
     constants.manage,
   ];
 
-  // const addArray = [
-  //   { key: "name", value: constants.School },
-  //   { key: "emis", value: constants.schoolEmisNumber },
-  //   { key: "district_name", value: constants.SchoolDistrict },
-  //   { key: "School Principle", value: constants.SchoolPrinciple },
-  //   { key: "tel", value: constants.SchoolTelno },
-  //   { key: "address1", value: constants.Address1 },
-  //   { key: "address2", value: constants.Address2 },
-  //   { key: "address3", value: constants.Address3 },
-  //   { key: "address4", value: constants.Address4 },
-  //   { key: "street_code", value: constants.streetCode },
-  // ];
-
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -85,6 +64,8 @@ export const ManageUserScreen = () => {
         reloadList={() => reloadList()}
         Url={endUrl.userList}
         onEdit={(item, task) => onEdit(item, task)}
+        mainMessage={AlertText.deleteUser}
+        submessage={AlertText.canNotUndo}
       />
     );
   };
@@ -104,9 +85,9 @@ export const ManageUserScreen = () => {
   const reloadList = () => {
     apicall();
   };
+
   const onSubmitDetails = async (value) => {
     const a = "${loginData?.user?.data?.access_token}";
-
     try {
       const response = await axios.post(
         `${endUrl.schoolList}`,
@@ -117,8 +98,7 @@ export const ManageUserScreen = () => {
 
   const apicall = () => {
     setLoader(true);
-    axios
-      .get(`${endUrl.userList}`)
+    axios.get(`${endUrl.userList}`)
       .then((res) => {
         initialPagination(res?.data?.data);
         setListData(res?.data?.data);
@@ -159,6 +139,7 @@ export const ManageUserScreen = () => {
       };
     });
   };
+
   const onPrevious = () => {
     let { currentPage } = pagination;
     if (currentPage === 1) {
@@ -173,6 +154,7 @@ export const ManageUserScreen = () => {
       };
     });
   };
+
   const onsearch = () => {
     setLoader(true);
     axios
@@ -182,9 +164,9 @@ export const ManageUserScreen = () => {
         setLoader(false);
       })
       .catch((e) => {
-        console.log("search error", e);
+        let errorMsg = e?.response?.data?.message;
         setLoader(false);
-        setErrorMessage(constants.userNotFound);
+        setErrorMessage(errorMsg);
       });
   };
 
@@ -228,13 +210,15 @@ export const ManageUserScreen = () => {
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              data={listData.sort((a, b) => a.name.localeCompare(b.name)).slice(pagination.startIndex, pagination.endIndex)}
-              renderItem={rendercomponent}
-            />
+            <>
+              <FlatList
+                ListHeaderComponent={HeaderComponet}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => item.id}
+                data={listData.sort((a, b) => a.name.localeCompare(b.name)).slice(pagination.startIndex, pagination.endIndex)}
+                renderItem={rendercomponent}
+              />
+            </>
           </ScrollView>
         )}
       </View>

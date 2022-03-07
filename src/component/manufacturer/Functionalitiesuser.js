@@ -14,13 +14,10 @@ import COLORS from "../../asset/color";
 import constants from "../../locales/constants";
 import endUrl from "../../redux/configration/endUrl";
 import Images from "../../asset/images";
-import { Baseurl } from "../../redux/configration/baseurl";
-import { Token } from "../../component/dummyData/Token";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { AlertMessage } from "../../Alert/alert";
 import LinearGradient from "react-native-linear-gradient";
 import AlertText from "../../Alert/AlertText";
-import { useNavigation } from "@react-navigation/native";
 import Loader from "../../component/loader";
 
 const SECTIONNAME = {
@@ -46,7 +43,6 @@ export const Functionalities = () => {
     const [permissions, setPermissions] = useState(new Map());
     const [permissionIds, setPermissionId] = useState([]);
     const [loader, setLoader] = useState(true);
-    const [innerRoute, setInnerRoute] = useState(true)
 
     useEffect(() => {
         getId();
@@ -83,7 +79,7 @@ export const Functionalities = () => {
 
     const getOrgPermission = (list) => {
         axios
-            .get(endUrl.organisationPermission)
+            .get(endUrl.organisation)
             .then((res) => {
                 const permission = itemObj?.permissions;
                 let permissionMap = new Map();
@@ -91,6 +87,8 @@ export const Functionalities = () => {
                     permission.forEach((input) => {
                         permissionMap.set(input.id, input)
                     })
+                    const permissionIds = res?.data?.data[(itemObj.organization_id) - 1].permissons || [];
+                    setPermissionId(permissionIds);
                 } else {
                     const permissionIds = res?.data?.data[(reqData.organization) - 1].permissons || [];
                     setPermissionId(permissionIds);
@@ -194,13 +192,7 @@ export const Functionalities = () => {
                             {checkPermission(subSection.id) && (
                                 <Image
                                     source={Images.rightIcon}
-                                    style={{
-                                        height: 20,
-                                        width: 20,
-                                        justifyContent: "center",
-                                        alignSelf: "center",
-                                        marginTop:10
-                                    }}
+                                    style={styles.iconStyle}
                                 ></Image>
                             )}
                         </TouchableOpacity>
@@ -232,7 +224,7 @@ export const Functionalities = () => {
                             : AlertText.updateSuccess
                     }
                     onPressDone={() => onPressDone()}
-                    innerRoute={innerRoute}
+                    innerRoute={true}
                 />
             ) : null}
         </SafeAreaView>
@@ -345,10 +337,16 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     cancelText: {
-
         color: COLORS.blue,
         textDecorationLine: 'underline',
         fontSize: 16,
         marginTop: 25
+    },
+    iconStyle: {
+        height: 20,
+        width: 20,
+        justifyContent: "center",
+        alignSelf: "center",
+        marginTop: 10
     }
 });

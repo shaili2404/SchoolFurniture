@@ -18,6 +18,8 @@ const AlertText = {
     schoolAdded: 'School is already added',
     editfailure: 'Please try To edit again',
     createSuccess: 'User Created Successful',
-    updateSuccess: 'User Updated Successful'
+    updateSuccess: 'User Updated Successful',
+    deleteUser: 'Do you want to delete this User?',
+    canNotUndo: 'You cannot undo this action'
 }
 export default AlertText

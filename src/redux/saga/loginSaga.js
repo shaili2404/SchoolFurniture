@@ -4,11 +4,8 @@ import {
     LOGIN_ERROR
 } from '../actionTypes'
 import { loginService } from '../configration/service';
-// import { useNavigation } from '@react-navigation/native'; 
-import { storeData, getSaveData, removeData, clearAll } from '../../utils/helpers';
+import { storeData } from '../../utils/helpers';
 import { navigate } from '../../routes/rootNavigation';
-
-import { CommonActions } from '@react-navigation/native';
 import { setAuthentication } from '../configration';
 
 function* loginSaga(action) {
