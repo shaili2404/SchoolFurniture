@@ -9,6 +9,7 @@ const NavigationRouteNames = {
     ADDNEWUSERS: "AddNewUsers",
     Furniturereplacment: 'Furniture Replacment',
     STOCKMAINTENANCE: "StockMaintenanceScreen",
+    STOCKCATEGORY: "StockCategory",
 
 };
 

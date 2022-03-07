@@ -86,6 +86,7 @@ const constants = {
     userAdded: ' User Added SuccessFully ',
     stockCategory :'Stock Category',
     stockitems:'Stock Items',
+    StockCategories: 'Stock Categories',
 
 }
 export default constants
