@@ -4,10 +4,6 @@ import Styles from './Styles';
 import Constants from '../../../../locales/constants';
 import { ListHeaderComman } from '../../../../component/manufacturer/ListHeaderComman';
 
-const HeaderComponent = () => {
-    return <ListHeaderComman tableHeader={tableHeader} />;
-  };
-
 const StockCategory = () => {
     const [stockCategory, setStockCategory] = useState("");
     const [categoryListData, setCategoryListData] = useState([]);
@@ -35,6 +31,10 @@ const StockCategory = () => {
         startIndex: 0,
         endIndex: 0,
       });
+
+      const HeaderComponent = () => {
+        return <ListHeaderComman tableHeader={tableHeader} />;
+      };
 
       const rendercomponent = ({ item }) => {
         return (
