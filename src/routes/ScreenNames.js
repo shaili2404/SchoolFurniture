@@ -8,6 +8,7 @@ const NavigationRouteNames = {
     manageuserscreen: 'Manage User',
     ADDNEWUSERS: "AddNewUsers",
     Furniturereplacment: 'Furniture Replacment',
+    STOCKMAINTENANCE: "StockMaintenanceScreen",
 
 };
 

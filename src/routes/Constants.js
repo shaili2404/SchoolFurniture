@@ -108,7 +108,7 @@ const USER_ROLE = {
         name: 'Stock',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/inventory_black_24dp.png'),
-        screenName: ""
+        screenName: NavigationRouteNames.STOCKMAINTENANCE
       },
       {
         name: 'School',

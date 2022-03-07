@@ -105,7 +105,7 @@ const DrawerSideBar = (props) => {
                 <View style={Styles.menuItemContainera}> 
                 <TouchableOpacity
                     key={index}
-                    activeOpacity={0.8} onPress={() => onNavigation(item.screenName)}>
+                    activeOpacity={0.8} onPress={() => showHide()}>
                     <View
                         style={[Styles.menuItemContainerb]}>
                         <View 

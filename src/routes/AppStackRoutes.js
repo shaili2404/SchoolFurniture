@@ -19,6 +19,7 @@ import { SchoolDistrictList } from "../screen/Manufacturer/maintenance/SchoolMai
 import { SchoolList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/School/schoolList";
 import AddNewUsers from "../screen/Manufacturer/AddNewUsers/AddNewUsers";
 import { FurnitureReplacmentManfacturer } from "../screen/Manufacturer/furniturereplacementScreen/furniturerequestscreen";
+import { StockMaintenanceScreen } from "../screen/Manufacturer/maintenance/StockMaintenance/stockmaintenanncescreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -72,6 +73,20 @@ const FurnitureReplaceDrawerStack = () => {
     </Drawer.Navigator>
   );
 };
+
+const StockMaintenanceDrawerStack = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+            <Drawer.Screen 
+              name={NavigationRouteNames.STOCKMAINTENANCE}
+              component={StockMaintenanceScreen}
+              options={CommonHeaderStyle}
+            />
+    </Drawer.Navigator>
+  );
+};
+
+
 
 const AppStack = (props) => {
   const [login, setLogin] = useState(false);
@@ -249,6 +264,11 @@ const AppStack = (props) => {
             name={NavigationRouteNames.ADDNEWUSERS}
             component={AddNewUsers} 
             options={CommonHeaderStyle}
+          />
+          <Stack.Screen 
+            name={NavigationRouteNames.STOCKMAINTENANCE}
+            component={StockMaintenanceDrawerStack} 
+            options={{ headerShown: false }}
           />
         </>
       {/* ) : (
