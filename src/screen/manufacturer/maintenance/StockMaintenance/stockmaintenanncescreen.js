@@ -10,7 +10,7 @@ export const StockMaintenanceScreen = ()=>{
     return(
       <SafeAreaView style={style.container}>
            <View>
-               <TouchableOpacity style={style.districtButton} >
+               <TouchableOpacity style={style.districtButton} onPress={()=> navigation.navigate("StockCategory")} >
                    <Text style={style.stockCategory}>
                     {constants.stockCategory}
                    </Text>
