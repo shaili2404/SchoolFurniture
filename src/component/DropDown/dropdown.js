@@ -53,7 +53,7 @@ const Dropdown = ({ label, data, onSelect, task,way }) => {
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
-              style={data.length > 4 ? styles.flatStyle : styles.flatStyles}
+              style={data?.length > 4 ? styles.flatStyle : styles.flatStyles}
             />
           </View>
         </TouchableOpacity>
