@@ -180,7 +180,7 @@ const AppStack = (props) => {
   };
 
   return (
-    <Stack.Navigator initialRouteName="LOGINSCREEN">
+    <Stack.Navigator initialRouteName={NavigationRouteNames.LOGINSCREEN}>
       {/* {!login ? ( */}
       <>
         <Stack.Screen

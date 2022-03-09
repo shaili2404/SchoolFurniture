@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { AlertMessage } from "../../Alert/alert";
+import { AlertMessage } from "../../Alert/alert"; 
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";

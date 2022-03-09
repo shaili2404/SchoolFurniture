@@ -90,7 +90,7 @@ export default StyleSheet.create({
   boxDefault:{
     
     marginTop:'15%'
-  },
+  }, 
   main: {
     flexDirection: "row",
 },

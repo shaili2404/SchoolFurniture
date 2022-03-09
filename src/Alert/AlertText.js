@@ -22,5 +22,6 @@ const AlertText = {
     deleteUser: 'Do you want to delete this User?',
     canNotUndo: 'You cannot undo this action',
     deleteStock :'Do You Want To This Stock',
+    deleteStockCategory: 'Do you want to delete this Category?'
 }
 export default AlertText

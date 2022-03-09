@@ -11,6 +11,8 @@ const endUrl = {
     addUser: 'user/manage',
     usersearch: 'user/search/query?query=',
     allPermission: 'all-permissions',
+    stockCategoryList: 'user/stock-category',
+    stockCategorySearch: 'user/search/stock-category?query=',
 }
 
 export default endUrl;

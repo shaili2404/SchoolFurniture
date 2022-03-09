@@ -93,7 +93,8 @@ const constants = {
     StockCategories: 'Stock Categories',
     BrokenFurnitureItem:'Broken Furniture Items',
     printPickupSLip:'Print Pickup Slip',
-    save:'save'
+    save:'save',
+    searchCategory: 'Search Category',
 
 }
 export default constants
