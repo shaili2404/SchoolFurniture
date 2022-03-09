@@ -34,14 +34,14 @@ export const StockItems = () => {
   const [stockCategoryName, setStockCategoryName] = useState("");
   const [defaultStockCategory, setDefaultStockCategory] = useState("");
   const [loader, setLoader] = useState(true);
-  const tableKey = ["category_name","name"];
+  const tableKey = ["category_name", "name"];
   const [errorMessage, setErrorMessage] = useState("");
   const [searchtask, setSearchTask] = useState("");
   const [alert, setAlert] = useState(false);
-  const [taskfor,setTaskFor] = useState('')
+  const [taskfor, setTaskFor] = useState("");
   const [dropdata, setDropdowndata] = useState("");
-  const [onEditName,setOnEditName] = useState('')
-  const [successMessage,setSuccessMessage] = useState('')
+  const [onEditName, setOnEditName] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -70,59 +70,55 @@ export const StockItems = () => {
     getStockList();
   };
 
-   const onEdit = (item, task ) => {
-    setTaskFor(task)
+  const onEdit = (item, task) => {
+    setTaskFor(task);
     setEditState(true);
     setDefaultStockCategory(item.name);
-    setDropdowndata(item.category_name)
-    setOnEditName(item)
+    setDropdowndata(item.category_name);
+    setOnEditName(item);
   };
 
   const onUpdate = () => {
     setEditState(false);
-    setTaskFor('')
+    setTaskFor("");
     let data = {
-      'name': defaultStockCategory,
-      'category_id': onEditName.category_id,
+      name: defaultStockCategory,
+      category_id: onEditName.category_id,
     };
     setLoader(true);
     axios
       .put(`${endUrl.stockitemList}/${onEditName.id}`, data)
       .then((res) => {
-        console.log(res?.data)
-        setAlert(true)
-        getStockList()
+        setAlert(true);
+        getStockList();
         setLoader(false);
-        setSelected({})
-        setSuccessMessage(res?.data?.message)
-        setStockCategoryName('')
+        setSelected({});
+        setSuccessMessage(res?.data?.message);
+        setStockCategoryName("");
       })
-      .catch((e) =>{ 
-        setLoader(false)
-      } );
-
-
+      .catch((e) => {
+        setLoader(false);
+      });
   };
   const onAdd = () => {
-    console.log('78',selected)
     let data = {
-      'name': stockCategoryName,
-      'category_id': selected.id,
+      name: stockCategoryName,
+      category_id: selected.id,
     };
     setLoader(true);
     axios
       .post(`${endUrl.stockitemList}`, data)
       .then((res) => {
-        setAlert(true)
-        getStockList()
+        setAlert(true);
+        getStockList();
         setLoader(false);
-        setSelected({})
-        setStockCategoryName('')
-        setSuccessMessage(res?.data?.message)
+        setSelected({});
+        setStockCategoryName("");
+        setSuccessMessage(res?.data?.message);
       })
-      .catch((e) =>{ 
-        setLoader(false)
-      } );
+      .catch((e) => {
+        setLoader(false);
+      });
   };
 
   const HeaderComponent = () => {
@@ -137,8 +133,8 @@ export const StockItems = () => {
         setDataList(res?.data?.data);
         setLoader(false);
       })
-      .catch((e) =>{
-        setLoader(false)
+      .catch((e) => {
+        setLoader(false);
       });
   };
 
@@ -151,8 +147,8 @@ export const StockItems = () => {
         initialPagination(res?.data?.data);
         setLoader(false);
       })
-      .catch((e) =>{
-        setLoader(false)
+      .catch((e) => {
+        setLoader(false);
       });
   };
 
@@ -174,7 +170,6 @@ export const StockItems = () => {
 
   useEffect(() => {
     getStockList();
-    
   }, []);
   useEffect(() => {
     getCategoriesList();
@@ -241,13 +236,12 @@ export const StockItems = () => {
   ) : (
     <SafeAreaView style={style.mainView}>
       <View style={style.container}>
-       
         <Dropdown
-          label={taskfor == 'Edit' ? dropdata :  constants.stockcategories}
+          label={taskfor == "Edit" ? dropdata : constants.stockcategories}
           data={dataList}
           onSelect={setSelected}
           task="name"
-          way={taskfor == 'Edit' ? 'Edit' : null}
+          way={taskfor == "Edit" ? "Edit" : null}
         />
       </View>
       <View>
@@ -329,7 +323,10 @@ export const StockItems = () => {
       )}
 
       <View style={style.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={pagination.currentPage === 1 ? true : false}>
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={pagination.currentPage === 1 ? true : false}
+        >
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -340,7 +337,12 @@ export const StockItems = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={pagination.currentPage === pagination.totalPage ? true : false}>
+        <TouchableOpacity
+          onPress={onNext}
+          disabled={
+            pagination.currentPage === pagination.totalPage ? true : false
+          }
+        >
           {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}
