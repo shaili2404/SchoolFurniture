@@ -6,8 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './src/routes';
 import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
-import { ManageUserScreen } from './src/screen/Manufacturer/ManageUserScreen/manageuserscreen';
 import { setBasseUrl } from './src/redux/configration';
+import { Search } from './src/screen/Manufacturer/searchManufacturer/search';
 
 const App = () => {
   useEffect(() => {
@@ -20,6 +20,7 @@ const App = () => {
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
         <AppStack />
+        {/* <Search /> */}
       </Provider>
     </NavigationContainer>
   )

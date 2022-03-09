@@ -36,6 +36,7 @@ export const LoginScreen = () => {
   const loginData = useSelector((state) => state?.loginData);
   const [idsAddresss, setIpAddress] = useState("");
   const navigation = useNavigation();
+
   useEffect(() => {
     const { loading, err } = loginData;
     setLoader(loading);
@@ -168,7 +169,7 @@ export const LoginScreen = () => {
                 }}
               >
                 <Image
-                  source={defaultState === true ? Images.Eye_off : Images.Eye}
+                  source={defaultState === true ? textEntery === true ? Images.Eye_off : Images.Eye : Images.Eye}
                   style={Styles.imgStyle}
                 />
               </TouchableOpacity>

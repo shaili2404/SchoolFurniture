@@ -6,8 +6,8 @@ export default StyleSheet.create({
   mainView: {
     height: height,
     position: "relative",
-    width:width,
-    backgroundColor:COLORS.White
+    width: width,
+    backgroundColor: COLORS.White
   },
   halfView: {
     width: width,
@@ -27,7 +27,7 @@ export default StyleSheet.create({
   },
   lastView: {
     flexDirection: "row",
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     width: "30%",
     position: "absolute",
     bottom: 130,
@@ -35,10 +35,10 @@ export default StyleSheet.create({
   },
   plusView: {
     flexDirection: "row",
-    justifyContent:'flex-end',
+    justifyContent: 'flex-end',
     width: "100%",
     position: "absolute",
-    bottom:65,
+    bottom: 65,
   },
   lastText: {
     fontWeight: "bold",
@@ -58,13 +58,13 @@ export default StyleSheet.create({
     width: 20,
     height: 20,
   },
-  errormessStyle:{
-    textAlign:'center',
-    color:COLORS.red,
-    fontSize:22
+  errormessStyle: {
+    textAlign: 'center',
+    color: COLORS.red,
+    fontSize: 22,
   },
-  errorView:{
-    width:'100%',
-    alignContent:'center'
+  errorView: {
+    width: '100%',
+    alignContent: 'center',
   }
 });

@@ -10,22 +10,21 @@ import {
   Image,
   Text
 } from "react-native";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
 import COLORS from "../../../../../asset/color";
 import Images from "../../../../../asset/images";
-
 import constants from "../../../../../locales/constants";
-import axios from "axios";
 import endUrl from "../../../../../redux/configration/endUrl";
-import { useSelector } from "react-redux";
+import AlertText from "../../../../../Alert/AlertText";
+import Loader from "../../../../../component/loader";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
-import Loader from "../../../../../component/loader";
 import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
-import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
 
 const PAGESIZE = 10;
-
 
 export const SchoolList = () => {
   const [listData, setListData] = useState([]);
@@ -39,7 +38,11 @@ export const SchoolList = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
-
+  const [permissionId, setPermissionId] = useState({
+    userCreate: false,
+    userEdit: false,
+    userDelete: false,
+  });
 
   const tableKey = [
     "name",
@@ -47,7 +50,7 @@ export const SchoolList = () => {
     "district_name",
     "school_principal",
     "tel",
-    `address1 `,
+    "address1",
   ];
   const tableHeader = [
     constants.School,
@@ -72,6 +75,25 @@ export const SchoolList = () => {
     { key: "street_code", value: constants.streetCode },
   ];
 
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions;
+    let userCreate = false, userEdit = false, userDlt = false;
+    arr.forEach((input) => {
+      if (input.id === 10) {
+        userCreate = true
+      } if (input.id === 11) {
+        userEdit = true
+      } if (input.id === 12) {
+        userDlt = true
+      }
+    })
+    setPermissionId({
+      userCreate: userCreate,
+      userEdit: userEdit,
+      userDelete: userDlt,
+    })
+  }, []);
+
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -82,6 +104,8 @@ export const SchoolList = () => {
         link={endUrl.schoolList}
         mainMessage={AlertText.deleteschool}
         submessage={AlertText.UndoMessgae}
+        permissionId={permissionId}
+        page='School'
       />
     );
   };
@@ -268,11 +292,14 @@ export const SchoolList = () => {
           )}
         </TouchableOpacity>
       </View>
-      <View style={Styles.plusView}>
-        <TouchableOpacity onPress={() => onAddPress("Add")}>
-          <Image source={Images.addCricleIcon} />
-        </TouchableOpacity>
-      </View>
+
+      {permissionId.userCreate && (
+        <View style={Styles.plusView}>
+          <TouchableOpacity onPress={() => onAddPress("Add")}>
+            <Image source={Images.addCricleIcon} />
+          </TouchableOpacity>
+        </View>
+      )}
 
       {addUserModal ? (
         <AddSchool

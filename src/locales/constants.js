@@ -83,7 +83,13 @@ const constants = {
     selectOrg: 'Select Organisation',
     cancel: 'Cancel',
     submit: 'submit',
-    userAdded: ' User Added SuccessFully '
+    userAdded: 'User Added SuccessFully',
+    noAccess: 'Access Permission Denied',
+    dateCreated: 'Date Created',
+    FurnitureCat: 'Furniture Category',
+    ItemCount: 'Furniture Item Count',
+    Edit: 'Edit',
+    dashboard: 'Dashboard'
 
 }
 export default constants
