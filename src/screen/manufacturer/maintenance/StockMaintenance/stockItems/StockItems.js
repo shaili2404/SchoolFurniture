@@ -55,12 +55,9 @@ export const StockItems = () => {
         item={item}
         tableKey={tableKey}
         List="screen"
-        mainMessage={AlertText.deleteStock}
-        submessage={AlertText.UndoMessgae}
         onEdit={(item, task) => onEdit(item, task)}
         link={endUrl.stockitemList}
         mainMessage={AlertText.deleteStock}
-        submessage={AlertText.UndoMessgae}
         reloadList={() => reloadList()}
       />
     );
@@ -315,7 +312,10 @@ export const StockItems = () => {
         <FlatList
           ListHeaderComponent={HeaderComponent}
           style={style.listStyle}
-          data={categoryList.slice(pagination.startIndex, pagination.endIndex)}
+          data={categoryList
+            .sort((a, b) => a.category_name.localeCompare(b.category_name))
+            .slice(pagination.startIndex, pagination.endIndex)
+          }
           keyExtractor={(item) => item.id}
           renderItem={renderComponent}
           showsVerticalScrollIndicator={false}

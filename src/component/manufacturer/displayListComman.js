@@ -96,8 +96,8 @@ export const DataDisplayList = ({
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={mainMessage}
-          subMessage={submessage}
+          mainMessage={mainMessage?mainMessage:''}
+          subMessage={submessage?submessage:''}
           type="question"
           onConfirm={() => onPressYes()}
         />
