@@ -21,6 +21,8 @@ import { ListHeaderComman } from "../../../../../component/manufacturer/ListHead
 import constants from "../../../../../locales/constants";
 import endUrl from "../../../../../redux/configration/endUrl";
 import style from "./style";
+import { useSelector } from "react-redux";
+
 
 const tableHeader = [constants.categories, constants.Items, constants.manage];
 
@@ -42,12 +44,38 @@ export const StockItems = () => {
   const [dropdata, setDropdowndata] = useState("");
   const [onEditName, setOnEditName] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const loginData = useSelector((state) => state?.loginData);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
     startIndex: 0,
     endIndex: 0,
   });
+  const [permissionId, setPermissionId] = useState({
+    userCreate: false,
+    userEdit: false,
+    userDelete: false,
+  });
+
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions
+    let userCreate = false, userEdit = false, userDlt = false;
+    arr.forEach((input) => {
+      if (input.id === 18) {
+        userCreate = true
+      } if (input.id === 19) {
+        userEdit = true
+      } if (input.id === 20) {
+        userDlt = true
+      }
+    })
+    setPermissionId({
+      userCreate: userCreate,
+      userEdit: userEdit,
+      userDelete: userDlt,
+    })
+
+  }, []);
 
   const renderComponent = ({ item }) => {
     return (
@@ -59,6 +87,7 @@ export const StockItems = () => {
         link={endUrl.stockitemList}
         mainMessage={AlertText.deleteStock}
         reloadList={() => reloadList()}
+        permissionId={permissionId}
       />
     );
   };
@@ -276,9 +305,11 @@ export const StockItems = () => {
           end={{ x: 0, y: 0 }}
           style={style.addButton}
         >
-          <Text style={style.addText}>
-            {editState === true ? constants.update : constants.add}
-          </Text>
+          {permissionId.userCreate && (
+            <Text style={style.addText}>
+              {editState === true ? constants.update : constants.add}
+            </Text>
+          )}
         </LinearGradient>
       </TouchableOpacity>
 

@@ -1,0 +1,6 @@
+module Pods_fur {
+  umbrella header "Pods-fur-umbrella.h"
+
+  export *
+  module * { export * }
+}
