@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     SafeAreaView,
     StyleSheet,
@@ -24,8 +24,6 @@ const SECTIONNAME = {
     district: "Maintenance - School District",
     user: "System Admin - Manage Users",
     school: "Maintenance - School",
-    // category: "Maintenance - Stock Categories",
-    // item: "Maintenance - Stock Items",
 };
 
 const tableHeader = [
@@ -49,11 +47,6 @@ export const Functionalities = () => {
     useEffect(() => {
         getId();
     }, []);
-
-    useLayoutEffect(() => {
-        title = btnStatus == '0' ? constants.Edit : constants.add;
-        navigation.setOptions({ title });
-    })
 
     // const data = [
     //     { "key": "Furniture Replacment - Collect Furniture item" },
@@ -151,7 +144,7 @@ export const Functionalities = () => {
             if (results[sectionTitle]) {
                 const existingVal = results[sectionTitle];
                 results[sectionTitle] = [...existingVal, op];
-            } else if (sectionTitle !== undefined) {
+            } else {
                 results[sectionTitle] = [op];
             }
         });
