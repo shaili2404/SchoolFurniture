@@ -58,6 +58,13 @@ export default StyleSheet.create({
     borderRadius:39,
     justifyContent:'center',
   },
+  disableButton:{
+    width:100,
+    height:48,
+    borderRadius:39,
+    justifyContent:'center',
+    opacity:0.5
+  },
   addStyling:{
       marginRight:15,
       alignSelf:"flex-end",
@@ -88,8 +95,7 @@ export default StyleSheet.create({
       alignSelf:'center',
   },
   boxDefault:{
-    
-    marginTop:'15%'
+    marginTop:1
   }, 
   main: {
     flexDirection: "row",
