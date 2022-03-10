@@ -172,8 +172,7 @@ const AppStack = (props) => {
           <>
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="PasswordReset" component={PasswordReset} />
-            <Stack.Screen name="First" component={DrawerStack} />
-
+            {/* <Stack.Screen name="First" component={DrawerStack} /> */}
           </>
         );
     }

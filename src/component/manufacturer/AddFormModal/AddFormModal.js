@@ -21,9 +21,8 @@ export const AddUserModal = (props) => {
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
-  const [errorMessage,setErrorMessage] = useState('')
   const setValue = (key, value) => {
-    {!numberonly.test(inputValues.tel)?  setDisable(true) : setDisable(false)}
+    { !numberonly.test(inputValues.tel) ? setDisable(true) : setDisable(false) }
     setInputValues(prevState => {
       return {
         ...prevState,
@@ -34,7 +33,6 @@ export const AddUserModal = (props) => {
 
   useEffect(() => {
     inputValues.district_office == "" ? setDisable(true) : setDisable(false);
-   
   }, [inputValues])
 
   useEffect(() => {
@@ -80,7 +78,7 @@ export const AddUserModal = (props) => {
                     <View key={index}>
                       {defaultState === true ?
                         <View style={style.changeView}>
-                          <Text style={style.changeText}>{input.value}</Text>
+                          <Text style={input.value == "District Office" ? style.mandatory : style.changeText}>{input.value}</Text>
                         </View>
                         : null}
                       <TextInput
@@ -100,7 +98,10 @@ export const AddUserModal = (props) => {
             </View>
 
             <View style={style.backContainer}>
-              <TouchableOpacity style={style.buttonStyle} onPress={onNext} disabled={disable}>
+              <TouchableOpacity
+                style={disable ? style.disableStyle : style.buttonStyle}
+                onPress={onNext}
+                disabled={disable}>
                 <Text style={style.buttonText}>{buttonVal}</Text>
               </TouchableOpacity>
             </View>
