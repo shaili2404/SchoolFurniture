@@ -21,7 +21,8 @@ const AlertText = {
     updateSuccess: 'User Updated Successful',
     deleteUser: 'Do you want to delete this User?',
     canNotUndo: 'You cannot undo this action',
-    deleteStock :'Do You Want To This Stock',
-    deleteStockCategory: 'Do you want to delete this Category?'
+    deleteStockCategory: 'Do you want to delete this Category?',
+    deleteStock :'Are you sure you want to delete?',
+    
 }
 export default AlertText

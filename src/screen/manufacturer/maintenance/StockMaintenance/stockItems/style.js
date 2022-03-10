@@ -112,6 +112,24 @@ textStyle: {
 },
 listStyle:{
     width:'90%',
-    alignSelf:'center'
+    alignSelf:'center',
+},
+lastView: {
+  flexDirection: "row",
+  justifyContent:'space-between',
+  width: "30%",
+  position: "absolute",
+  bottom: 130,
+  alignSelf: "center",
+},
+errormessStyle:{
+  textAlign:'center',
+  color:COLORS.red,
+  fontSize:22
+},
+errorView:{
+  width:'100%',
+  alignContent:'center'
 }
+
 });
