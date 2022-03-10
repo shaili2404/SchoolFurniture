@@ -87,12 +87,6 @@ export const ManageUserScreen = () => {
     })
   }, []);
 
-  // useEffect(() => {
-  //   if (!permissionId.userList) {
-  //     setErrorMessage(constants.noAccess)
-  //   }
-  // })
-
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -146,7 +140,6 @@ export const ManageUserScreen = () => {
         setLoader(false)
         console.log("apicall", e)
       })
-      ;
   };
 
   const initialPagination = (list) => {

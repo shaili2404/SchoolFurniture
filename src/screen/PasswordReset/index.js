@@ -119,9 +119,8 @@ const PasswordReset = () => {
           {defaultState === true ? (
             <View style={style.inputStyles}>
               <TouchableOpacity
-                style={style.buttonStyle}
+                style={emptymail ? style.disableStyle : style.buttonStyle}
                 onPress={onPressReset}
-                // onPress={() => navigation.navigate('EmailSent')}
                 disabled={emptymail}
               >
                 <Text style={style.buttonText}>{constants.Reset}</Text>

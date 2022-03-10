@@ -29,7 +29,11 @@ export const DataDisplayList = ({
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [address1, setAddress1] = useState('')
+  const [address1, setAddress1] = useState('');
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [mainMsg, setMainMsg] = useState("");
+  const [subMsg, setSubMsg] = useState("");
+
 
   const onDelete = () => {
     setAlert(true);
@@ -60,6 +64,9 @@ export const DataDisplayList = ({
         reloadList();
       }
     } catch (e) {
+      setMainMsg(e?.response?.data?.message);
+      setSubMsg(e?.response?.data?.data)
+      setErrorMsg(true);
     }
   };
 
@@ -80,7 +87,7 @@ export const DataDisplayList = ({
           {tableKey.map((val, index) => (
             < View key={val} style={Styles.viewStyle} key={index} >
               {val === 'address1' && page === 'School' ?
-                <Text style={Styles.textStyle}>{address1}</Text>
+                <Text style={Styles.textStyle} numberOfLines={1}>{address1}</Text>
                 :
                 <Text style={Styles.textStyle}>{item[val]}</Text>
               }
@@ -105,29 +112,35 @@ export const DataDisplayList = ({
           }
         </View>}
 
-      {
-        userModal ? (
-          <AddUserModal
-            visible={userModal}
-            setmodalVisible={(val) => setUserModal(val)}
-            data={item}
-            name={`Edit ${constants.School} `}
-            buttonVal={constants.update}
-          />
-        ) : null
-      }
+      {userModal ? (
+        <AddUserModal
+          visible={userModal}
+          setmodalVisible={(val) => setUserModal(val)}
+          data={item}
+          name={`Edit ${constants.School} `}
+          buttonVal={constants.update}
+        />
+      ) : null}
 
-      {
-        alert ? (
-          <AlertMessage
-            visible={alert}
-            setmodalVisible={(val) => setAlert(val)}
-            mainMessage={mainMessage}
-            subMessage={submessage}
-            type="question"
-            onConfirm={() => onPressYes()}
-          />
-        ) : null
+      {alert ? (
+        <AlertMessage
+          visible={alert}
+          setmodalVisible={(val) => setAlert(val)}
+          mainMessage={mainMessage}
+          subMessage={submessage}
+          type="question"
+          onConfirm={() => onPressYes()}
+        />
+      ) : null
+      }
+      {errorMsg ? (
+        <AlertMessage
+          visible={errorMsg}
+          setmodalVisible={(val) => setErrorMsg(val)}
+          mainMessage={mainMsg}
+          subMessage={subMsg}
+        />
+      ) : null
       }
     </SafeAreaView >
   );

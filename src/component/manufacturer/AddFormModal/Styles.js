@@ -47,6 +47,15 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  disableStyle: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: "100%",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: 0.5
+  },
   buttonText: {
     color: COLORS.White,
     fontWeight: "bold",
@@ -87,5 +96,8 @@ const style = StyleSheet.create({
     width: 20,
     height: 10
   },
+  mandatory: {
+    fontWeight: 'bold'
+  }
 });
 export default style;

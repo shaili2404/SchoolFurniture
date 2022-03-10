@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
     SafeAreaView,
     StyleSheet,
@@ -49,6 +49,11 @@ export const Functionalities = () => {
     useEffect(() => {
         getId();
     }, []);
+
+    useLayoutEffect(() => {
+        title = btnStatus == '0' ? constants.Edit : constants.add;
+        navigation.setOptions({ title });
+    })
 
     // const data = [
     //     { "key": "Furniture Replacment - Collect Furniture item" },

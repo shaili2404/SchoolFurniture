@@ -13,7 +13,7 @@ const First = () => {
   }, []);
 
   return (
-    <View style={{ height: '100%', justifyContent: 'center' }}>
+    <View style={{ height: '100%', justifyContent: 'center', backgroundColor: '#fff' }}>
       <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>Welcome</Text>
       {/* <Button title="Submit" onPress={()=> navigation.navigate('Second') } /> */}
     </View>

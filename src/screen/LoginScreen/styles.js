@@ -2,12 +2,12 @@ import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
- export default StyleSheet.create({
+export default StyleSheet.create({
   mainView: {
     height: height,
     width: width,
     alignItems: "center",
-    backgroundColor:COLORS.White
+    backgroundColor: COLORS.White
   },
   subContainer: {
     width: "90%",
@@ -69,6 +69,15 @@ const height = Dimensions.get("window").height;
     alignItems: "center",
     justifyContent: "center",
   },
+  disableStyle: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: "100%",
+    height: 70,
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: 0.5
+  },
   buttonText: {
     color: COLORS.White,
     fontWeight: "bold",
@@ -104,8 +113,9 @@ const height = Dimensions.get("window").height;
     textAlign: "center",
     color: COLORS.blue,
     textDecorationLine: "underline",
-    position:'relative',
-    bottom:'5%'
+    position: 'relative',
+    bottom: '5%',
+    marginTop: '2%'
   },
   errorStyle: {
     color: COLORS.red,
