@@ -242,6 +242,7 @@ export const ManageUserScreen = () => {
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <>
+              <View style={Styles.listView}>
               <FlatList
                 ListHeaderComponent={HeaderComponet}
                 showsHorizontalScrollIndicator={false}
@@ -249,6 +250,7 @@ export const ManageUserScreen = () => {
                 data={listData.sort((a, b) => a.name.localeCompare(b.name)).slice(pagination.startIndex, pagination.endIndex)}
                 renderItem={rendercomponent}
               />
+              </View>
             </>
           </ScrollView>
         )}
