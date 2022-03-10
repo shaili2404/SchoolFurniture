@@ -1,0 +1,6 @@
+module Pods_fur_furTests {
+  umbrella header "Pods-fur-furTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

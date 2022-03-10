@@ -24,8 +24,8 @@ const SECTIONNAME = {
     district: "Maintenance - School District",
     user: "System Admin - Manage Users",
     school: "Maintenance - School",
-    // category: "Maintenance - Stock Categories",
-    // item: "Maintenance - Stock Items",
+    category: "Maintenance - Stock Categories",
+    item: "Maintenance - Stock Items",
 };
 
 const tableHeader = [
@@ -151,7 +151,7 @@ export const Functionalities = () => {
             if (results[sectionTitle]) {
                 const existingVal = results[sectionTitle];
                 results[sectionTitle] = [...existingVal, op];
-            } else if (sectionTitle !== undefined) {
+            } else if (sectionTitle) {
                 results[sectionTitle] = [op];
             }
         });

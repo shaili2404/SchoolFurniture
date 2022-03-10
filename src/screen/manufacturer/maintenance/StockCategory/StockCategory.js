@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
 } from "react-native";
+import { useSelector } from "react-redux";
 import Styles from "./Styles";
 import Loader from "../../../../component/loader";
 import Constants from "../../../../locales/constants";
@@ -35,6 +36,12 @@ const StockCategory = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const tableKey = ["name"];
   const navigation = useNavigation();
+  const loginData = useSelector((state) => state?.loginData);
+  const [permissionId, setPermissionId] = useState({
+    userCreate: false,
+    userEdit: false,
+    userDelete: false,
+  });
 
   const tableHeader = [Constants.categories, Constants.manage];
 
@@ -44,6 +51,26 @@ const StockCategory = () => {
     startIndex: 0,
     endIndex: 0,
   });
+
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions
+    let userCreate = false, userEdit = false, userDlt = false;
+    arr.forEach((input) => {
+      if (input.id === 18) {
+        userCreate = true
+      } if (input.id === 19) {
+        userEdit = true
+      } if (input.id === 20) {
+        userDlt = true
+      }
+    })
+    setPermissionId({
+      userCreate: userCreate,
+      userEdit: userEdit,
+      userDelete: userDlt,
+    })
+
+  }, []);
 
   const HeaderComponent = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -59,6 +86,7 @@ const StockCategory = () => {
         submessage={AlertText.UndoMessgae}
         onEdit={(item, task) => onEdit(item, task)}
         link={endUrl.stockCategoryList}
+        permissionId={permissionId}
       />
     );
   };
@@ -70,11 +98,8 @@ const StockCategory = () => {
   // Edit Functionality
   const onEdit = (item, task) => {
     if (task == "Edit") {
-      console.log("dfdsf", item);
       setEditState(true);
-      console.log("edit", editState);
       setDefaultStockCategory(item.name);
-      console.log("editcat", defaultStockCategory);
       setUpdateItem(item);
     }
   };
@@ -116,7 +141,6 @@ const StockCategory = () => {
       : axios.post(`${endUrl.stockCategoryList}`, obj);
     service
       .then((res) => {
-        console.log("Response", res);
         setStockCategory("");
         setDefaultStockCategory("");
         categorylistapi();
@@ -223,16 +247,18 @@ const StockCategory = () => {
         }
         maxLength={50}
       />
-      <View style={Styles.buttonView}>
-        <TouchableOpacity
-          style={Styles.buttonStyle}
-          onPress={editState === true ? onUpdate : onAdd}
-        >
-          <Text style={Styles.buttonText}>
-            {editState === true ? Constants.update : Constants.add}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {permissionId.userCreate && (
+        <View style={Styles.buttonView}>
+          <TouchableOpacity
+            style={Styles.buttonStyle}
+            onPress={editState === true ? onUpdate : onAdd}
+          >
+            <Text style={Styles.buttonText}>
+              {editState === true ? Constants.update : Constants.add}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={Styles.boxDefault}>
         {defaultState === true ? (
           <View style={Styles.changeView}>
