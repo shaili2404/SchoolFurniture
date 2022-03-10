@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { AlertMessage } from "../../Alert/alert"; 
+import { AlertMessage } from "../../Alert/alert";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
@@ -25,16 +25,36 @@ export const DataDisplayList = ({
   submessage,
   data,
   schoolDataList,
-  List,
+  permissionId,
+  page,
+  List
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [dataArray, setDataArray] = useState();
+  const [address1, setAddress1] = useState('');
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [mainMsg, setMainMsg] = useState("");
+  const [subMsg, setSubMsg] = useState("");
   const navigation = useNavigation();
 
   const onDelete = () => {
     setAlert(true);
   };
+
+  useEffect(() => {
+    let address
+    let addressone = item.address1 === null ? '' : item.address1;
+    let addresstwo = item.address2 === null ? '' : item.address2;
+    let addressthree = item.address3 === null ? '' : item.address3;
+    let addressfour = item.address4 === null ? '' : item.address4;
+    let streetcode = item.street_code === null ? '' : item.street_code;
+    tableKey.map((val) => {
+      if (val === "address1") {
+        address = `${addressone}${addresstwo}${addressthree}${addressfour}${streetcode}`
+      }
+    })
+    setAddress1(address)
+  }, [])
 
   const onPressYes = async () => {
     setAlert(false);
@@ -43,7 +63,11 @@ export const DataDisplayList = ({
       if (response.status === 200) {
         reloadList();
       }
-    } catch (e) {}
+    } catch (e) {
+      setMainMsg(e?.response?.data?.message);
+      setSubMsg(e?.response?.data?.data)
+      setErrorMsg(true);
+    }
   };
 
   return (
@@ -51,58 +75,78 @@ export const DataDisplayList = ({
       {data == "0" ?
         (<View style={Styles.mainView}>
           {tableKey.map((val, index) => (
-            <TouchableOpacity onPress={() => schoolDataList(item)} key={index}>
+            <TouchableOpacity onPress={() => schoolDataList(item, "Edit")} key={index}>
               <View key={val} style={Styles.viewStyle}>
                 <Text style={Styles.textStyle}>{item[val]}</Text>
               </View>
             </TouchableOpacity>
           ))}
-        </View>
-      ) : (
-        <View style={Styles.mainView}>
-          {tableKey.map((val) => (
-            <View
-              key={val}
-              style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
-            >
-              <Text style={Styles.textStyle}>{item[val]}</Text>
+        </View>) :
+
+        < View style={Styles.mainView}>
+          {tableKey.map((val, index) => (
+            < View key={val} style={List === "screen" ? Styles.screenStyle : Styles.viewStyle} key={index} >
+              {val === 'address1' && page === 'School' ?
+                <Text style={Styles.textStyle} numberOfLines={1}>{address1}</Text>
+                :
+                <Text style={Styles.textStyle}>{item[val]}</Text>
+              }
             </View>
           ))}
 
-          <View style={Styles.viewsssStyle}>
-            <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
-              <Image source={Images.editIcon} />
-            </TouchableOpacity>
-          </View>
-          <View style={Styles.viewsssStyle}>
-            <TouchableOpacity onPress={onDelete}>
-              <Image source={Images.deleteIcon} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
+          {permissionId.userEdit && (
+            <View style={Styles.viewsssStyle}>
+              <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
+                <Image source={Images.editIcon} />
+              </TouchableOpacity>
+            </View>
+          )
+          }
+          {permissionId.userDelete && (
+            <View style={Styles.viewsssStyle}>
+              <TouchableOpacity onPress={onDelete}>
+                <Image source={Images.deleteIcon} />
+              </TouchableOpacity>
+            </View>
+          )
+          }
+        </View>}
 
-      {userModal ? (
-        <AddUserModal
-          visible={userModal}
-          setmodalVisible={(val) => setUserModal(val)}
-          data={item}
-          name={`Edit ${constants.School}`}
-          buttonVal={constants.update}
-        />
-      ) : null}
+      {
+        userModal ? (
+          <AddUserModal
+            visible={userModal}
+            setmodalVisible={(val) => setUserModal(val)}
+            data={item}
+            name={`Edit ${constants.School} `}
+            buttonVal={constants.update}
+          />
+        ) : null
+      }
 
-      {alert ? (
-        <AlertMessage
-          visible={alert}
-          setmodalVisible={(val) => setAlert(val)}
-          mainMessage={mainMessage?mainMessage:''}
-          subMessage={submessage?submessage:''}
-          type="question"
-          onConfirm={() => onPressYes()}
-        />
-      ) : null}
-    </SafeAreaView>
+      {
+        alert ? (
+          <AlertMessage
+            visible={alert}
+            setmodalVisible={(val) => setAlert(val)}
+            mainMessage={mainMessage ? mainMessage : ''}
+            subMessage={submessage ? submessage : ''}
+            type="question"
+            onConfirm={() => onPressYes()}
+          />
+        ) : null
+      }
+      {
+        errorMsg ? (
+          <AlertMessage
+            visible={errorMsg}
+            setmodalVisible={(val) => setErrorMsg(val)}
+            mainMessage={mainMsg}
+            subMessage={subMsg}
+          />
+        ) : null
+      }
+    </SafeAreaView >
   );
 };
 

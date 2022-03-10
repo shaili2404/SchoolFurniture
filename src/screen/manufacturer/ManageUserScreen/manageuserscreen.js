@@ -33,13 +33,22 @@ export const ManageUserScreen = () => {
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigation = useNavigation();
+  const [permissionArr, setpermissionArr] = useState([]);
+
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
     startIndex: 0,
     endIndex: 0,
   });
-  const navigation = useNavigation();
+  const [permissionId, setPermissionId] = useState({
+    userList: false,
+    userCreate: false,
+    userEdit: false,
+    userDelete: false,
+  });
+
   const tableKey = [
     "name",
     "surname",
@@ -56,6 +65,28 @@ export const ManageUserScreen = () => {
     constants.manage,
   ];
 
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions;
+    let userList = false, userCreate = false, userEdit = false, userDlt = false;
+    arr.forEach((input) => {
+      if (input.id === 1) {
+        userList = true;
+      } if (input.id === 2) {
+        userCreate = true
+      } if (input.id === 3) {
+        userEdit = true
+      } if (input.id === 4) {
+        userDlt = true
+      }
+    })
+    setPermissionId({
+      userList: userList,
+      userCreate: userCreate,
+      userEdit: userEdit,
+      userDelete: userDlt,
+    })
+  }, []);
+
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -66,6 +97,7 @@ export const ManageUserScreen = () => {
         onEdit={(item, task) => onEdit(item, task)}
         mainMessage={AlertText.deleteUser}
         submessage={AlertText.canNotUndo}
+        permissionId={permissionId}
       />
     );
   };
@@ -108,7 +140,6 @@ export const ManageUserScreen = () => {
         setLoader(false)
         console.log("apicall", e)
       })
-      ;
   };
 
   const initialPagination = (list) => {
@@ -245,13 +276,16 @@ export const ManageUserScreen = () => {
           )}
         </TouchableOpacity>
       </View>
-      <View style={Styles.plusView}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("AddNewUsers", { btnStatus: "1" })}
-        >
-          <Image source={Images.addCricleIcon} />
-        </TouchableOpacity>
-      </View>
+
+      {permissionId.userCreate && (
+        <View style={Styles.plusView}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AddNewUsers", { btnStatus: "1" })}
+          >
+            <Image source={Images.addCricleIcon} />
+          </TouchableOpacity>
+        </View>
+      )}
 
       {addUserModal ? (
         <AddUserModal

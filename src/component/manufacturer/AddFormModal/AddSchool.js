@@ -133,7 +133,7 @@ export const AddSchool = (props) => {
                     <View key={index}>
                       {defaultState === true ? (
                         <View style={style.changeView}>
-                          <Text style={style.changeText}>{input.value}</Text>
+                          <Text style={input.value === 'School' || input.value === 'School EMIS Number' || input.value === 'School District' ? style.mandatory : null}>{input.value}</Text>
                         </View>
                       ) : null}
                       {input.value == "School District" ? (
@@ -171,7 +171,7 @@ export const AddSchool = (props) => {
 
             <View style={style.backContainer}>
               <TouchableOpacity
-                style={style.buttonStyle}
+                style={disable ? style.disableStyle : style.buttonStyle}
                 onPress={onNext}
                 disabled={disable}
               >

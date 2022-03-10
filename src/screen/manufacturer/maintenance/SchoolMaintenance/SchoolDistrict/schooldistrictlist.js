@@ -42,8 +42,12 @@ export const SchoolDistrictList = () => {
     startIndex: 0,
     endIndex: 0,
   });
+  const [permissionId, setPermissionId] = useState({
+    userCreate: false,
+    userEdit: false,
+    userDelete: false,
+  });
   const [errorMessage, setErrorMessage] = useState("");
-  const [permissionArr, setpermissionArr] = useState([]);
 
   const tableKey = [
     "district_office",
@@ -79,12 +83,25 @@ export const SchoolDistrictList = () => {
     { key: "street_code", value: constants.streetCode },
   ];
 
-  // useEffect(() => {
-  //   setpermissionArr(loginData?.user?.data?.data?.permissions);
-  //   permissionArr.forEach((input) => {
-  //     console.log("getResponse", permissionArr.includes(input.id == 6))
-  //   })
-  // }, [loginData]);
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions
+    let userCreate = false, userEdit = false, userDlt = false;
+    arr.forEach((input) => {
+      if (input.id === 6) {
+        userCreate = true
+      } if (input.id === 7) {
+        userEdit = true
+      } if (input.id === 8) {
+        userDlt = true
+      }
+    })
+    setPermissionId({
+      userCreate: userCreate,
+      userEdit: userEdit,
+      userDelete: userDlt,
+    })
+
+  }, []);
 
   const rendercomponent = ({ item }) => {
     return (
@@ -96,6 +113,7 @@ export const SchoolDistrictList = () => {
         link={endUrl.schoolDistList}
         mainMessage={AlertText.deletedistrict}
         submessage={AlertText.UndoMessgae}
+        permissionId={permissionId}
       />
     );
   };
@@ -257,8 +275,7 @@ export const SchoolDistrictList = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
             <FlatList
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
@@ -293,11 +310,13 @@ export const SchoolDistrictList = () => {
           )}
         </TouchableOpacity>
       </View>
-      <View style={Styles.plusView}>
-        <TouchableOpacity onPress={() => onAddPress("Add")}>
-          <Image source={Images.addCricleIcon} />
-        </TouchableOpacity>
-      </View>
+      {permissionId.userCreate && (
+        <View style={Styles.plusView} >
+          <TouchableOpacity onPress={() => onAddPress("Add")}>
+            <Image source={Images.addCricleIcon} />
+          </TouchableOpacity>
+        </View>
+      )}
       {addUserModal ? (
         <AddUserModal
           visible={addUserModal}

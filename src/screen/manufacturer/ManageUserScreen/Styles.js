@@ -6,7 +6,7 @@ export default StyleSheet.create({
   mainView: {
     height: height,
     position: "relative",
-    backgroundColor:COLORS.White
+    backgroundColor: COLORS.White
   },
   halfView: {
     width: width,
@@ -35,8 +35,8 @@ export default StyleSheet.create({
   plusView: {
     width: "20%",
     position: "absolute",
-    bottom: 65,
-    right: 0
+    bottom: 80,
+    right: 10
   },
   lastText: {
     fontWeight: "bold",

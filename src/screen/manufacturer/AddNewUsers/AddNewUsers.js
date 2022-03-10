@@ -38,6 +38,12 @@ const AddNewUsers = () => {
 
   const tableKey = ["name", "emis"];
   const tableHeader = [constants.school, constants.emis];
+  const [permissionId, setPermissionId] = useState({
+    userList: true,
+    userCreate: true,
+    userEdit: true,
+    userDelete: true,
+  });
 
   useEffect(() => {
     { !regExpEmail.test(email) ? setDisable(true) : setDisable(false) }
@@ -81,14 +87,19 @@ const AddNewUsers = () => {
   };
 
   useLayoutEffect(() => {
+    let title;
     if (btnStatus == "0") {
+      title = constants.Edit
       setDropdowndata(Item.organization);
       setEmail(Item.email);
       setName(Item.name);
       setSurname(Item.surname);
-      setEmis(Item.emis);
+      setEmis(Item.username);
       setSchoolName(Item.name);
+    } else {
+      title = constants.add
     }
+    navigation.setOptions({ title });
   }, []);
 
   const HeaderComponet = () => {
@@ -104,6 +115,7 @@ const AddNewUsers = () => {
         Url={endUrl.schoolList}
         data={"0"}
         schoolDataList={(value) => schoolDataList(value)}
+        permissionId={permissionId}
       />
     );
   };
