@@ -14,7 +14,7 @@ import {
 import style from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
-import { numberonly } from "../../../locales/regexp";
+import { numberonly, streetCode } from "../../../locales/regexp";
 
 export const AddUserModal = (props) => {
   const { visible, setmodalVisible, onSubmitDetails, data, operation, updateItem, buttonVal } = props;
@@ -22,7 +22,6 @@ export const AddUserModal = (props) => {
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
   const setValue = (key, value) => {
-    { !numberonly.test(inputValues.tel) ? setDisable(true) : setDisable(false) }
     setInputValues(prevState => {
       return {
         ...prevState,
@@ -33,7 +32,24 @@ export const AddUserModal = (props) => {
 
   useEffect(() => {
     inputValues.district_office == "" ? setDisable(true) : setDisable(false);
+    if (inputValues.tel != ''){
+      {!numberonly.test(inputValues.tel) ? setDisable(true) : setDisable(false)}
+    }
+    if (inputValues.street_code != ''){
+      {!streetCode.test(inputValues.street_code) ? setDisable(true) : setDisable(false)}
+    }
+   
   }, [inputValues])
+
+  useEffect(()=>{
+      if (updateItem.tel != ''){
+        {!numberonly.test(updateItem.tel) ? setDisable(true) : setDisable(false)}
+      }
+      if (updateItem.street_code != ''){
+        {!streetCode.test(updateItem.street_code) ? setDisable(true) : setDisable(false)}
+      }
+
+  },[updateItem])
 
   useEffect(() => {
     const obj = {};

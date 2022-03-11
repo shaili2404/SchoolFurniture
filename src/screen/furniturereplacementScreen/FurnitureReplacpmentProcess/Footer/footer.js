@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity,View } from "react-native";
-import constants from "../../../../../locales/constants";
+import constants from "../../../../locales/constants";
 import style from "./style";
 
 
@@ -9,7 +9,7 @@ export const FooterFur = ()=>{
         <View style={style.mainVIew}>
             <View>
                 <TouchableOpacity>
-                    <Text>
+                    <Text style={style.cancelText}>
                      {constants.cancel}
                     </Text>
                 </TouchableOpacity>

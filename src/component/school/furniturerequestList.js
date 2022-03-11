@@ -38,6 +38,7 @@ export const FurnitureRequestList = (props) => {
         mainView:{
             flexDirection:'row',
             justifyContent:"space-between"
+            
         },
         firstView:{
             backgroundColor:COLORS.LightGreen,

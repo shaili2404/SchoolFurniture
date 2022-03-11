@@ -16,8 +16,8 @@ import { useNavigation } from "@react-navigation/core";
 import { DataDisplayList } from "../../../../component/manufacturer/displayListComman";
 import axios from "axios";
 import endUrl from "../../../../redux/configration/endUrl";
-import COLORS from "../../../../../src/asset/color";
-import Images from "../../../../../src/asset/images";
+import COLORS from "../../../../asset/color";
+import Images from "../../../../asset/images";
 import AlertText from "../../../../Alert/AlertText";
 
 

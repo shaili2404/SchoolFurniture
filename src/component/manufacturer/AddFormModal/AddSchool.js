@@ -17,7 +17,7 @@ import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { numberonly } from "../../../locales/regexp";
+import { numberonly,streetCode,emisNumber } from "../../../locales/regexp";
 
 export const AddSchool = (props) => {
   const {
@@ -36,9 +36,6 @@ export const AddSchool = (props) => {
   const [selected, setSelected] = useState({});
 
   const setValue = (key, value) => {
-    !numberonly.test(inputValues.street_code)
-      ? setDisable(true)
-      : setDisable(false);
     setInputValues((prevState) => {
       return {
         ...prevState,
@@ -63,11 +60,32 @@ export const AddSchool = (props) => {
     inputValues.name == "" && inputValues.emis == "" && selected == ""
       ? setDisable(true)
       : setDisable(false);
-    !numberonly.test(inputValues.emis)
+     {!emisNumber.test(inputValues.emis)
       ? setDisable(true)
-      : setDisable(false);
+      : setDisable(false);}
+      if (inputValues.tel != ''){
+        {!numberonly.test(inputValues.tel) ? setDisable(true) : setDisable(false)}
+      }
+      if (inputValues.street_code != ''){
+        {!streetCode.test(inputValues.street_code) ? setDisable(true) : setDisable(false)}
+      }
 
   }, [inputValues]);
+
+  useEffect(() => {
+    updateItem.name == "" && updateItem.emis == "" 
+      ? setDisable(true)
+      : setDisable(false);
+     {!emisNumber.test(updateItem.emis)
+      ? setDisable(true)
+      : setDisable(false);}
+      if (updateItem.tel != ''){
+        {!numberonly.test(updateItem.tel) ? setDisable(true) : setDisable(false)}
+      }
+      if (updateItem.street_code != ''){
+        {!streetCode.test(updateItem.street_code) ? setDisable(true) : setDisable(false)}
+      }
+  }, [updateItem]);
 
   useEffect(() => {
     const obj = {};
@@ -88,7 +106,7 @@ export const AddSchool = (props) => {
 
   const onNext = () => {
     if (operation == 'Edit') {
-      if (selected == {}) {
+      if (selected === {}) {
         inputValues.district_id = selected.id
       }
       else {

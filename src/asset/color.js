@@ -13,7 +13,8 @@ const COLORS = {
     GreenBorder:'#4AA449',
     LinearGreen1:"#80C081",
     LinearGreen2:'#48A448',
-    LinearBox:'#85C286'
+    LinearBox:'#85C286',
+    plusMinusColor :'#E6F6E6'
     
 }
 export default COLORS
