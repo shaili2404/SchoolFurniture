@@ -242,7 +242,7 @@ export const ManageUserScreen = () => {
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <>
-              <View style={Styles.listView}>
+              <View style={pagination.endIndex > 7 ? Styles.listView80 : Styles.listView}>
               <FlatList
                 ListHeaderComponent={HeaderComponet}
                 showsHorizontalScrollIndicator={false}

@@ -22,6 +22,7 @@ import { Functionalities } from "../component/manufacturer/Functionalitiesuser";
 import StockCategory from "../screen/manufacturer/maintenance/StockCategory/StockCategory";
 import { StockItems } from "../screen/manufacturer/maintenance/StockMaintenance/stockItems/StockItems";
 import { FurnitureReplacmentProcess } from "../screen/manufacturer/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
+import { Search } from "../screen/manufacturer/searchManufacturer/search";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -82,6 +83,18 @@ const StockMaintenanceDrawerStack = () => {
       <Drawer.Screen
         name={NavigationRouteNames.STOCKMAINTENANCE}
         component={StockMaintenanceScreen}
+        options={CommonHeaderStyle}
+      />
+    </Drawer.Navigator>
+  );
+};
+
+const SearchDrawerStack = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+      <Drawer.Screen
+        name={NavigationRouteNames.SEARCH}
+        component={Search}
         options={CommonHeaderStyle}
       />
     </Drawer.Navigator>
@@ -266,6 +279,11 @@ const AppStack = (props) => {
               component={FurnitureReplacmentProcess}
               options={CommonHeaderStyle}
             />
+          <Stack.Screen
+              name={NavigationRouteNames.SEARCH}
+              component={SearchDrawerStack}
+              options={{ headerShown: false }}
+          />
       </>
       {/* ) : (
         SwitchNavigation("Manufacturer")

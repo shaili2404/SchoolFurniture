@@ -99,7 +99,8 @@ const constants = {
     FurnitureCat: 'Furniture Category',
     ItemCount: 'Furniture Item Count',
     Edit: 'Edit',
-    dashboard: 'Dashboard'
-
+    dashboard: 'Dashboard',
+    selectSearchOption: 'Select Search Option',
+    referenceNumber: 'Reference Number',
 }
 export default constants

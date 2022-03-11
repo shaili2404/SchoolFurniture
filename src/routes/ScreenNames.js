@@ -13,6 +13,7 @@ const NavigationRouteNames = {
     STOCKMAINTENANCE: "Stock Maintenance",
     STOCKCATEGORY: "StockCategory",
     STOCKITEM: "Stock Item",
+    SEARCH: "Search",
 
 };
 

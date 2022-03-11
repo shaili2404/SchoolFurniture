@@ -24,7 +24,7 @@ const USER_ROLE = {
         name: 'Search',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/search_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.SEARCH
       },
       {
         name: 'Furniture Replacement',

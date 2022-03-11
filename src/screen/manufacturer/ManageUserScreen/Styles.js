@@ -66,6 +66,9 @@ export default StyleSheet.create({
     alignContent: 'center'
   },
   listView: {
-     height: "80%",
+    height:  "100%",
+   },
+ listView80: {
+     height: Platform.OS === 'android' ? "80%" :"100%",
     },
 });
