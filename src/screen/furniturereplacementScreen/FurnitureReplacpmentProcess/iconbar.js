@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./style";
 import { View,Text,Image } from "react-native";
-import Images from "../../../../asset/images";
-import constants from "../../../../locales/constants";
+import Images from "../../../asset/images";
+import constants from "../../../locales/constants";
 
 
 export const IconBar = () =>{

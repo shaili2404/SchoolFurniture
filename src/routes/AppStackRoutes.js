@@ -16,12 +16,13 @@ import { ManageUserScreen } from "../screen/Manufacturer/ManageUserScreen/manage
 import { SchoolDistrictList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
 import { SchoolList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/School/schoolList";
 import AddNewUsers from "../screen/Manufacturer/AddNewUsers/AddNewUsers";
-import { FurnitureReplacmentManfacturer } from "../screen/Manufacturer/furniturereplacementScreen/furniturerequestscreen";
+import { FurnitureReplacmentManfacturer } from "../screen/furniturereplacementScreen/furniturerequestscreen";
 import { StockMaintenanceScreen } from "../screen/Manufacturer/maintenance/StockMaintenance/stockmaintenanncescreen";
 import { Functionalities } from "../component/manufacturer/Functionalitiesuser";
 import StockCategory from "../screen/Manufacturer/maintenance/StockCategory/StockCategory";
 import { StockItems } from "../screen/Manufacturer/maintenance/StockMaintenance/stockItems/StockItems";
-import { FurnitureReplacmentProcess } from "../screen/Manufacturer/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
+import { FurnitureReplacmentProcess } from "../screen/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
+import { AddFurRequestScreen } from "../screen/furniturereplacementScreen/AddRequestScreen/AddRequestScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -265,6 +266,11 @@ const AppStack = (props) => {
               name="FurnitureReplacmentProcess"
               component={FurnitureReplacmentProcess}
               options={CommonHeaderStyle}
+            />
+            <Stack.Screen
+              name="AddRequestFur"
+              component={AddFurRequestScreen}
+              options={{ headerShown: false }}
             />
       </>
       {/* ) : (

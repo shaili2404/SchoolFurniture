@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import Images from "../../../../../asset/images";
-import constants from "../../../../../locales/constants";
+import Images from "../../../../asset/images";
 import Styles from "./style";
 
 export const TaskSection = ({ name, button,buttonvalue }) => {

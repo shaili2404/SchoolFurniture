@@ -9,15 +9,16 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import COLORS from "../../../asset/color";
+import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
-import Images from "../../../asset/images";
-import Dummydata from "../../../component/dummyData/dummyData";
-import { FurnitureRequestList } from "../../../component/school/furniturerequestList";
-import { ListHeader } from "../../../component/school/listHeader";
-import constants from "../../../locales/constants";
+import Images from "../../asset/images";
+import Dummydata from "../../component/dummyData/dummyData";
+import constants from "../../locales/constants";
 import Styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { DataDisplayList } from "../../component/manufacturer/displayListComman";
+import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
+import { useSelector } from "react-redux";
 
 export const FurnitureReplacmentManfacturer = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
@@ -27,11 +28,15 @@ export const FurnitureReplacmentManfacturer = () => {
     startIndex: 0,
     endIndex: 0,
   });
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endData, setEndDate] = useState(new Date());
   const [close, setCLose] = useState(false);
   const [open, setOpen] = useState(false);
+  const organization = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
+  console.log(organization);
 
   const initialPagination = (list) => {
     const len = list.length;
@@ -75,20 +80,27 @@ export const FurnitureReplacmentManfacturer = () => {
       };
     });
   };
-
+  const tableHeader = [
+    constants.dateCreated,
+    constants.refrenceNo,
+    constants.emisNumber,
+    constants.status,
+    constants.totalFurnitureCount,
+  ];
+  const tableKey = [
+    "Date",
+    "RefrenceNo",
+    "emis",
+    "status",
+    "TotalFurnitureCount",
+  ];
   const rendercomponent = ({ item }) => {
     return (
-      <FurnitureRequestList
-        Date={item.Date}
-        RefrenceNo={item.RefrenceNo}
-        status={item.status}
-        EmisNumber={item.EmisNumber}
-        TotalFurnitureCount={item.TotalFurnitureCount}
-      />
+      <DataDisplayList tableKey={tableKey} item={item} editDelICon={false} />
     );
   };
   const HeaderComponet = () => {
-    return <ListHeader />;
+    return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
   return (
@@ -98,7 +110,10 @@ export const FurnitureReplacmentManfacturer = () => {
           <Text style={Styles.transactionText}>
             {constants.transactionSearch}
           </Text>
-          <TouchableOpacity style={Styles.searchButton} onPress={()=>navigation.navigate('FurnitureReplacmentProcess')}>
+          <TouchableOpacity
+            style={Styles.searchButton}
+            onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
+          >
             <Text style={Styles.searchText}>{constants.search}</Text>
           </TouchableOpacity>
         </View>
@@ -130,8 +145,7 @@ export const FurnitureReplacmentManfacturer = () => {
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropStyle}>
             <Text style={Styles.textStyle}>
-              {" "}
-              {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
+              {`${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -155,8 +169,7 @@ export const FurnitureReplacmentManfacturer = () => {
           </TouchableOpacity>
           <View style={Styles.dropStyle}>
             <Text style={Styles.textStyle}>
-              {" "}
-              {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
+              {`${endData.getFullYear()}-${endData.getMonth()}-${endData.getDate()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -189,29 +202,39 @@ export const FurnitureReplacmentManfacturer = () => {
           />
         </ScrollView>
       </View>
-      <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
-          {pagination.currentPage === 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
+      {organization == "School" ? (
+        <View style={Styles.plusView}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AddRequestFur")}
+          >
+            <Image source={Images.addCricleIcon} />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={Styles.lastView}>
+          <TouchableOpacity onPress={onPrevious}>
+            {pagination.currentPage === 1 ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
-          {pagination.currentPage === pagination.totalPage ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={onNext}>
+            {pagination.currentPage === pagination.totalPage ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

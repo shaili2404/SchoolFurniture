@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import COLORS from "../../../../asset/color";
+import COLORS from "../../../asset/color";
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -8,7 +8,8 @@ export default StyleSheet.create({
         width:width,
         height:height,
         backgroundColor:COLORS.LightGreen,
-        alignSelf:'center'
+        alignSelf:'center',
+        position:'absolute'
     },
     furView:{
      width:'90%',
@@ -51,5 +52,9 @@ export default StyleSheet.create({
     arrowStyle:{
       marginTop:10,
       marginRight:30
+    },
+    bottomView:{
+     position:'relative',
+     bottom:90,
     }
 })

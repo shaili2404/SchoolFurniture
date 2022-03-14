@@ -6,6 +6,7 @@ const COLORS = {
     White: '#FFFFFF',
     blue: '#1492E6',
     red: '#F12B20',
+    DisableBox: '#E4E4E4',
     borderGreen: '#49A549',
     AlertYesColor: '#DC4635',
     AlertNoColor: '#4A72FF',
@@ -14,7 +15,7 @@ const COLORS = {
     LinearGreen1: "#80C081",
     LinearGreen2: '#48A448',
     LinearBox: '#85C286',
-    DisableBox: '#E4E4E4'
+    plusMinusColor: '#E6F6E6'
 
 }
 export default COLORS

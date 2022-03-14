@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import COLORS from "../../../asset/color";
+import COLORS from "../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default StyleSheet.create({
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     width: '90%',
     paddingEnd: 20,
     flexDirection:'row',
-    justifyContent:"space-around"
+    justifyContent:"space-between"
   },
   transactionText: {
     textAlign: "left",
@@ -59,7 +59,7 @@ export default StyleSheet.create({
     marginTop: 15,
     justifyContent: "space-between",
     marginHorizontal: 20,
-    width: '100%',
+    width: '90%',
     paddingEnd: 20,
   },
   viewInputS: {
@@ -74,12 +74,11 @@ export default StyleSheet.create({
     height: 40,
     paddingLeft: 10,
     marginTop: 15,
-    alignSelf: "flex-start",
   },
   dropS: {
     backgroundColor: COLORS.White,
     width: "90%",
-    height: 40,
+    height: 50,
     paddingLeft: 10,
     marginTop: 15,
     alignSelf: "flex-start",
@@ -126,7 +125,7 @@ export default StyleSheet.create({
   },
   eyeStyle: {
     position: "relative",
-    top: 20,
+    top: 25,
     right: 30,
   },
   dropdowwnButton: {
@@ -148,5 +147,12 @@ export default StyleSheet.create({
     position: "absolute",
     bottom: 130,
     alignSelf: "center",
+  },
+  plusView: {
+    flexDirection: "row",
+    justifyContent: 'flex-end',
+    width: "100%",
+    position: "absolute",
+    bottom: 85,
   },
 });
