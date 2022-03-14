@@ -91,7 +91,6 @@ export const LoginScreen = () => {
     setEmptyPass(true);
   };
 
-
   return loader ? (
     <Loader />
   ) : (
@@ -195,7 +194,7 @@ export const LoginScreen = () => {
 
         <View style={defaultState === true ? Styles.inputStyless : Styles.inputStyles}>
           <TouchableOpacity
-            style={(emptyUserName || emptyPass) ? Styles.disableStyle : Styles.buttonStyle}
+            style={(emptyUserName || emptyPass) ? [Styles.buttonStyle, { opacity: 0.5 }] : Styles.buttonStyle}
             onPress={onLogin}
             disabled={emptyUserName || emptyPass}
           >

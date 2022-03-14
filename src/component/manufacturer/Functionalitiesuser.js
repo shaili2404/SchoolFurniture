@@ -128,6 +128,12 @@ export const Functionalities = () => {
         return !permissionIds.includes(id);
     }
 
+    const checkKey = (section) => {
+        Object.values(section).forEach((value) => {
+            console.log();
+        })
+    }
+
     const onPressDone = () => {
         setAlert(false);
         navigation.navigate("Manage User");
@@ -183,13 +189,13 @@ export const Functionalities = () => {
         return Object.keys(section).map((key) => (
             <React.Fragment key={key}>
                 <View style={styles.subView}>
-                    <Text style={styles.textStyles}>{key}</Text>
+                    <Text style={checkKey(section) ? styles.activeKey : styles.textStyles}>{key}</Text>
                 </View>
                 <View style={styles.submainView}>
                     <View style={styles.unclickView}></View>
                     {section[key].map((subSection) => (
                         <TouchableOpacity
-                            style={styles.clickView}
+                            style={checkPermission(subSection.id) ? styles.clickView : [styles.clickView, { backgroundColor: COLORS.DisableBox }]}
                             key={subSection.id}
                             onPress={() => {
                                 onChangePermission(subSection);
@@ -276,6 +282,10 @@ const styles = StyleSheet.create({
     },
     textStyles: {
         fontSize: 13,
+    },
+    activeKey: {
+        fontSize: 13,
+        fontWeight: 'bold'
     },
     clickView: {
         width: "15%",

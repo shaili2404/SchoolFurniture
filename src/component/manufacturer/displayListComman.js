@@ -94,7 +94,7 @@ export const DataDisplayList = ({
             </View>
           ))}
 
-          {permissionId.userEdit && (
+          {permissionId?.userEdit && (
             <View style={Styles.viewsssStyle}>
               <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
                 <Image source={Images.editIcon} />
@@ -102,7 +102,7 @@ export const DataDisplayList = ({
             </View>
           )
           }
-          {permissionId.userDelete && (
+          {permissionId?.userDelete && (
             <View style={Styles.viewsssStyle}>
               <TouchableOpacity onPress={onDelete}>
                 <Image source={Images.deleteIcon} />

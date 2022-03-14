@@ -38,12 +38,6 @@ const AddNewUsers = () => {
 
   const tableKey = ["name", "emis"];
   const tableHeader = [constants.school, constants.emis];
-  const [permissionId, setPermissionId] = useState({
-    userList: true,
-    userCreate: true,
-    userEdit: true,
-    userDelete: true,
-  });
 
   useEffect(() => {
     { !regExpEmail.test(email) ? setDisable(true) : setDisable(false) }
@@ -115,7 +109,6 @@ const AddNewUsers = () => {
         Url={endUrl.schoolList}
         data={"0"}
         schoolDataList={(value) => schoolDataList(value)}
-        permissionId={permissionId}
       />
     );
   };
@@ -174,7 +167,7 @@ const AddNewUsers = () => {
           />
         </View>
 
-        {dropdata == "Dinnovation" || selected.name == "Dinnovation" ? (
+        {dropdata == "Furniture Depot" || selected.name == "Furniture Depot" ? (
           <View>
             <TextInput
               placeholder={constants.enterName}
