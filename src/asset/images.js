@@ -33,5 +33,12 @@ const Images = {
     PrintIcon : require('./images/PrintIcon.png'),
     PlusIcon : require('./images/PlusIcon.png'),
     MinusIcon : require('./images/minusIcon.png'),
+    collectFurnitureIcon: require('./images/CollectFurIcon.png'),
+    collectFurnitureInprogress: require('./images/collectFurinProgress.png'),
+    createRequestInprogress: require('./images/CreateRequestInProcess.png'),
+    dilveryIcon: require('./images/dilveryicon.png'),
+    repairReplanishIcon: require('./images/repairicon.png'),
+    repairReplanishInprogress: require('./images/repairInprogress.png'),
+    rightarrowBlack: require('./images/RightArrowBlack.png'),
 }
 export default Images

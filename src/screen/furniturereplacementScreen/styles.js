@@ -19,11 +19,10 @@ export default StyleSheet.create({
     paddingEnd: 20,
   },
   refView: {
-    marginHorizontal: 20,
     width: '90%',
-    paddingEnd: 20,
     flexDirection:'row',
-    justifyContent:"space-between"
+    justifyContent:"space-between",
+    alignSelf:'center'
   },
   transactionText: {
     textAlign: "left",
@@ -56,35 +55,38 @@ export default StyleSheet.create({
   },
   viewInputStyle: {
     flexDirection: "row",
-    marginTop: 15,
+    marginVertical: 20,
     justifyContent: "space-between",
-    marginHorizontal: 20,
     width: '90%',
-    paddingEnd: 20,
+    alignSelf:'center'
   },
   viewInputS: {
-    marginTop: 15,
+    marginVertical: 10,
     marginHorizontal: 20,
     width: '100%',
-    paddingEnd: 20,
   },
   dropStyle: {
     backgroundColor: COLORS.White,
     width: "45%",
     height: 40,
-    paddingLeft: 10,
+    paddingLeft: 20,
     marginTop: 15,
+  },
+  dropsssssStyle: {
+    backgroundColor: COLORS.White,
+    width: "45%",
+    height: 40,
+    paddingLeft: 20,
   },
   dropS: {
     backgroundColor: COLORS.White,
     width: "90%",
-    height: 50,
+    height: 40,
     paddingLeft: 10,
     marginTop: 15,
     alignSelf: "flex-start",
   },
   textStyle:{
-    marginLeft:10,
     marginTop:10
   } , 
   dropsStyle: {
@@ -125,16 +127,15 @@ export default StyleSheet.create({
   },
   eyeStyle: {
     position: "relative",
-    top: 25,
+    top: 10,
     right: 30,
   },
   dropdowwnButton: {
-    position: "relative",
-    bottom: 25,
-    left:300
-  },
+    position: "absolute",
+    bottom: 15,
+left:310  },
   imgStyle: {
-    width: 20,
+    // width: 20,
   },
   imgsStyle: {
     width: 20,

@@ -55,6 +55,6 @@ export default StyleSheet.create({
     },
     bottomView:{
      position:'relative',
-     bottom:90,
+     bottom:70,
     }
 })

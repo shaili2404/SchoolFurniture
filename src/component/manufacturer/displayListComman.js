@@ -103,8 +103,7 @@ export const DataDisplayList = ({
               )}
             </View>
           ))}
-          {editDelICon ? (
-            <>
+       
               {permissionId.userEdit && (
                 <View style={Styles.viewsssStyle}>
                   <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
@@ -112,10 +111,6 @@ export const DataDisplayList = ({
                   </TouchableOpacity>
                 </View>
               )}
-            </>
-          ) : null}
-          {editDelICon ? (
-            <>
               {permissionId.userDelete && (
                 <View style={Styles.viewsssStyle}>
                   <TouchableOpacity onPress={onDelete}>
@@ -123,8 +118,6 @@ export const DataDisplayList = ({
                   </TouchableOpacity>
                 </View>
               )}
-            </>
-          ) : null}
         </View>
       )}
 

@@ -20,6 +20,25 @@ const style = StyleSheet.create({
     paddingLeft: 20,
     marginVertical: 7,
   },
+  emailInputessStyle: {
+    borderRadius: 5,
+    backgroundColor: COLORS.LightGreen,
+    width: "50%",
+    height: 40,
+    paddingLeft: 20,
+    marginVertical: 7,
+  },
+  changeText: {
+    opacity:0.5,
+    fontSize:12
+  },
+  changeView: {
+    position: "relative",
+    left: 10,
+    top: 9,
+    backgroundColor: COLORS.White,
+    width: 400,
+  },
   
 });
 export default style;

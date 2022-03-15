@@ -19,6 +19,8 @@ import { useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import endUrl from "../../redux/configration/endUrl";
 
 export const FurnitureReplacmentManfacturer = () => {
   const [dummyData, setDummyData] = useState(Dummydata);
@@ -33,10 +35,31 @@ export const FurnitureReplacmentManfacturer = () => {
   const [endData, setEndDate] = useState(new Date());
   const [close, setCLose] = useState(false);
   const [open, setOpen] = useState(false);
+  const [collectionList, setCollectionList] = useState([]);
+  const [permissionId, setPermissionId] = useState({
+    userCreate: false,
+    userEdit: false,
+    userDelete: false,
+  });
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
-  console.log(organization);
+
+  const getCollectionRequest = () => {
+    axios
+      .get(`${endUrl.collectionreqList}`)
+      .then((res) => {
+        setCollectionList(res?.data?.data);
+      })
+      .catch((e) => console.log("apicall", e));
+  };
+
+  useEffect(() => {
+    if (organization == "School") {
+    } else {
+      getCollectionRequest();
+    }
+  }, []);
 
   const initialPagination = (list) => {
     const len = list.length;
@@ -80,23 +103,49 @@ export const FurnitureReplacmentManfacturer = () => {
       };
     });
   };
-  const tableHeader = [
-    constants.dateCreated,
-    constants.refrenceNo,
-    constants.emisNumber,
-    constants.status,
-    constants.totalFurnitureCount,
-  ];
-  const tableKey = [
-    "Date",
-    "RefrenceNo",
-    "emis",
-    "status",
-    "TotalFurnitureCount",
-  ];
+  const tableHeader =
+    organization == "School"
+      ? [
+          constants.dateCreated,
+          constants.refrenceNo,
+          constants.emisNumber,
+          constants.status,
+          constants.totalFurnitureCount,
+        ]
+      : [
+          constants.schoolName,
+          constants.refrenceNo,
+          constants.status,
+          constants.emis,
+          constants.totalFurnitureCount,
+        ];
+  const tableKey =
+    organization == "School"
+      ? ["Date", "RefrenceNo", "emis", "status", "TotalFurnitureCount"]
+      : ["school_name", "ref_number", "status", "emis", "total_furniture"];
   const rendercomponent = ({ item }) => {
     return (
-      <DataDisplayList tableKey={tableKey} item={item} editDelICon={false} />
+      <>
+        {organization == "School" ? (
+          <DataDisplayList
+            tableKey={tableKey}
+            item={item}
+            permissionId={permissionId}
+          />
+        ) : (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("FurnitureReplacmentProcess", item)
+            }
+          >
+            <DataDisplayList
+              tableKey={tableKey}
+              item={item}
+              permissionId={permissionId}
+            />
+          </TouchableOpacity>
+        )}
+      </>
     );
   };
   const HeaderComponet = () => {
@@ -112,7 +161,7 @@ export const FurnitureReplacmentManfacturer = () => {
           </Text>
           <TouchableOpacity
             style={Styles.searchButton}
-            onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
+            
           >
             <Text style={Styles.searchText}>{constants.search}</Text>
           </TouchableOpacity>
@@ -143,9 +192,10 @@ export const FurnitureReplacmentManfacturer = () => {
           </TouchableOpacity>
         </View>
         <View style={Styles.viewInputStyle}>
-          <View style={Styles.dropStyle}>
+          <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
-              {`${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()}`}
+              {" "}
+              {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -167,9 +217,10 @@ export const FurnitureReplacmentManfacturer = () => {
               }}
             />
           </TouchableOpacity>
-          <View style={Styles.dropStyle}>
+          <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
-              {`${endData.getFullYear()}-${endData.getMonth()}-${endData.getDate()}`}
+              {" "}
+              {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -197,7 +248,7 @@ export const FurnitureReplacmentManfacturer = () => {
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={dummyData}
+            data={organization == "School" ? null : collectionList}
             renderItem={rendercomponent}
           />
         </ScrollView>
@@ -210,31 +261,30 @@ export const FurnitureReplacmentManfacturer = () => {
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
-      ) : (
-        <View style={Styles.lastView}>
-          <TouchableOpacity onPress={onPrevious}>
-            {pagination.currentPage === 1 ? (
-              <Image source={Images.leftarrow} />
-            ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
-            )}
-          </TouchableOpacity>
+      ) : null}
+      <View style={Styles.lastView}>
+        <TouchableOpacity onPress={onPrevious}>
+          {pagination.currentPage === 1 ? (
+            <Image source={Images.leftarrow} />
+          ) : (
+            <Image
+              source={Images.rightarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          )}
+        </TouchableOpacity>
 
-          <TouchableOpacity onPress={onNext}>
-            {pagination.currentPage === pagination.totalPage ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
-            ) : (
-              <Image source={Images.rightarrow} />
-            )}
-          </TouchableOpacity>
-        </View>
-      )}
+        <TouchableOpacity onPress={onNext}>
+          {pagination.currentPage === pagination.totalPage ? (
+            <Image
+              source={Images.leftarrow}
+              style={{ transform: [{ rotate: "180deg" }] }}
+            />
+          ) : (
+            <Image source={Images.rightarrow} />
+          )}
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

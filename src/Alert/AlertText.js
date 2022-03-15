@@ -6,7 +6,7 @@ const AlertText = {
     deletedistrict: 'Do You Want To Delete This Distict',
     deleteschool: 'Do You Want To Delete This School',
     signout: 'Do you want to Signout ?',
-    districtAdd: 'Added Successfully',
+    districtAdd: 'New district added successfully!',
     districtUpdateSub: 'School District Added Successfully',
     districtUpdate: 'Updated Successfully',
     districtUpdateSub: 'School District Updated Successfully',

@@ -14,7 +14,9 @@ const endUrl = {
     stockCategorySearch: 'user/search/stock-category?query=',
     stockCategoryList : 'user/stock-category',
     stockitemList:'user/stock-item',
-    stockItemSearch:'user/search/stock-item?query='
+    stockItemSearch:'user/search/stock-item?query=',
+    collectionreqList:'user/furniture-collection-request',
+    categoryWiseItem : 'user/stock-category'
 }
 
 export default endUrl;

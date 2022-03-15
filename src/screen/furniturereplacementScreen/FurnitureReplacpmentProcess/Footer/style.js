@@ -7,7 +7,7 @@ export default StyleSheet.create({
   mainVIew: {
     backgroundColor: COLORS.White,
     flexDirection: "row",
-    height: 70,
+    height: 50,
     justifyContent: "space-between",
     paddingHorizontal: "10%",
   },
