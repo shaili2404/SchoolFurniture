@@ -27,7 +27,9 @@ export const DataDisplayList = ({
   schoolDataList,
   permissionId,
   page,
-  List
+  List,
+  organization,
+  onDeleteFurItem
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -37,8 +39,13 @@ export const DataDisplayList = ({
   const [subMsg, setSubMsg] = useState("");
   const navigation = useNavigation();
 
-  const onDelete = () => {
+  const onDelete = (item) => {
+    if (organization == 'School'){
+      onDeleteFurItem(item)
+    }
+    else{
     setAlert(true);
+    }
   };
 
   useEffect(() => {
@@ -102,22 +109,21 @@ export const DataDisplayList = ({
               )}
             </View>
           ))}
-
-          {permissionId?.userEdit && (
-            <View style={Styles.viewsssStyle}>
-              <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
-                <Image source={Images.editIcon} />
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {permissionId?.userDelete && (
-            <View style={Styles.viewsssStyle}>
-              <TouchableOpacity onPress={onDelete}>
-                <Image source={Images.deleteIcon} />
-              </TouchableOpacity>
-            </View>
-          )}
+       
+              {permissionId.userEdit && (
+                <View style={Styles.viewsssStyle}>
+                  <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
+                    <Image source={Images.editIcon} />
+                  </TouchableOpacity>
+                </View>
+              )}
+              {permissionId.userDelete && (
+                <View style={Styles.viewsssStyle}>
+                  <TouchableOpacity onPress={()=>onDelete(item)}>
+                    <Image source={Images.deleteIcon} />
+                  </TouchableOpacity>
+                </View>
+              )}
         </View>
       )}
 

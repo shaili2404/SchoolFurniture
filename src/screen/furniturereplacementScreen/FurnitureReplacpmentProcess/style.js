@@ -29,7 +29,7 @@ export default StyleSheet.create({
         justifyContent:'space-around',
         backgroundColor:COLORS.White,
         alignSelf:'center',
-        paddingVertical:'5%'
+        paddingVertical:'2%'
     },
     subImageView:{
         flexDirection:'row',
@@ -38,12 +38,11 @@ export default StyleSheet.create({
     },
     partImageView:{
         width:'10%',
-        alignSelf:'center'
+        marginTop:1
     },
     labelView:{
      width:60,
      marginTop:10
-
     },
     labelText:{
         fontSize:8,
@@ -55,6 +54,6 @@ export default StyleSheet.create({
     },
     bottomView:{
      position:'relative',
-     bottom:90,
+     bottom:70,
     }
 })

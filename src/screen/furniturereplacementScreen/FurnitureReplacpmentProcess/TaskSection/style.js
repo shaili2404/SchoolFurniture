@@ -6,7 +6,7 @@ const height = Dimensions.get('window').height;
 export default StyleSheet.create({
     mainView:{
         backgroundColor:COLORS.LightGreen,
-        paddingVertical:'5%',
+        paddingVertical:'2%',
         flexDirection:'row',
         width:'90%',
         justifyContent:'space-between',

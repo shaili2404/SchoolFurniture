@@ -67,7 +67,7 @@ const constants = {
     FurnitureReplacmnetProcess: 'Furniture Replacment Process',
     TransactionList: 'Transaction List',
     createRequest: 'Create Request',
-    coolectFurnitureRequest: 'Collect Furniture Item',
+    collectFurnitureRequest: 'Collect Furniture Item',
     RepairReplnish: 'Repair/Replenish',
     DilverFurItem: 'Dilver Furniture Item',
     Accept: 'Accept',
@@ -100,12 +100,16 @@ const constants = {
     ItemCount: 'Furniture Item Count',
     Edit: 'Edit',
     dashboard: 'Dashboard',
-    FurCategory: 'Furniture Category',
-    furItem: 'Furniture Items',
-    refrenceNo: 'Reference No .',
-    totalFurnitureCount: 'Total Furniture Count',
-    enterSearchData: "Please enter search data"
-
+    enterSearchData: "Please enter search data",
+    FurCategory:'Furniture Category',
+    furItem:'Furniture Items',
+    refrenceNo:'Reference No .',
+    totalFurnitureCount:'Total Furniture Count',
+    inprogress :'In Progress',
+    success :'Success',
+    collectioncount:'Collection Count',
+    schoolFullFur :'School Full Furniture Including Working Furniture',
+    schoolFurCount:'School Funiture Count',
 
 }
 export default constants

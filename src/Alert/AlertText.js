@@ -8,6 +8,7 @@ const AlertText = {
     signout: 'Do you want to Signout ?',
     districtAdd: 'New district added successfully!',
     districtAddedSub: 'School District Added Successfully',
+    districtUpdateSub: 'School District Added Successfully',
     districtUpdate: 'Updated Successfully',
     districtUpdateSub: 'School District Updated Successfully',
     SchoolUpdate: 'Updated Successfully',
@@ -22,7 +23,8 @@ const AlertText = {
     deleteUser: 'Do you want to delete this User?',
     canNotUndo: 'You cannot undo this action',
     deleteStockCategory: 'Do you want to delete this Category?',
-    deleteStock: 'Are you sure you want to delete?',
-
+    deleteStock :'Are you sure you want to delete?',
+    submitMessage:'Do you Want to submit',
+    
 }
 export default AlertText

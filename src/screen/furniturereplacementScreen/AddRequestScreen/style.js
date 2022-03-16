@@ -98,4 +98,21 @@ export default StyleSheet.create({
     width: width,
     height: '10%',
   },
+  inputTextStyle: {
+    borderRadius: 10,
+    marginHorizontal: 30,
+    backgroundColor: "#F4F9F4",
+    marginTop: 30,
+    paddingLeft: 20,
+    height:70,
+    width: "90%",
+    alignItems: 'center',
+    alignSelf:'center',
+    justifyContent: 'center',
+  },
+  item: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderBottomWidth: 0.2,
+  },
 });
