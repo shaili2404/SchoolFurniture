@@ -5,7 +5,8 @@ const height = Dimensions.get("window").height;
 export default StyleSheet.create({
   mainView: {
     height: height,
-    position: 'relative'
+    position: "relative",
+    backgroundColor: COLORS.White,
   },
   halfView: {
     backgroundColor: COLORS.LightGreen,
@@ -15,14 +16,14 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginHorizontal: 20,
-    width: '90%',
+    width: "90%",
     paddingEnd: 20,
   },
   refView: {
-    width: '90%',
-    flexDirection:'row',
-    justifyContent:"space-between",
-    alignSelf:'center'
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "center",
   },
   transactionText: {
     textAlign: "left",
@@ -57,13 +58,13 @@ export default StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     justifyContent: "space-between",
-    width: '90%',
-    alignSelf:'center'
+    width: "90%",
+    alignSelf: "center",
   },
   viewInputS: {
     marginVertical: 10,
     marginHorizontal: 20,
-    width: '100%',
+    width: "100%",
   },
   dropStyle: {
     backgroundColor: COLORS.White,
@@ -86,9 +87,9 @@ export default StyleSheet.create({
     marginTop: 15,
     alignSelf: "flex-start",
   },
-  textStyle:{
-    marginTop:10
-  } , 
+  textStyle: {
+    marginTop: 10,
+  },
   dropsStyle: {
     backgroundColor: COLORS.White,
     width: "45%",
@@ -104,11 +105,11 @@ export default StyleSheet.create({
   },
   lastView: {
     marginHorizontal: 20,
-    width: '80%',
+    width: "80%",
     paddingEnd: 20,
     paddingTop: 10,
-    position: 'absolute',
-    bottom: 30
+    position: "absolute",
+    bottom: 30,
   },
   lastText: {
     fontWeight: "bold",
@@ -133,17 +134,18 @@ export default StyleSheet.create({
   dropdowwnButton: {
     position: "absolute",
     bottom: 15,
-left:310  },
+    left: 310,
+  },
   imgStyle: {
     // width: 20,
   },
   imgsStyle: {
     width: 20,
-    height: 10
+    height: 10,
   },
   lastView: {
     flexDirection: "row",
-    justifyContent:'space-between',
+    justifyContent: "space-between",
     width: "30%",
     position: "absolute",
     bottom: 130,
@@ -151,9 +153,21 @@ left:310  },
   },
   plusView: {
     flexDirection: "row",
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     width: "100%",
     position: "absolute",
     bottom: 85,
+  },
+  container: {
+    borderRadius: 5,
+    backgroundColor: COLORS.White,
+    width: "90%",
+    height: 40,
+    paddingLeft: 20,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    marginTop:20
   },
 });

@@ -28,7 +28,8 @@ export const DataDisplayList = ({
   permissionId,
   page,
   List,
-  editDelICon,
+  organization,
+  onDeleteFurItem
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -38,8 +39,13 @@ export const DataDisplayList = ({
   const [subMsg, setSubMsg] = useState("");
   const navigation = useNavigation();
 
-  const onDelete = () => {
+  const onDelete = (item) => {
+    if (organization == 'School'){
+      onDeleteFurItem(item)
+    }
+    else{
     setAlert(true);
+    }
   };
 
   useEffect(() => {
@@ -113,7 +119,7 @@ export const DataDisplayList = ({
               )}
               {permissionId.userDelete && (
                 <View style={Styles.viewsssStyle}>
-                  <TouchableOpacity onPress={onDelete}>
+                  <TouchableOpacity onPress={()=>onDelete(item)}>
                     <Image source={Images.deleteIcon} />
                   </TouchableOpacity>
                 </View>

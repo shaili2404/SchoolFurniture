@@ -21,9 +21,12 @@ import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman"
 import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
+import Loader from "../../component/loader";
+import Dropdown from "../../component/DropDown/dropdown";
+
+const PAGESIZE = 4;
 
 export const FurnitureReplacmentManfacturer = () => {
-  const [dummyData, setDummyData] = useState(Dummydata);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -36,6 +39,9 @@ export const FurnitureReplacmentManfacturer = () => {
   const [close, setCLose] = useState(false);
   const [open, setOpen] = useState(false);
   const [collectionList, setCollectionList] = useState([]);
+  const [loader, setLoader] = useState(true);
+  const [dropData,setDropData] = useState([])
+  const [select,setSelect] = useState([])
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -46,19 +52,30 @@ export const FurnitureReplacmentManfacturer = () => {
   );
 
   const getCollectionRequest = () => {
+    setLoader(true);
     axios
       .get(`${endUrl.collectionreqList}`)
       .then((res) => {
         setCollectionList(res?.data?.data);
+        initialPagination(res?.data?.data);
+        setLoader(false);
+      })
+      .catch((e) => console.log("apicall", e));
+  };
+  const getstatusList = () => {
+    setLoader(true);
+    axios
+      .get(`${endUrl.statusList}`)
+      .then((res) => {
+        setDropData(res?.data?.data)
+        console.log(res?.data?.data)
       })
       .catch((e) => console.log("apicall", e));
   };
 
   useEffect(() => {
-    if (organization == "School") {
-    } else {
-      getCollectionRequest();
-    }
+    getCollectionRequest();
+    getstatusList()
   }, []);
 
   const initialPagination = (list) => {
@@ -83,8 +100,8 @@ export const FurnitureReplacmentManfacturer = () => {
         currentPage: currentPage + 1,
         startIndex: currentPage * PAGESIZE,
         endIndex:
-          (currentPage + 1) * PAGESIZE > listData.length
-            ? listData.length
+          (currentPage + 1) * PAGESIZE > collectionList.length
+            ? collectionList.length
             : (currentPage + 1) * PAGESIZE,
       };
     });
@@ -114,6 +131,7 @@ export const FurnitureReplacmentManfacturer = () => {
         ]
       : [
           constants.schoolName,
+          constants.dateCreated,
           constants.refrenceNo,
           constants.status,
           constants.emis,
@@ -121,8 +139,8 @@ export const FurnitureReplacmentManfacturer = () => {
         ];
   const tableKey =
     organization == "School"
-      ? ["Date", "RefrenceNo", "emis", "status", "TotalFurnitureCount"]
-      : ["school_name", "ref_number", "status", "emis", "total_furniture"];
+      ? ['created_at', "ref_number", "status", "emis", "total_furniture"]
+      : ["school_name", 'created_at' ,"ref_number", "status", "emis", "total_furniture"];
   const rendercomponent = ({ item }) => {
     return (
       <>
@@ -152,17 +170,16 @@ export const FurnitureReplacmentManfacturer = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
-  return (
+  return loader ? (
+    <Loader />
+  ) : (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View style={Styles.searchButtonView}>
           <Text style={Styles.transactionText}>
             {constants.transactionSearch}
           </Text>
-          <TouchableOpacity
-            style={Styles.searchButton}
-            
-          >
+          <TouchableOpacity style={Styles.searchButton}>
             <Text style={Styles.searchText}>{constants.search}</Text>
           </TouchableOpacity>
         </View>
@@ -180,16 +197,13 @@ export const FurnitureReplacmentManfacturer = () => {
             opacity={0.5}
           />
         </View>
-        <View style={Styles.viewInputS}>
-          <TextInput
-            style={Styles.dropS}
-            placeholder={constants.status}
-            placeholderTextColor={COLORS.Black}
-            opacity={1}
-          />
-          <TouchableOpacity style={Styles.dropdowwnButton}>
-            <Image source={Images.DownArrow} style={Styles.imgsStyle} />
-          </TouchableOpacity>
+        <View style={Styles.container}>
+        <Dropdown
+          label={constants.FurCategory}
+          data={dropData}
+          onSelect={setSelect}
+          task="name"
+        />
         </View>
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropsssssStyle}>
@@ -248,7 +262,10 @@ export const FurnitureReplacmentManfacturer = () => {
             ListHeaderComponent={HeaderComponet}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            data={organization == "School" ? null : collectionList}
+            data={collectionList.slice(
+              pagination.startIndex,
+              pagination.endIndex
+            )}
             renderItem={rendercomponent}
           />
         </ScrollView>
@@ -263,7 +280,10 @@ export const FurnitureReplacmentManfacturer = () => {
         </View>
       ) : null}
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
+        <TouchableOpacity
+          disabled={pagination.currentPage === 1 ? true : false}
+          onPress={onPrevious}
+        >
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -274,7 +294,12 @@ export const FurnitureReplacmentManfacturer = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
+        <TouchableOpacity
+          disabled={
+            pagination.currentPage === pagination.totalPage ? true : false
+          }
+          onPress={onNext}
+        >
           {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}

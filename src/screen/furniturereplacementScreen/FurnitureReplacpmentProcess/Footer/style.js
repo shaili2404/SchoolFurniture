@@ -19,13 +19,14 @@ export default StyleSheet.create({
     backgroundColor: COLORS.ThemeGreen,
     alignSelf: "center",
   },
-  buttonsubmitView: {
+  buttonsaveDisableView: {
     width: 90,
     height: 50,
     borderRadius: 21,
     justifyContent: "center",
     backgroundColor: COLORS.ThemeGreen,
     alignSelf: "center",
+    opacity:0.5
   },
   buttonSaveText: {
     fontWeight: "500",

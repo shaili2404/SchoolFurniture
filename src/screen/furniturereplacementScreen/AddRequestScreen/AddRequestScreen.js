@@ -6,9 +6,7 @@ import {
   View,
   Image,
   Text,
-  TextInput,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
@@ -18,35 +16,33 @@ import Dropdown from "../../../component/DropDown/dropdown";
 import Loader from "../../../component/loader";
 import constants from "../../../locales/constants";
 import endUrl from "../../../redux/configration/endUrl";
-import Dummydata from "./dummyData";
 import style from "./style";
 
 export const AddFurRequestScreen = () => {
   const navigation = useNavigation();
-  const [ItemList, SetItemList] = useState(Dummydata);
-  const [Item, setItem] = useState({});
-  const [selected, setSelected] = useState({});
-  const [loader, setLoader] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-  const [data, setData] = useState([]);
+  const [loader, setLoader] = useState(true);
   const [categoryList, setCategoryList] = useState([]);
   const [dataList, setDataList] = useState([]);
   const [categoryItemList, setcategoryItemList] = useState([]);
   const [finalList, setFinalList] = useState([]);
 
   const getCategoriesList = () => {
+    setLoader(true);
     axios
       .get(`${endUrl.stockCategoryList}`)
       .then((res) => {
         setDataList(res?.data?.data);
+        setLoader(false);
       })
       .catch((e) => {});
   };
   const getStockList = ({ id, item }) => {
+    setLoader(true);
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
       .then((res) => {
         setcategoryItemList(res?.data?.data);
+        setLoader(false);
       })
       .catch((e) => {});
   };
@@ -61,35 +57,44 @@ export const AddFurRequestScreen = () => {
 
   const setItemValue = (item) => {
     setCategoryList((prevState) => [...prevState, item]);
-    // setFinalList((prevState) => [
-    //   ...prevState,
-    //   {
-    //     category_id: item.category_id,
-    //     category_name: item.category_name,
-    //     item_name: item.name,
-    //     item_id: item.id,
-    //     count: 1,
-    //   },
-    // ]);
-    // console.log(finalList);
+    let obj = {};
+    (obj.category_id = item.category_id),
+      (obj.category_name = item.category_name),
+      (obj.item_name = item.name),
+      (obj.item_id = item.id),
+      (obj.count = 1),
+      setFinalList((prevState) => [...prevState, obj]);
+  };
+
+  const setQuantity = (item, value) => {
+    let arr = [...finalList];
+    let count;
+    count = value == "Sub" ? (item.count -= 1) : (item.count += 1);
+    arr.map((obj) => {
+      return {
+        ...obj,
+        count: count,
+      };
+    });
+    setFinalList(arr);
   };
 
   const rendercomponent = ({ item }) => {
     return (
       <View style={style.listView}>
-        <Text style={style.NewStyle}>{item.name}</Text>
+        <Text style={style.NewStyle}>{item.item_name}</Text>
         <View style={style.qutView}>
           <TouchableOpacity
-            disabled={quantity == 1 ? true : false}
+            disabled={item.count == 1 ? true : false}
             style={style.minusButton}
-            onPress={() => setQuantity(quantity - 1)}
+            onPress={() => setQuantity(item, "Sub")}
           >
             <Image source={Images.MinusIcon} />
           </TouchableOpacity>
-          <Text style={style.qutStyle}>{quantity}</Text>
+          <Text style={style.qutStyle}>{item.count}</Text>
           <TouchableOpacity
             style={style.plusButton}
-            onPress={() => setQuantity(quantity + 1)}
+            onPress={() => setQuantity(item, "Add")}
           >
             <Image source={Images.PlusIcon} />
           </TouchableOpacity>
@@ -130,12 +135,14 @@ export const AddFurRequestScreen = () => {
       </View>
       <FlatList
         keyExtractor={(item) => item.id}
-        data={categoryList}
+        data={finalList}
         renderItem={rendercomponent}
       />
       <View style={style.backContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
+          onPress={() =>
+            navigation.navigate("FurnitureReplacmentProcess", finalList)
+          }
         >
           <LinearGradient
             colors={[COLORS.LinearBox, COLORS.GreenBox]}

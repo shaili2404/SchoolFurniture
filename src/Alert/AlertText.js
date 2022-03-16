@@ -23,6 +23,7 @@ const AlertText = {
     canNotUndo: 'You cannot undo this action',
     deleteStockCategory: 'Do you want to delete this Category?',
     deleteStock :'Are you sure you want to delete?',
+    submitMessage:'Do you Want to submit'
     
 }
 export default AlertText
