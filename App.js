@@ -24,6 +24,7 @@ const App = () => {
     LogBox.ignoreAllLogs();//Ignore all log notifications
   })
 
+
   return (
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>

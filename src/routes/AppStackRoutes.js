@@ -208,7 +208,7 @@ const AppStack = (props) => {
         <Stack.Screen
           name={NavigationRouteNames.EMAILSENT}
           component={EmailSent}
-          options={CommonHeaderStyle}
+          options={{ headerShown: false }}
         />
 
         {/* After Login Screen */}

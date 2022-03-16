@@ -1,13 +1,17 @@
 import { StyleSheet } from "react-native";
 import COLORS from "../../../../asset/color";
+import Fonts from "../../../../asset/Fonts";
+import { RFValue } from 'react-native-responsive-fontsize';
+import { STANDARD_SCREEN_SIZE } from "../../../../utils/constants";
+import { RfH, RfW  } from "../../../../utils/helpers";
 
 export default StyleSheet.create({
     inputTxtStyle: {
         borderRadius: 10,
-        marginHorizontal: 30,
+        marginHorizontal: RfW(30),
         backgroundColor: "#F4F9F4",
-        marginTop: 30,
-        paddingLeft: 20,
+        marginTop: RfH(30),
+        paddingLeft: RfW(20),
         height:70,
         width: "90%",
         alignItems: 'center',
@@ -19,7 +23,7 @@ export default StyleSheet.create({
         flex: 1,
       },
       buttonStyle: {
-        marginTop: 30,
+        marginTop: RfH(30),
         backgroundColor: "#44A244",
         borderRadius: 40,
         height: 48,
@@ -27,10 +31,12 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         // marginBottom: 20,
-        marginHorizontal: 20,
+        marginHorizontal: RfW(20),
       },
       buttonText: {
         color: "#fff",
+        fontFamily: Fonts.semiBold,
+        fontSize: RFValue(16, STANDARD_SCREEN_SIZE)
       },
       buttonView: {
         alignItems: "flex-end",
@@ -57,8 +63,8 @@ export default StyleSheet.create({
       backgroundColor: COLORS.LightGreen,
       width: "80%",
       height: 50,
-      paddingLeft: 20,
-      marginBottom: 20,
+      paddingLeft: RfW(20),
+      marginBottom: RfH(20),
       alignItems: "center",
       alignSelf:'center',
       justifyContent: "center",

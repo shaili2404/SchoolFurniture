@@ -18,7 +18,7 @@ const USER_ROLE = {
         name: 'Dashboard',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.SECOND
       },
       {
         name: 'Search',

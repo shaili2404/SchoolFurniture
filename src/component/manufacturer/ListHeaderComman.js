@@ -2,6 +2,9 @@ import React from "react";
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import COLORS from "../../asset/color";
 import LinearGradient from "react-native-linear-gradient";
+import Fonts from "../../asset/Fonts";
+import { RFValue } from 'react-native-responsive-fontsize';
+import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
 
 export const ListHeaderComman = ({ tableHeader, List }) => {
   return (
@@ -29,8 +32,9 @@ export const ListHeaderComman = ({ tableHeader, List }) => {
 
 const Styles = StyleSheet.create({
   textStyle: {
-    fontSize: 16,
-    fontWeight: "normal",
+    fontFamily: Fonts.semiBold,
+    fontSize: RFValue(16, STANDARD_SCREEN_SIZE),
+    // fontWeight: "normal",
     color: COLORS.White,
     textAlign: "left",
     textAlignVertical: "center",

@@ -12,8 +12,14 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		84BAA2D451A445CAAC9AF567 /* Segoe-UI-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1924866607BE4A278D9E7462 /* Segoe-UI-Semibold.ttf */; };
 		8DDB19DA1844952F1F5C2EB7 /* libPods-fur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF2B956CEA6125AD5D51878 /* libPods-fur.a */; };
+		90B08B9B519C43268326309C /* Segoe-UI-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA74D6C277024F7DB3FE180F /* Segoe-UI-Regular.ttf */; };
 		95508A8BF4E04E7FCCC69B08 /* libPods-fur-furTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93463E3B0EFBBE654EA784E5 /* libPods-fur-furTests.a */; };
+		9F63AF3F88D14BC4A49F945F /* Segoe-UI-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4ED677511934C5E9FE53AF2 /* Segoe-UI-Bold.ttf */; };
+		63B1A0445429492C8B5F8F2D /* SegoeUI-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51628294766D47D4B5B467A5 /* SegoeUI-Bold.ttf */; };
+		5931BFA94E504AD19D826FA9 /* SegoeUI-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA934552F4A344C4BCE55406 /* SegoeUI-Semibold.ttf */; };
+		016B61EA0C1646BB9F19A2DA /* SegoeUI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4184344AC257426E96219A6F /* SegoeUI.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,13 +43,19 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = fur/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = fur/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = fur/main.m; sourceTree = "<group>"; };
+		1924866607BE4A278D9E7462 /* Segoe-UI-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Segoe-UI-Semibold.ttf"; path = "../assets/fonts/Segoe-UI-Semibold.ttf"; sourceTree = "<group>"; };
 		3F8CD21BA3056C43D9755D8F /* Pods-fur.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fur.debug.xcconfig"; path = "Target Support Files/Pods-fur/Pods-fur.debug.xcconfig"; sourceTree = "<group>"; };
 		5129035C0A45A9EA208565CB /* Pods-fur.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fur.release.xcconfig"; path = "Target Support Files/Pods-fur/Pods-fur.release.xcconfig"; sourceTree = "<group>"; };
 		5740BA006E9D10A4C938F1BD /* Pods-fur-furTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fur-furTests.release.xcconfig"; path = "Target Support Files/Pods-fur-furTests/Pods-fur-furTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = fur/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87D211761FC8D727F7B1DF0F /* Pods-fur-furTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fur-furTests.debug.xcconfig"; path = "Target Support Files/Pods-fur-furTests/Pods-fur-furTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93463E3B0EFBBE654EA784E5 /* libPods-fur-furTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fur-furTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4ED677511934C5E9FE53AF2 /* Segoe-UI-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Segoe-UI-Bold.ttf"; path = "../assets/fonts/Segoe-UI-Bold.ttf"; sourceTree = "<group>"; };
+		CA74D6C277024F7DB3FE180F /* Segoe-UI-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Segoe-UI-Regular.ttf"; path = "../assets/fonts/Segoe-UI-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		51628294766D47D4B5B467A5 /* SegoeUI-Bold.ttf */ = {isa = PBXFileReference; name = "SegoeUI-Bold.ttf"; path = "../assets/fonts/SegoeUI-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CA934552F4A344C4BCE55406 /* SegoeUI-Semibold.ttf */ = {isa = PBXFileReference; name = "SegoeUI-Semibold.ttf"; path = "../assets/fonts/SegoeUI-Semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4184344AC257426E96219A6F /* SegoeUI.ttf */ = {isa = PBXFileReference; name = "SegoeUI.ttf"; path = "../assets/fonts/SegoeUI.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +146,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				0C2D1468A27620F13707354B /* Pods */,
+				A732586A058B4109AB40418F /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +160,20 @@
 				00E356EE1AD99517003FC87E /* furTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A732586A058B4109AB40418F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C4ED677511934C5E9FE53AF2 /* Segoe-UI-Bold.ttf */,
+				CA74D6C277024F7DB3FE180F /* Segoe-UI-Regular.ttf */,
+				1924866607BE4A278D9E7462 /* Segoe-UI-Semibold.ttf */,
+				51628294766D47D4B5B467A5 /* SegoeUI-Bold.ttf */,
+				CA934552F4A344C4BCE55406 /* SegoeUI-Semibold.ttf */,
+				4184344AC257426E96219A6F /* SegoeUI.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +272,12 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				9F63AF3F88D14BC4A49F945F /* Segoe-UI-Bold.ttf in Resources */,
+				90B08B9B519C43268326309C /* Segoe-UI-Regular.ttf in Resources */,
+				84BAA2D451A445CAAC9AF567 /* Segoe-UI-Semibold.ttf in Resources */,
+				63B1A0445429492C8B5F8F2D /* SegoeUI-Bold.ttf in Resources */,
+				5931BFA94E504AD19D826FA9 /* SegoeUI-Semibold.ttf in Resources */,
+				016B61EA0C1646BB9F19A2DA /* SegoeUI.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

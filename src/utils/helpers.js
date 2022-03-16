@@ -1,4 +1,6 @@
+import { Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STANDARD_SCREEN_DIMENSIONS } from './constants';
 
 
 export const storeData = async (key, value) => {
@@ -35,4 +37,14 @@ export const storeData = async (key, value) => {
     try {
       await AsyncStorage.removeItem('token');
     } catch (e) { }
+  };
+
+  export const RfW = (value) => {
+    const dim = Dimensions.get('window');
+    return dim.width * (value / STANDARD_SCREEN_DIMENSIONS.width);
+  };
+  
+  export const RfH = (value) => {
+    const dim = Dimensions.get('window');
+    return dim.height * (value / STANDARD_SCREEN_DIMENSIONS.height);
   };

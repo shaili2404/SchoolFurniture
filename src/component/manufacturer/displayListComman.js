@@ -14,6 +14,9 @@ import constants from "../../locales/constants";
 import axios from "axios";
 import { AddUserModal } from "./AddFormModal/AddFormModal";
 import { useNavigation } from "@react-navigation/native";
+import Fonts from "../../asset/Fonts";
+import { RFValue } from "react-native-responsive-fontsize";
+import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
 
 export const DataDisplayList = ({
   item,
@@ -152,8 +155,9 @@ export const DataDisplayList = ({
 
 const Styles = StyleSheet.create({
   textStyle: {
-    fontSize: 16,
-    fontWeight: "normal",
+    fontFamily: Fonts.regular,
+    fontSize: RFValue(14, STANDARD_SCREEN_SIZE),
+    // fontWeight: "normal",
     color: COLORS.Black,
     textAlign: "left",
     textAlignVertical: "center",
