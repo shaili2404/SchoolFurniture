@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import COLORS from "../../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -35,7 +35,7 @@ export default StyleSheet.create({
   plusView: {
     width: "20%",
     position: "absolute",
-    bottom: 80,
+    bottom: Platform.OS === 'ios' ? 80 : 60,
     right: 10
   },
   lastText: {
@@ -64,5 +64,11 @@ export default StyleSheet.create({
   errorView: {
     width: '100%',
     alignContent: 'center'
-  }
+  },
+  listView: {
+    height:  "100%",
+   },
+ listView80: {
+     height: Platform.OS === 'android' ? "80%" :"100%",
+    },
 });

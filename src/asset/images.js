@@ -1,10 +1,11 @@
 const Images = {
-    CompanyLogo: require('./images/Logo.png'),
+    CompanyLogo: require('./images/Logo1.png'),
     Eye: require('./images/eye.png'),
     Eye_off: require('./images/eye_off.png'),
-    right: require('./images/right.png'),
+    right: require('./images/emailSentTick.png'),
     error: require('./images/error.png'),
     Calender: require('./images/calender.png'),
+    Calendar: require('./images/calendar.png'),
     DownArrow: require('./images/downarrow.png'),
     SearchIcon: require('./images/search.png'),
     deleteIcon: require('./images/delete.png'),

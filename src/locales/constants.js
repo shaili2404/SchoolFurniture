@@ -110,6 +110,7 @@ const constants = {
     collectioncount:'Collection Count',
     schoolFullFur :'School Full Furniture Including Working Furniture',
     schoolFurCount:'School Funiture Count',
-
+    selectSearchOption: 'Select Search Option',
+    referenceNumber: 'Reference Number',
 }
 export default constants

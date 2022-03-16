@@ -169,8 +169,9 @@ export const FurnitureReplacmentProcess = () => {
       })
       .catch((e) => console.log("apicall", e));
   };
-  const onPressokay = () => {
-    navigation.navigate('Furniture Replacment');
+  const onPressDone = () => {
+    seterrorAlert(false);
+    navigation.navigate("Furniture Replacment");
   };
  const  onPressYesCancel=()=>{
    setCancelAlert(false)
@@ -260,7 +261,8 @@ export const FurnitureReplacmentProcess = () => {
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}
           mainMessage={mainMsg}
-          onConfirm={() => onPressokay()}
+          onPressDone={() => onPressDone()}
+          innerRoute={true}
         />
       ) : null}
     </SafeAreaView>
