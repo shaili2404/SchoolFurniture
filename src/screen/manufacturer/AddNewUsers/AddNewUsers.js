@@ -178,7 +178,7 @@ const AddNewUsers = () => {
             />
 
             <TextInput
-              placeholder={constants.surname}
+              placeholder={constants.enterSurname}
               style={Styles.inputTxtStyle}
               value={surname}
               onChangeText={(txt) => setSurname(txt)}
@@ -186,7 +186,7 @@ const AddNewUsers = () => {
             />
 
             <TextInput
-              placeholder={constants.emailId}
+              placeholder={constants.manageEmailId}
               style={Styles.inputTxtStyle}
               value={email}
               onChangeText={(txt) => setEmail(txt)}
@@ -273,7 +273,7 @@ const AddNewUsers = () => {
             />
 
             <TextInput
-              placeholder={constants.surname}
+              placeholder={constants.enterSurname}
               style={Styles.inputTxtStyle}
               value={surname}
               onChangeText={(txt) => setSurname(txt)}
@@ -281,7 +281,7 @@ const AddNewUsers = () => {
             />
 
             <TextInput
-              placeholder={constants.emailId}
+              placeholder={constants.manageEmailId}
               style={Styles.inputTxtStyle}
               value={email}
               onChangeText={(txt) => setEmail(txt)}

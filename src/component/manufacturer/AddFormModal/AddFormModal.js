@@ -30,31 +30,23 @@ export const AddUserModal = (props) => {
     })
   }
 
+  validation = (value) => {
+    return value != '' && value != undefined && value != null
+  }
+
   useEffect(() => {
-    inputValues.district_office == "" ? setDisable(true) : setDisable(false);
-    if (inputValues.tel != ''){
-      {!numberonly.test(inputValues.tel) ? setDisable(true) : setDisable(false)}
+    console.log(inputValues.street_code)
+    if (validation(inputValues.tel)) {
+      (!numberonly.test(inputValues.tel) || inputValues.district_office == "") ? setDisable(true) : setDisable(false)
+    } else {
+      inputValues.district_office == "" ? setDisable(true) : setDisable(false);
     }
-    if (inputValues.street_code != ''){
-      {!streetCode.test(inputValues.street_code) ? setDisable(true) : setDisable(false)}
-    }
-   
   }, [inputValues])
-
-  useEffect(()=>{
-      if (updateItem.tel != ''){
-        {!numberonly.test(updateItem.tel) ? setDisable(true) : setDisable(false)}
-      }
-      if (updateItem.street_code != ''){
-        {!streetCode.test(updateItem.street_code) ? setDisable(true) : setDisable(false)}
-      }
-
-  },[updateItem])
 
   useEffect(() => {
     const obj = {};
     if (operation == "Edit") {
-      updateItem.street_code = String(updateItem.street_code)
+      updateItem.street_code = updateItem.street_code && String(updateItem?.street_code)
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       })
@@ -117,7 +109,8 @@ export const AddUserModal = (props) => {
               <TouchableOpacity
                 style={disable ? style.disableStyle : style.buttonStyle}
                 onPress={onNext}
-                disabled={disable}>
+                disabled={disable}
+              >
                 <Text style={style.buttonText}>{buttonVal}</Text>
               </TouchableOpacity>
             </View>

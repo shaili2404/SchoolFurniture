@@ -46,7 +46,7 @@ const ManageUserDrawerStack = () => {
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       <Drawer.Screen
         component={ManageUserScreen}
-        name="Manage User"
+        name={NavigationRouteNames.MANAGEUSER}
         options={CommonHeaderStyle}
       />
     </Drawer.Navigator>
@@ -123,7 +123,7 @@ const AppStack = (props) => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Manage User"
+              name={NavigationRouteNames.MANAGEUSER}
               component={ManageUserDrawerStack}
               options={{ headerShown: false }}
             />
@@ -216,7 +216,7 @@ const AppStack = (props) => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Manage User"
+          name={NavigationRouteNames.MANAGEUSER}
           component={ManageUserDrawerStack}
           options={{ headerShown: false }}
         />
@@ -247,31 +247,31 @@ const AppStack = (props) => {
           component={Functionalities}
           options={CommonHeaderStyle}
         />
-        <Stack.Screen 
-            name={NavigationRouteNames.STOCKMAINTENANCE}
-            component={StockMaintenanceDrawerStack} 
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen 
-            name={NavigationRouteNames.STOCKCATEGORY}
-            component={StockCategory} 
-            options={CommonHeaderStyle}
-          />
-           <Stack.Screen 
-            name={NavigationRouteNames.STOCKITEM}
-            component={StockItems} 
-            options={CommonHeaderStyle}
-          />
-          <Stack.Screen
-              name="FurnitureReplacmentProcess"
-              component={FurnitureReplacmentProcess}
-              options={CommonHeaderStyle}
-            />
-            <Stack.Screen
-              name="AddRequestFur"
-              component={AddFurRequestScreen}
-              options={{ headerShown: false }}
-            />
+        <Stack.Screen
+          name={NavigationRouteNames.STOCKMAINTENANCE}
+          component={StockMaintenanceDrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.STOCKCATEGORY}
+          component={StockCategory}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.STOCKITEM}
+          component={StockItems}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name="FurnitureReplacmentProcess"
+          component={FurnitureReplacmentProcess}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name="AddRequestFur"
+          component={AddFurRequestScreen}
+          options={{ headerShown: false }}
+        />
       </>
       {/* ) : (
         SwitchNavigation("Manufacturer")

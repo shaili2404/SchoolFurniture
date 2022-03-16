@@ -48,6 +48,7 @@ export const SchoolDistrictList = () => {
     userDelete: false,
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [eMsg, setEMsg] = useState("");
 
   const tableKey = [
     "district_office",
@@ -137,7 +138,7 @@ export const SchoolDistrictList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "") obj[key] = value;
+      if (value !== null && value !== "") { obj[key] = value }
     });
     axios.defaults.headers.common["Content-Type"] = "application/json";
     const service =
@@ -151,9 +152,18 @@ export const SchoolDistrictList = () => {
         apicall();
       })
       .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
         setLoader(false);
         seterrorAlert(true)
-        console.log(e)
+        {
+          let str = "";
+          status == 422 ?
+            Object.values(data).forEach((value) => {
+              str += `  ${value}`;
+              setEMsg(str);
+            }) :
+            setEMsg(message);
+        }
       });
   };
 
@@ -217,18 +227,22 @@ export const SchoolDistrictList = () => {
   };
 
   const onsearch = async () => {
-    setLoader(true)
-    axios
-      .get(`${endUrl.districtSearch}${searchtask}`)
-      .then((res) => {
-        setListData(res?.data?.data);
-        setLoader(false)
-      })
-      .catch((e) => {
-        let errorMsg = e?.response?.data?.message;
-        setLoader(false);
-        setErrorMessage(errorMsg);
-      });
+    if (searchtask == "") {
+      setErrorMessage(constants.enterSearchData)
+    } else {
+      setLoader(true)
+      axios
+        .get(`${endUrl.districtSearch}${searchtask}`)
+        .then((res) => {
+          setListData(res?.data?.data);
+          setLoader(false)
+        })
+        .catch((e) => {
+          let errorMsg = e?.response?.data?.message;
+          setLoader(false);
+          setErrorMessage(errorMsg);
+        });
+    }
   };
 
   const onAddPress = (task) => {
@@ -266,7 +280,7 @@ export const SchoolDistrictList = () => {
             value={searchtask}
             onChangeText={(val) => setSearchTask(val)}
           />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()} disabled={searchtask ? false : true}>
+          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}>
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
@@ -340,7 +354,7 @@ export const SchoolDistrictList = () => {
           }
           subMessage={
             operation == "Add"
-              ? AlertText.districtUpdateSub
+              ? AlertText.districtAddedSub
               : AlertText.districtUpdateSub
           }
           onConfirm={() => onPressYes()}
@@ -350,7 +364,7 @@ export const SchoolDistrictList = () => {
         <AlertMessage
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}
-          mainMessage={operation == "Add" ? AlertText.districtAdded : AlertText.editfailure}
+          mainMessage={eMsg}
           onConfirm={() => onPressokay()}
         />
       ) : null}

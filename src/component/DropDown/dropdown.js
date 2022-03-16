@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -6,16 +6,15 @@ import {
   TouchableOpacity,
   Modal,
   View,
-  ScrollView,
   Image,
 } from "react-native";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 
-const Dropdown = ({ label, data, onSelect, task,way }) => {
+const Dropdown = ({ label, data, onSelect, task, way }) => {
   const DropdownButton = useRef();
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState(undefined);
+  const [selected, setSelected] = useState({});
   const [dropdownTop, setDropdownTop] = useState(0);
   const toggleDropdown = () => {
     visible ? setVisible(false) : openDropdown();
@@ -75,7 +74,7 @@ const Dropdown = ({ label, data, onSelect, task,way }) => {
         style={styles.eyeStyle}
         ref={DropdownButton}
         onPress={toggleDropdown}
-        disabled={way == 'Edit' ? true : false }
+        disabled={way == 'Edit' ? true : false}
       >
         <Image source={Images.DownArrow} style={styles.imgsStyle} />
       </TouchableOpacity>

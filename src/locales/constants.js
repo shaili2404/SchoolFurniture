@@ -75,8 +75,8 @@ const constants = {
     userNotFound: "User Not Found",
     school: 'School',
     emis: 'EMIS Number',
-    emailId: 'Enter Email id',
-    surname: 'Enter Surname',
+    manageEmailId: 'Enter Email id',
+    enterSurname: 'Enter Surname',
     enterName: 'Enter Name',
     email: 'Email id',
     schoolName: 'School Name',
@@ -100,10 +100,11 @@ const constants = {
     ItemCount: 'Furniture Item Count',
     Edit: 'Edit',
     dashboard: 'Dashboard',
-    FurCategory:'Furniture Category',
-    furItem:'Furniture Items',
-    refrenceNo:'Reference No .',
-    totalFurnitureCount:'Total Furniture Count'
+    FurCategory: 'Furniture Category',
+    furItem: 'Furniture Items',
+    refrenceNo: 'Reference No .',
+    totalFurnitureCount: 'Total Furniture Count',
+    enterSearchData: "Please enter search data"
 
 
 }

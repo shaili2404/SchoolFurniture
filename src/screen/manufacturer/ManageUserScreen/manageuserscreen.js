@@ -34,7 +34,6 @@ export const ManageUserScreen = () => {
   const [searchtask, setSearchTask] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigation = useNavigation();
-  const [permissionArr, setpermissionArr] = useState([]);
 
   const [pagination, setPagination] = useState({
     currentPage: 0,

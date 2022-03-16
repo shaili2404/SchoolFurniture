@@ -39,8 +39,6 @@ const PasswordReset = () => {
   }, [resetData]);
 
   const onPressReset = () => {
-    // navigation.navigate('EmailSent');
-    // return
     var data = {
       username: username,
     };

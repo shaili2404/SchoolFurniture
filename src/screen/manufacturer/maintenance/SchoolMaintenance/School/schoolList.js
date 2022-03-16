@@ -38,6 +38,7 @@ export const SchoolList = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -138,9 +139,18 @@ export const SchoolList = () => {
       setAlert(true);
       apicall()
     }).catch((e) => {
+      let { message, data, status } = e?.response?.data || {};
       setLoader(false);
       seterrorAlert(true)
-      console.log(e);
+      {
+        let str = "";
+        status == 422 ?
+          Object.values(data).forEach((value) => {
+            str += `  ${value}`;
+            setErrMsg(str);
+          }) :
+          setErrMsg(message);
+      }
     })
   };
 
@@ -325,11 +335,7 @@ export const SchoolList = () => {
         <AlertMessage
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}
-          mainMessage={
-            operation == "Add"
-              ? AlertText.schoolAdded
-              : AlertText.editfailure
-          }
+          mainMessage={errMsg}
           onConfirm={() => onPressokay()}
         />
       ) : null}
