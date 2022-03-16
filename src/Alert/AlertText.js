@@ -8,7 +8,6 @@ const AlertText = {
     signout: 'Do you want to Signout ?',
     districtAdd: 'New district added successfully!',
     districtAddedSub: 'School District Added Successfully',
-    districtUpdateSub: 'School District Added Successfully',
     districtUpdate: 'Updated Successfully',
     districtUpdateSub: 'School District Updated Successfully',
     SchoolUpdate: 'Updated Successfully',
