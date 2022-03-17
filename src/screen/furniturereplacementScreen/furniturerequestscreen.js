@@ -65,13 +65,12 @@ export const FurnitureReplacmentManfacturer = () => {
     let strtDte = `${startDate?.getFullYear()}-${startDate?.getMonth()}-${startDate?.getDate()}`;
     let endDte = `${endDate?.getFullYear()}-${endDate?.getMonth()}-${endDate.getDate()}`;
     let str = ''
-    if (!validation(refnumber)) str += `ref_number=${refnumber}`
-    if (startDateStatus == false) str += `start_date=${strtDte}`
-    if (enddateStatus == false) str += `end_date=${endDte}`
-    if (!validation(emisNumber)) str +=  `emis=${emisNumber}`;
-    if (select?.id) str += `status_id=${select?.id}`
+    if (!validation(refnumber)) str += `ref_number=${refnumber}&`
+    if (startDateStatus == false) str += `start_date=${strtDte}&`
+    if (enddateStatus == false) str += `end_date=${endDte}&`
+    if (!validation(emisNumber)) str +=  `emis=${emisNumber}&`;
+    if (select?.id) str += `status_id=${select?.id}&`
     setLoader(true);
-    console.log(`${endUrl.searchfurRequest}?${str}`);
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
       .get(`${endUrl.searchfurRequest}?${str}`)
