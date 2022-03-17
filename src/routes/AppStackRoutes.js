@@ -12,18 +12,18 @@ import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
 import { useSelector } from "react-redux";
 import { AddFurRequestScreen } from "../screen/furniturereplacementScreen/AddRequestScreen/AddRequestScreen";
-import { Schoolmaintenancescreen } from "../screen/manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen";
-import { ManageUserScreen } from "../screen/manufacturer/ManageUserScreen/manageuserscreen";
-import { SchoolDistrictList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
-import { SchoolList } from "../screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList";
-import AddNewUsers from "../screen/manufacturer/AddNewUsers/AddNewUsers";
-import { FurnitureReplacmentManfacturer } from "../screen/manufacturer/furniturereplacementScreen/furniturerequestscreen";
-import { StockMaintenanceScreen } from "../screen/manufacturer/maintenance/StockMaintenance/stockmaintenanncescreen";
+import { Schoolmaintenancescreen } from "../screen/Manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen";
+import { ManageUserScreen } from "../screen/Manufacturer/ManageUserScreen/manageuserscreen";
+import { SchoolDistrictList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
+import { SchoolList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/School/schoolList";
+import AddNewUsers from "../screen/Manufacturer/AddNewUsers/AddNewUsers";
+import { FurnitureReplacmentManfacturer } from "../screen/furniturereplacementScreen/furniturerequestscreen";
+import { StockMaintenanceScreen } from "../screen/Manufacturer/maintenance/StockMaintenance/stockmaintenanncescreen";
 import { Functionalities } from "../component/manufacturer/Functionalitiesuser";
-import StockCategory from "../screen/manufacturer/maintenance/StockCategory/StockCategory";
-import { StockItems } from "../screen/manufacturer/maintenance/StockMaintenance/stockItems/StockItems";
-import { FurnitureReplacmentProcess } from "../screen/manufacturer/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
-import { Search } from "../screen/manufacturer/searchManufacturer/search";
+import StockCategory from "../screen/Manufacturer/maintenance/StockCategory/StockCategory";
+import { StockItems } from "../screen/Manufacturer/maintenance/StockMaintenance/stockItems/StockItems";
+import { FurnitureReplacmentProcess } from "../screen/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
+import { Search } from "../screen/Manufacturer/searchManufacturer/search";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -260,35 +260,35 @@ const AppStack = (props) => {
           component={Functionalities}
           options={CommonHeaderStyle}
         />
-        <Stack.Screen 
-            name={NavigationRouteNames.STOCKMAINTENANCE}
-            component={StockMaintenanceDrawerStack} 
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen 
-            name={NavigationRouteNames.STOCKCATEGORY}
-            component={StockCategory} 
-            options={CommonHeaderStyle}
-          />
-           <Stack.Screen 
-            name={NavigationRouteNames.STOCKITEM}
-            component={StockItems} 
-            options={CommonHeaderStyle}
-          />
-          <Stack.Screen
-              name="FurnitureReplacmentProcess"
-              component={FurnitureReplacmentProcess}
-              options={CommonHeaderStyle}
-            />
-          <Stack.Screen
-              name={NavigationRouteNames.SEARCH}
-              component={SearchDrawerStack}
-              options={{ headerShown: false }}
-          />
-           <Stack.Screen
-              name="AddRequestFur"
-              component={AddFurRequestScreen}
-              options={{ headerShown: false }}
+        <Stack.Screen
+          name={NavigationRouteNames.STOCKMAINTENANCE}
+          component={StockMaintenanceDrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.STOCKCATEGORY}
+          component={StockCategory}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.STOCKITEM}
+          component={StockItems}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name="FurnitureReplacmentProcess"
+          component={FurnitureReplacmentProcess}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.SEARCH}
+          component={SearchDrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddRequestFur"
+          component={AddFurRequestScreen}
+          options={{ headerShown: false }}
         />
       </>
       {/* ) : (

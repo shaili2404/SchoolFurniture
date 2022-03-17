@@ -88,78 +88,39 @@ export const Functionalities = () => {
 
   const getOrgPermission = (list) => {
     axios
-        .get(endUrl.organisation)
-        .then((res) => {
-            const permission = itemObj?.permissions;
-            let permissionMap = new Map();
-            if (btnStatus == '0') {
-                permission.forEach((input) => {
-                    permissionMap.set(input.id, input)
-                })
-                const permissionIds = res?.data?.data[(itemObj.organization_id) - 1].permissons || [];
-                setPermissionId(permissionIds);
-            } else {
-                const permissionIds = res?.data?.data[(reqData.organization) - 1].permissons || [];
-                setPermissionId(permissionIds);
-                list.forEach((input) => {
-                    if (permissionIds.includes(input.id)) {
-                        permissionMap.set(input.id, input);
-                    }
-                })
-            }
-            setPermissions(permissionMap);
-        })
-        .catch((e) => console.log("apicall", e));
-};
-
-    const checkDisable = (id) => {
-        return !permissionIds.includes(id);
-    }
-
-    const checkKey = (section) => {
-        Object.values(section).forEach((value) => {
-            console.log();
-        })
-    }
-
-    const onPressDone = () => {
-        setAlert(false);
-        navigation.navigate("Manage User");
-    }
-
-    const onPressCancel = () => {
-        navigation.navigate("Manage User");
-    }
-
-    const generateSection = (IDS) => {
-        const results = {};
-        IDS.forEach((eachId) => {
-            const splitArr = eachId.name.split("-");
-            const key = splitArr[0];
-            let sectionTitle = SECTIONNAME[key];
-
-            let op = {
-                ...eachId
-            };
-
-            if (results[sectionTitle]) {
-                const existingVal = results[sectionTitle];
-                results[sectionTitle] = [...existingVal, op];
-            } else if (sectionTitle) {
-                results[sectionTitle] = [op];
-          const permissionIds =
-            res?.data?.data[reqData.organization - 1].permissons || [];
+      .get(endUrl.organisation)
+      .then((res) => {
+        const permission = itemObj?.permissions;
+        let permissionMap = new Map();
+        if (btnStatus == '0') {
+          permission.forEach((input) => {
+            permissionMap.set(input.id, input)
+          })
+          const permissionIds = res?.data?.data[(itemObj.organization_id) - 1].permissons || [];
+          setPermissionId(permissionIds);
+        } else {
+          const permissionIds = res?.data?.data[(reqData.organization) - 1].permissons || [];
           setPermissionId(permissionIds);
           list.forEach((input) => {
             if (permissionIds.includes(input.id)) {
               permissionMap.set(input.id, input);
             }
-          });
+          })
         }
         setPermissions(permissionMap);
       })
       .catch((e) => console.log("apicall", e));
   };
+
+  const checkDisable = (id) => {
+    return !permissionIds.includes(id);
+  }
+
+  const checkKey = (section) => {
+    Object.values(section).forEach((value) => {
+      console.log();
+    })
+  }
 
   const checkPermission = (id) => {
     return permissions.has(id);
@@ -175,35 +136,35 @@ export const Functionalities = () => {
     setPermissions(updatedPermission);
   };
 
-    const rendercomponent = () => {
-        return Object.keys(section).map((key) => (
-            <React.Fragment key={key}>
-                <View style={styles.subView}>
-                    <Text style={checkKey(section) ? styles.activeKey : styles.textStyles}>{key}</Text>
-                </View>
-                <View style={styles.submainView}>
-                    <View style={styles.unclickView}></View>
-                    {section[key].map((subSection) => (
-                        <TouchableOpacity
-                            style={checkPermission(subSection.id) ? styles.clickView : [styles.clickView, { backgroundColor: COLORS.DisableBox }]}
-                            key={subSection.id}
-                            onPress={() => {
-                                onChangePermission(subSection);
-                            }}
-                            disabled={checkDisable(subSection.id)}
-                        >
-                            {checkPermission(subSection.id) && (
-                                <Image
-                                    source={Images.rightIcon}
-                                    style={styles.iconStyle}
-                                ></Image>
-                            )}
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </React.Fragment>
-        ));
-    };
+  const rendercomponent = () => {
+    return Object.keys(section).map((key) => (
+      <React.Fragment key={key}>
+        <View style={styles.subView}>
+          <Text style={checkKey(section) ? styles.activeKey : styles.textStyles}>{key}</Text>
+        </View>
+        <View style={styles.submainView}>
+          <View style={styles.unclickView}></View>
+          {section[key].map((subSection) => (
+            <TouchableOpacity
+              style={checkPermission(subSection.id) ? styles.clickView : [styles.clickView, { backgroundColor: COLORS.DisableBox }]}
+              key={subSection.id}
+              onPress={() => {
+                onChangePermission(subSection);
+              }}
+              disabled={checkDisable(subSection.id)}
+            >
+              {checkPermission(subSection.id) && (
+                <Image
+                  source={Images.rightIcon}
+                  style={styles.iconStyle}
+                ></Image>
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+      </React.Fragment>
+    ));
+  };
 
   const onPressDone = () => {
     setAlert(false);
@@ -258,43 +219,14 @@ export const Functionalities = () => {
           let str = "";
           status == 422
             ? Object.values(data).forEach((value) => {
-                str += `  ${value}`;
-                setErrorMsg(str);
-              })
+              str += `  ${value}`;
+              setErrorMsg(str);
+            })
             : setErrorMsg(message);
         }
       });
   };
 
-  const rendercomponent = () => {
-    return Object.keys(section).map((key) => (
-      <React.Fragment key={key}>
-        <View style={styles.subView}>
-          <Text style={styles.textStyles}>{key}</Text>
-        </View>
-        <View style={styles.submainView}>
-          <View style={styles.unclickView}></View>
-          {section[key].map((subSection) => (
-            <TouchableOpacity
-              style={styles.clickView}
-              key={subSection.id}
-              onPress={() => {
-                onChangePermission(subSection);
-              }}
-              disabled={checkDisable(subSection.id)}
-            >
-              {checkPermission(subSection.id) && (
-                <Image
-                  source={Images.rightIcon}
-                  style={styles.iconStyle}
-                ></Image>
-              )}
-            </TouchableOpacity>
-          ))}
-        </View>
-      </React.Fragment>
-    ));
-  };
 
   return loader ? (
     <Loader />
@@ -322,7 +254,7 @@ export const Functionalities = () => {
         />
       ) : null}
 
-       {erroralert ? (
+      {erroralert ? (
         <AlertMessage
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}
@@ -359,106 +291,106 @@ export const Header = ({ tableHeader }) => {
           ))}
         </View>
       </LinearGradient>
-     
+
     </SafeAreaView>
   );
 };
 
 const height = Dimensions.get("window").height;
 const styles = StyleSheet.create({
-    containerView: {
-        backgroundColor: COLORS.LightGreen,
-        paddingTop: 10,
-        position: 'relative',
-        height: height
-    },
-    subView: {
-        paddingHorizontal: 10,
-        marginTop: 10,
-    },
-    textStyles: {
-        fontSize: 13,
-    },
-    activeKey: {
-        fontSize: 13,
-        fontWeight: 'bold'
-    },
-    clickView: {
-        width: "15%",
-        height: 50,
-        borderWidth: 0.5,
-    },
-    unclickView: {
-        width: "40%",
-        height: 50,
-        borderWidth: 0.5,
-    },
-    submainView: {
-        flexDirection: "row",
-        width: Dimensions.get("window").width,
-        marginTop: 20,
-    },
-    textStyle: {
-        fontSize: 16,
-        fontWeight: "normal",
-        color: COLORS.White,
-        textAlign: "left",
-        textAlignVertical: "center",
-    },
-    mainView: {
-        flexDirection: "row",
-    },
-    firstView: {
-        backgroundColor: COLORS.GreenBox,
-        height: 46,
-    },
-    viewStyle: {
-        width: "15%",
-        marginTop: 12,
-        marginHorizontal: 3,
-    },
-    funcStyle: {
-        width: "35%",
-        marginTop: 12,
-        marginHorizontal: 4,
-    },
-    buttonStyle: {
-        backgroundColor: COLORS.GreenBox,
-        width: "50%",
-        height: 70,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 39,
-    },
-    lastView: {
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        width: "100%",
-        position: "absolute",
-        bottom: 90,
-        alignSelf: "center",
-        alignContent: 'center',
-        paddingHorizontal: '15%',
-        paddingVertical: '4%',
-        backgroundColor: COLORS.White,
-        height: 110
-    },
-    buttonText: {
-        color: COLORS.White,
-        fontSize: 22,
-        fontWeight: "bold"
-    },
-    cancelText: {
-        color: COLORS.blue,
-        textDecorationLine: 'underline',
-        fontSize: 16,
-        marginTop: 25
-    },
-    iconStyle: {
-        height: 20,
-        width: 20,
-        justifyContent: "center",
-        alignSelf: "center",
-        marginTop: 10
-    },
+  containerView: {
+    backgroundColor: COLORS.LightGreen,
+    paddingTop: 10,
+    position: 'relative',
+    height: height
+  },
+  subView: {
+    paddingHorizontal: 10,
+    marginTop: 10,
+  },
+  textStyles: {
+    fontSize: 13,
+  },
+  activeKey: {
+    fontSize: 13,
+    fontWeight: 'bold'
+  },
+  clickView: {
+    width: "15%",
+    height: 50,
+    borderWidth: 0.5,
+  },
+  unclickView: {
+    width: "40%",
+    height: 50,
+    borderWidth: 0.5,
+  },
+  submainView: {
+    flexDirection: "row",
+    width: Dimensions.get("window").width,
+    marginTop: 20,
+  },
+  textStyle: {
+    fontSize: 16,
+    fontWeight: "normal",
+    color: COLORS.White,
+    textAlign: "left",
+    textAlignVertical: "center",
+  },
+  mainView: {
+    flexDirection: "row",
+  },
+  firstView: {
+    backgroundColor: COLORS.GreenBox,
+    height: 46,
+  },
+  viewStyle: {
+    width: "15%",
+    marginTop: 12,
+    marginHorizontal: 3,
+  },
+  funcStyle: {
+    width: "35%",
+    marginTop: 12,
+    marginHorizontal: 4,
+  },
+  buttonStyle: {
+    backgroundColor: COLORS.GreenBox,
+    width: "50%",
+    height: 70,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 39,
+  },
+  lastView: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    width: "100%",
+    position: "absolute",
+    bottom: 90,
+    alignSelf: "center",
+    alignContent: 'center',
+    paddingHorizontal: '15%',
+    paddingVertical: '4%',
+    backgroundColor: COLORS.White,
+    height: 110
+  },
+  buttonText: {
+    color: COLORS.White,
+    fontSize: 22,
+    fontWeight: "bold"
+  },
+  cancelText: {
+    color: COLORS.blue,
+    textDecorationLine: 'underline',
+    fontSize: 16,
+    marginTop: 25
+  },
+  iconStyle: {
+    height: 20,
+    width: 20,
+    justifyContent: "center",
+    alignSelf: "center",
+    marginTop: 10
+  },
 });

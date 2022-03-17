@@ -53,9 +53,9 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Segoe-UI-Bold.ttf</string>
+		<!-- <string>Segoe-UI-Bold.ttf</string>
 		<string>Segoe-UI-Regular.ttf</string>
-		<string>Segoe-UI-Semibold.ttf</string>
+		<string>Segoe-UI-Semibold.ttf</string> -->
 		<string>SegoeUI-Bold.ttf</string>
 		<string>SegoeUI-Semibold.ttf</string>
 		<string>SegoeUI.ttf</string>
