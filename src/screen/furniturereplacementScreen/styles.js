@@ -131,6 +131,15 @@ export default StyleSheet.create({
     top: 10,
     right: 30,
   },
+  errormessStyle: {
+    textAlign: 'center',
+    color: COLORS.red,
+    fontSize: 22,
+  },
+  errorView: {
+    width: '100%',
+    alignContent: 'center',
+  },
   dropdowwnButton: {
     position: "absolute",
     bottom: 15,

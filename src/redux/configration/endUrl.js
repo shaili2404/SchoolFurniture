@@ -18,6 +18,8 @@ const endUrl = {
     collectionreqList:'user/furniture-collection-request',
     categoryWiseItem : 'user/stock-category',
     addFurRequest :"user/furniture-collection-request",
-    statusList:'user/status/get-all-status'
+    statusList:'user/status/get-all-status',
+    searchfurRequest:'user/search/furniture-collection-request'
+
 }
 export default endUrl;

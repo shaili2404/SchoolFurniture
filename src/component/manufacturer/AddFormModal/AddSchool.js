@@ -56,36 +56,18 @@ export const AddSchool = (props) => {
     getDistrictList();
   }, []);
 
-  useEffect(() => {
-    inputValues.name == "" && inputValues.emis == "" && selected == ""
-      ? setDisable(true)
-      : setDisable(false);
-     {!emisNumber.test(inputValues.emis)
-      ? setDisable(true)
-      : setDisable(false);}
-      if (inputValues.tel != ''){
-        {!numberonly.test(inputValues.tel) ? setDisable(true) : setDisable(false)}
-      }
-      if (inputValues.street_code != ''){
-        {!streetCode.test(inputValues.street_code) ? setDisable(true) : setDisable(false)}
-      }
+  validation = (value) => {
+    return value != '' && value != undefined && value != null
+  }
 
+  useEffect(() => {
+    console.log(selected)
+    !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
+      ? setDisable(true)
+      : setDisable(false)
   }, [inputValues]);
 
-  useEffect(() => {
-    updateItem.name == "" && updateItem.emis == "" 
-      ? setDisable(true)
-      : setDisable(false);
-     {!emisNumber.test(updateItem.emis)
-      ? setDisable(true)
-      : setDisable(false);}
-      if (updateItem.tel != ''){
-        {!numberonly.test(updateItem.tel) ? setDisable(true) : setDisable(false)}
-      }
-      if (updateItem.street_code != ''){
-        {!streetCode.test(updateItem.street_code) ? setDisable(true) : setDisable(false)}
-      }
-  }, [updateItem]);
+ 
 
   useEffect(() => {
     const obj = {};

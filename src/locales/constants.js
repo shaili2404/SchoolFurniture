@@ -112,5 +112,6 @@ const constants = {
     schoolFurCount:'School Funiture Count',
     selectSearchOption: 'Select Search Option',
     referenceNumber: 'Reference Number',
+    Editreq:'Edit Request',
 }
 export default constants

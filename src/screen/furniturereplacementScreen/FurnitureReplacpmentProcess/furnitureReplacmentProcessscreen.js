@@ -123,9 +123,15 @@ export const FurnitureReplacmentProcess = () => {
         permissionId={permissionId}
         organization={organization}
         onDeleteFurItem={(item) => onDeleteFurItem(item)}
+        onEdit={(item, task) => onEdit(item, task)}
       />
     );
   };
+
+  const onEdit =(item,task)=>{
+  //   let data = {item,task}
+  //  navigation.navigate('AddRequestFur',(data))
+  }
 
   const onDeleteFurItem = (item) => {
     var newArrayList = [];
@@ -156,7 +162,9 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onPressYes = async () => {
     setAlert(false);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
+    setLoader(true)
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Accept'] = 'application/json'
     const data = {
       total_furniture: totalFurCount,
       broken_items: flatListData,
@@ -165,6 +173,7 @@ export const FurnitureReplacmentProcess = () => {
       .post(`${endUrl.addFurRequest}`, data)
       .then((res) => {
         seterrorAlert(true);
+        setLoader(false)
         setMainMsg(res?.data?.message)
       })
       .catch((e) => console.log("apicall", e));

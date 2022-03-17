@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
@@ -25,6 +25,9 @@ export const AddFurRequestScreen = () => {
   const [dataList, setDataList] = useState([]);
   const [categoryItemList, setcategoryItemList] = useState([]);
   const [finalList, setFinalList] = useState([]);
+  const route = useRoute();
+  const [way, setWay] = useState("");
+  const [editCategory, setEditCategory] = useState("");
 
   const getCategoriesList = () => {
     setLoader(true);
@@ -34,7 +37,9 @@ export const AddFurRequestScreen = () => {
         setDataList(res?.data?.data);
         setLoader(false);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        setLoader(false);
+      });
   };
   const getStockList = ({ id, item }) => {
     setLoader(true);
@@ -44,12 +49,22 @@ export const AddFurRequestScreen = () => {
         setcategoryItemList(res?.data?.data);
         setLoader(false);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        setLoader(false);
+        console.log(e?.response?.data?.message);
+      });
   };
 
   useEffect(() => {
-    getCategoriesList();
-  }, []);
+    if (route.params?.task) {
+      setLoader(true);
+      setWay("Edit");
+      setEditCategory(route.params?.item);
+      setLoader(false);
+    } else {
+      getCategoriesList();
+    }
+  }, [route]);
 
   const setCategoryValue = (item) => {
     getStockList(item);
@@ -108,7 +123,9 @@ export const AddFurRequestScreen = () => {
   ) : (
     <SafeAreaView style={style.mainView}>
       <View style={style.subview}>
-        <Text style={style.createNewStyle}>{constants.createNewReq}</Text>
+        <Text style={style.createNewStyle}>
+          {way == "Edit" ? constants.Editreq : constants.createNewReq}
+        </Text>
         <TouchableOpacity
           style={style.crossImg}
           onPress={() => navigation.navigate("Furniture Replacment")}
@@ -119,15 +136,18 @@ export const AddFurRequestScreen = () => {
 
       <View style={style.container}>
         <Dropdown
-          label={constants.FurCategory}
+          label={
+            way == "Edit" ? editCategory?.category_name : constants.FurCategory
+          }
           data={dataList}
           onSelect={setCategoryValue}
           task="name"
+          way={way}
         />
       </View>
       <View style={style.container}>
         <Dropdown
-          label={constants.furItem}
+          label={way == "Edit" ? editCategory?.item_name : constants.furItem}
           data={categoryItemList}
           onSelect={setItemValue}
           task="name"

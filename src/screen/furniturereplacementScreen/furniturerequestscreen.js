@@ -12,7 +12,6 @@ import {
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
-import Dummydata from "../../component/dummyData/dummyData";
 import constants from "../../locales/constants";
 import Styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
@@ -23,6 +22,7 @@ import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
+import { validate } from "@babel/types";
 
 const PAGESIZE = 4;
 
@@ -35,13 +35,20 @@ export const FurnitureReplacmentManfacturer = () => {
   });
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
-  const [endData, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [close, setCLose] = useState(false);
   const [open, setOpen] = useState(false);
   const [collectionList, setCollectionList] = useState([]);
   const [loader, setLoader] = useState(true);
-  const [dropData,setDropData] = useState([])
-  const [select,setSelect] = useState([])
+  const [dropData, setDropData] = useState([]);
+  const [select, setSelect] = useState([]);
+  const [refnumber, setrefNumber] = useState("");
+  const [emisNumber, setEmisNumber] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [startDateStatus, setStartDateStatus] = useState(true);
+  const [enddateStatus, setendDatestatus] = useState(true);
+  const [searchStatus, setSearchStatus] = useState(true);
+
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -50,6 +57,35 @@ export const FurnitureReplacmentManfacturer = () => {
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
+  const validation = (value) =>{
+    return value == "" || value == undefined || value == null
+  }
+  const onsearch = () => {
+    setSearchStatus(false);
+    let strtDte = `${startDate?.getFullYear()}-${startDate?.getMonth()}-${startDate?.getDate()}`;
+    let endDte = `${endDate?.getFullYear()}-${endDate?.getMonth()}-${endDate.getDate()}`;
+    let str = ''
+    if (!validation(refnumber)) str += `ref_number=${refnumber}`
+    if (startDateStatus == false) str += `start_date=${strtDte}`
+    if (enddateStatus == false) str += `end_date=${endDte}`
+    if (!validation(emisNumber)) str +=  `emis=${emisNumber}`;
+    if (select?.id) str += `status_id=${select?.id}`
+    setLoader(true);
+    console.log(`${endUrl.searchfurRequest}?${str}`);
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+    axios
+      .get(`${endUrl.searchfurRequest}?${str}`)
+      .then((res) => {
+        setCollectionList(res?.data?.data);
+        initialPagination(res?.data?.data);
+        setLoader(false);
+      })
+      .catch((e) => {
+        setLoader(false);
+        setErrorMessage(e?.response?.data?.message);
+        console.log("apicall", JSON.stringify(e?.response?.data?.message));
+      });
+  };
 
   const getCollectionRequest = () => {
     setLoader(true);
@@ -60,22 +96,23 @@ export const FurnitureReplacmentManfacturer = () => {
         initialPagination(res?.data?.data);
         setLoader(false);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => 
+        setLoader(false)
+      );
   };
   const getstatusList = () => {
     setLoader(true);
     axios
       .get(`${endUrl.statusList}`)
       .then((res) => {
-        setDropData(res?.data?.data)
-        console.log(res?.data?.data)
+        setDropData(res?.data?.data);
       })
       .catch((e) => console.log("apicall", e));
   };
 
   useEffect(() => {
     getCollectionRequest();
-    getstatusList()
+    getstatusList();
   }, []);
 
   const initialPagination = (list) => {
@@ -106,6 +143,7 @@ export const FurnitureReplacmentManfacturer = () => {
       };
     });
   };
+
   const onPrevious = () => {
     let { currentPage } = pagination;
     if (currentPage === 1) {
@@ -120,6 +158,16 @@ export const FurnitureReplacmentManfacturer = () => {
       };
     });
   };
+
+  const onReset = () => {
+    setSearchStatus(true);
+    setEmisNumber("");
+    setrefNumber("");
+    setStartDateStatus(true);
+    setendDatestatus(true);
+    setErrorMessage("");
+  };
+
   const tableHeader =
     organization == "School"
       ? [
@@ -139,8 +187,15 @@ export const FurnitureReplacmentManfacturer = () => {
         ];
   const tableKey =
     organization == "School"
-      ? ['created_at', "ref_number", "status", "emis", "total_furniture"]
-      : ["school_name", 'created_at' ,"ref_number", "status", "emis", "total_furniture"];
+      ? ["created_at", "ref_number", "status", "emis", "total_furniture"]
+      : [
+          "school_name",
+          "created_at",
+          "ref_number",
+          "status",
+          "emis",
+          "total_furniture",
+        ];
   const rendercomponent = ({ item }) => {
     return (
       <>
@@ -179,8 +234,13 @@ export const FurnitureReplacmentManfacturer = () => {
           <Text style={Styles.transactionText}>
             {constants.transactionSearch}
           </Text>
-          <TouchableOpacity style={Styles.searchButton}>
-            <Text style={Styles.searchText}>{constants.search}</Text>
+          <TouchableOpacity
+            style={Styles.searchButton}
+            onPress={searchStatus ? onsearch : onReset}
+          >
+            <Text style={Styles.searchText}>
+              {searchStatus ? constants.search : constants.Reset}
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={Styles.refView}>
@@ -189,27 +249,32 @@ export const FurnitureReplacmentManfacturer = () => {
             placeholder={constants.refrenceNumber}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
+            value={refnumber}
+            onChangeText={(val) => setrefNumber(val)}
           />
           <TextInput
             style={Styles.dropStyle}
             placeholder={constants.emisNumber}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
+            value={emisNumber}
+            onChangeText={(val) => setEmisNumber(val)}
           />
         </View>
         <View style={Styles.container}>
-        <Dropdown
-          label={constants.FurCategory}
-          data={dropData}
-          onSelect={setSelect}
-          task="name"
-        />
+          <Dropdown
+            label={constants.status}
+            data={dropData}
+            onSelect={setSelect}
+            task="name"
+          />
         </View>
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
-              {" "}
-              {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
+              {startDateStatus
+                ? "Start Date"
+                : `${startDate?.getDate()}/${startDate?.getMonth()}/${startDate?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -225,6 +290,7 @@ export const FurnitureReplacmentManfacturer = () => {
               onConfirm={(date) => {
                 setOpen(false);
                 setStartDate(date);
+                setStartDateStatus(false);
               }}
               onCancel={() => {
                 setOpen(false);
@@ -233,8 +299,9 @@ export const FurnitureReplacmentManfacturer = () => {
           </TouchableOpacity>
           <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
-              {" "}
-              {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
+              {enddateStatus
+                ? "End Date"
+                : `${endDate?.getDate()}/${endDate?.getMonth()}/${endDate?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -245,11 +312,12 @@ export const FurnitureReplacmentManfacturer = () => {
             <DatePicker
               modal
               open={close}
-              date={endData}
+              date={endDate}
               mode="date"
               onConfirm={(date) => {
                 setCLose(false);
                 setEndDate(date);
+                setendDatestatus(false);
               }}
               onCancel={() => {
                 setCLose(false);
@@ -257,18 +325,24 @@ export const FurnitureReplacmentManfacturer = () => {
             />
           </TouchableOpacity>
         </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <FlatList
-            ListHeaderComponent={HeaderComponet}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
-            data={collectionList.slice(
-              pagination.startIndex,
-              pagination.endIndex
-            )}
-            renderItem={rendercomponent}
-          />
-        </ScrollView>
+        {errorMessage ? (
+          <View style={Styles.errorView}>
+            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+          </View>
+        ) : (
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <FlatList
+              ListHeaderComponent={HeaderComponet}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              data={collectionList.slice(
+                pagination.startIndex,
+                pagination.endIndex
+              )}
+              renderItem={rendercomponent}
+            />
+          </ScrollView>
+        )}
       </View>
       {organization == "School" ? (
         <View style={Styles.plusView}>

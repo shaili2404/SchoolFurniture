@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { PermissionsAndroid, Alert } from "react-native";
-import RNFetchBlob from 'rn-fetch-blob';
+// import RNFetchBlob from 'rn-fetch-blob';
 // import ImagePicker from 'react-native-image-crop-picker';
 
 const image = require('../src/assets/Images/Common/inventory_black_24dp.png');
