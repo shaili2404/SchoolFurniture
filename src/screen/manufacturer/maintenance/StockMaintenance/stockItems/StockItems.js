@@ -263,7 +263,7 @@ export const StockItems = () => {
     <SafeAreaView style={style.mainView}>
       <View style={style.container}>
         <Dropdown
-          label={taskfor == "Edit" ? dropdata : constants.stockcategories}
+          label={taskfor == "Edit" ? dropdata : constants.stockCategory}
           data={dataList}
           onSelect={setSelected}
           task="name"
