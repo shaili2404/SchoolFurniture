@@ -19,7 +19,7 @@ export default StyleSheet.create({
        marginTop:8
     },
     buttonView:{
-       width:70,
+       width:100,
        height:40,
        borderRadius:21,
        justifyContent:'center',

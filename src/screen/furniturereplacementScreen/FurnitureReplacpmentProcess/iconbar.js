@@ -3,17 +3,22 @@ import styles from "./style";
 import { View, Text, Image } from "react-native";
 import Images from "../../../asset/images";
 import constants from "../../../locales/constants";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export const IconBar = ({
   createRequestIcon,
   collectFurItem,
   repairIcon,
   dilverFurIcon,
+  onTransactionListPress,
+
 }) => {
   return (
     <View style={styles.imagesView}>
       <View style={styles.partImageView}>
+        <TouchableOpacity onPress={()=>onTransactionListPress()}>
         <Image source={Images.transactionlist} />
+        </TouchableOpacity>
         <View style={styles.labelView}>
           <Text style={styles.labelText}>{constants.TransactionList}</Text>
         </View>

@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
@@ -49,7 +50,7 @@ export const FurnitureReplacmentProcess = () => {
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
-  const [Cancelalert, setCancelAlert] = useState(false);
+  const [CancelProcessalert, setCancelProcessalert] = useState(false);
 
   const route = useRoute();
   const organization = useSelector(
@@ -98,9 +99,10 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   useEffect(() => {
+    const task = route?.params?.status
     if (organization == "School") {
       onSchool();
-    } else {
+    } else if (task == 'Pending Collection') {
       onrequestList();
     }
   }, []);
@@ -143,7 +145,7 @@ export const FurnitureReplacmentProcess = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
   const onCancel = () => {
-    setCancelAlert(true)
+    setCancelProcessalert(true)
     setMainMsg(AlertText.cancelProcessMessgae)
     setSubMsg(AlertText.UndoMessgae)
   };
@@ -183,8 +185,17 @@ export const FurnitureReplacmentProcess = () => {
     navigation.navigate("Furniture Replacment");
   };
  const  onPressYesCancel=()=>{
-   setCancelAlert(false)
+  setCancelProcessalert(false)
    navigation.navigate('Furniture Replacment');
+  }
+  const onTransactionList = ()=>{
+    setCancelProcessalert(true)
+    setMainMsg(AlertText.GoToTransactionList)
+  }
+  const acceptRequestList = ()=>{
+    setTaskNameButtonValue(constants.Accepted)
+    setTaskListButoon(true)
+    setTaskListButtonValue(constants.printPickupSLip)
   }
 
   return loader ? (
@@ -202,11 +213,13 @@ export const FurnitureReplacmentProcess = () => {
         collectFurItem={collectFurItem}
         repairIcon={repairIcon}
         dilverFurIcon={dilverFurIcon}
+        onTransactionListPress={()=>onTransactionList()}
       />
       <TaskSection
         taskName={taskName}
         taskNameButoon={taskNameButoon}
         taskNameButoonValue={taskNameButoonValue}
+        acceptRequest={()=>acceptRequestList()}
       />
       <InputForm
         schoolname={schoolname}
@@ -255,12 +268,12 @@ export const FurnitureReplacmentProcess = () => {
           onConfirm={() => onPressYes()}
         />
       ) : null}
-       {Cancelalert ? (
+       {CancelProcessalert ? (
         <AlertMessage
-          visible={Cancelalert}
-          setmodalVisible={(val) => setCancelAlert(val)}
+          visible={CancelProcessalert}
+          setmodalVisible={(val) => setCancelProcessalert(val)}
           mainMessage={mainMsg}
-          subMessage={subMsg}
+          subMessage={subMsg?subMsg:''}
           type="question"
           onConfirm={() => onPressYesCancel()}
         />
