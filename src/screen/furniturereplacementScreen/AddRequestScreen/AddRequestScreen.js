@@ -21,13 +21,11 @@ import style from "./style";
 export const AddFurRequestScreen = () => {
   const navigation = useNavigation();
   const [loader, setLoader] = useState(true);
-  const [categoryList, setCategoryList] = useState([]);
   const [dataList, setDataList] = useState([]);
   const [categoryItemList, setcategoryItemList] = useState([]);
   const [finalList, setFinalList] = useState([]);
   const route = useRoute();
   const [way, setWay] = useState("");
-  const [editCategory, setEditCategory] = useState("");
 
   const getCategoriesList = () => {
     setLoader(true);
@@ -41,25 +39,30 @@ export const AddFurRequestScreen = () => {
         setLoader(false);
       });
   };
-  const getStockList = ({ id, item }) => {
-    setLoader(true);
+  const getStockList = (id) => {
+    console.log('43',id)
+    // setLoader(true);
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
       .then((res) => {
+        console.log('47',res?.data?.data)
         setcategoryItemList(res?.data?.data);
-        setLoader(false);
+        // setLoader(false);
       })
       .catch((e) => {
         setLoader(false);
-        console.log(e?.response?.data?.message);
+        console.log('53',e?.response?.data?.message);
       });
   };
 
   useEffect(() => {
-    if (route.params?.task) {
+   
+    if (route?.params?.task) {
+      const {task,item} = route?.params
       setLoader(true);
       setWay("Edit");
-      setEditCategory(route.params?.item);
+      getStockList(item?.category_id)
+      setItemValue(item,task)
       setLoader(false);
     } else {
       getCategoriesList();
@@ -67,18 +70,19 @@ export const AddFurRequestScreen = () => {
   }, [route]);
 
   const setCategoryValue = (item) => {
-    getStockList(item);
+    getStockList(item?.id); 
   };
 
-  const setItemValue = (item) => {
-    setCategoryList((prevState) => [...prevState, item]);
+  const setItemValue = (item,task) => {
     let obj = {};
     (obj.category_id = item.category_id),
       (obj.category_name = item.category_name),
       (obj.item_name = item.name),
       (obj.item_id = item.id),
-      (obj.count = 1),
+      (obj.count = task == 'Edit' ? item.count : 1),
+      task == 'Edit' ? setFinalList(obj):
       setFinalList((prevState) => [...prevState, obj]);
+      console.log(finalList)
   };
 
   const setQuantity = (item, value) => {
@@ -128,7 +132,11 @@ export const AddFurRequestScreen = () => {
         </Text>
         <TouchableOpacity
           style={style.crossImg}
-          onPress={() => navigation.navigate("Furniture Replacment")}
+          onPress={() => {
+            way == 'Edit'
+              ? navigation.navigate("FurnitureReplacmentProcess")
+              : navigation.navigate("Furniture Replacment");
+          }}
         >
           <Image source={Images.closeimage} />
         </TouchableOpacity>
@@ -137,7 +145,7 @@ export const AddFurRequestScreen = () => {
       <View style={style.container}>
         <Dropdown
           label={
-            way == "Edit" ? editCategory?.category_name : constants.FurCategory
+            way == "Edit" ? finalList?.category_name : constants.FurCategory
           }
           data={dataList}
           onSelect={setCategoryValue}
@@ -147,7 +155,7 @@ export const AddFurRequestScreen = () => {
       </View>
       <View style={style.container}>
         <Dropdown
-          label={way == "Edit" ? editCategory?.item_name : constants.furItem}
+          label={way == "Edit" ? finalList?.item_name : constants.furItem}
           data={categoryItemList}
           onSelect={setItemValue}
           task="name"
