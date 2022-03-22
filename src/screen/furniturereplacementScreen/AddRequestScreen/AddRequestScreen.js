@@ -167,8 +167,6 @@ export const AddFurRequestScreen = () => {
     }
   }
 
-  { console.log("prevData", prevData) }
-  { console.log("finalList", finalList) }
   return loader ? (
     <Loader />
   ) : (
@@ -181,7 +179,7 @@ export const AddFurRequestScreen = () => {
           style={style.crossImg}
           onPress={() => {
             way == 'Edit'
-              ? navigation.navigate("FurnitureReplacmentProcess",prevData)
+              ? navigation.navigate("FurnitureReplacmentProcess", prevData)
               : navigation.navigate("Furniture Replacment");
           }}
         >

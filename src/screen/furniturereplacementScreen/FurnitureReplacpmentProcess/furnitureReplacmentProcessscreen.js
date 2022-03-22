@@ -133,16 +133,16 @@ export const FurnitureReplacmentProcess = () => {
   const [tableHeader, setTableHeader] =
     organization == "School"
       ? useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-          constants.manage,
-        ])
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.manage,
+      ])
       : useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-        ]);
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
   const renderComponent = ({ item }) => {
     return (
       <DisplayList
@@ -216,9 +216,9 @@ export const FurnitureReplacmentProcess = () => {
           let str = "";
           status == 422
             ? Object.values(data).forEach((value) => {
-                str += `  ${value}`;
-                setMainMsg(str);
-              })
+              str += `  ${value}`;
+              setMainMsg(str);
+            })
             : setMainMsg(message);
         }
       });
