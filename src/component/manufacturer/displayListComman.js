@@ -178,7 +178,7 @@ const Styles = StyleSheet.create({
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
-    height: 56,
+    height: RfH(56),
     borderBottomColor: COLORS.Black,
     borderBottomWidth: 0.4,
   },

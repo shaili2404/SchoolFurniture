@@ -14,7 +14,7 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./styles";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
@@ -48,6 +48,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
+  const route = useRoute()
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -112,7 +113,7 @@ export const FurnitureReplacmentManfacturer = () => {
   useEffect(() => {
     getCollectionRequest();
     getstatusList();
-  }, []);
+  }, [route,collectionList]);
 
   const initialPagination = (list) => {
     const len = list.length;
