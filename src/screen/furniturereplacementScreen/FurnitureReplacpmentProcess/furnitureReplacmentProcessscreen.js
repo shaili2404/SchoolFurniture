@@ -24,6 +24,7 @@ import AlertText from "../../../Alert/AlertText";
 import Loader from "../../../component/loader";
 
 export const FurnitureReplacmentProcess = () => {
+  const [task,setTask] = useState('Reload')
   const navigation = useNavigation();
   const [createRequestIcon, setCreateRequestIcon] = useState("");
   const [collectFurItem, setCollectFurItem] = useState("");

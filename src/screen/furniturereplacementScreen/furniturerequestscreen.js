@@ -14,7 +14,7 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./styles";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
@@ -27,6 +27,7 @@ import { validate } from "@babel/types";
 const PAGESIZE = 4;
 
 export const FurnitureReplacmentManfacturer = () => {
+  const isFocused = useIsFocused()
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -113,7 +114,7 @@ export const FurnitureReplacmentManfacturer = () => {
   useEffect(() => {
     getCollectionRequest();
     getstatusList();
-  }, [route,collectionList]);
+  }, [isFocused]);
 
   const initialPagination = (list) => {
     const len = list.length;
@@ -333,7 +334,6 @@ export const FurnitureReplacmentManfacturer = () => {
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponet}
-              showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
               data={collectionList.slice(
                 pagination.startIndex,
