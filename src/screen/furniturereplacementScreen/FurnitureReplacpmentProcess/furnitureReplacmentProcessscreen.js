@@ -23,16 +23,11 @@ export const FurnitureReplacmentProcess = () => {
   const [collectFurItem, setCollectFurItem] = useState("");
   const [repairIcon, setRepairIcon] = useState("");
   const [dilverFurIcon, setDilverFurIcon] = useState("");
-  const [taskName, setTaskName] = useState("");
   const [taskNameButoon, setTaskNameButton] = useState(false);
   const [taskNameButoonValue, setTaskNameButtonValue] = useState("");
   const [taskListButtonValue, setTaskListButtonValue] = useState("");
   const [taskListButoon, setTaskListButoon] = useState(false);
-  const [schoolvalue, setschoolvalue] = useState("");
   const [loader, setLoader] = useState(true);
-  const [emisvalue, setemisvalue] = useState("");
-  const [stockcollectionName, setStockcollectioName] = useState("");
-  const [stockcount, setStockCount] = useState("");
   const [flatListData, setFlatListData] = useState([]);
   const [saveButton, setSaveButton] = useState(true);
   const [submitButton, setSubmitButton] = useState(true);
@@ -58,13 +53,10 @@ export const FurnitureReplacmentProcess = () => {
     userEdit: false,
     userDelete: false,
   });
+  const { school_name, emis, total_broken_items, broken_items,id } = route?.params;
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
-    setTaskName(constants.createRequest);
-    setschoolvalue(schooldetails?.name);
-    setemisvalue(schooldetails?.username);
-    setStockcollectioName(constants.schoolFullFur);
     setFlatListData(route?.params);
     setPermissionId({
       userCreate: true,
@@ -74,40 +66,19 @@ export const FurnitureReplacmentProcess = () => {
     setLoader(false);
   };
   const onrequestList = () => {
-    const { school_name, emis, total_broken_items, broken_items } =
-      route?.params;
     setCollectFurItem(constants.inprogress);
-    setTaskName(constants.collectFurnitureRequest);
     setTaskNameButton(true);
     setTaskNameButtonValue(constants.Accept);
-    setschoolvalue(school_name);
-    setemisvalue(emis);
-    setStockcollectioName(constants.schoolFurCount);
-    setStockCount(total_broken_items);
     setFlatListData(broken_items);
     setLoader(false);
   };
   const onCollectionAccepted = () => {
-    const { school_name, emis, total_broken_items, broken_items } =
-      route?.params;
     setCollectFurItem(constants.inprogress);
-    setTaskName(constants.collectFurnitureRequest);
-    setschoolvalue(school_name);
-    setemisvalue(emis);
-    setStockcollectioName(constants.schoolFurCount);
-    setStockCount(total_broken_items);
     setFlatListData(broken_items);
     setLoader(false);
   };
   const onPendingRepair = () => {
-    const { school_name, emis, total_broken_items, broken_items } =
-      route?.params;
     setCollectFurItem(constants.inprogress);
-    setTaskName(constants.collectFurnitureRequest);
-    setschoolvalue(school_name);
-    setemisvalue(emis);
-    setStockcollectioName(constants.schoolFurCount);
-    setStockCount(total_broken_items);
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -244,6 +215,11 @@ export const FurnitureReplacmentProcess = () => {
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
+     console.log(`${endUrl.acceptCollectionReuest}/${id}/edit`)
+    axios
+    .get(`${endUrl.acceptCollectionReuest}${id}/edit`)
+    .then((res) => {})
+    .catch((e) => {console.log(e)});
   };
 
   const printPickupbutpress = () => {
@@ -273,19 +249,29 @@ export const FurnitureReplacmentProcess = () => {
           onTransactionListPress={() => onTransactionList()}
         />
         <TaskSection
-          taskName={taskName}
+          taskName={
+            organization == "School"
+              ? constants.createRequest
+              : constants.collectFurnitureRequest
+          }
           taskNameButoon={taskNameButoon}
           taskNameButoonValue={taskNameButoonValue}
           acceptRequest={() => acceptRequestList()}
         />
         <InputForm
           schoolname={constants.schoolName}
-          schoolvalue={schoolvalue}
+          schoolvalue={
+            organization == "School" ? schooldetails?.name : school_name
+          }
           emisnumber={constants.emisNumber}
-          emisvalue={emisvalue}
+          emisvalue={organization == "School" ? schooldetails?.username : emis}
           org={organization}
-          stockcollectionName={stockcollectionName}
-          stockcount={stockcount}
+          stockcollectionName={
+            organization == "School"
+              ? constants.schoolFullFur
+              : constants.schoolFurCount
+          }
+          stockcount={total_broken_items}
           onvalueEdit={(val) => onvalueEdit(val)}
         />
         {PhotoSection ? (
