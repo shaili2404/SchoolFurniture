@@ -23,7 +23,7 @@ import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 
-const PAGESIZE = 4;
+const PAGESIZE = 6;
 
 export const FurnitureReplacmentManfacturer = () => {
   const isFocused = useIsFocused()

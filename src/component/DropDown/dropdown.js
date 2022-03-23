@@ -11,21 +11,43 @@ import {
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 
-const Dropdown = ({ label, data, onSelect, task, way }) => {
+const Dropdown = ({ label, data, onSelect, task, way, identify, selectedItem }) => {
   const DropdownButton = useRef();
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState({});
   const [dropdownTop, setDropdownTop] = useState(0);
+  const [isDisable, setIsDisable] = useState(false)
   const toggleDropdown = () => {
     visible ? setVisible(false) : openDropdown();
   };
 
   const openDropdown = () => {
-    DropdownButton.current.measure((_fx, _fy, _w, h, _px, py) => {
+    DropdownButton.current.measure((_fx, fy, w, h, _px, py) => {
       setDropdownTop(py + h);
     });
     setVisible(true);
   };
+
+  useEffect(() => {
+    if (way == "Edit" && identify == "dropdownA") {
+      setSelected(data[0])
+      setIsDisable(true);
+    } else {
+      setIsDisable(false);
+    }
+  }, [way])
+
+  useEffect(() => {
+    if (way == "Edit" && identify == "dropdownB") {
+      setIsDisable(false);
+      data.map((element) => {
+        Object.entries(element).forEach(([key, value]) => {
+          if (`${key}` == 'id' && `${value}` == selectedItem)
+            setSelected(element)
+        })
+      })
+    }
+  }, [data])
 
   const onItemPress = (item) => {
     setSelected(item);
@@ -74,7 +96,7 @@ const Dropdown = ({ label, data, onSelect, task, way }) => {
         style={styles.eyeStyle}
         ref={DropdownButton}
         onPress={toggleDropdown}
-        disabled={way == 'Edit' ? true : false}
+        disabled={isDisable}
       >
         <Image source={Images.DownArrow} style={styles.imgsStyle} />
       </TouchableOpacity>

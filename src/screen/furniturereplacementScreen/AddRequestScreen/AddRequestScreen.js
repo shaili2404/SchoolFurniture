@@ -26,6 +26,8 @@ export const AddFurRequestScreen = () => {
   const [finalList, setFinalList] = useState([]);
   const route = useRoute();
   const [way, setWay] = useState("");
+  const [selectedItem, setSelectedItem] = useState("");
+  const [prevData, setPrevData] = useState([]);
 
   const getCategoriesList = () => {
     setLoader(true);
@@ -40,29 +42,28 @@ export const AddFurRequestScreen = () => {
       });
   };
   const getStockList = (id) => {
-    console.log('43',id)
     // setLoader(true);
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
       .then((res) => {
-        console.log('47',res?.data?.data)
         setcategoryItemList(res?.data?.data);
         // setLoader(false);
       })
       .catch((e) => {
         setLoader(false);
-        console.log('53',e?.response?.data?.message);
+        console.log(e?.response?.data?.message);
       });
   };
 
   useEffect(() => {
-   
     if (route?.params?.task) {
-      const {task,item} = route?.params
+      const { task, item, flatListData } = route?.params
       setLoader(true);
-      setWay("Edit");
-      getStockList(item?.category_id)
-      setItemValue(item,task)
+      getStockList(item?.category_id, item)
+      setWay(task);
+      setSelectedItem(item);
+      setEditItem(item);
+      setPrevData(flatListData);
       setLoader(false);
     } else {
       getCategoriesList();
@@ -70,32 +71,46 @@ export const AddFurRequestScreen = () => {
   }, [route]);
 
   const setCategoryValue = (item) => {
-    getStockList(item?.id); 
+    getStockList(item?.id);
   };
 
-  const setItemValue = (item,task) => {
+  const setEditItem = (item) => {
     let obj = {};
-    obj.category_id = item.category_id
-      obj.category_name = item.category_name
-      obj.item_name = item.name
-      obj.item_id = item.id
-      obj.count = task == 'Edit' ? item.count : 1
+    obj.category_id = item.category_id;
+    obj.category_name = item.category_name;
+    obj.item_name = item.item_name;
+    obj.item_id = item.item_id
+    obj.count = item.count
+    setFinalList([obj]);
+  }
 
-      var found = finalList.find(function (post, index) {
-        if (post.item_id == obj.item_id)
-          return true;
-      });
-  
-      if (found == undefined) {
-        if (task == 'Edit') {
+  const setItemValue = (item, task) => {
+    let obj = {};
+    obj.category_id = item.category_id;
+    obj.category_name = item.category_name;
+    obj.item_name = task == 'Edit' ? item.item_name : item.name;
+    obj.item_id = task == 'Edit' ? item.item_id : item.id;
+    obj.count = task == 'Edit' ? item.count : 1;
+
+    if (way == 'Edit') {
+      finalList.find(function (post, index) {
+        if (post.category_id == obj.category_id) {
           setFinalList([obj])
-        } else {
-          setFinalList((prevState) => [...prevState, obj])
         }
-      } else {
-        found.count += 1;
-        setFinalList((prevState) => [...prevState])
-      }
+      });
+    }
+
+    var found = finalList.find(function (post, index) {
+      if (post.item_id == obj.item_id)
+        return true;
+    });
+
+    if (found == undefined && way !== 'Edit') {
+      setFinalList((prevState) => [...prevState, obj])
+    } else if (found !== undefined && way !== 'Edit') {
+      found.count += 1;
+      setFinalList((prevState) => [...prevState])
+    }
   };
 
   const setQuantity = (item, value) => {
@@ -135,6 +150,25 @@ export const AddFurRequestScreen = () => {
     );
   };
 
+  const onPressNext = () => {
+    if (way !== "Edit") {
+      navigation.navigate("FurnitureReplacmentProcess", finalList)
+    } else {
+      prevData.find(function (post, index) {
+        if (post.item_id == selectedItem?.item_id) {
+          post.category_id = finalList[0].category_id;
+          post.category_name = finalList[0].category_name;
+          post.item_name = finalList[0].item_name;
+          post.item_id = finalList[0].item_id;
+          post.count = finalList[0].count;
+        }
+      });
+      navigation.navigate("FurnitureReplacmentProcess", prevData)
+    }
+  }
+
+  { console.log("prevData", prevData) }
+  { console.log("finalList", finalList) }
   return loader ? (
     <Loader />
   ) : (
@@ -147,7 +181,7 @@ export const AddFurRequestScreen = () => {
           style={style.crossImg}
           onPress={() => {
             way == 'Edit'
-              ? navigation.navigate("FurnitureReplacmentProcess")
+              ? navigation.navigate("FurnitureReplacmentProcess",prevData)
               : navigation.navigate("Furniture Replacment");
           }}
         >
@@ -158,20 +192,24 @@ export const AddFurRequestScreen = () => {
       <View style={style.container}>
         <Dropdown
           label={
-            way == "Edit" ? finalList?.category_name : constants.FurCategory
+            way == "Edit" ? finalList[0]?.category_name : constants.FurCategory
           }
-          data={dataList}
+          data={way == "Edit" ? finalList[0]?.category_name : dataList}
           onSelect={setCategoryValue}
           task="name"
           way={way}
+          identify="dropdownA"
         />
       </View>
       <View style={style.container}>
         <Dropdown
-          label={way == "Edit" ? finalList?.item_name : constants.furItem}
+          label={way == "Edit" ? finalList[0]?.item_name : constants.furItem}
           data={categoryItemList}
           onSelect={setItemValue}
           task="name"
+          way={way}
+          identify="dropdownB"
+          selectedItem={selectedItem?.item_id}
         />
       </View>
       <FlatList
@@ -181,9 +219,7 @@ export const AddFurRequestScreen = () => {
       />
       <View style={style.backContainer}>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("FurnitureReplacmentProcess", finalList)
-          }
+          onPress={onPressNext}
         >
           <LinearGradient
             colors={[COLORS.LinearBox, COLORS.GreenBox]}

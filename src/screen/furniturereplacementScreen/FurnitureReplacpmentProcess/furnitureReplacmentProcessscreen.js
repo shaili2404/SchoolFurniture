@@ -118,11 +118,9 @@ export const FurnitureReplacmentProcess = () => {
       onSchool();
     } else if (task == "Pending Collection") {
       onrequestList();
-    }
-    else if (task == 'Collection Accepted'){
+    } else if (task == "Collection Accepted") {
       onCollectionAccepted();
-    }
-    else if (task == 'Pending Repair'){
+    } else if (task == "Pending Repair") {
       onPendingRepair();
     }
   }, [tableHeader]);
@@ -160,8 +158,11 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onEdit = (item, task) => {
-    //   let data = {item,task}
-    //  navigation.navigate('AddRequestFur',(data))
+    navigation.navigate("AddRequestFur", {
+      item: item,
+      task: task,
+      flatListData: flatListData,
+    });
   };
 
   const onDeleteFurItem = (item) => {
@@ -248,7 +249,6 @@ export const FurnitureReplacmentProcess = () => {
   const printPickupbutpress = () => {
     setPhotoSection(true);
   };
-
 
   useLayoutEffect(() => {
     const title = "Furniture Replacement";
