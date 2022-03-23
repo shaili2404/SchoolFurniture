@@ -98,8 +98,19 @@ export const FurnitureReplacmentProcess = () => {
     setLoader(false);
   };
   const onrequestList = () => {
-    setCollectFurItem(constants.inprogress);
+    const { school_name, emis, total_broken_items, broken_items } = route?.params;
+
+    setCollectFurItem(constants.inprogress)
+    setTaskName(constants.collectFurnitureRequest);
+    setTaskNameButton(true);
     setTaskNameButtonValue(constants.Accept);
+    setTaskListName(constants.BrokenFurnitureItem);
+    setschoolname(constants.schoolName);
+    setschoolvalue(school_name);
+    setemisnumber(constants.emisNumber);
+    setemisvalue(emis);
+    setStockcollectioName(constants.schoolFurCount);
+    setStockCount(total_broken_items);
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -131,6 +142,7 @@ export const FurnitureReplacmentProcess = () => {
     ]);
     setlenofContent("More");
     setLoader(false);
+    setLoader(false)
   };
 
   useEffect(() => {
