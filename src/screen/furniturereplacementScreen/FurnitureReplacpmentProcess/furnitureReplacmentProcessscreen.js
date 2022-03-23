@@ -33,6 +33,7 @@ export const FurnitureReplacmentProcess = () => {
   const [submitButton, setSubmitButton] = useState(true);
   const [totalFurCount, setTotalFurCOunt] = useState(0);
   const [alert, setAlert] = useState(false);
+  const [delteItemAlert, setdelteItemAlert] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const [successAlert, setSuccessAlert] = useState(false);
@@ -74,6 +75,12 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onCollectionAccepted = () => {
     setCollectFurItem(constants.inprogress);
+    setTaskNameButton(true);
+    setTaskNameButtonValue(constants.Accepted);
+    setTaskListButoon(true);
+    setTaskListButtonValue(constants.printPickupSLip);
+    setTableHeader((oldData) => [...oldData, constants.collectedcount]);
+    setTableKey((oldData) => [...oldData, "collectionCount"]);
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -137,9 +144,14 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onDeleteFurItem = (item) => {
+    setdelteItemAlert(true)
+    setMainMsg(AlertText.deleteStock)
+    if(delteItemAlert === false){
+    setdelteItemAlert(false)
     var newArrayList = [];
     newArrayList = flatListData.filter((e) => e.item_id != item.item_id);
     setFlatListData(newArrayList);
+    }
   };
 
   const HeaderComponent = () => {
@@ -215,7 +227,6 @@ export const FurnitureReplacmentProcess = () => {
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
-     console.log(`${endUrl.acceptCollectionReuest}/${id}/edit`)
     axios
     .get(`${endUrl.acceptCollectionReuest}${id}/edit`)
     .then((res) => {})
@@ -316,6 +327,16 @@ export const FurnitureReplacmentProcess = () => {
           subMessage={subMsg}
           type="question"
           onConfirm={() => onPressYes()}
+        />
+      ) : null}
+      {delteItemAlert ? (
+        <AlertMessage
+          visible={delteItemAlert}
+          setmodalVisible={(val) => setdelteItemAlert(val)}
+          mainMessage={mainMsg}
+          subMessage={subMsg ? subMsg : ""}
+          type="question"
+          onConfirm={() => setdelteItemAlert(false)}
         />
       ) : null}
       {CancelProcessalert ? (
