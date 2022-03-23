@@ -75,14 +75,27 @@ export const AddFurRequestScreen = () => {
 
   const setItemValue = (item,task) => {
     let obj = {};
-    (obj.category_id = item.category_id),
-      (obj.category_name = item.category_name),
-      (obj.item_name = item.name),
-      (obj.item_id = item.id),
-      (obj.count = task == 'Edit' ? item.count : 1),
-      task == 'Edit' ? setFinalList(obj):
-      setFinalList((prevState) => [...prevState, obj]);
-      console.log(finalList)
+    obj.category_id = item.category_id
+      obj.category_name = item.category_name
+      obj.item_name = item.name
+      obj.item_id = item.id
+      obj.count = task == 'Edit' ? item.count : 1
+
+      var found = finalList.find(function (post, index) {
+        if (post.item_id == obj.item_id)
+          return true;
+      });
+  
+      if (found == undefined) {
+        if (task == 'Edit') {
+          setFinalList([obj])
+        } else {
+          setFinalList((prevState) => [...prevState, obj])
+        }
+      } else {
+        found.count += 1;
+        setFinalList((prevState) => [...prevState])
+      }
   };
 
   const setQuantity = (item, value) => {

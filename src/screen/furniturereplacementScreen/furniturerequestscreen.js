@@ -22,7 +22,6 @@ import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
-import { validate } from "@babel/types";
 
 const PAGESIZE = 4;
 
@@ -168,6 +167,13 @@ export const FurnitureReplacmentManfacturer = () => {
     setendDatestatus(true);
     setErrorMessage("");
   };
+
+  useEffect(()=>{
+   if (refnumber == ''){
+    getCollectionRequest();
+    getstatusList();
+   }
+  },[refnumber])
 
   const tableHeader =
     organization == "School"

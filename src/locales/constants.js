@@ -113,5 +113,9 @@ const constants = {
     selectSearchOption: 'Select Search Option',
     referenceNumber: 'Reference Number',
     Editreq:'Edit Request',
+    Enterval:'Enter Value',
+    collectedcount:'Collected Count',
+    AddPhoto:'+Add Photo',
+    RemovePhoto : '-Remove'
 }
 export default constants

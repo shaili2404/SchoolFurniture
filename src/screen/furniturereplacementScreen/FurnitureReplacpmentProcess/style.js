@@ -1,9 +1,12 @@
 import { Dimensions, StyleSheet } from "react-native";
 import COLORS from "../../../asset/color";
 import { RFValue } from "react-native-responsive-fontsize";
-import { RfW,RfH } from "../../../utils/helpers";
+import { RfW, RfH } from "../../../utils/helpers";
 import Fonts from "../../../asset/Fonts";
-import { STANDARD_SCREEN_DIMENSIONS,STANDARD_SCREEN_SIZE } from "../../../utils/constants";
+import {
+  STANDARD_SCREEN_DIMENSIONS,
+  STANDARD_SCREEN_SIZE,
+} from "../../../utils/constants";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -59,5 +62,21 @@ export default StyleSheet.create({
   bottomView: {
     position: "relative",
     bottom: 70,
+  },
+  photoView: {
+    backgroundColor: COLORS.White,
+    alignSelf: "flex-end",
+    position: "absolute",
+    top: RfH(300),
+    right: RfW(50),
+    borderWidth: 1,
+    borderStyle: "dashed",
+    width: RfW(100),
+    height: RfH(30),
+    justifyContent: "center",
+  },
+  photoText: { 
+   textAlign: "center",
+   textDecorationLine: "underline" 
   },
 });

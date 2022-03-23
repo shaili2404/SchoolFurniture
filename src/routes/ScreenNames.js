@@ -15,6 +15,7 @@ const NavigationRouteNames = {
     STOCKITEM: "Stock Item",
     MANAGEUSER: "Manage User",
     SEARCH: "Search",
+    FURNITUREREPLACMENTPROCESS : "FurnitureReplacmentProcess",
 
 };
 
