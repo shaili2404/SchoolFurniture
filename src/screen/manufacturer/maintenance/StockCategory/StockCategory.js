@@ -151,10 +151,21 @@ const StockCategory = () => {
         setSuccessMessage(res?.data?.message);
         setLoader(false);
       })
-      .catch((e) => {
-        setLoader(false);
-        console.log(e);
-      });
+      .catch((e) => 
+        {
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
+          setAlert(true)
+          {
+            let str = "";
+            status == 422 ?
+              Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setSuccessMessage(str);
+              }) :
+              setSuccessMessage(message);
+          }
+        })
   };
 
   // Add Button Functionality

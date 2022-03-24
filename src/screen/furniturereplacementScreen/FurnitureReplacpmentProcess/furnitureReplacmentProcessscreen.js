@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import constants from "../../../locales/constants";
 import styles from "./style";
-import { SafeAreaView, View, Text, ScrollView, FlatList } from "react-native";
+import { SafeAreaView, View, Text, ScrollView, FlatList,Alert } from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
 import { FooterFur } from "./Footer/footer";
@@ -23,10 +23,8 @@ export const FurnitureReplacmentProcess = () => {
   const [collectFurItem, setCollectFurItem] = useState("");
   const [repairIcon, setRepairIcon] = useState("");
   const [dilverFurIcon, setDilverFurIcon] = useState("");
-  const [taskNameButoon, setTaskNameButton] = useState(false);
   const [taskNameButoonValue, setTaskNameButtonValue] = useState("");
   const [taskListButtonValue, setTaskListButtonValue] = useState("");
-  const [taskListButoon, setTaskListButoon] = useState(false);
   const [loader, setLoader] = useState(true);
   const [flatListData, setFlatListData] = useState([]);
   const [saveButton, setSaveButton] = useState(true);
@@ -40,7 +38,7 @@ export const FurnitureReplacmentProcess = () => {
   const [erroralert, seterrorAlert] = useState(false);
   const [CancelProcessalert, setCancelProcessalert] = useState(false);
   const [PhotoSection, setPhotoSection] = useState(false);
-
+   const [delItem,setDelItem]= useState({})
   const route = useRoute();
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
@@ -68,16 +66,13 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onrequestList = () => {
     setCollectFurItem(constants.inprogress);
-    setTaskNameButton(true);
     setTaskNameButtonValue(constants.Accept);
     setFlatListData(broken_items);
     setLoader(false);
   };
   const onCollectionAccepted = () => {
     setCollectFurItem(constants.inprogress);
-    setTaskNameButton(true);
     setTaskNameButtonValue(constants.Accepted);
-    setTaskListButoon(true);
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
@@ -143,15 +138,17 @@ export const FurnitureReplacmentProcess = () => {
     });
   };
 
+  const onDeleteItemYes=()=>{
+    setdelteItemAlert(false)
+    var newArrayList = [];
+    newArrayList = flatListData.filter((e) => e.item_id != delItem.item_id);
+    setFlatListData(newArrayList);
+  }
+
   const onDeleteFurItem = (item) => {
     setdelteItemAlert(true)
     setMainMsg(AlertText.deleteStock)
-    if(delteItemAlert === false){
-    setdelteItemAlert(false)
-    var newArrayList = [];
-    newArrayList = flatListData.filter((e) => e.item_id != item.item_id);
-    setFlatListData(newArrayList);
-    }
+    setDelItem(item)
   };
 
   const HeaderComponent = () => {
@@ -267,7 +264,6 @@ export const FurnitureReplacmentProcess = () => {
               ? constants.createRequest
               : constants.collectFurnitureRequest
           }
-          taskNameButoon={taskNameButoon}
           taskNameButoonValue={taskNameButoonValue}
           acceptRequest={() => acceptRequestList()}
         />
@@ -297,8 +293,7 @@ export const FurnitureReplacmentProcess = () => {
 
         <TaskSection
           taskName={constants.BrokenFurnitureItem}
-          taskListButoon={taskListButoon}
-          taskNameButoonValue={taskListButtonValue}
+          taskNamePrintButoonValue={taskListButtonValue}
           printPickupPress={() => printPickupbutpress()}
         />
         <ScrollView horizontal={true}>
@@ -338,7 +333,7 @@ export const FurnitureReplacmentProcess = () => {
           mainMessage={mainMsg}
           subMessage={subMsg ? subMsg : ""}
           type="question"
-          onConfirm={() => setdelteItemAlert(false)}
+          onConfirm={() => onDeleteItemYes()}
         />
       ) : null}
       {CancelProcessalert ? (
