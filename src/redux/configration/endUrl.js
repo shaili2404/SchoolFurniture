@@ -20,7 +20,7 @@ const endUrl = {
     addFurRequest :"user/furniture-collection-request",
     statusList:'user/status/get-all-status',
     searchfurRequest:'user/search/furniture-collection-request',
-    delManageRequest: 'user/furniture-collect',
+    delManageRequest: 'user/furniture-collection-request',
 
 }
 export default endUrl;

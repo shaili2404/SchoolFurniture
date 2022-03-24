@@ -126,7 +126,7 @@ export const ManageRequests = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         link={endUrl.delManageRequest}
-        mainMessage={AlertText.deletedistrict}
+        mainMessage={AlertText.deleteManageRequest}
         submessage={AlertText.UndoMessgae}
         onEdit={(item, task) => onEdit(item, task)}
         permissionId={permissionId}

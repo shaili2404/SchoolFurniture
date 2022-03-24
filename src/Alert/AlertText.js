@@ -24,6 +24,7 @@ const AlertText = {
     deleteStockCategory: 'Do you want to delete this Category?',
     deleteStock :'Are you sure you want to delete?',
     submitMessage:'Do you Want to submit',
+    deleteManageRequest: 'Are you sure you want to delete this request?',
     
 }
 export default AlertText
