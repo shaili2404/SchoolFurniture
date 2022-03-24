@@ -36,7 +36,7 @@ const USER_ROLE = {
         name: 'Manage Request',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/circle_notifications_black_24dp.png'),
-        screenName: NavigationRouteNames.Second
+        screenName: NavigationRouteNames.MANAGEREQUESTS
       },
       {
         name: 'Maintenance',

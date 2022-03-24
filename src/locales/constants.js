@@ -55,7 +55,7 @@ const constants = {
     startDate: 'Start Date',
     emisNumber: 'EMIS Number',
     endDate: "End Date",
-    status: "status",
+    status: "Status",
     functionalities: "Functionalities",
     create: "Create",
     read: "Read",
