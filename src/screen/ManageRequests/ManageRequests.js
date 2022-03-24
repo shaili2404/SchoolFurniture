@@ -112,10 +112,10 @@ export const ManageRequests = () => {
       }
     });
     setPermissionId({
-      userList: userList,
-      userCreate: userCreate,
-      userEdit: userEdit,
-      userDelete: userDlt,
+      userList: true,
+      userCreate: true,
+      userEdit: true,
+      userDelete: true,
     });
   }, [listData]);
 
@@ -125,12 +125,11 @@ export const ManageRequests = () => {
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
-        link={endUrl.addFurRequest}
+        link={endUrl.delManageRequest}
         mainMessage={AlertText.deletedistrict}
         submessage={AlertText.UndoMessgae}
         onEdit={(item, task) => onEdit(item, task)}
         permissionId={permissionId}
-        // data={"0"}
       />
     );
   };
