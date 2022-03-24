@@ -164,6 +164,8 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onSave = () => {
     setSubmitButton(false);
+    seterrorAlert(true)
+    setMainMsg(AlertText.saveMsgIntransc)
   };
   const onSubmit = () => {
     setAlert(true);
