@@ -1,7 +1,14 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import constants from "../../../locales/constants";
 import styles from "./style";
-import { SafeAreaView, View, Text, ScrollView, FlatList,Alert } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  Alert,
+} from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
 import { FooterFur } from "./Footer/footer";
@@ -38,7 +45,9 @@ export const FurnitureReplacmentProcess = () => {
   const [erroralert, seterrorAlert] = useState(false);
   const [CancelProcessalert, setCancelProcessalert] = useState(false);
   const [PhotoSection, setPhotoSection] = useState(false);
-   const [delItem,setDelItem]= useState({})
+  const [delItem, setDelItem] = useState({});
+  const [lenofContent,setlenofContent] = useState('')
+  const [listwtCounted,setListwtCounted] = useState([])
   const route = useRoute();
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
@@ -52,7 +61,8 @@ export const FurnitureReplacmentProcess = () => {
     userEdit: false,
     userDelete: false,
   });
-  const { school_name, emis, total_broken_items, broken_items,id } = route?.params;
+  const { school_name, emis, total_broken_items, broken_items, id } =
+    route?.params;
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
@@ -80,8 +90,18 @@ export const FurnitureReplacmentProcess = () => {
     setLoader(false);
   };
   const onPendingRepair = () => {
-    setCollectFurItem(constants.inprogress);
+    setCollectFurItem(constants.success);
+    setRepairIcon(constants.inprogress);
     setFlatListData(broken_items);
+    setTableHeader([
+      constants.FurCategory,
+      constants.furItem,
+      constants.collectioncount,
+      constants.collectedcount,
+      constants.ReparableItem,
+      constants.ReplanishmentItems,
+    ]);
+    setlenofContent('More')
     setLoader(false);
   };
 
@@ -130,6 +150,8 @@ export const FurnitureReplacmentProcess = () => {
     );
   };
 
+ 
+
   const onEdit = (item, task) => {
     navigation.navigate("AddRequestFur", {
       item: item,
@@ -138,21 +160,21 @@ export const FurnitureReplacmentProcess = () => {
     });
   };
 
-  const onDeleteItemYes=()=>{
-    setdelteItemAlert(false)
+  const onDeleteItemYes = () => {
+    setdelteItemAlert(false);
     var newArrayList = [];
     newArrayList = flatListData.filter((e) => e.item_id != delItem.item_id);
     setFlatListData(newArrayList);
-  }
+  };
 
   const onDeleteFurItem = (item) => {
-    setdelteItemAlert(true)
-    setMainMsg(AlertText.deleteStock)
-    setDelItem(item)
+    setdelteItemAlert(true);
+    setMainMsg(AlertText.deleteStock);
+    setDelItem(item);
   };
 
   const HeaderComponent = () => {
-    return <ListHeaderComman tableHeader={tableHeader} />;
+    return <ListHeaderComman tableHeader={tableHeader} lenofContent={lenofContent}/>;
   };
   const onCancel = () => {
     setCancelProcessalert(true);
@@ -161,8 +183,8 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onSave = () => {
     setSubmitButton(false);
-    seterrorAlert(true)
-    setMainMsg(AlertText.saveMsgIntransc)
+    seterrorAlert(true);
+    setMainMsg(AlertText.saveMsgIntransc);
   };
   const onSubmit = () => {
     setAlert(true);
@@ -227,9 +249,11 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     axios
-    .get(`${endUrl.acceptCollectionReuest}${id}/edit`)
-    .then((res) => {})
-    .catch((e) => {console.log(e)});
+      .get(`${endUrl.acceptCollectionReuest}${id}/edit`)
+      .then((res) => {})
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const printPickupbutpress = () => {
