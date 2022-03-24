@@ -341,7 +341,7 @@ export const FurnitureReplacmentManfacturer = () => {
             <FlatList
               ListHeaderComponent={HeaderComponet}
               keyExtractor={(item) => item.id}
-              data={collectionList.slice(
+              data={collectionList?.slice(
                 pagination.startIndex,
                 pagination.endIndex
               )}
