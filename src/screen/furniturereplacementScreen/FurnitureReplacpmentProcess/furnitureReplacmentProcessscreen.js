@@ -23,6 +23,7 @@ import AlertText from "../../../Alert/AlertText";
 import Loader from "../../../component/loader";
 import { DisplayList } from "./ListDisplay/displayList";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import ImagePickerModal from "../../../component/imagePickerModal";
 
 export const FurnitureReplacmentProcess = () => {
   const navigation = useNavigation();
@@ -46,8 +47,9 @@ export const FurnitureReplacmentProcess = () => {
   const [CancelProcessalert, setCancelProcessalert] = useState(false);
   const [PhotoSection, setPhotoSection] = useState(false);
   const [delItem, setDelItem] = useState({});
-  const [lenofContent,setlenofContent] = useState('')
-  const [listwtCounted,setListwtCounted] = useState([])
+  const [lenofContent, setlenofContent] = useState("");
+  const [imageModal, setImageModal] = useState(false);
+
   const route = useRoute();
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
@@ -101,7 +103,7 @@ export const FurnitureReplacmentProcess = () => {
       constants.ReparableItem,
       constants.ReplanishmentItems,
     ]);
-    setlenofContent('More')
+    setlenofContent("More");
     setLoader(false);
   };
 
@@ -150,8 +152,6 @@ export const FurnitureReplacmentProcess = () => {
     );
   };
 
- 
-
   const onEdit = (item, task) => {
     navigation.navigate("AddRequestFur", {
       item: item,
@@ -174,7 +174,9 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const HeaderComponent = () => {
-    return <ListHeaderComman tableHeader={tableHeader} lenofContent={lenofContent}/>;
+    return (
+      <ListHeaderComman tableHeader={tableHeader} lenofContent={lenofContent} />
+    );
   };
   const onCancel = () => {
     setCancelProcessalert(true);
@@ -199,8 +201,6 @@ export const FurnitureReplacmentProcess = () => {
   const onPressYes = async () => {
     setAlert(false);
     setLoader(true);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios.defaults.headers.common["Accept"] = "application/json";
     const data = {
       total_furniture: totalFurCount,
       broken_items: flatListData,
@@ -309,7 +309,7 @@ export const FurnitureReplacmentProcess = () => {
         />
         {PhotoSection ? (
           <View style={styles.photoView}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setImageModal(true)}>
               <Text style={styles.photoText}>{constants.AddPhoto}</Text>
             </TouchableOpacity>
           </View>
@@ -386,6 +386,12 @@ export const FurnitureReplacmentProcess = () => {
           mainMessage={mainMsg}
           onPressDone={() => onPressDone()}
           innerRoute={true}
+        />
+      ) : null}
+      {imageModal ? (
+        <ImagePickerModal
+          imageModal={imageModal}
+          setmodalVisible={(val) => setImageModal(val)}
         />
       ) : null}
     </SafeAreaView>

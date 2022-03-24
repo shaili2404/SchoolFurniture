@@ -12,9 +12,7 @@ import { AlertMessage } from "../../../../Alert/alert";
 import COLORS from "../../../../asset/color";
 import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
-import axios from "axios";
 import { AddUserModal } from "../../../../locales/constants";
-import { useNavigation } from "@react-navigation/native";
 import Fonts from "../../../../asset/Fonts";
 import { RFValue } from "react-native-responsive-fontsize";
 import { STANDARD_SCREEN_SIZE } from "../../../../utils/constants";
@@ -23,9 +21,7 @@ import { RfH, RfW } from "../../../../utils/helpers";
 export const DisplayList = ({
   item,
   tableKey,
-  reloadList,
   onEdit,
-  link,
   mainMessage,
   submessage,
   permissionId,
@@ -43,18 +39,10 @@ export const DisplayList = ({
   const onchangeInp = (val) => {
     flatListData.map((element) => {
       if (element.id === item.id) {
-        // element.category_id = item.category_id;
-        // element.category_name = item.category_name;
-        // element.item_name = item.item_name;
-        // element.item_id = item.id;
-        // element.count = item.count;
-        // element.collection_req_id = item.collection_req_id;
-        // element.id = item.id;
-        element.collectio_count = val;
+        element.collected_count = val;
       }
     });
     setPreviousData(flatListData)
-    console.log('58',previousData)
   };
   const onDelete = (item) => {
     if (organization == "School") {
