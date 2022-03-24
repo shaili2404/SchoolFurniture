@@ -5,9 +5,8 @@ import Styles from "./style";
 
 export const TaskSection = ({
   taskName,
-  taskNameButoon,
   taskNameButoonValue,
-  taskListButoon,
+  taskNamePrintButoonValue,
   acceptRequest,
   printPickupPress,
 }) => {
@@ -18,7 +17,7 @@ export const TaskSection = ({
   return (
     <View style={Styles.mainView}>
       <Text style={Styles.textView}>{taskName}</Text>
-      {taskNameButoon ? (
+      {taskNameButoonValue ? (
         <TouchableOpacity
           style={Styles.buttonView}
           onPress={() => acceptRequest()}
@@ -27,11 +26,11 @@ export const TaskSection = ({
           <Text style={Styles.buttonText}>{taskNameButoonValue}</Text>
         </TouchableOpacity>
       ) : null}
-      {taskListButoon ? (
+      {taskNamePrintButoonValue ? (
         <View style={Styles.lastView}>
           <Image source={Images.PrintIcon} />
           <TouchableOpacity onPress={() => printPickupPress()}>
-            <Text style={Styles.pickSlip}>{taskNameButoonValue}</Text>
+            <Text style={Styles.pickSlip}>{taskNamePrintButoonValue}</Text>
           </TouchableOpacity>
         </View>
       ) : null}

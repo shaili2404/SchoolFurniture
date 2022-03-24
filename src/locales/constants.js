@@ -107,15 +107,17 @@ const constants = {
     totalFurnitureCount:'Total Furniture Count',
     inprogress :'In Progress',
     success :'Success',
-    collectioncount:'Collection Count',
+    collectioncount:'School Collection Count',
     schoolFullFur :'School Full Furniture Including Working Furniture',
     schoolFurCount:'School Funiture Count',
     selectSearchOption: 'Select Search Option',
     referenceNumber: 'Reference Number',
     Editreq:'Edit Request',
     Enterval:'Enter Value',
-    collectedcount:'Collected Count',
+    collectedcount:'Confirm Collected Count',
     AddPhoto:'+Add Photo',
-    RemovePhoto : '-Remove'
+    RemovePhoto : '-Remove',
+   ReparableItem :'Confirm Number Of reparable Furniture Item',
+    ReplanishmentItems:'Number Of Furniture Item To Be Replanished'
 }
 export default constants

@@ -7,14 +7,14 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
 import { RfH, RfW } from "../../utils/helpers";
 
-export const ListHeaderComman = ({ tableHeader, List }) => {
+export const ListHeaderComman = ({ tableHeader, List,lenofContent }) => {
   return (
     <SafeAreaView>
       <LinearGradient
         colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
-        style={Styles.firstView}
+        style={lenofContent ? Styles.firstlenView : Styles.firstView}
       >
         <View style={Styles.mainView}>
           {tableHeader.map((header) => (
@@ -45,6 +45,10 @@ const Styles = StyleSheet.create({
   },
   firstView: {
     height: RfH(46),
+    opacity: 1,
+  },
+  firstlenView: {
+    height: RfH(66),
     opacity: 1,
   },
   viewStyle: {

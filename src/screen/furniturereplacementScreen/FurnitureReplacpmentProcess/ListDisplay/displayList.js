@@ -38,28 +38,23 @@ export const DisplayList = ({
   const [errorMsg, setErrorMsg] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
-  const [finalList, setFinalList] = useState([]);
-  const [previousData,setPreviousData]=useState(flatListData)
-  const navigation = useNavigation();
+  const [previousData,setPreviousData]=useState([])
 
   const onchangeInp = (val) => {
-    console.log('47',previousData)
-    previousData.map((element) => {
+    flatListData.map((element) => {
       if (element.id === item.id) {
-        let obj = {};
-        obj.category_id = item.category_id;
-        obj.category_name = item.category_name;
-        obj.item_name = item.item_name;
-        obj.item_id = item.id;
-        obj.count = item.count;
-        obj.collection_req_id = item.collection_req_id;
-        obj.id = item.id;
-        obj.collectio_count = val;
-        setFinalList((previosData) => [...previosData, obj]);
+        // element.category_id = item.category_id;
+        // element.category_name = item.category_name;
+        // element.item_name = item.item_name;
+        // element.item_id = item.id;
+        // element.count = item.count;
+        // element.collection_req_id = item.collection_req_id;
+        // element.id = item.id;
+        element.collectio_count = val;
       }
-     
     });
-    console.log('62',finalList)
+    setPreviousData(flatListData)
+    console.log('58',previousData)
   };
   const onDelete = (item) => {
     if (organization == "School") {

@@ -1,7 +1,14 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import constants from "../../../locales/constants";
 import styles from "./style";
-import { SafeAreaView, View, Text, ScrollView, FlatList } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  Alert,
+} from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
 import { FooterFur } from "./Footer/footer";
@@ -23,28 +30,23 @@ export const FurnitureReplacmentProcess = () => {
   const [collectFurItem, setCollectFurItem] = useState("");
   const [repairIcon, setRepairIcon] = useState("");
   const [dilverFurIcon, setDilverFurIcon] = useState("");
-  const [taskName, setTaskName] = useState("");
-  const [taskNameButoon, setTaskNameButton] = useState(false);
   const [taskNameButoonValue, setTaskNameButtonValue] = useState("");
   const [taskListButtonValue, setTaskListButtonValue] = useState("");
-  const [taskListButoon, setTaskListButoon] = useState(false);
-  const [schoolvalue, setschoolvalue] = useState("");
   const [loader, setLoader] = useState(true);
-  const [emisvalue, setemisvalue] = useState("");
-  const [stockcollectionName, setStockcollectioName] = useState("");
-  const [stockcount, setStockCount] = useState("");
   const [flatListData, setFlatListData] = useState([]);
   const [saveButton, setSaveButton] = useState(true);
   const [submitButton, setSubmitButton] = useState(true);
   const [totalFurCount, setTotalFurCOunt] = useState(0);
   const [alert, setAlert] = useState(false);
+  const [delteItemAlert, setdelteItemAlert] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const [successAlert, setSuccessAlert] = useState(false);
   const [erroralert, seterrorAlert] = useState(false);
   const [CancelProcessalert, setCancelProcessalert] = useState(false);
   const [PhotoSection, setPhotoSection] = useState(false);
-
+  const [delItem, setDelItem] = useState({});
+  const [lenofContent, setlenofContent] = useState('')
   const route = useRoute();
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
@@ -58,13 +60,11 @@ export const FurnitureReplacmentProcess = () => {
     userEdit: false,
     userDelete: false,
   });
+  const { school_name, emis, total_broken_items, broken_items, id } =
+    route?.params;
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
-    setTaskName(constants.createRequest);
-    setschoolvalue(schooldetails?.name);
-    setemisvalue(schooldetails?.username);
-    setStockcollectioName(constants.schoolFullFur);
     setFlatListData(route?.params);
     setPermissionId({
       userCreate: true,
@@ -74,21 +74,34 @@ export const FurnitureReplacmentProcess = () => {
     setLoader(false);
   };
   const onrequestList = () => {
-    const { school_name, emis, total_broken_items, broken_items } = route?.params;
-
-    setCollectFurItem(constants.inprogress)
-    setTaskName(constants.collectFurnitureRequest);
-    setTaskNameButton(true);
+    setCollectFurItem(constants.inprogress);
     setTaskNameButtonValue(constants.Accept);
-    setTaskListName(constants.BrokenFurnitureItem);
-    setschoolname(constants.schoolName);
-    setschoolvalue(school_name);
-    setemisnumber(constants.emisNumber);
-    setemisvalue(emis);
-    setStockcollectioName(constants.schoolFurCount);
-    setStockCount(total_broken_items);
     setFlatListData(broken_items);
-    setLoader(false)
+    setLoader(false);
+  };
+  const onCollectionAccepted = () => {
+    setCollectFurItem(constants.inprogress);
+    setTaskNameButtonValue(constants.Accepted);
+    setTaskListButtonValue(constants.printPickupSLip);
+    setTableHeader((oldData) => [...oldData, constants.collectedcount]);
+    setTableKey((oldData) => [...oldData, "collectionCount"]);
+    setFlatListData(broken_items);
+    setLoader(false);
+  };
+  const onPendingRepair = () => {
+    setCollectFurItem(constants.success);
+    setRepairIcon(constants.inprogress);
+    setFlatListData(broken_items);
+    setTableHeader([
+      constants.FurCategory,
+      constants.furItem,
+      constants.collectioncount,
+      constants.collectedcount,
+      constants.ReparableItem,
+      constants.ReplanishmentItems,
+    ]);
+    setlenofContent('More')
+    setLoader(false);
   };
 
   useEffect(() => {
@@ -109,6 +122,7 @@ export const FurnitureReplacmentProcess = () => {
     "item_name",
     "count",
   ]);
+
   const [tableHeader, setTableHeader] =
     organization == "School"
       ? useState([
@@ -122,6 +136,7 @@ export const FurnitureReplacmentProcess = () => {
         constants.furItem,
         constants.collectioncount,
       ]);
+
   const renderComponent = ({ item }) => {
     return (
       <DisplayList
@@ -136,6 +151,8 @@ export const FurnitureReplacmentProcess = () => {
     );
   };
 
+
+
   const onEdit = (item, task) => {
     navigation.navigate("AddRequestFur", {
       item: item,
@@ -144,14 +161,21 @@ export const FurnitureReplacmentProcess = () => {
     });
   };
 
-  const onDeleteFurItem = (item) => {
+  const onDeleteItemYes = () => {
+    setdelteItemAlert(false);
     var newArrayList = [];
-    newArrayList = flatListData.filter((e) => e.item_id != item.item_id);
+    newArrayList = flatListData.filter((e) => e.item_id != delItem.item_id);
     setFlatListData(newArrayList);
   };
 
+  const onDeleteFurItem = (item) => {
+    setdelteItemAlert(true);
+    setMainMsg(AlertText.deleteStock);
+    setDelItem(item);
+  };
+
   const HeaderComponent = () => {
-    return <ListHeaderComman tableHeader={tableHeader} />;
+    return <ListHeaderComman tableHeader={tableHeader} lenofContent={lenofContent} />;
   };
   const onCancel = () => {
     setCancelProcessalert(true);
@@ -160,6 +184,8 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onSave = () => {
     setSubmitButton(false);
+    seterrorAlert(true);
+    setMainMsg(AlertText.saveMsgIntransc);
   };
   const onSubmit = () => {
     setAlert(true);
@@ -223,6 +249,12 @@ export const FurnitureReplacmentProcess = () => {
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
+    axios
+      .get(`${endUrl.acceptCollectionReuest}${id}/edit`)
+      .then((res) => { })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const printPickupbutpress = () => {
@@ -252,19 +284,28 @@ export const FurnitureReplacmentProcess = () => {
           onTransactionListPress={() => onTransactionList()}
         />
         <TaskSection
-          taskName={taskName}
-          taskNameButoon={taskNameButoon}
+          taskName={
+            organization == "School"
+              ? constants.createRequest
+              : constants.collectFurnitureRequest
+          }
           taskNameButoonValue={taskNameButoonValue}
           acceptRequest={() => acceptRequestList()}
         />
         <InputForm
           schoolname={constants.schoolName}
-          schoolvalue={schoolvalue}
+          schoolvalue={
+            organization == "School" ? schooldetails?.name : school_name
+          }
           emisnumber={constants.emisNumber}
-          emisvalue={emisvalue}
+          emisvalue={organization == "School" ? schooldetails?.username : emis}
           org={organization}
-          stockcollectionName={stockcollectionName}
-          stockcount={stockcount}
+          stockcollectionName={
+            organization == "School"
+              ? constants.schoolFullFur
+              : constants.schoolFurCount
+          }
+          stockcount={total_broken_items}
           onvalueEdit={(val) => onvalueEdit(val)}
         />
         {PhotoSection ? (
@@ -277,8 +318,7 @@ export const FurnitureReplacmentProcess = () => {
 
         <TaskSection
           taskName={constants.BrokenFurnitureItem}
-          taskListButoon={taskListButoon}
-          taskNameButoonValue={taskListButtonValue}
+          taskNamePrintButoonValue={taskListButtonValue}
           printPickupPress={() => printPickupbutpress()}
         />
         <ScrollView horizontal={true}>
@@ -309,6 +349,16 @@ export const FurnitureReplacmentProcess = () => {
           subMessage={subMsg}
           type="question"
           onConfirm={() => onPressYes()}
+        />
+      ) : null}
+      {delteItemAlert ? (
+        <AlertMessage
+          visible={delteItemAlert}
+          setmodalVisible={(val) => setdelteItemAlert(val)}
+          mainMessage={mainMsg}
+          subMessage={subMsg ? subMsg : ""}
+          type="question"
+          onConfirm={() => onDeleteItemYes()}
         />
       ) : null}
       {CancelProcessalert ? (
