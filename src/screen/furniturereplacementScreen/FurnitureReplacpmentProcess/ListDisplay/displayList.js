@@ -43,13 +43,13 @@ export const DisplayList = ({
   const onchangeInp = (val) => {
     flatListData.map((element) => {
       if (element.id === item.id) {
-        element.category_id = item.category_id;
-        element.category_name = item.category_name;
-        element.item_name = item.item_name;
-        element.item_id = item.id;
-        element.count = item.count;
-        element.collection_req_id = item.collection_req_id;
-        element.id = item.id;
+        // element.category_id = item.category_id;
+        // element.category_name = item.category_name;
+        // element.item_name = item.item_name;
+        // element.item_id = item.id;
+        // element.count = item.count;
+        // element.collection_req_id = item.collection_req_id;
+        // element.id = item.id;
         element.collectio_count = val;
       }
     });

@@ -166,9 +166,7 @@ export const AddFurRequestScreen = () => {
       navigation.navigate("FurnitureReplacmentProcess", prevData)
     }
   }
-
-  { console.log("prevData", prevData) }
-  { console.log("finalList", finalList) }
+  
   return loader ? (
     <Loader />
   ) : (
