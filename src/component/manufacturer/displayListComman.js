@@ -31,8 +31,6 @@ export const DataDisplayList = ({
   permissionId,
   page,
   List,
-  organization,
-  onDeleteFurItem
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -42,13 +40,8 @@ export const DataDisplayList = ({
   const [subMsg, setSubMsg] = useState("");
   const navigation = useNavigation();
 
-  const onDelete = (item) => {
-    if (organization == 'School'){
-      onDeleteFurItem(item)
-    }
-    else{
+  const onDelete = () => {
     setAlert(true);
-    }
   };
 
   useEffect(() => {
