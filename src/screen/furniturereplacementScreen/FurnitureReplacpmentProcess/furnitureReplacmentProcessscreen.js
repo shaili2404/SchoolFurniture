@@ -95,13 +95,16 @@ export const FurnitureReplacmentProcess = () => {
     setCollectFurItem(constants.success);
     setRepairIcon(constants.inprogress);
     setFlatListData(broken_items);
-    setTableHeader([
-      constants.FurCategory,
-      constants.furItem,
-      constants.collectioncount,
+    setTableHeader((oldData) =>[...oldData,
       constants.collectedcount,
       constants.ReparableItem,
       constants.ReplanishmentItems,
+    ]);
+    setTableKey((oldData) =>[
+       ...oldData,
+      "collectionCount",
+      "reparableitem",
+      "replanishitem",
     ]);
     setlenofContent("More");
     setLoader(false);
@@ -244,7 +247,6 @@ export const FurnitureReplacmentProcess = () => {
   };
   const acceptRequestList = () => {
     setTaskNameButtonValue(constants.Accepted);
-    setTaskListButoon(true);
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
@@ -269,7 +271,7 @@ export const FurnitureReplacmentProcess = () => {
     <Loader />
   ) : (
     <SafeAreaView style={styles.mainView}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.furView}>
           <Text style={styles.furText}>
             {constants.FurnitureReplacmnetProcess}
@@ -320,8 +322,9 @@ export const FurnitureReplacmentProcess = () => {
           taskNamePrintButoonValue={taskListButtonValue}
           printPickupPress={() => printPickupbutpress()}
         />
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
+            
             ListHeaderComponent={HeaderComponent}
             data={flatListData}
             keyExtractor={(item) => item.id}
@@ -329,6 +332,7 @@ export const FurnitureReplacmentProcess = () => {
             showsVerticalScrollIndicator={false}
           />
         </ScrollView>
+        <View style={{height: 60}}/>
       </ScrollView>
       <View style={styles.bottomView}>
         <FooterFur

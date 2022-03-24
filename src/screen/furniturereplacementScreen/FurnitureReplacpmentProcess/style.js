@@ -61,7 +61,7 @@ export default StyleSheet.create({
   },
   bottomView: {
     position: "relative",
-    bottom: 70,
+    bottom: 60,
   },
   photoView: {
     backgroundColor: COLORS.White,

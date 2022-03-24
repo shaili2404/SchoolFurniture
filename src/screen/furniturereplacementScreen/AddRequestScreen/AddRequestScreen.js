@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
@@ -171,6 +172,7 @@ export const AddFurRequestScreen = () => {
     <Loader />
   ) : (
     <SafeAreaView style={style.mainView}>
+      
       <View style={style.subview}>
         <Text style={style.createNewStyle}>
           {way == "Edit" ? constants.Editreq : constants.createNewReq}
@@ -186,7 +188,7 @@ export const AddFurRequestScreen = () => {
           <Image source={Images.closeimage} />
         </TouchableOpacity>
       </View>
-
+     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={style.container}>
         <Dropdown
           label={
@@ -215,6 +217,9 @@ export const AddFurRequestScreen = () => {
         data={finalList}
         renderItem={rendercomponent}
       />
+      <View style={{height: 70}}/>
+      </ScrollView>
+
       <View style={style.backContainer}>
         <TouchableOpacity
           onPress={onPressNext}

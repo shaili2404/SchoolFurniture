@@ -139,7 +139,7 @@ const Styles = StyleSheet.create({
   },
   viewStyle: {
     width: RfW(180),
-    marginTop: RfH(12),
+   alignSelf:'center',
     marginHorizontal: 20,
   },
   viewsssStyle: {

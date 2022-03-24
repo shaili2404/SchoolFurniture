@@ -83,7 +83,7 @@ export default StyleSheet.create({
     borderRadius: 39,
     alignItems: "center",
     justifyContent: "center",
-    width: 350,
+    width: 320,
   },
   buttonText: {
     color: COLORS.White,
@@ -94,7 +94,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    bottom: 30,
+    bottom: 0,
     width: width,
     height: '10%',
   },
