@@ -9,6 +9,7 @@ import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import { setBasseUrl } from './src/redux/configration';
 import { StockItems } from './src/screen/Manufacturer/maintenance/StockMaintenance/stockItems/StockItems';
+import { Dashboard } from './src/screen/dashboard/dashboard';
 
 const App = () => {
 
@@ -28,8 +29,9 @@ const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
-        <AppStack />
+        {/* <AppStack /> */}
         {/* <Search /> */}
+        <Dashboard/>
       </Provider>
     </NavigationContainer>
   )

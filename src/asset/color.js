@@ -17,7 +17,15 @@ const COLORS = {
     LinearBox: '#85C286',
     plusMinusColor: '#E6F6E6',
     graybackground :'#00000080',
-    viewGray:'#707070'
+    viewGray:'#707070',
+    Dash_LightGreen:'#AEF182',
+    Dash_yellow:'#FFC000',
+    Dash_brown:'#9E480E',
+    Dash_skinCol:'#FFBF94',
+    Dash_orange:'#FF6700',
+    Dash_Lightbrown:'#BF9514',
+    Dash_DarkGreen:'#72B746',
+
 
 }
 export default COLORS
