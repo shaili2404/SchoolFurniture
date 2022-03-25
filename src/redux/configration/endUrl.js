@@ -21,6 +21,7 @@ const endUrl = {
     statusList:'user/status/get-all-status',
     searchfurRequest:'user/search/furniture-collection-request',
     delManageRequest: 'user/furniture-collection-request',
+    searchManageRequest: 'user/search/furniture-collection-manage',
 
 }
 export default endUrl;

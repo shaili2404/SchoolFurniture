@@ -105,6 +105,10 @@ export const FurnitureReplacmentProcess = () => {
     }
   }, []);
 
+  const downloadPdf = () => {
+    navigation.navigate('Second',{value:"Arvind"});
+  }
+
   const tableKey = ["category_name", "item_name", "count"];
   const tableHeader =
     organization == "School"
@@ -207,6 +211,7 @@ export const FurnitureReplacmentProcess = () => {
         taskName={taskName}
         taskNameButoon={taskNameButoon}
         taskNameButoonValue={taskNameButoonValue}
+        downloadPdf={()=>downloadPdf()}
       />
       <InputForm
         schoolname={schoolname}

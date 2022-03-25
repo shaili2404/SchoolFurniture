@@ -118,9 +118,13 @@ import {
 
 // Import HTML to PDF
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 const Second = () => {
   const [filePath, setFilePath] = useState('');
+  const route = useRoute();
+  const { value } = route.params;
+  console.log("name",value);
 
   const isPermitted = async () => {
     if (Platform.OS === 'android') {

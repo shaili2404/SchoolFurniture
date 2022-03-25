@@ -103,5 +103,14 @@ export default StyleSheet.create({
         borderColor: COLORS.White,
         borderWidth: 5,
       },
+      errorView: {
+        width: '100%',
+        alignContent: 'center'
+      },
+      errormessStyle: {
+        textAlign: 'center',
+        color: COLORS.red,
+        fontSize: 22
+      },
 
 });

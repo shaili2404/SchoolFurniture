@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-// import Styles from "../maintenance/SchoolMaintenance/SchoolDistrict/style";
 import {
   SafeAreaView,
   View,
@@ -22,8 +21,8 @@ import { DataDisplayList } from "../../component/manufacturer/displayListComman"
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import Loader from "../../component/loader";
 import AlertText from "../../Alert/AlertText";
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import DatePicker from "react-native-date-picker";
+import { useNavigation } from "@react-navigation/core";
 
 const PAGESIZE = 10;
 
@@ -32,17 +31,12 @@ export const ManageRequests = () => {
   const loginData = useSelector((state) => state?.loginData);
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
-  const [radioParam, setRadioParam] = useState(
-      [
-          {label: 'Data Range', value: 0 },
-          {label: 'Reference Number', value: 1 }
-      ]);
-  const [searchValue, setSearchValue] =useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endData, setEndDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [close, setCLose] = useState(false);
-  const [status, setStatus] = useState(false);
+  const [startDateStatus, setStartDateStatus] = useState(true);
+  const [enddateStatus, setendDatestatus] = useState(true);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -57,6 +51,7 @@ export const ManageRequests = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [permissionArr, setpermissionArr] = useState([]);
+  const navigation = useNavigation();
 
   const tableKey = [
     "school_name",
@@ -74,19 +69,7 @@ export const ManageRequests = () => {
     constants.refrenceNumber,
     constants.status,
     constants.totalFurnitureCount,
-    // constants.ItemCount,
     constants.manage,
-  ];
-
-  const addArray = [
-    { key: "district_office", value: constants.DistrictOffice },
-    { key: "director", value: constants.Director },
-    { key: "tel", value: constants.TelphoneNo },
-    { key: "address1", value: constants.Address1 },
-    { key: "address2", value: constants.Address2 },
-    { key: "address3", value: constants.Address3 },
-    { key: "address4", value: constants.Address4 },
-    { key: "street_code", value: constants.streetCode },
   ];
 
   useEffect(() => {
@@ -149,11 +132,16 @@ export const ManageRequests = () => {
       .then((res) => {
         initialPagination(res?.data?.data);
         setListData(res?.data?.data);
-        console.log("data",res?.data?.data)
-        // setListData(listData.filter((element)=>element?.status==='Pending Collection'))
         setLoader(false);
       })
       .catch((e) => setLoader(false));
+  };
+
+   // Edit Functionality
+   const onEdit = (item, task) => {
+    let data = {item,task}
+    console.log("dddd",data)
+    navigation.navigate('AddRequestFur',(data))
   };
 
   const initialPagination = (list) => {
@@ -204,20 +192,31 @@ export const ManageRequests = () => {
     setLoader(false);
   };
 
-  const onsearch = async () => {
+  const onsearch = () => {
+    let strtDte = `${startDate?.getFullYear()}-${startDate?.getMonth()+1}-${startDate?.getDate()}`;
+    let endDte = `${endData?.getFullYear()}-${endData?.getMonth()+1}-${endData.getDate()}`;
+    let str = ''
+    if (!validation(searchtask)) str += `ref_number=${searchtask}&`
+    if (startDateStatus == false) str += `start_date=${strtDte}&`
+    if (enddateStatus == false) str += `end_date=${endDte}&`
     setLoader(true);
     axios
-      .get(`${endUrl.districtSearch}${searchtask}`)
+      .get(`${endUrl.searchManageRequest}?${str}`)
       .then((res) => {
         setListData(res?.data?.data);
+        initialPagination(res?.data?.data);
         setLoader(false);
       })
       .catch((e) => {
-        let errorMsg = e?.response?.data?.message;
         setLoader(false);
-        setErrorMessage(errorMsg);
+        setErrorMessage(e?.response?.data?.message);
+        console.log("apicall", JSON.stringify(e?.response?.data?.message));
       });
   };
+
+  const validation = (value) =>{
+    return value == "" || value == undefined || value == null
+  }
 
   useEffect(() => {
     apicall();
@@ -228,7 +227,7 @@ export const ManageRequests = () => {
   }, [listData]);
 
   useEffect(() => {
-    if (searchtask == "") {
+    if (searchtask === "") {
       apicall();
       setErrorMessage("");
       setLoader(false);
@@ -241,27 +240,8 @@ export const ManageRequests = () => {
   ) : (
     <SafeAreaView style={styles.mainView}>
     <View style={styles.radioView}>
-      {/* <View>
-        <Text style={styles.selectSearchText}>{constants.selectSearchOption}</Text>
-        <View style={styles.line}></View>
-      </View> */}
       <View style={styles.radioDate}>
-       {/* <View style={styles.radView}>
-        <RadioForm
-          radio_props={radioParam}
-          initial={0}
-          formHorizontal={true}
-          buttonSize={10}
-          buttonColor={'#48A448'}
-          selectedButtonColor={'#359934'}
-          buttonWrapStyle={{paddingLeft: 50}}
-          radioStyle={{paddingRight: 40}}
-          labelStyle={{fontSize: 16, color: '#000000',}}
-          onPress={(value) => setSearchValue(value)}
-        />
-        </View> */}
           <View>
-         {/* Search by reference number */}
          <TextInput
             style={styles.refrenceStyle}
             placeholder={constants.referenceNumber}
@@ -271,13 +251,12 @@ export const ManageRequests = () => {
             onChangeText={(val) => setSearchTask(val)}
           />
          </View>
-        {/* { searchValue == 0 ? */}
-          {/* // Search by Date Range */}
           <View style={styles.viewInputStyle}>
           <View style={styles.dropStyle}>
             <Text style={styles.textStyle}>
-              {" "}
-              {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
+            {startDateStatus
+                ? "Start Date"
+                : `${startDate?.getDate()}/${startDate?.getMonth()+1}/${startDate?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -293,6 +272,7 @@ export const ManageRequests = () => {
               onConfirm={(date) => {
                 setOpen(false);
                 setStartDate(date);
+                setStartDateStatus(false);
               }}
               onCancel={() => {
                 setOpen(false);
@@ -301,8 +281,9 @@ export const ManageRequests = () => {
           </TouchableOpacity>
           <View style={styles.dropStyle}>
             <Text style={styles.textStyle}>
-              {" "}
-              {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
+            {enddateStatus
+                ? "End Date"
+                : `${endData?.getDate()}/${endData?.getMonth()+1}/${endData?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -318,6 +299,7 @@ export const ManageRequests = () => {
               onConfirm={(date) => {
                 setCLose(false);
                 setEndDate(date);
+                setendDatestatus(false);
               }}
               onCancel={() => {
                 setCLose(false);
@@ -325,22 +307,23 @@ export const ManageRequests = () => {
             />
           </TouchableOpacity>
         </View>
-        {/* :  */}
-        {/* } */}
-       
-        
-       
+
   
       </View>
       <View style={styles.buttonView}>
         <TouchableOpacity
           style={styles.buttonStyle}
-        //   onPress={editState === true ? onUpdate : onAdd}
+          onPress={()=> onsearch()}
         >
           <Text style={styles.buttonText}>{constants.search}</Text>
         </TouchableOpacity>
       </View>
       </View>
+      {errorMessage ? (
+        <View style={styles.errorView}>
+          <Text style={styles.errormessStyle}>{errorMessage}</Text>
+        </View>
+      ) : (
       <ScrollView style={styles.radView} horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponet}
@@ -350,6 +333,7 @@ export const ManageRequests = () => {
               renderItem={rendercomponent}
             />
           </ScrollView>
+          )}
       <View style={styles.lastView}>
         <TouchableOpacity onPress={onPrevious}>
           {pagination.currentPage === 1 ? (
