@@ -14,7 +14,7 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./styles";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
@@ -22,11 +22,11 @@ import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
-import { validate } from "@babel/types";
 
-const PAGESIZE = 4;
+const PAGESIZE = 6;
 
 export const FurnitureReplacmentManfacturer = () => {
+  const isFocused = useIsFocused()
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -48,6 +48,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
+  const route = useRoute()
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -112,7 +113,7 @@ export const FurnitureReplacmentManfacturer = () => {
   useEffect(() => {
     getCollectionRequest();
     getstatusList();
-  }, []);
+  }, [isFocused]);
 
   const initialPagination = (list) => {
     const len = list.length;
@@ -166,6 +167,13 @@ export const FurnitureReplacmentManfacturer = () => {
     setendDatestatus(true);
     setErrorMessage("");
   };
+
+  useEffect(()=>{
+   if (refnumber == ''){
+    getCollectionRequest();
+    getstatusList();
+   }
+  },[refnumber])
 
   const tableHeader =
     organization == "School"
@@ -332,9 +340,8 @@ export const FurnitureReplacmentManfacturer = () => {
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponet}
-              showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={collectionList.slice(
+              data={collectionList?.slice(
                 pagination.startIndex,
                 pagination.endIndex
               )}

@@ -41,5 +41,7 @@ const Images = {
     repairReplanishIcon: require('./images/repairicon.png'),
     repairReplanishInprogress: require('./images/repairInprogress.png'),
     rightarrowBlack: require('./images/RightArrowBlack.png'),
+    cameraIcon :require('./images/camera.png'),
+    photoIcon :require('./images/photo.png')
 }
 export default Images

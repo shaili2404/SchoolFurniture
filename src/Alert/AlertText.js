@@ -25,6 +25,8 @@ const AlertText = {
     deleteStock :'Are you sure you want to delete?',
     submitMessage:'Do you Want to submit',
     deleteManageRequest: 'Are you sure you want to delete this request?',
+    GoToTransactionList:'Information that is not saved will be lost, are you sure you want to leave the current page?',
+    saveMsgIntransc :'The captured information has been saved successfully',
     
 }
 export default AlertText

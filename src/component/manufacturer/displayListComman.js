@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import Fonts from "../../asset/Fonts";
 import { RFValue } from "react-native-responsive-fontsize";
 import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
+import { RfH, RfW } from "../../utils/helpers";
 
 export const DataDisplayList = ({
   item,
@@ -159,7 +160,6 @@ const Styles = StyleSheet.create({
   textStyle: {
     fontFamily: Fonts.regular,
     fontSize: RFValue(14, STANDARD_SCREEN_SIZE),
-    // fontWeight: "normal",
     color: COLORS.Black,
     textAlign: "left",
     textAlignVertical: "center",
@@ -167,17 +167,19 @@ const Styles = StyleSheet.create({
   mainView: {
     flexDirection: "row",
     width: "100%",
+    height:RfH(50)
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
-    height: 56,
+    height: RfH(56),
     borderBottomColor: COLORS.Black,
     borderBottomWidth: 0.4,
   },
   viewStyle: {
-    width: 180,
-    marginTop: 12,
+    width: RfW(180),
+    marginTop: RfH(12),
     marginHorizontal: 20,
+ 
   },
   viewsssStyle: {
     width: 20,
@@ -186,7 +188,7 @@ const Styles = StyleSheet.create({
   },
   screenStyle: {
     width: "30%",
-    marginTop: 12,
     marginHorizontal: 4,
+    justifyContent:'center'
   },
 });

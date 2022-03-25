@@ -22,6 +22,7 @@ const endUrl = {
     searchfurRequest:'user/search/furniture-collection-request',
     delManageRequest: 'user/furniture-collection-request',
     searchManageRequest: 'user/search/furniture-collection-manage',
+    acceptCollectionReuest:'user/furniture-collect/',
 
 }
 export default endUrl;

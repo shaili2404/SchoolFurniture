@@ -5,15 +5,16 @@ import LinearGradient from "react-native-linear-gradient";
 import Fonts from "../../asset/Fonts";
 import { RFValue } from 'react-native-responsive-fontsize';
 import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
+import { RfH, RfW } from "../../utils/helpers";
 
-export const ListHeaderComman = ({ tableHeader, List }) => {
+export const ListHeaderComman = ({ tableHeader, List,lenofContent }) => {
   return (
     <SafeAreaView>
       <LinearGradient
         colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
-        style={Styles.firstView}
+        style={lenofContent ? Styles.firstlenView : Styles.firstView}
       >
         <View style={Styles.mainView}>
           {tableHeader.map((header) => (
@@ -43,12 +44,16 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
   },
   firstView: {
-    height: 46,
+    height: RfH(46),
+    opacity: 1,
+  },
+  firstlenView: {
+    height: RfH(66),
     opacity: 1,
   },
   viewStyle: {
-    width: 180,
-    marginTop: 12,
+    width: RfW(180),
+    marginTop: RfH(12),
     marginHorizontal: 20,
   },
   ScreenStyles: {

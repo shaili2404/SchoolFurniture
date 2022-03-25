@@ -16,6 +16,7 @@ const NavigationRouteNames = {
     MANAGEUSER: "Manage User",
     SEARCH: "Search",
     MANAGEREQUESTS: "ManageRequests",
+    FURNITUREREPLACMENTPROCESS : "FurnitureReplacmentProcess",
 
 };
 
