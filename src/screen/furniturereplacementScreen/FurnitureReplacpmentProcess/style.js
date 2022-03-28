@@ -75,6 +75,16 @@ export default StyleSheet.create({
     height: RfH(30),
     justifyContent: "center",
   },
+  addplusView: {
+    backgroundColor: COLORS.White,
+    alignSelf: "flex-end",
+    position: "absolute",
+    top: RfH(300),
+    right: RfW(50),
+    width: RfW(100),
+    height: RfH(20),
+    justifyContent: "center",
+  },
   photoText: { 
    textAlign: "center",
    textDecorationLine: "underline" 

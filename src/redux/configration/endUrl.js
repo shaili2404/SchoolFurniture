@@ -23,6 +23,7 @@ const endUrl = {
     delManageRequest: 'user/furniture-collection-request',
     searchManageRequest: 'user/search/furniture-collection-manage',
     acceptCollectionReuest:'user/furniture-collect/',
+    annexure: 'user/download/annexure/a',
 
 }
 export default endUrl;

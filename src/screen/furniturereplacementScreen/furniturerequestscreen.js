@@ -353,7 +353,7 @@ export const FurnitureReplacmentManfacturer = () => {
       {organization == "School" ? (
         <View style={Styles.plusView}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("AddRequestFur")}
+            onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
           >
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
