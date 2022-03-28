@@ -19,6 +19,7 @@ import endUrl from "../../../../redux/configration/endUrl";
 import COLORS from "../../../../asset/color";
 import Images from "../../../../asset/images";
 import AlertText from "../../../../Alert/AlertText";
+import { AlertMessage } from "../../../../Alert/alert";
 
 
 // Current Data in List Per Page
@@ -34,6 +35,7 @@ const StockCategory = () => {
   const [updateItem, setUpdateItem] = useState("");
   const [searchtask, setSearchTask] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const tableKey = ["name"];
   const navigation = useNavigation();
   const loginData = useSelector((state) => state?.loginData);
@@ -51,6 +53,7 @@ const StockCategory = () => {
     startIndex: 0,
     endIndex: 0,
   });
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions
@@ -144,12 +147,25 @@ const StockCategory = () => {
         setStockCategory("");
         setDefaultStockCategory("");
         categorylistapi();
+        setAlert(true);
+        setSuccessMessage(res?.data?.message);
         setLoader(false);
       })
-      .catch((e) => {
-        setLoader(false);
-        console.log(e);
-      });
+      .catch((e) => 
+        {
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
+          setAlert(true)
+          {
+            let str = "";
+            status == 422 ?
+              Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setSuccessMessage(str);
+              }) :
+              setSuccessMessage(message);
+          }
+        })
   };
 
   // Add Button Functionality
@@ -322,6 +338,13 @@ const StockCategory = () => {
           )}
         </TouchableOpacity>
       </View>
+      {alert ? (
+        <AlertMessage
+          visible={alert}
+          setmodalVisible={(val) => setAlert(val)}
+          mainMessage={successMessage}
+        />
+      ) : null}
     </View>
   );
 };
