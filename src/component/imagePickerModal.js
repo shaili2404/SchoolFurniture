@@ -37,7 +37,9 @@ const ImagePickerModal = (props) => {
             height: 400,
             // cropping: true,
         }).then(image => {
-            console.log(image, "image");
+            setSelectedImg(image)
+            setViewImage(true);
+            setHideModal(true);
         }).catch(err => {
             console.log(err, "err")
         })
