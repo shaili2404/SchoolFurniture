@@ -16,8 +16,9 @@ const COLORS = {
     LinearGreen2: '#48A448',
     LinearBox: '#85C286',
     plusMinusColor: '#E6F6E6',
-    graybackground :'#00000080',
-    viewGray:'#707070'
+    graybackground: '#00000080',
+    viewGray: '#707070',
+    transparent: '#00000000'
 
 }
 export default COLORS

@@ -75,8 +75,33 @@ export default StyleSheet.create({
     height: RfH(30),
     justifyContent: "center",
   },
-  photoText: { 
-   textAlign: "center",
-   textDecorationLine: "underline" 
+  photoText: {
+    textAlign: "center",
+    textDecorationLine: "underline"
   },
+  uploadedView: {
+    backgroundColor: COLORS.White,
+    alignSelf: "flex-end",
+    position: "absolute",
+    top: RfH(300),
+    right: RfW(50),
+    width: RfW(100),
+    height: RfH(30),
+    justifyContent: "center",
+    flexDirection: 'row'
+  },
+  uploadedText: {
+    fontSize: 14,
+    padding: 2
+  },
+  viewAllText: {
+    color: COLORS.blue,
+    left: RfW(10),
+    fontSize: 12,
+    textDecorationLine: 'underline',
+    top: 8
+  },
+  noOfPhoto: {
+    flexDirection: 'column'
+  }
 });

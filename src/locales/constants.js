@@ -119,8 +119,12 @@ const constants = {
   RemovePhoto: "-Remove",
   ReparableItem: "Confirm Number Of reparable Furniture Item",
   ReplanishmentItems: "Number Of Furniture Item To Be Replanished",
-  camera:"Camera",
-  Photos:'Photos',
+  camera: "Camera",
+  Photos: 'Photos',
+  Back: "Back",
+  uploaded: "Uploaded",
+  ViewAll: "View All",
+  Ph: '10+ Photos'
 
 };
 export default constants;
