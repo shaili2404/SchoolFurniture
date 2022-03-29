@@ -80,8 +80,14 @@ export const FurnitureReplacmentProcess = () => {
     userEdit: false,
     userDelete: false,
   });
-  const { school_name, emis, total_broken_items, broken_items, id, task, ref_number } =
-    organization == "School" ? "" : route?.params;
+  const {
+    school_name,
+    emis,
+    total_broken_items,
+    broken_items,
+    id,
+    ref_number,
+  } = organization == "School" ? "" : route?.params;
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
@@ -98,19 +104,8 @@ export const FurnitureReplacmentProcess = () => {
     setLoader(false);
   };
   const onrequestList = () => {
-    const { school_name, emis, total_broken_items, broken_items } = route?.params;
-
-    setCollectFurItem(constants.inprogress)
-    setTaskName(constants.collectFurnitureRequest);
-    setTaskNameButton(true);
+    setCollectFurItem(constants.inprogress);
     setTaskNameButtonValue(constants.Accept);
-    setTaskListName(constants.BrokenFurnitureItem);
-    setschoolname(constants.schoolName);
-    setschoolvalue(school_name);
-    setemisnumber(constants.emisNumber);
-    setemisvalue(emis);
-    setStockcollectioName(constants.schoolFurCount);
-    setStockCount(total_broken_items);
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -142,7 +137,6 @@ export const FurnitureReplacmentProcess = () => {
     ]);
     setlenofContent("More");
     setLoader(false);
-    setLoader(false)
   };
 
   useEffect(() => {
@@ -168,16 +162,17 @@ export const FurnitureReplacmentProcess = () => {
   const [tableHeader, setTableHeader] =
     organization == "School"
       ? useState([
-        constants.FurCategory,
-        constants.furItem,
-        constants.collectioncount,
-        constants.manage,
-      ])
+          constants.FurCategory,
+          constants.furItem,
+          constants.collectioncount,
+          constants.manage,
+        ])
       : useState([
-        constants.FurCategory,
-        constants.furItem,
-        constants.collectioncount,
-      ]);
+          constants.FurCategory,
+          constants.furItem,
+          constants.collectioncount,
+        ]);
+
   const renderComponent = ({ item }) => {
     return (
       <DisplayList
@@ -200,7 +195,7 @@ export const FurnitureReplacmentProcess = () => {
       flatListData: flatListData,
       screen:
         route?.params?.screen == "MangeRequest" ||
-          route?.params?.task == "MangeRequest"
+        route?.params?.task == "MangeRequest"
           ? "MangeRequest"
           : null,
       id:
@@ -324,16 +319,17 @@ export const FurnitureReplacmentProcess = () => {
       total_furniture: totalFurCount,
       broken_items: flatListData,
     };
-
+    console.log("301", route?.params?.screen, route?.params?.task);
     if (
       route?.params?.screen == "MangeRequest" ||
       route?.params?.task == "MangeRequest"
     ) {
       axios
         .put(
-          `${endUrl.delManageRequest}/${route?.params?.screen == "MangeRequest"
-            ? route?.params?.id
-            : route?.params?.items?.id
+          `${endUrl.delManageRequest}/${
+            route?.params?.screen == "MangeRequest"
+              ? route?.params?.id
+              : route?.params?.items?.id
           }`,
           data
         )
@@ -368,32 +364,11 @@ export const FurnitureReplacmentProcess = () => {
       let str = "";
       status == 422
         ? Object.values(data).forEach((value) => {
-          str += `  ${value}`;
-          setMainMsg(str);
-        })
+            str += `  ${value}`;
+            setMainMsg(str);
+          })
         : setMainMsg(message);
     }
-    axios
-      .post(`${endUrl.addFurRequest}`, data)
-      .then((res) => {
-        setSuccessAlert(true);
-        setLoader(false);
-        setMainMsg(res?.data?.message);
-      })
-      .catch((e) => {
-        let { message, data, status } = e?.response?.data || {};
-        setLoader(false);
-        seterrorAlert(true);
-        {
-          let str = "";
-          status == 422
-            ? Object.values(data).forEach((value) => {
-              str += `  ${value}`;
-              setMainMsg(str);
-            })
-            : setMainMsg(message);
-        }
-      });
   };
 
   const onConfirm = (imgData) => {
@@ -439,8 +414,8 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     axios
-      .get(`${endUrl.acceptCollectionReuest}${id}/edit`)
-      .then((res) => { })
+      .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
+      .then((res) => {})
       .catch((e) => {
         ErrorApi(e);
       });
@@ -476,6 +451,7 @@ export const FurnitureReplacmentProcess = () => {
         directory: "docs",
       };
       let file = await reactNativeHtmlToPdf.convert(options);
+      console.log(file.filePath);
       setFilePath(file.filePath);
     }
   };
@@ -568,7 +544,7 @@ export const FurnitureReplacmentProcess = () => {
                       flatListData: flatListData,
                       screen:
                         route?.params?.screen == "MangeRequest" ||
-                          route?.params?.task == "MangeRequest"
+                        route?.params?.task == "MangeRequest"
                           ? "MangeRequest"
                           : null,
                       id:
@@ -614,7 +590,7 @@ export const FurnitureReplacmentProcess = () => {
             printPickupPress={() => printPickupbutpress()}
           />
 
-          {/* <Text style={styles.textStyle}>{filePath}</Text> */}
+          {/ <Text style={styles.textStyle}>{filePath}</Text> /}
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList

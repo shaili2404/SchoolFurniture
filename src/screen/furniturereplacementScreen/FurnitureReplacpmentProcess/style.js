@@ -104,7 +104,7 @@ export default StyleSheet.create({
     width: RfW(124),
     height: RfH(54),
     justifyContent: "center",
-    flexDirection:'row'
+    flexDirection: 'row'
   },
   uploadedText: {
     fontSize: 14,
