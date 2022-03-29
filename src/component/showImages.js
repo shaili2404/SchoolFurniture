@@ -19,12 +19,11 @@ const ShowImage = (props) => {
 
     useEffect(() => {
         if (prevImgData && prevImgData.length > 0) {
-            const result1 = prevImgData.filter(({ filename: id1 }) => !selectedImg.some(({ filename: id2 }) => id2 === id1));
-            const result2 = selectedImg.filter(({ filename: id1 }) => !prevImgData.some(({ filename: id2 }) => id2 === id1));
-            const result3 = prevImgData.filter(({ filename: id1 }) => selectedImg.some(({ filename: id2 }) => id2 === id1));
-
-            const result = [...result1, ...result2, ...result3]
-            setnewList(result);
+            const newArr = [...prevImgData, ...selectedImg];
+            let map = new Map();
+            newArr.forEach(eachObj => map.set(eachObj.filename, eachObj));
+            const uniqueArr = Array.from(map.values());
+            setnewList(uniqueArr);
         } else {
             setnewList(selectedImg);
         }
