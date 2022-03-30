@@ -9,6 +9,7 @@ import {
   FlatList,
   Alert,
   Image,
+  KeyboardAvoidingView
 } from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
@@ -377,6 +378,8 @@ export const FurnitureReplacmentProcess = () => {
   ) : (
     <SafeAreaView style={styles.mainView}>
       <ScrollView showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'position' : null} keyboardVerticalOffset={0} >
+
         <View style={styles.furView}>
           <Text style={styles.furText}>
             {constants.FurnitureReplacmnetProcess}
@@ -398,6 +401,7 @@ export const FurnitureReplacmentProcess = () => {
           taskNameButoonValue={taskNameButoonValue}
           acceptRequest={() => acceptRequestList()}
         />
+        <View style={styles.responsiveHiegth} >
         <InputForm
           schoolname={constants.schoolName}
           schoolvalue={
@@ -429,12 +433,15 @@ export const FurnitureReplacmentProcess = () => {
             ) : null}
           </>
         )}
+        </View>
         <TaskSection
           taskName={constants.BrokenFurnitureItem}
           taskNamePrintButoonValue={taskListButtonValue}
           printPickupPress={() => printPickupbutpress()}
         />
+        
         {/* <Text style={styles.textStyle}>{filePath}</Text> */}
+        
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <FlatList
             ListHeaderComponent={HeaderComponent}
@@ -445,7 +452,10 @@ export const FurnitureReplacmentProcess = () => {
           />
         </ScrollView>
         <View style={{ height: 60 }} />
+  
+  </KeyboardAvoidingView>
       </ScrollView>
+      
       <View style={styles.bottomView}>
         <FooterFur
           saveButton={saveButton}

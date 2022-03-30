@@ -22,6 +22,7 @@ import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
+import AlertText from "../../Alert/AlertText";
 
 const PAGESIZE = 6;
 
@@ -45,6 +46,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const [refnumber, setrefNumber] = useState("");
   const [emisNumber, setEmisNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
@@ -61,10 +63,18 @@ export const FurnitureReplacmentManfacturer = () => {
   const validation = (value) =>{
     return value == "" || value == undefined || value == null
   }
+   useEffect (()=>{
+    if (startDate.getTime() > endDate.getTime()){
+      setDateErrorMessage(AlertText.DateError)
+    }
+    else{
+      setDateErrorMessage('')
+    }
+   },[startDate,endDate])
   const onsearch = () => {
     setSearchStatus(false);
-    let strtDte = `${startDate?.getFullYear()}-${startDate?.getMonth()}-${startDate?.getDate()}`;
-    let endDte = `${endDate?.getFullYear()}-${endDate?.getMonth()}-${endDate.getDate()}`;
+    let strtDte = `${startDate?.getFullYear()}-${startDate?.getMonth()+1}-${startDate?.getDate()}`;
+    let endDte = `${endDate?.getFullYear()}-${endDate?.getMonth()+1}-${endDate.getDate()}`;
     let str = ''
     if (!validation(refnumber)) str += `ref_number=${refnumber}&`
     if (startDateStatus == false) str += `start_date=${strtDte}&`
@@ -281,7 +291,7 @@ export const FurnitureReplacmentManfacturer = () => {
             <Text style={Styles.textStyle}>
               {startDateStatus
                 ? "Start Date"
-                : `${startDate?.getDate()}/${startDate?.getMonth()}/${startDate?.getFullYear()}`}
+                : `${startDate?.getDate()}/${startDate?.getMonth()+1}/${startDate?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -308,7 +318,7 @@ export const FurnitureReplacmentManfacturer = () => {
             <Text style={Styles.textStyle}>
               {enddateStatus
                 ? "End Date"
-                : `${endDate?.getDate()}/${endDate?.getMonth()}/${endDate?.getFullYear()}`}
+                : `${endDate?.getDate()}/${endDate?.getMonth()+1}/${endDate?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -331,7 +341,13 @@ export const FurnitureReplacmentManfacturer = () => {
               }}
             />
           </TouchableOpacity>
+         
         </View>
+        {dateErrorMessage ? (
+          <View style={Styles.dateerrorView}>
+            <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
+          </View>
+          ):null}
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
