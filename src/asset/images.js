@@ -31,9 +31,9 @@ const Images = {
     rightArrowSuccess: require('./images/rightarrow.png'),
     dilveryIconInProgress: require('./images/dilveryinprogress.png'),
     SearchIconWhite: require('./images/searchIconWhite.png'),
-    PrintIcon : require('./images/PrintIcon.png'),
-    PlusIcon : require('./images/PlusIcon.png'),
-    MinusIcon : require('./images/minusIcon.png'),
+    PrintIcon: require('./images/PrintIcon.png'),
+    PlusIcon: require('./images/PlusIcon.png'),
+    MinusIcon: require('./images/minusIcon.png'),
     collectFurnitureIcon: require('./images/CollectFurIcon.png'),
     collectFurnitureInprogress: require('./images/collectFurinProgress.png'),
     createRequestInprogress: require('./images/CreateRequestInProcess.png'),
@@ -41,7 +41,8 @@ const Images = {
     repairReplanishIcon: require('./images/repairicon.png'),
     repairReplanishInprogress: require('./images/repairInprogress.png'),
     rightarrowBlack: require('./images/RightArrowBlack.png'),
-    cameraIcon :require('./images/camera.png'),
-    photoIcon :require('./images/photo.png')
+    cameraIcon: require('./images/camera.png'),
+    photoIcon: require('./images/photo.png'),
+    crossIcon: require('./images/crossIcon.png')
 }
 export default Images

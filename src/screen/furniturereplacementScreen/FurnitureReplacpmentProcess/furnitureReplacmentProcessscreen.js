@@ -32,6 +32,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import ImagePickerModal from "../../../component/imagePickerModal";
 import Images from "../../../asset/images";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
+import ShowImages from "../../../component/showImages";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -60,6 +61,10 @@ export const FurnitureReplacmentProcess = () => {
   const [imageModal, setImageModal] = useState(false);
   const [filePath, setFilePath] = useState('');
   const [annexure, setAnnexure] = useState(``);
+  const [taskListButoon, setTaskListButoon] = useState(false);
+  const [imgData, setImgData] = useState([]);
+  const [imgLen, setImgLen] = useState("");
+  const [viewImage, setViewImage] = useState(false)
 
   const route = useRoute();
   const organization = useSelector(
@@ -144,19 +149,21 @@ export const FurnitureReplacmentProcess = () => {
     "item_name",
     "count",
   ]);
+
   const [tableHeader, setTableHeader] =
     organization == "School"
       ? useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-          constants.manage,
-        ])
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.manage,
+      ])
       : useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-        ]);
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
+
   const renderComponent = ({ item }) => {
     return (
       <DisplayList
@@ -200,26 +207,31 @@ export const FurnitureReplacmentProcess = () => {
       <ListHeaderComman tableHeader={tableHeader} lenofContent={lenofContent} />
     );
   };
+
   const onCancel = () => {
     setCancelProcessalert(true);
     setMainMsg(AlertText.cancelProcessMessgae);
     setSubMsg(AlertText.UndoMessgae);
   };
+
   const onSave = () => {
     setSubmitButton(false);
     seterrorAlert(true);
     setMainMsg(AlertText.saveMsgIntransc);
   };
+
   const onSubmit = () => {
     setAlert(true);
     setMainMsg(AlertText.submitMessage);
     setSubMsg(AlertText.canNotUndo);
   };
+
   const onvalueEdit = (val) => {
     setTotalFurCOunt(val);
     val == "" ? setSaveButton(true) : setSaveButton(false);
     val == "" ? setSubmitButton(true) : null;
   };
+
   const onPressYes = async () => {
     setAlert(false);
     setLoader(true);
@@ -227,7 +239,6 @@ export const FurnitureReplacmentProcess = () => {
       total_furniture: totalFurCount,
       broken_items: flatListData,
     };
-    console.log("223", route?.params);
     if (
       route?.params?.screen == "MangeRequest" ||
       route?.params?.task == "MangeRequest"
@@ -278,9 +289,20 @@ export const FurnitureReplacmentProcess = () => {
         : setMainMsg(message);
     }
   };
+
+  const onConfirm = (imgData) => {
+    let len;
+    setImgData(imgData);
+    len = imgData.length > 10 ? "10+" : imgData.length
+    setImgLen(len);
+    setImageModal(false);
+    setViewImage(false)
+  }
+
   const onPressDone = () => {
     seterrorAlert(false);
   };
+
   const onSuccessPressDone = () => {
     if (
       route?.params?.screen == "MangeRequest" ||
@@ -293,14 +315,17 @@ export const FurnitureReplacmentProcess = () => {
       navigation.navigate("Furniture Replacment");
     }
   };
+
   const onPressYesCancel = () => {
     setCancelProcessalert(false);
     navigation.navigate("Furniture Replacment");
   };
+
   const onTransactionList = () => {
     setCancelProcessalert(true);
     setMainMsg(AlertText.GoToTransactionList);
   };
+
   const acceptRequestList = () => {
     setTaskNameButtonValue(constants.Accepted);
     setTaskListButtonValue(constants.printPickupSLip);
@@ -308,7 +333,7 @@ export const FurnitureReplacmentProcess = () => {
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     axios
       .get(`${endUrl.acceptCollectionReuest}${id}/edit`)
-      .then((res) => {})
+      .then((res) => { })
       .catch((e) => {
         ErrorApi(e);
       });
@@ -368,10 +393,18 @@ export const FurnitureReplacmentProcess = () => {
     
   };
 
+  const viewAllImg = () => {
+    setViewImage(true)
+  }
+
   useLayoutEffect(() => {
     const title = "Furniture Replacement";
     navigation.setOptions({ title });
   }, []);
+
+  const onBack = () => {
+    setViewImage(false)
+  }
 
   return loader ? (
     <Loader />
@@ -433,7 +466,22 @@ export const FurnitureReplacmentProcess = () => {
             ) : null}
           </>
         )}
-        </View>
+        
+
+        {imgData && imgData.length ?
+          <View style={styles.uploadedView}>
+            <View style={styles.noOfPhoto}>
+              <Text style={styles.uploadedText}>{constants.uploaded}</Text>
+              <Text style={styles.uploadedText}>{`${imgLen} ${constants.Photos}`}</Text>
+            </View>
+            <TouchableOpacity onPress={viewAllImg}>
+              <Text style={styles.viewAllText}>{constants.ViewAll}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          : null}
+           </View>
+
         <TaskSection
           taskName={constants.BrokenFurnitureItem}
           taskNamePrintButoonValue={taskListButtonValue}
@@ -518,8 +566,18 @@ export const FurnitureReplacmentProcess = () => {
         <ImagePickerModal
           imageModal={imageModal}
           setmodalVisible={(val) => setImageModal(val)}
+          onConfirm={(data) => { onConfirm(data) }}
         />
       ) : null}
+      {viewImage ?
+        <ShowImages
+          imageModal={viewImage}
+          setmodalVisible={(val) => setViewImage(val)}
+          selectedImg={imgData}
+          onConfirm={(data) => { onConfirm(data) }}
+          onBack={() => onBack()}
+        />
+        : null}
     </SafeAreaView>
   );
 };

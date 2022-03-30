@@ -98,7 +98,7 @@ export const FurnitureReplacmentSchool = () => {
           <Text style={Styles.transactionText}>
             {constants.transactionSearch}
           </Text>
-          <TouchableOpacity style={Styles.searchButton} onPress={()=>navigation.navigate('FurnitureReplacmentProcess')}>
+          <TouchableOpacity style={Styles.searchButton} onPress={() => navigation.navigate('FurnitureReplacmentProcess')}>
             <Text style={Styles.searchText}>{constants.search}</Text>
           </TouchableOpacity>
         </View>
@@ -130,7 +130,6 @@ export const FurnitureReplacmentSchool = () => {
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropStyle}>
             <Text style={Styles.textStyle}>
-              {" "}
               {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
             </Text>
           </View>
@@ -155,7 +154,6 @@ export const FurnitureReplacmentSchool = () => {
           </TouchableOpacity>
           <View style={Styles.dropStyle}>
             <Text style={Styles.textStyle}>
-              {" "}
               {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
             </Text>
           </View>

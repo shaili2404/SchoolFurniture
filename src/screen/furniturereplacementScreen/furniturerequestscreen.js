@@ -60,7 +60,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
-  const validation = (value) =>{
+  const validation = (value) => {
     return value == "" || value == undefined || value == null
   }
    useEffect (()=>{
@@ -79,7 +79,7 @@ export const FurnitureReplacmentManfacturer = () => {
     if (!validation(refnumber)) str += `ref_number=${refnumber}&`
     if (startDateStatus == false) str += `start_date=${strtDte}&`
     if (enddateStatus == false) str += `end_date=${endDte}&`
-    if (!validation(emisNumber)) str +=  `emis=${emisNumber}&`;
+    if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
     if (select?.id) str += `status_id=${select?.id}&`
     setLoader(true);
     axios.defaults.headers.common["Content-Type"] = "application/json";
@@ -106,7 +106,7 @@ export const FurnitureReplacmentManfacturer = () => {
         initialPagination(res?.data?.data);
         setLoader(false);
       })
-      .catch((e) => 
+      .catch((e) =>
         setLoader(false)
       );
   };
@@ -178,41 +178,41 @@ export const FurnitureReplacmentManfacturer = () => {
     setErrorMessage("");
   };
 
-  useEffect(()=>{
-   if (refnumber == ''){
-    getCollectionRequest();
-    getstatusList();
-   }
-  },[refnumber])
+  useEffect(() => {
+    if (refnumber == '') {
+      getCollectionRequest();
+      getstatusList();
+    }
+  }, [refnumber])
 
   const tableHeader =
     organization == "School"
       ? [
-          constants.dateCreated,
-          constants.refrenceNo,
-          constants.emisNumber,
-          constants.status,
-          constants.totalFurnitureCount,
-        ]
+        constants.dateCreated,
+        constants.refrenceNo,
+        constants.emisNumber,
+        constants.status,
+        constants.totalFurnitureCount,
+      ]
       : [
-          constants.schoolName,
-          constants.dateCreated,
-          constants.refrenceNo,
-          constants.status,
-          constants.emis,
-          constants.totalFurnitureCount,
-        ];
+        constants.schoolName,
+        constants.dateCreated,
+        constants.refrenceNo,
+        constants.status,
+        constants.emis,
+        constants.totalFurnitureCount,
+      ];
   const tableKey =
     organization == "School"
       ? ["created_at", "ref_number", "status", "emis", "total_furniture"]
       : [
-          "school_name",
-          "created_at",
-          "ref_number",
-          "status",
-          "emis",
-          "total_furniture",
-        ];
+        "school_name",
+        "created_at",
+        "ref_number",
+        "status",
+        "emis",
+        "total_furniture",
+      ];
   const rendercomponent = ({ item }) => {
     return (
       <>
