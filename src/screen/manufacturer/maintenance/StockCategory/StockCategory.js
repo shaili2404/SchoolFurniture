@@ -19,7 +19,7 @@ import endUrl from "../../../../redux/configration/endUrl";
 import COLORS from "../../../../asset/color";
 import Images from "../../../../asset/images";
 import AlertText from "../../../../Alert/AlertText";
-import { AlertMessage } from "../../../../Alert/alert";
+
 
 // Current Data in List Per Page
 const PAGESIZE = 4;
@@ -34,8 +34,6 @@ const StockCategory = () => {
   const [updateItem, setUpdateItem] = useState("");
   const [searchtask, setSearchTask] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [mainMsg, setMainMsg] = useState("");
   const tableKey = ["name"];
   const navigation = useNavigation();
   const loginData = useSelector((state) => state?.loginData);
@@ -53,50 +51,26 @@ const StockCategory = () => {
     startIndex: 0,
     endIndex: 0,
   });
-  const [alert, setAlert] = useState(false);
-  const [erroralert, seterrorAlert] = useState(false);
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false,
-      userEdit = false,
-      userDlt = false;
+    const arr = loginData?.user?.data?.data?.permissions
+    let userCreate = false, userEdit = false, userDlt = false;
     arr.forEach((input) => {
       if (input.id === 18) {
-        userCreate = true;
+        userCreate = true
+      } if (input.id === 19) {
+        userEdit = true
+      } if (input.id === 20) {
+        userDlt = true
       }
-      if (input.id === 19) {
-        userEdit = true;
-      }
-      if (input.id === 20) {
-        userDlt = true;
-      }
-    });
+    })
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    });
+    })
+
   }, []);
-
-  const ErrorApi = (e) => {
-    let { message, data, status } = e?.response?.data || {};
-    setLoader(false);
-    seterrorAlert(true);
-    {
-      let str = "";
-      status == 422
-        ? Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setMainMsg(str);
-          })
-        : setMainMsg(message);
-    }
-  };
-
-  const onPressDone = () => {
-    seterrorAlert(false);
-  };
 
   const HeaderComponent = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -141,7 +115,8 @@ const StockCategory = () => {
         setLoader(false);
       })
       .catch((e) => {
-        ErrorApi(e);
+        setLoader(false);
+        console.log("apicall", e);
       });
   };
 
@@ -169,12 +144,11 @@ const StockCategory = () => {
         setStockCategory("");
         setDefaultStockCategory("");
         categorylistapi();
-        setAlert(true);
-        setSuccessMessage(res?.data?.message);
         setLoader(false);
       })
       .catch((e) => {
-        ErrorApi(e);
+        setLoader(false);
+        console.log(e);
       });
   };
 
@@ -199,18 +173,9 @@ const StockCategory = () => {
         setLoader(false);
       })
       .catch((e) => {
-        let { message, data, status } = e?.response?.data || {};
+        let errorMsg = e?.response?.data?.message;
         setLoader(false);
-
-        {
-          let str = "";
-          status == 422
-            ? Object.values(data).forEach((value) => {
-                str += `  ${value}`;
-                setErrorMessage(str);
-              })
-            : setErrorMessage(message);
-        }
+        setErrorMessage(errorMsg);
       });
   };
 
@@ -329,10 +294,7 @@ const StockCategory = () => {
           style={Styles.listStyle}
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          data={categoryListData.slice(
-            pagination.startIndex,
-            pagination.endIndex
-          )}
+          data={categoryListData.slice(pagination.startIndex, pagination.endIndex)}
           renderItem={rendercomponent}
         />
       )}
@@ -360,22 +322,6 @@ const StockCategory = () => {
           )}
         </TouchableOpacity>
       </View>
-      {alert ? (
-        <AlertMessage
-          visible={alert}
-          setmodalVisible={(val) => setAlert(val)}
-          mainMessage={successMessage}
-        />
-      ) : null}
-      {erroralert ? (
-        <AlertMessage
-          visible={erroralert}
-          setmodalVisible={(val) => seterrorAlert(val)}
-          mainMessage={mainMsg}
-          onPressDone={() => onPressDone()}
-          innerRoute={true}
-        />
-      ) : null}
     </View>
   );
 };
