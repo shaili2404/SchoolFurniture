@@ -58,9 +58,9 @@ export const AddFurRequestScreen = () => {
 
   useEffect(() => {
     if (route?.params?.task) {
-      const { task, item, flatListData } = route?.params
+      const { task, item, flatListData } = route?.params;
       setLoader(true);
-      getStockList(item?.category_id, item)
+      getStockList(item?.category_id, item);
       setWay(task);
       setSelectedItem(item);
       setEditItem(item);
@@ -68,6 +68,7 @@ export const AddFurRequestScreen = () => {
       setLoader(false);
     } else {
       getCategoriesList();
+      setPrevData(route?.params?.flatListData);
     }
   }, [route]);
 
@@ -80,37 +81,36 @@ export const AddFurRequestScreen = () => {
     obj.category_id = item.category_id;
     obj.category_name = item.category_name;
     obj.item_name = item.item_name;
-    obj.item_id = item.item_id
-    obj.count = item.count
+    obj.item_id = item.item_id;
+    obj.count = item.count;
     setFinalList([obj]);
-  }
+  };
 
   const setItemValue = (item, task) => {
     let obj = {};
     obj.category_id = item.category_id;
     obj.category_name = item.category_name;
-    obj.item_name = task == 'Edit' ? item.item_name : item.name;
-    obj.item_id = task == 'Edit' ? item.item_id : item.id;
-    obj.count = task == 'Edit' ? item.count : 1;
+    obj.item_name = task == "Edit" ? item.item_name : item.name;
+    obj.item_id = task == "Edit" ? item.item_id : item.id;
+    obj.count = task == "Edit" ? item.count : 1;
 
-    if (way == 'Edit') {
+    if (way == "Edit") {
       finalList.find(function (post, index) {
         if (post.category_id == obj.category_id) {
-          setFinalList([obj])
+          setFinalList([obj]);
         }
       });
     }
 
     var found = finalList.find(function (post, index) {
-      if (post.item_id == obj.item_id)
-        return true;
+      if (post.item_id == obj.item_id) return true;
     });
 
-    if (found == undefined && way !== 'Edit') {
-      setFinalList((prevState) => [...prevState, obj])
-    } else if (found !== undefined && way !== 'Edit') {
+    if (found == undefined && way !== "Edit") {
+      setFinalList((prevState) => [...prevState, obj]);
+    } else if (found !== undefined && way !== "Edit") {
       found.count += 1;
-      setFinalList((prevState) => [...prevState])
+      setFinalList((prevState) => [...prevState]);
     }
   };
 
@@ -153,10 +153,38 @@ export const AddFurRequestScreen = () => {
 
   const onPressNext = () => {
     if (way !== "Edit") {
-      navigation.navigate("FurnitureReplacmentProcess", finalList)
+      if (prevData && prevData.length > 0) {
+        const result1 = prevData.filter(
+          ({ item_id: id1 }) =>
+            !finalList.some(({ item_id: id2 }) => id2 === id1)
+        );
+        const result2 = finalList.filter(
+          ({ item_id: id1 }) =>
+            !prevData.some(({ item_id: id2 }) => id2 === id1)
+        );
+        const result3 = finalList.filter(({ item_id: id1 }) =>
+          prevData.some(({ item_id: id2 }) => id2 === id1)
+        );
+
+        const newList = [...result1, ...result2, ...result3];
+
+        navigation.navigate("FurnitureReplacmentProcess", {
+          finalList: newList,
+          screen: route?.params?.screen,
+          id: route?.params?.id,
+        });
+      } else {
+        navigation.navigate("FurnitureReplacmentProcess", {
+          finalList: finalList,
+          screen: route?.params?.screen,
+          id: route?.params?.id,
+        });
+      }
     } else {
       prevData.find(function (post, index) {
-        if (post.item_id == selectedItem?.item_id) {
+        if (post?.item_id == selectedItem?.item_id) {
+          console.log("176", post.item_id == selectedItem?.item_id);
+          console.log("177", finalList);
           post.category_id = finalList[0].category_id;
           post.category_name = finalList[0].category_name;
           post.item_name = finalList[0].item_name;
@@ -164,15 +192,19 @@ export const AddFurRequestScreen = () => {
           post.count = finalList[0].count;
         }
       });
-      navigation.navigate("FurnitureReplacmentProcess", prevData)
+
+      navigation.navigate("FurnitureReplacmentProcess", {
+        finalList: prevData,
+        screen: route?.params?.screen,
+        id: route?.params?.id,
+      });
     }
-  }
-  
+  };
+
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={style.mainView}>
-      
       <View style={style.subview}>
         <Text style={style.createNewStyle}>
           {way == "Edit" ? constants.Editreq : constants.createNewReq}
@@ -180,50 +212,50 @@ export const AddFurRequestScreen = () => {
         <TouchableOpacity
           style={style.crossImg}
           onPress={() => {
-            way == 'Edit'
-              ? navigation.navigate("FurnitureReplacmentProcess",prevData)
-              : navigation.navigate("Furniture Replacment");
+            way == "Edit"
+              ? navigation.navigate("FurnitureReplacmentProcess", prevData)
+              : navigation.navigate("FurnitureReplacmentProcess");
           }}
         >
           <Image source={Images.closeimage} />
         </TouchableOpacity>
       </View>
-     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={style.container}>
-        <Dropdown
-          label={
-            way == "Edit" ? finalList[0]?.category_name : constants.FurCategory
-          }
-          data={way == "Edit" ? finalList[0]?.category_name : dataList}
-          onSelect={setCategoryValue}
-          task="name"
-          way={way}
-          identify="dropdownA"
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={style.container}>
+          <Dropdown
+            label={
+              way == "Edit"
+                ? finalList[0]?.category_name
+                : constants.FurCategory
+            }
+            data={way == "Edit" ? finalList[0]?.category_name : dataList}
+            onSelect={setCategoryValue}
+            task="name"
+            way={way}
+            identify="dropdownA"
+          />
+        </View>
+        <View style={style.container}>
+          <Dropdown
+            label={way == "Edit" ? finalList[0]?.item_name : constants.furItem}
+            data={categoryItemList}
+            onSelect={setItemValue}
+            task="name"
+            way={way}
+            identify="dropdownB"
+            selectedItem={selectedItem?.item_id}
+          />
+        </View>
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={finalList}
+          renderItem={rendercomponent}
         />
-      </View>
-      <View style={style.container}>
-        <Dropdown
-          label={way == "Edit" ? finalList[0]?.item_name : constants.furItem}
-          data={categoryItemList}
-          onSelect={setItemValue}
-          task="name"
-          way={way}
-          identify="dropdownB"
-          selectedItem={selectedItem?.item_id}
-        />
-      </View>
-      <FlatList
-        keyExtractor={(item) => item.id}
-        data={finalList}
-        renderItem={rendercomponent}
-      />
-      <View style={{height: 70}}/>
+        <View style={{ height: 70 }} />
       </ScrollView>
 
       <View style={style.backContainer}>
-        <TouchableOpacity
-          onPress={onPressNext}
-        >
+        <TouchableOpacity onPress={onPressNext}>
           <LinearGradient
             colors={[COLORS.LinearBox, COLORS.GreenBox]}
             start={{ x: 1, y: 1 }}

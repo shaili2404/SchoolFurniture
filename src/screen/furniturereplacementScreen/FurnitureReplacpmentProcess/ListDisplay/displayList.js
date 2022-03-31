@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 import { AlertMessage } from "../../../../Alert/alert";
 import COLORS from "../../../../asset/color";
@@ -14,8 +15,6 @@ import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
-import { RFValue } from "react-native-responsive-fontsize";
-import { STANDARD_SCREEN_SIZE } from "../../../../utils/constants";
 import { RfH, RfW } from "../../../../utils/helpers";
 
 export const DisplayList = ({
@@ -27,22 +26,24 @@ export const DisplayList = ({
   permissionId,
   organization,
   onDeleteFurItem,
-  flatListData
+  flatListData,
+  onSubmitDetails
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
-  const [previousData,setPreviousData]=useState([])
+  const [previousData, setPreviousData] = useState([]);
 
   const onchangeInp = (val) => {
     flatListData.map((element) => {
       if (element.id === item.id) {
-        element.collected_count = val;
+        element.confirm_count = val;
       }
     });
-    setPreviousData(flatListData)
+    setPreviousData(flatListData);
+    onSubmitDetails(previousData)
   };
   const onDelete = (item) => {
     if (organization == "School") {
@@ -54,38 +55,42 @@ export const DisplayList = ({
 
   return (
     <SafeAreaView style={Styles.firstView}>
-      <View style={Styles.mainView}>
-        {tableKey.map((val, index) => (
-          <View key={val} style={Styles.viewStyle} key={index}>
-            {val === "collectionCount" ? (
-              <TextInput
-                placeholder={constants.Enterval}
-                placeholderTextColor={COLORS.Black}
-                style={Styles.inputStyles}
-                onChangeText={(val) => onchangeInp(val)}
-              />
-            ) : (
-              <Text style={Styles.textStyle}>{item[val]}</Text>
-            )}
-          </View>
-        ))}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "android" ? "position" : null}
+        keyboardVerticalOffset={0}
+      >
+        <View style={Styles.mainView}>
+          {tableKey.map((val, index) => (
+            <View key={val} style={Styles.viewStyle} key={index}>
+              {val === "collectionCount" ? (
+                <TextInput
+                  placeholder={constants.Enterval}
+                  placeholderTextColor={COLORS.Black}
+                  style={Styles.inputStyles}
+                  onChangeText={(val) => onchangeInp(val)}
+                />
+              ) : (
+                <Text style={Styles.textStyle}>{item[val]}</Text>
+              )}
+            </View>
+          ))}
 
-        {permissionId.userEdit && (
-          <View style={Styles.viewsssStyle}>
-            <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
-              <Image source={Images.editIcon} />
-            </TouchableOpacity>
-          </View>
-        )}
-        {permissionId.userDelete && (
-          <View style={Styles.viewsssStyle}>
-            <TouchableOpacity onPress={() => onDelete(item)}>
-              <Image source={Images.deleteIcon} />
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-
+          {permissionId.userEdit && (
+            <View style={Styles.viewsssStyle}>
+              <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
+                <Image source={Images.editIcon} />
+              </TouchableOpacity>
+            </View>
+          )}
+          {permissionId.userDelete && (
+            <View style={Styles.viewsssStyle}>
+              <TouchableOpacity onPress={() => onDelete(item)}>
+                <Image source={Images.deleteIcon} />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </KeyboardAvoidingView>
       {userModal ? (
         <AddUserModal
           visible={userModal}
@@ -121,7 +126,7 @@ export const DisplayList = ({
 const Styles = StyleSheet.create({
   textStyle: {
     fontFamily: Fonts.regular,
-    fontSize: RFValue(14, STANDARD_SCREEN_SIZE),
+    fontSize: 14,
     color: COLORS.Black,
     textAlign: "left",
     textAlignVertical: "center",
@@ -129,17 +134,17 @@ const Styles = StyleSheet.create({
   mainView: {
     flexDirection: "row",
     width: "100%",
-    height: RfH(50),
+    height:50,
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
-    height: RfH(56),
+    height: 56,
     borderBottomColor: COLORS.Black,
     borderBottomWidth: 0.4,
   },
   viewStyle: {
     width: RfW(180),
-   alignSelf:'center',
+    alignSelf: "center",
     marginHorizontal: 20,
   },
   viewsssStyle: {
@@ -153,8 +158,8 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputStyles: {
-    height: RfH(30),
+    height:35,
     backgroundColor: COLORS.White,
-    width: RfW(140),
+    width: 140,
   },
 });

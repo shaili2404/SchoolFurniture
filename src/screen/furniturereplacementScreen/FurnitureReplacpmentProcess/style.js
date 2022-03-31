@@ -23,6 +23,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.LightGreen,
     alignSelf: "center",
     justifyContent: "center",
+    height: 62,
   },
   furText: {
     color: COLORS.ThemeGreen,
@@ -67,16 +68,56 @@ export default StyleSheet.create({
     backgroundColor: COLORS.White,
     alignSelf: "flex-end",
     position: "absolute",
-    top: RfH(300),
-    right: RfW(50),
+    bottom: 10,
+    right: RfW(40),
     borderWidth: 1,
     borderStyle: "dashed",
-    width: RfW(100),
-    height: RfH(30),
+    width: RfW(124),
+    height: RfH(54),
     justifyContent: "center",
   },
-  photoText: { 
-   textAlign: "center",
-   textDecorationLine: "underline" 
+  addplusView: {
+    backgroundColor: COLORS.White,
+    alignSelf: "flex-end",
+    position: "absolute",
+    bottom: 2,
+    right: RfW(20),
+    width: RfW(124),
+    height: RfH(54),
+    justifyContent: "center",
   },
+  photoText: {
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  responsiveHiegth: { height: 230 },
+  photoText: {
+    textAlign: "center",
+    textDecorationLine: "underline"
+  },
+  uploadedView: {
+    backgroundColor: COLORS.White,
+    alignSelf: "flex-end",
+    position: "absolute",
+    bottom: 10,
+    right: RfW(40),
+    width: RfW(124),
+    height: RfH(54),
+    justifyContent: "center",
+    flexDirection:'row'
+  },
+  uploadedText: {
+    fontSize: 14,
+    padding: 2
+  },
+  viewAllText: {
+    color: COLORS.blue,
+    left: RfW(10),
+    fontSize: 12,
+    textDecorationLine: 'underline',
+    top: 8
+  },
+  noOfPhoto: {
+    flexDirection: 'column'
+  }
 });

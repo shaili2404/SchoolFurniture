@@ -8,7 +8,6 @@ import AppStack from './src/routes';
 import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import { setBasseUrl } from './src/redux/configration';
-import { StockItems } from './src/screen/Manufacturer/maintenance/StockMaintenance/stockItems/StockItems';
 
 const App = () => {
 
@@ -19,10 +18,10 @@ const App = () => {
     setBasseUrl();
   }, [])
 
-  useEffect(() => {
-    LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-    LogBox.ignoreAllLogs();//Ignore all log notifications
-  })
+  // useEffect(() => {
+  //   LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  //   LogBox.ignoreAllLogs();//Ignore all log notifications
+  // })
 
 
   return (

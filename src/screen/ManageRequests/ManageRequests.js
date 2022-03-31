@@ -22,11 +22,12 @@ import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman"
 import Loader from "../../component/loader";
 import AlertText from "../../Alert/AlertText";
 import DatePicker from "react-native-date-picker";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation,useIsFocused } from "@react-navigation/core";
 
 const PAGESIZE = 10;
 
 export const ManageRequests = () => {
+  const isFocused = useIsFocused()
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
   const [loader, setLoader] = useState(true);
@@ -138,10 +139,10 @@ export const ManageRequests = () => {
   };
 
    // Edit Functionality
-   const onEdit = (item, task) => {
-    let data = {item,task}
+   const onEdit = (task) => {
+    let data = task
     console.log("dddd",data)
-    navigation.navigate('AddRequestFur',(data))
+     navigation.navigate('FurnitureReplacmentProcess',{items:data,task:'MangeRequest'})
   };
 
   const initialPagination = (list) => {
@@ -220,7 +221,7 @@ export const ManageRequests = () => {
 
   useEffect(() => {
     apicall();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (listData) setLoader(false);

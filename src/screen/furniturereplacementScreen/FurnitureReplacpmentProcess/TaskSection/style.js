@@ -6,11 +6,12 @@ const height = Dimensions.get('window').height;
 export default StyleSheet.create({
     mainView:{
         backgroundColor:COLORS.LightGreen,
-        paddingVertical:'2%',
+        paddingVertical:'3%',
         flexDirection:'row',
         width:'90%',
         justifyContent:'space-between',
         alignSelf:'center',
+        height:62
     },
     textView:{
        fontWeight:'500',
