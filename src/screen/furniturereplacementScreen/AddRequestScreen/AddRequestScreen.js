@@ -154,27 +154,37 @@ export const AddFurRequestScreen = () => {
   const onPressNext = () => {
     if (way !== "Edit") {
       if (prevData && prevData.length > 0) {
+        const result1 = prevData.filter(
+          ({ item_id: id1 }) =>
+            !finalList.some(({ item_id: id2 }) => id2 === id1)
+        );
+        const result2 = finalList.filter(
+          ({ item_id: id1 }) =>
+            !prevData.some(({ item_id: id2 }) => id2 === id1)
+        );
+        const result3 = finalList.filter(({ item_id: id1 }) =>
+          prevData.some(({ item_id: id2 }) => id2 === id1)
+        );
 
-        const result1 = prevData.filter(({ item_id: id1 }) => !finalList.some(({ item_id: id2 }) => id2 === id1));
-        const result2 = finalList.filter(({ item_id: id1 }) => !prevData.some(({ item_id: id2 }) => id2 === id1));
-        const result3 = finalList.filter(({ item_id: id1 }) => prevData.some(({ item_id: id2 }) => id2 === id1));
-
-        const newList = [...result1,...result2,...result3]
+        const newList = [...result1, ...result2, ...result3];
 
         navigation.navigate("FurnitureReplacmentProcess", {
           finalList: newList,
+          screen: route?.params?.screen,
+          id: route?.params?.id,
         });
-
       } else {
         navigation.navigate("FurnitureReplacmentProcess", {
           finalList: finalList,
+          screen: route?.params?.screen,
+          id: route?.params?.id,
         });
       }
     } else {
       prevData.find(function (post, index) {
         if (post?.item_id == selectedItem?.item_id) {
-          console.log('176',post.item_id == selectedItem?.item_id)
-          console.log('177',finalList)
+          console.log("176", post.item_id == selectedItem?.item_id);
+          console.log("177", finalList);
           post.category_id = finalList[0].category_id;
           post.category_name = finalList[0].category_name;
           post.item_name = finalList[0].item_name;

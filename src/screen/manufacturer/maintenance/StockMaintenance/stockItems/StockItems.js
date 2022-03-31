@@ -23,7 +23,6 @@ import endUrl from "../../../../../redux/configration/endUrl";
 import style from "./style";
 import { useSelector } from "react-redux";
 
-
 const tableHeader = [constants.categories, constants.Items, constants.manage];
 
 const PAGESIZE = 4;
@@ -58,23 +57,26 @@ export const StockItems = () => {
   });
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions
-    let userCreate = false, userEdit = false, userDlt = false;
+    const arr = loginData?.user?.data?.data?.permissions;
+    let userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 18) {
-        userCreate = true
-      } if (input.id === 19) {
-        userEdit = true
-      } if (input.id === 20) {
-        userDlt = true
+        userCreate = true;
       }
-    })
+      if (input.id === 19) {
+        userEdit = true;
+      }
+      if (input.id === 20) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
-
+    });
   }, []);
 
   const renderComponent = ({ item }) => {
@@ -123,7 +125,18 @@ export const StockItems = () => {
         setStockCategoryName("");
       })
       .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
         setLoader(false);
+        setAlert(true);
+        {
+          let str = "";
+          status == 422
+            ? Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setSuccessMessage(str);
+              })
+            : setSuccessMessage(message);
+        }
       });
   };
   const onAdd = () => {
@@ -135,15 +148,26 @@ export const StockItems = () => {
     axios
       .post(`${endUrl.stockitemList}`, data)
       .then((res) => {
-        setAlert(true);
         getStockList();
         setLoader(false);
         setSelected({});
         setStockCategoryName("");
+        setAlert(true);
         setSuccessMessage(res?.data?.message);
       })
       .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
         setLoader(false);
+        setAlert(true);
+        {
+          let str = "";
+          status == 422
+            ? Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setSuccessMessage(str);
+              })
+            : setSuccessMessage(message);
+        }
       });
   };
 
@@ -188,9 +212,19 @@ export const StockItems = () => {
         setLoader(false);
       })
       .catch((e) => {
-        let errorMsg = e?.response?.data?.message;
-        setLoader(false);
-        setErrorMessage(errorMsg);
+        {
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
+        
+          {
+            let str = "";
+            status == 422 ?
+              Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setErrorMessage(str);
+              }) :
+              setErrorMessage(message);
+          }}
       });
   };
 
@@ -345,8 +379,7 @@ export const StockItems = () => {
           style={style.listStyle}
           data={categoryList
             .sort((a, b) => a.category_name.localeCompare(b.category_name))
-            .slice(pagination.startIndex, pagination.endIndex)
-          }
+            .slice(pagination.startIndex, pagination.endIndex)}
           keyExtractor={(item) => item.id}
           renderItem={renderComponent}
           showsVerticalScrollIndicator={false}

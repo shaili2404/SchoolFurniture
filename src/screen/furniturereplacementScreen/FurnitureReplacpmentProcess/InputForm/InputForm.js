@@ -24,8 +24,12 @@ export const InputForm = ({
   const [inputValues, setInputValues] = useState("");
 
   const onValueChange = (val) => {
-    setInputValues(val);
-    onvalueEdit(val)
+    if (val <= 0) {
+      setInputValues("");
+    } else {
+      setInputValues(val);
+      onvalueEdit(val);
+    }
   };
 
   return (

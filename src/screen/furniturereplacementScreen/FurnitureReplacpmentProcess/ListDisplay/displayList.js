@@ -15,8 +15,6 @@ import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
-import { RFValue } from "react-native-responsive-fontsize";
-import { STANDARD_SCREEN_SIZE } from "../../../../utils/constants";
 import { RfH, RfW } from "../../../../utils/helpers";
 
 export const DisplayList = ({
@@ -29,6 +27,7 @@ export const DisplayList = ({
   organization,
   onDeleteFurItem,
   flatListData,
+  onSubmitDetails
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -40,10 +39,11 @@ export const DisplayList = ({
   const onchangeInp = (val) => {
     flatListData.map((element) => {
       if (element.id === item.id) {
-        element.collected_count = val;
+        element.confirm_count = val;
       }
     });
     setPreviousData(flatListData);
+    onSubmitDetails(previousData)
   };
   const onDelete = (item) => {
     if (organization == "School") {
@@ -143,7 +143,7 @@ const Styles = StyleSheet.create({
     borderBottomWidth: 0.4,
   },
   viewStyle: {
-    width: 180,
+    width: RfW(180),
     alignSelf: "center",
     marginHorizontal: 20,
   },

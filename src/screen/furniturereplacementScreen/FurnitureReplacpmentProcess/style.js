@@ -99,12 +99,12 @@ export default StyleSheet.create({
     backgroundColor: COLORS.White,
     alignSelf: "flex-end",
     position: "absolute",
-    top: RfH(300),
-    right: RfW(50),
-    width: RfW(100),
-    height: RfH(30),
+    bottom: 10,
+    right: RfW(40),
+    width: RfW(124),
+    height: RfH(54),
     justifyContent: "center",
-    flexDirection: 'row'
+    flexDirection:'row'
   },
   uploadedText: {
     fontSize: 14,
