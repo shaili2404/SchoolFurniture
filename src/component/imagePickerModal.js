@@ -20,11 +20,13 @@ const ImagePickerModal = (props) => {
     const [selectedImg, setSelectedImg] = useState([]);
     const [hideModal, setHideModal] = useState(false);
     const [imgData, setImgData] = useState([]);
+    const [getResource, setGetResource] = useState("");
 
     openImageGallery = () => {
         ImagePicker.openPicker({
             multiple: true
         }).then(images => {
+            setGetResource('Gallery')
             setSelectedImg(images)
             setViewImage(true);
             setHideModal(true);
@@ -37,6 +39,7 @@ const ImagePickerModal = (props) => {
             height: 400,
             // cropping: true,
         }).then(image => {
+            setGetResource('Camera')
             setSelectedImg(image)
             setViewImage(true);
             setHideModal(true);
@@ -85,6 +88,7 @@ const ImagePickerModal = (props) => {
                     onConfirm={(data) => { onConfirm(data) }}
                     onBack={(getPrevImgData) => onBack(getPrevImgData)}
                     prevImgData={imgData}
+                    getResource={getResource}
                 />
                 : null}
         </Modal>

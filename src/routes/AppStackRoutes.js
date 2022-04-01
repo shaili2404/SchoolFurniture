@@ -305,9 +305,9 @@ const AppStack = (props) => {
         />
       </>
       <Stack.Screen
-          name={NavigationRouteNames.MANAGEREQUESTS}
-          component={ManageRequestsDrawerStack}
-          options={{ headerShown: false }}
+        name={NavigationRouteNames.MANAGEREQUESTS}
+        component={ManageRequestsDrawerStack}
+        options={{ headerShown: false }}
       />
       {/* ) : (
         SwitchNavigation("Manufacturer")

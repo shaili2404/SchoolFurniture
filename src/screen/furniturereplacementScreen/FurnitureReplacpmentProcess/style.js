@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Platform } from "react-native";
 import COLORS from "../../../asset/color";
 import { RFValue } from "react-native-responsive-fontsize";
 import { RfW, RfH } from "../../../utils/helpers";
@@ -104,7 +104,8 @@ export default StyleSheet.create({
     width: RfW(124),
     height: RfH(54),
     justifyContent: "center",
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderColor: '#fff',
   },
   uploadedText: {
     fontSize: 14,
