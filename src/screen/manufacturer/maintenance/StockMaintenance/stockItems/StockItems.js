@@ -212,17 +212,9 @@ export const StockItems = () => {
         setLoader(false);
       })
       .catch((e) => {
-        let { message, data, status } = e?.response?.data || {};
+        let errorMsg = e?.response?.data?.message;
         setLoader(false);
-        {
-          let str = "";
-          status == 422 ?
-            Object.values(data).forEach((value) => {
-              str += `  ${value}`;
-              setErrorMessage(str);
-            }) :
-            setErrorMessage(message);
-        }
+        setErrorMessage(errorMsg);
       });
   };
 
