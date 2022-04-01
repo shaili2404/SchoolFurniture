@@ -23,8 +23,10 @@ const ImagePickerModal = (props) => {
 
     openImageGallery = () => {
         ImagePicker.openPicker({
+            includeBase64:true,
             multiple: true
         }).then(images => {
+            console.log('images',images[0].data)
             setSelectedImg(images)
             setViewImage(true);
             setHideModal(true);
