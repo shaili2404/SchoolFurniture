@@ -89,6 +89,7 @@ export const FurnitureReplacmentProcess = () => {
     ref_number,
   } = organization == "School" ? "" : route?.params;
 
+
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
     setPermissionId({
@@ -116,7 +117,6 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     setFlatListData(broken_items);
-    console.log('119',tableKey,tableHeader)
     setLoader(false);
   };
   const onPendingRepair = () => {
@@ -129,7 +129,6 @@ export const FurnitureReplacmentProcess = () => {
     setTableKey((oldData) => [...oldData, "reparableitem"]);
     setTableKey((oldData) => [...oldData, "replanishitem"]);
     setlenofContent("More");
-    console.log('131',tableKey,tableHeader)
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -179,7 +178,7 @@ export const FurnitureReplacmentProcess = () => {
         onEdit={(item, task) => onEdit(item, task)}
         flatListData={flatListData}
         onSubmitDetails={(data) => setConfirmCollectedCount(data)}
-        pageStatus = {taskofPage}
+        pageStatus={taskofPage}
       />
     );
   };
@@ -198,6 +197,7 @@ export const FurnitureReplacmentProcess = () => {
         route?.params?.screen == "MangeRequest"
           ? route?.params?.id
           : route?.params?.items?.id,
+    
     });
   };
 
@@ -248,11 +248,9 @@ export const FurnitureReplacmentProcess = () => {
     setAlert(false);
     if (organization == "School") {
       onschoolreqSubmit();
-    }
-    else if (taskofPage == "Pending Collection") {
+    } else if (taskofPage == "Pending Collection") {
       onSubmitcollectionRequest();
-    } 
-    else if (taskofPage == "Collection Accepted") {
+    } else if (taskofPage == "Collection Accepted") {
       onSubmitcollectionRequest();
     }
   };
@@ -264,33 +262,33 @@ export const FurnitureReplacmentProcess = () => {
     confirmCollectedCount.map((ele) => {
       obj[ele?.id] = ele?.confirm_count;
     });
-    console.log("262", obj);
-     const form = new FormData();
 
-    form.append("images", {
-      uri: imgData[0].sourceURL,
-      type: imgData[0].mime,
-      name: imgData[0].filename,
-    });
-    form.append("confirm_count", obj);
-    form.append("ref_number", ref_number);
+    //  const form = new FormData();
 
-    console.log('277',JSON.stringify(form))
+    // form.append("images", {
+    //   uri: imgData[0].sourceURL,
+    //   type: imgData[0].mime,
+    //   name: imgData[0].filename,
+    // });
+    // form.append("images",imgData)
+    // form.append("confirm_count", Number(obj));
+    // form.append("ref_number", ref_number);
 
-
+    const a = []
+    a.push(imgData)
 
     const data = {
       ref_number: ref_number,
-      confirm_count: {7: 21, 8: 21} ,
-      // images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
+      confirm_count: obj,
+      //  images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
+       images: a,
     };
-    console.log(data)
+    console.log('286',data?.images)
+    axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
+    axios.defaults.headers.common["Content-Type"] = "application/json";
 
-    // axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
-    // axios.defaults.headers.common["Content-Type"] = "application/json";
-   
     axios
-      .post(`${endUrl.acceptCollectionReuest}`,form)
+      .post(`${endUrl.acceptCollectionReuest}`, data)
       .then((res) => {
         setSuccessAlert(true);
         setLoader(false);
@@ -307,7 +305,6 @@ export const FurnitureReplacmentProcess = () => {
       total_furniture: totalFurCount,
       broken_items: flatListData,
     };
-    console.log("301", route?.params?.screen, route?.params?.task);
     if (
       route?.params?.screen == "MangeRequest" ||
       route?.params?.task == "MangeRequest"
@@ -325,7 +322,6 @@ export const FurnitureReplacmentProcess = () => {
           setSuccessAlert(true);
           setLoader(false);
           setMainMsg(res?.data?.message);
-          console.log("232", res?.data?.message);
         })
         .catch((e) => {
           ErrorApi(e);
@@ -439,7 +435,6 @@ export const FurnitureReplacmentProcess = () => {
         directory: "docs",
       };
       let file = await reactNativeHtmlToPdf.convert(options);
-      console.log(file.filePath);
       setFilePath(file.filePath);
     }
   };
@@ -474,9 +469,10 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   useEffect(() => {
-    confirmCollectedCount.length > 0 && imgData.length > 0
-      ? setSaveButton(false)
-      : setSaveButton(true);
+    // confirmCollectedCount.length > 0 && imgData.length > 0
+    //   ? setSaveButton(false)
+    //   :
+    setSaveButton(false);
   }, [confirmCollectedCount, imgData]);
 
   return loader ? (
@@ -577,8 +573,7 @@ export const FurnitureReplacmentProcess = () => {
             taskNamePrintButoonValue={taskListButtonValue}
             printPickupPress={() => printPickupbutpress()}
           />
-
-          {/* <Text style={styles.textStyle}>{filePath}</Text> */}
+          {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null}
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
@@ -597,7 +592,6 @@ export const FurnitureReplacmentProcess = () => {
         <FooterFur
           saveButton={saveButton}
           submitButton={submitButton}
-          
           onCancel={onCancel}
           onSave={onSave}
           onSubmit={onSubmit}

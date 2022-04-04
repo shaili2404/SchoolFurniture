@@ -119,5 +119,12 @@ export default StyleSheet.create({
   },
   noOfPhoto: {
     flexDirection: 'column'
-  }
+  },
+  textStyle: {
+    fontSize: 10,
+    padding: 10,
+    color: COLORS.ThemeGreen,
+    textAlign: 'center',
+  },
+  
 });

@@ -19,14 +19,16 @@ const ImagePickerModal = (props) => {
     const { imageModal, setmodalVisible, onConfirm } = props;
     const [viewImage, setViewImage] = useState(false);
     const [selectedImg, setSelectedImg] = useState([]);
+    const [newImg,setNewImg]= useState([]);
     const [hideModal, setHideModal] = useState(false);
     const [imgData, setImgData] = useState([]);
 
   function dataURLtoFile(dataurl, filename) {
-      console.log('25',dataurl,filename)
-var arr = dataurl.split(','),
- mime = arr[0].match(/:(.*?);/),
-bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+var arr = dataurl.split(',')
+var mime = arr[0].split(/:(.*?);/)
+var bstr = atob(arr[0])
+var n = bstr.length 
+ var u8arr = new Uint8Array(n);
     while(n--){
         u8arr[n] = bstr.charCodeAt(n);
     }
@@ -38,9 +40,8 @@ bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
             includeBase64:true,
             multiple: true
         }).then(images => {
-            console.log('images',images[0].data)
-           var file = dataURLtoFile(images[0].data,images.filename);
-          console.log(file);
+           var file = dataURLtoFile(images[0].data,images[0].filename);
+            setNewImg(file);
             setSelectedImg(images)
             setViewImage(true);
             setHideModal(true);
@@ -98,6 +99,7 @@ bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
                     imageModal={viewImage}
                     setmodalVisible={(val) => setViewImage(val)}
                     selectedImg={selectedImg}
+                    newImg={newImg}
                     onConfirm={(data) => { onConfirm(data) }}
                     onBack={(getPrevImgData) => onBack(getPrevImgData)}
                     prevImgData={imgData}

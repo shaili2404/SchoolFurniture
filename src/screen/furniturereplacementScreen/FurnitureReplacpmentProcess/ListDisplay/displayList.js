@@ -16,6 +16,7 @@ import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
 import { RfH, RfW } from "../../../../utils/helpers";
+import style from "../style";
 
 export const DisplayList = ({
   item,

@@ -14,18 +14,18 @@ import Images from "../asset/images";
 import constants from "../locales/constants";
 
 const ShowImage = (props) => {
-    const { imageModal, selectedImg, onConfirm, onBack, prevImgData } = props;
+    const { imageModal, selectedImg, onConfirm, onBack, prevImgData,newImg } = props;
     const [newList, setnewList] = useState([]);
 
     useEffect(() => {
         if (prevImgData && prevImgData.length > 0) {
-            const newArr = [...prevImgData, ...selectedImg];
+             const newArr = [...prevImgData, ...selectedImg];
             let map = new Map();
             newArr.forEach(eachObj => map.set(eachObj.filename, eachObj));
             const uniqueArr = Array.from(map.values());
             setnewList(uniqueArr);
         } else {
-            setnewList(selectedImg);
+             setnewList(selectedImg);
         }
     }, [selectedImg]);
 
@@ -64,7 +64,7 @@ const ShowImage = (props) => {
                         >
                             <Text style={styles.noText}>{constants.Back}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.yesView} onPress={() => onConfirm(newList)}>
+                        <TouchableOpacity style={styles.yesView} onPress={() => onConfirm(newImg)}>
                             <Text style={styles.yesText}>{constants.nextText}</Text>
                         </TouchableOpacity>
                     </View>
