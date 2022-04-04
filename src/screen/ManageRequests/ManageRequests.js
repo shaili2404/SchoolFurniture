@@ -38,6 +38,9 @@ export const ManageRequests = () => {
   const [close, setCLose] = useState(false);
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
+  const [searchStatus, setSearchStatus] = useState(true);
+  const [dateErrorMessage, setDateErrorMessage] = useState("");
+
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -193,7 +196,17 @@ export const ManageRequests = () => {
     setLoader(false);
   };
 
+  useEffect (()=>{
+    if (startDate.getTime() > endData.getTime()){
+      setDateErrorMessage(AlertText.DateError)
+    }
+    else{
+      setDateErrorMessage('')
+    }
+   },[startDate,endData])
+
   const onsearch = () => {
+    setSearchStatus(false);
     let strtDte = `${startDate?.getFullYear()}-${startDate?.getMonth()+1}-${startDate?.getDate()}`;
     let endDte = `${endData?.getFullYear()}-${endData?.getMonth()+1}-${endData.getDate()}`;
     let str = ''
@@ -211,9 +224,18 @@ export const ManageRequests = () => {
       .catch((e) => {
         setLoader(false);
         setErrorMessage(e?.response?.data?.message);
-        console.log("apicall", JSON.stringify(e?.response?.data?.message));
       });
   };
+  const onReset = () => {
+    setSearchStatus(true);
+    setSearchTask("");
+    setStartDateStatus(true);
+    setendDatestatus(true);
+    setDateErrorMessage('')
+    setErrorMessage(false)
+    
+  };
+
 
   const validation = (value) =>{
     return value == "" || value == undefined || value == null
@@ -308,15 +330,19 @@ export const ManageRequests = () => {
             />
           </TouchableOpacity>
         </View>
-
+        {dateErrorMessage ? (
+          <View style={styles.dateerrorView}>
+            <Text style={styles.DateerrormessStyle}>{dateErrorMessage}</Text>
+          </View>
+          ):null}
   
       </View>
       <View style={styles.buttonView}>
         <TouchableOpacity
           style={styles.buttonStyle}
-          onPress={()=> onsearch()}
+          onPress={searchStatus ? onsearch : onReset}
         >
-          <Text style={styles.buttonText}>{constants.search}</Text>
+          <Text style={styles.buttonText}> {searchStatus ? constants.search : constants.Reset}</Text>
         </TouchableOpacity>
       </View>
       </View>

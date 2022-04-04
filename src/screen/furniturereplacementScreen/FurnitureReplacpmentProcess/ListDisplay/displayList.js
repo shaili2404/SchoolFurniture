@@ -27,8 +27,10 @@ export const DisplayList = ({
   organization,
   onDeleteFurItem,
   flatListData,
-  onSubmitDetails
+  onSubmitDetails,
+  pageStatus,
 }) => {
+  console.log(pageStatus, tableKey);
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -43,7 +45,7 @@ export const DisplayList = ({
       }
     });
     setPreviousData(flatListData);
-    onSubmitDetails(previousData)
+    onSubmitDetails(previousData);
   };
   const onDelete = (item) => {
     if (organization == "School") {
@@ -62,15 +64,34 @@ export const DisplayList = ({
         <View style={Styles.mainView}>
           {tableKey.map((val, index) => (
             <View key={val} style={Styles.viewStyle} key={index}>
-              {val === "collectionCount" ? (
-                <TextInput
-                  placeholder={constants.Enterval}
-                  placeholderTextColor={COLORS.Black}
-                  style={Styles.inputStyles}
-                  onChangeText={(val) => onchangeInp(val)}
-                />
+              {pageStatus == "Pending Repairs" ? (
+                <>
+                  {val == "reparableitem" || val == "replanishitem" ? (
+                    <TextInput
+                      placeholder={val == 'replanishitem'?'': constants.Enterval}
+                      placeholderTextColor={COLORS.Black}
+                      style={Styles.inputStyles}
+                      onChangeText={(val) => onchangeInp(val)}
+                      value={item[val]}
+                      editable={val== 'replanishitem' ? false : true}
+                    />
+                  ) : (
+                    <Text style={Styles.textStyle}>{item[val]}</Text>
+                  )}
+                </>
               ) : (
-                <Text style={Styles.textStyle}>{item[val]}</Text>
+                <>
+                  {val == 'collectionCount' ? (
+                    <TextInput
+                      placeholder={constants.Enterval}
+                      placeholderTextColor={COLORS.Black}
+                      style={Styles.inputStyles}
+                      onChangeText={(val) => onchangeInp(val)}
+                    />
+                  ) : (
+                    <Text style={Styles.textStyle}>{item[val]}</Text>
+                  )}
+                </>
               )}
             </View>
           ))}
@@ -134,7 +155,7 @@ const Styles = StyleSheet.create({
   mainView: {
     flexDirection: "row",
     width: "100%",
-    height:50,
+    height: 50,
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
@@ -158,8 +179,13 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputStyles: {
-    height:35,
+    height: 35,
     backgroundColor: COLORS.White,
+    width: 140,
+  },
+  grayinputStyles: {
+    height: 35,
+    backgroundColor: COLORS.graybackground,
     width: 140,
   },
 });

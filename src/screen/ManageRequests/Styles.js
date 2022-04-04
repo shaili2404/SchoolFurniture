@@ -112,5 +112,15 @@ export default StyleSheet.create({
         color: COLORS.red,
         fontSize: 22
       },
+      DateerrormessStyle: {
+        marginLeft:'10%',
+          color: COLORS.red,
+          fontSize: 12,
+        },
+        dateerrorView: {
+          width: '100%',
+          alignContent: 'flex-start',
+          marginBottom:'2%'
+        },
 
 });

@@ -13,6 +13,7 @@ import Images from "../asset/images";
 import constants from "../locales/constants";
 import ImagePicker from 'react-native-image-crop-picker';
 import ShowImages from "../component/showImages";
+import {decode as atob, encode as btoa} from 'base-64'
 
 const ImagePickerModal = (props) => {
     const { imageModal, setmodalVisible, onConfirm } = props;
@@ -21,12 +22,25 @@ const ImagePickerModal = (props) => {
     const [hideModal, setHideModal] = useState(false);
     const [imgData, setImgData] = useState([]);
 
+  function dataURLtoFile(dataurl, filename) {
+      console.log('25',dataurl,filename)
+var arr = dataurl.split(','),
+ mime = arr[0].match(/:(.*?);/),
+bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+ }
+
     openImageGallery = () => {
         ImagePicker.openPicker({
             includeBase64:true,
             multiple: true
         }).then(images => {
             console.log('images',images[0].data)
+           var file = dataURLtoFile(images[0].data,images.filename);
+          console.log(file);
             setSelectedImg(images)
             setViewImage(true);
             setHideModal(true);

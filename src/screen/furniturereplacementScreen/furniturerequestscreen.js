@@ -93,7 +93,6 @@ export const FurnitureReplacmentManfacturer = () => {
       .catch((e) => {
         setLoader(false);
         setErrorMessage(e?.response?.data?.message);
-        console.log("apicall", JSON.stringify(e?.response?.data?.message));
       });
   };
 

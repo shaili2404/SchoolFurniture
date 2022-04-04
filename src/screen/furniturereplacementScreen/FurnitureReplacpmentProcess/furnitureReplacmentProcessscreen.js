@@ -116,26 +116,21 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     setFlatListData(broken_items);
+    console.log('119',tableKey,tableHeader)
     setLoader(false);
   };
   const onPendingRepair = () => {
-    console.log("hey");
     setCollectFurItem(constants.success);
     setRepairIcon(constants.inprogress);
-    setFlatListData(broken_items);
-    setTableHeader((oldData) => [
-      ...oldData,
-      constants.collectedcount,
-      constants.ReparableItem,
-      constants.ReplanishmentItems,
-    ]);
-    setTableKey((oldData) => [
-      ...oldData,
-      "collectionCount",
-      "reparableitem",
-      "replanishitem",
-    ]);
+    setTableHeader((oldData) => [...oldData, constants.collectedcount]);
+    setTableHeader((oldData) => [...oldData, constants.ReparableItem]);
+    setTableHeader((oldData) => [...oldData, constants.ReplanishmentItems]);
+    setTableKey((oldData) => [...oldData, "collectionCount"]);
+    setTableKey((oldData) => [...oldData, "reparableitem"]);
+    setTableKey((oldData) => [...oldData, "replanishitem"]);
     setlenofContent("More");
+    console.log('131',tableKey,tableHeader)
+    setFlatListData(broken_items);
     setLoader(false);
   };
 
@@ -184,6 +179,7 @@ export const FurnitureReplacmentProcess = () => {
         onEdit={(item, task) => onEdit(item, task)}
         flatListData={flatListData}
         onSubmitDetails={(data) => setConfirmCollectedCount(data)}
+        pageStatus = {taskofPage}
       />
     );
   };
@@ -252,7 +248,11 @@ export const FurnitureReplacmentProcess = () => {
     setAlert(false);
     if (organization == "School") {
       onschoolreqSubmit();
-    } else if (taskofPage == "Collection Accepted") {
+    }
+    else if (taskofPage == "Pending Collection") {
+      onSubmitcollectionRequest();
+    } 
+    else if (taskofPage == "Collection Accepted") {
       onSubmitcollectionRequest();
     }
   };
@@ -265,52 +265,40 @@ export const FurnitureReplacmentProcess = () => {
       obj[ele?.id] = ele?.confirm_count;
     });
     console.log("262", obj);
+     const form = new FormData();
 
-    var form = new FormData();
-    // imgData.forEach((file) => {
-    //   form.append(file);
-    // });
-
-    // form.append("foo", "bar");
-
-    // form.append(imgData);
-    // form.append("confirm_count", obj)
-    // form.append( "ref_number", ref_number)
-    // var object= property.value.elements;
-    //   var img = object.map(function (obj) {
-    //     return obj.id;
-    //   });
-    let value = [];
-    imgData.map((ele, index) => {
-      value.push(index, [ele]);
+    form.append("images", {
+      uri: imgData[0].sourceURL,
+      type: imgData[0].mime,
+      name: imgData[0].filename,
     });
+    form.append("confirm_count", obj);
+    form.append("ref_number", ref_number);
 
-    // const entries=Object.entries(imgData);
-    console.log("289", value);
-    // const data = {
-    //   ref_number: ref_number,
-    //   confirm_count: obj,
-    //   images: value,
-    // };
-    // const data = {
-    //   confirm_count: { 13: "21" },
-    //   images: ["0"={"filename": "IMG_0010.PNG"}],
-    //   ref_number: "123456789_300322_4",
-    // };
-    // console.log('img',data)
-    // console.log("263", data);
+    console.log('277',JSON.stringify(form))
+
+
+
+    const data = {
+      ref_number: ref_number,
+      confirm_count: {7: 21, 8: 21} ,
+      // images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
+    };
+    console.log(data)
+
     // axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
-
-    // axios
-    //   .post(`${endUrl.acceptCollectionReuest}`, data)
-    //   .then((res) => {
-    //     setSuccessAlert(true);
-    //     setLoader(false);
-    //     setMainMsg(res?.data?.message);
-    //   })
-    //   .catch((e) => {
-    //     ErrorApi(e);
-    //   });
+    // axios.defaults.headers.common["Content-Type"] = "application/json";
+   
+    axios
+      .post(`${endUrl.acceptCollectionReuest}`,form)
+      .then((res) => {
+        setSuccessAlert(true);
+        setLoader(false);
+        setMainMsg(res?.data?.message);
+      })
+      .catch((e) => {
+        ErrorApi(e);
+      });
   };
 
   const onschoolreqSubmit = async () => {
@@ -609,6 +597,7 @@ export const FurnitureReplacmentProcess = () => {
         <FooterFur
           saveButton={saveButton}
           submitButton={submitButton}
+          
           onCancel={onCancel}
           onSave={onSave}
           onSubmit={onSubmit}
