@@ -263,39 +263,64 @@ export const FurnitureReplacmentProcess = () => {
       obj[ele?.id] = ele?.confirm_count;
     });
 
-    //  const form = new FormData();
+    
 
-    // form.append("images", {
-    //   uri: imgData[0].sourceURL,
-    //   type: imgData[0].mime,
-    //   name: imgData[0].filename,
-    // });
-    // form.append("images",imgData)
-    // form.append("confirm_count", Number(obj));
-    // form.append("ref_number", ref_number);
+     const form = new FormData();
 
-    const a = []
-    a.push(imgData)
+    form.append("images", {
+      uri: imgData[0].sourceURL,
+      type: imgData[0].mime,
+      name: imgData[0].filename,
+    });
+    form.append("images",imgData)
+    form.append("confirm_count", Number(obj));
+    form.append("ref_number", ref_number);
 
-    const data = {
-      ref_number: ref_number,
-      confirm_count: obj,
-      //  images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
-       images: a,
-    };
-    console.log('286',data?.images)
-    axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
-    axios.defaults.headers.common["Content-Type"] = "application/json";
+    // const photo = {uri: imgData[0]?.sourceURL};
+    // const imageUri = photo.uri.replace('file://', '/private')
+    
+    // let imageData = {
+    //   uri: imageUri,
+    //   name: imgData[0]?.filename,
+    //   type: imgData[0]?.mime,
+    // };
 
-    axios
-      .post(`${endUrl.acceptCollectionReuest}`, data)
-      .then((res) => {
-        setSuccessAlert(true);
+    // console.log(imageData)
+
+    // const a = []
+    // a.push(imageData)
+
+    // const data = {
+    //   ref_number: ref_number,
+    //   confirm_count: obj,
+    //   //  images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
+    //    images: a,
+    // };
+    // console.log('286',data?.images)
+    // axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
+    
+
+  fetch(`https://furnitureapp.php-dev.in/api/${endUrl.acceptCollectionReuest}`, {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+   'Content-Type': 'multipart/form-data',
+   'token':`bearereyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDkxMzQxNDEsImV4cCI6MTY0OTEzNzc0MSwibmJmIjoxNjQ5MTM0MTQxLCJqdGkiOiJEa2xTQ2p5SDNydjA1dlVnIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.S2gUGR8_mj0Hx5EAQ9sHNFtnb2LNbrlxC-oumiHIhKs`
+  },
+  body: JSON.stringify({
+    form
+  })
+})
+.then((res) => {
+  console.log('314',res)
+        // setSuccessAlert(true);
         setLoader(false);
-        setMainMsg(res?.data?.message);
+        // setMainMsg(res?.data?.message);
       })
-      .catch((e) => {
-        ErrorApi(e);
+      .catch((error) => {
+        console.log('320',error)
+        setLoader(false)
+        // ErrorApi(e);
       });
   };
 

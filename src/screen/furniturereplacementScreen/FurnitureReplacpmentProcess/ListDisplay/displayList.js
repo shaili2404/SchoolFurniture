@@ -31,7 +31,6 @@ export const DisplayList = ({
   onSubmitDetails,
   pageStatus,
 }) => {
-  console.log(pageStatus, tableKey);
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);

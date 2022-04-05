@@ -64,7 +64,7 @@ const ShowImage = (props) => {
                         >
                             <Text style={styles.noText}>{constants.Back}</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.yesView} onPress={() => onConfirm(newImg)}>
+                        <TouchableOpacity style={styles.yesView} onPress={() => onConfirm(newList)}>
                             <Text style={styles.yesText}>{constants.nextText}</Text>
                         </TouchableOpacity>
                     </View>

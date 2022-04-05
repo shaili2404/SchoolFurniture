@@ -37,11 +37,11 @@ var n = bstr.length
 
     openImageGallery = () => {
         ImagePicker.openPicker({
-            includeBase64:true,
+            // includeBase64:true,
             multiple: true
         }).then(images => {
-           var file = dataURLtoFile(images[0].data,images[0].filename);
-            setNewImg(file);
+        //    var file = dataURLtoFile(images[0].data,images[0].filename);
+            // setNewImg(file);
             setSelectedImg(images)
             setViewImage(true);
             setHideModal(true);
