@@ -33,6 +33,8 @@ import ImagePickerModal from "../../../component/imagePickerModal";
 import Images from "../../../asset/images";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
 import ShowImages from "../../../component/showImages";
+import { DisposalCertificateButton } from "./certificateButton/disposalcertificateButton";
+import { DisposalDIlveryButton } from "./certificateButton/disposalDilveryButton";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -66,6 +68,8 @@ export const FurnitureReplacmentProcess = () => {
   const [imgLen, setImgLen] = useState("");
   const [viewImage, setViewImage] = useState(false);
   const [confirmCollectedCount, setConfirmCollectedCount] = useState([]);
+  const [replanishCertificateStatus, setreplanishcertificateStatus] =
+    useState(false);
 
   const route = useRoute();
   const organization = useSelector(
@@ -88,7 +92,6 @@ export const FurnitureReplacmentProcess = () => {
     id,
     ref_number,
   } = organization == "School" ? "" : route?.params;
-
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
@@ -125,7 +128,7 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableHeader((oldData) => [...oldData, constants.ReparableItem]);
     setTableHeader((oldData) => [...oldData, constants.ReplanishmentItems]);
-    setTableKey((oldData) => [...oldData, "collectionCount"]);
+    setTableKey((oldData) => [...oldData, "confirmed_count"]);
     setTableKey((oldData) => [...oldData, "reparableitem"]);
     setTableKey((oldData) => [...oldData, "replanishitem"]);
     setlenofContent("More");
@@ -136,15 +139,10 @@ export const FurnitureReplacmentProcess = () => {
   useEffect(() => {
     const task = route?.params?.status;
     settaskOfPage(task);
-    if (organization == "School") {
-      onSchool();
-    } else if (task == "Pending Collection") {
-      onrequestList();
-    } else if (task == "Collection Accepted") {
-      onCollectionAccepted();
-    } else if (task == "Pending Repairs") {
-      onPendingRepair();
-    }
+    if (organization == "School") onSchool();
+    else if (task == "Pending Collection") onrequestList();
+    else if (task == "Collection Accepted") onCollectionAccepted();
+    else if (task == "Pending Repairs") onPendingRepair();
   }, [tableHeader, isFocused]);
 
   const [tableKey, setTableKey] = useState([
@@ -197,7 +195,6 @@ export const FurnitureReplacmentProcess = () => {
         route?.params?.screen == "MangeRequest"
           ? route?.params?.id
           : route?.params?.items?.id,
-    
     });
   };
 
@@ -246,13 +243,12 @@ export const FurnitureReplacmentProcess = () => {
 
   const onPressYes = () => {
     setAlert(false);
-    if (organization == "School") {
-      onschoolreqSubmit();
-    } else if (taskofPage == "Pending Collection") {
+    if (organization == "School") onschoolreqSubmit();
+    else if (
+      taskofPage == "Pending Collection" ||
+      taskofPage == "Collection Accepted"
+    )
       onSubmitcollectionRequest();
-    } else if (taskofPage == "Collection Accepted") {
-      onSubmitcollectionRequest();
-    }
   };
 
   const onSubmitcollectionRequest = async () => {
@@ -263,64 +259,40 @@ export const FurnitureReplacmentProcess = () => {
       obj[ele?.id] = ele?.confirm_count;
     });
 
-    
-
-     const form = new FormData();
-
-    form.append("images", {
+    const form = new FormData();
+    form.append("images[]", {
       uri: imgData[0].sourceURL,
+      //uri: `file:///${imgData[0].path}`,
       type: imgData[0].mime,
       name: imgData[0].filename,
     });
-    form.append("images",imgData)
-    form.append("confirm_count", Number(obj));
+    form.append("confirm_count[1]", 12);
     form.append("ref_number", ref_number);
 
-    // const photo = {uri: imgData[0]?.sourceURL};
-    // const imageUri = photo.uri.replace('file://', '/private')
-    
-    // let imageData = {
-    //   uri: imageUri,
-    //   name: imgData[0]?.filename,
-    //   type: imgData[0]?.mime,
-    // };
+    const url =
+      "https://furnitureapp.php-dev.in/api/user/furniture-collection-request";
 
-    // console.log(imageData)
-
-    // const a = []
-    // a.push(imageData)
-
-    // const data = {
-    //   ref_number: ref_number,
-    //   confirm_count: obj,
-    //   //  images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
-    //    images: a,
-    // };
-    // console.log('286',data?.images)
-    // axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
-    
-
-  fetch(`https://furnitureapp.php-dev.in/api/${endUrl.acceptCollectionReuest}`, {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-   'Content-Type': 'multipart/form-data',
-   'token':`bearereyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDkxMzQxNDEsImV4cCI6MTY0OTEzNzc0MSwibmJmIjoxNjQ5MTM0MTQxLCJqdGkiOiJEa2xTQ2p5SDNydjA1dlVnIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.S2gUGR8_mj0Hx5EAQ9sHNFtnb2LNbrlxC-oumiHIhKs`
-  },
-  body: JSON.stringify({
-    form
-  })
-})
-.then((res) => {
-  console.log('314',res)
+    axios({
+      url: url,
+      method: "POST",
+      data: form,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // 'Host':'furnitureapp.php-dev.in',
+        // 'Content-Length':form?.length,
+      },
+    })
+      .then((res) => {
+        console.log("314", res);
         // setSuccessAlert(true);
         setLoader(false);
         // setMainMsg(res?.data?.message);
       })
-      .catch((error) => {
-        console.log('320',error)
-        setLoader(false)
-        // ErrorApi(e);
+      .catch((e) => {
+        console.log("320", e);
+        setLoader(false);
+        ErrorApi(e);
       });
   };
 
@@ -500,6 +472,13 @@ export const FurnitureReplacmentProcess = () => {
     setSaveButton(false);
   }, [confirmCollectedCount, imgData]);
 
+  useEffect(() => {
+    // confirmCollectedCount.forEach((item) => {
+    //   if (item?.replanish_count != 0 && item?.replanish_count != "")
+    setreplanishcertificateStatus(true);
+    // });
+  }, [confirmCollectedCount]);
+
   return loader ? (
     <Loader />
   ) : (
@@ -609,6 +588,10 @@ export const FurnitureReplacmentProcess = () => {
               showsVerticalScrollIndicator={false}
             />
           </ScrollView>
+          {replanishCertificateStatus === true ? (
+            <DisposalCertificateButton />
+          ) : null}
+          {/* <DisposalDIlveryButton/> */}
           <View style={{ height: 60 }} />
         </KeyboardAvoidingView>
       </ScrollView>

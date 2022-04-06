@@ -175,6 +175,7 @@ export const FurnitureReplacmentManfacturer = () => {
     setStartDateStatus(true);
     setendDatestatus(true);
     setErrorMessage("");
+    setDateErrorMessage('')
   };
 
   useEffect(() => {

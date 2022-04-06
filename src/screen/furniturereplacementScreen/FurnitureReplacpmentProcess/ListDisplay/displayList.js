@@ -37,6 +37,7 @@ export const DisplayList = ({
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const [previousData, setPreviousData] = useState([]);
+  const [repItem,setRepItem] = useState("")
 
   const onchangeInp = (val) => {
     flatListData.map((element) => {
@@ -47,6 +48,28 @@ export const DisplayList = ({
     setPreviousData(flatListData);
     onSubmitDetails(previousData);
   };
+  const onchangereparableval = (val) =>{
+
+  if (val > item?.confirmed_count || val == ""){
+    setRepItem('')
+  } 
+  else if (val <= item?.confirmed_count){
+    let value = item?.confirmed_count - val
+     setRepItem(value)
+    flatListData.map((element) => {
+      if (element.id === item.id) {
+        element.reparable_count = val;
+        element.replanish_count = element?.confirmed_count - val
+      }
+    });
+  }
+
+
+
+
+    setPreviousData(flatListData);
+    onSubmitDetails(previousData);
+  }
   const onDelete = (item) => {
     if (organization == "School") {
       onDeleteFurItem(item);
@@ -70,10 +93,11 @@ export const DisplayList = ({
                     <TextInput
                       placeholder={val == 'replanishitem'?'': constants.Enterval}
                       placeholderTextColor={COLORS.Black}
-                      style={Styles.inputStyles}
-                      onChangeText={(val) => onchangeInp(val)}
-                      value={item[val]}
+                      style={val == 'replanishitem'?  Styles.grayinputStyles: Styles.inputStyles}
+                      onChangeText={(val) => onchangereparableval(val)}
+                      value={val == 'replanishitem'? String(repItem) :item[val]}
                       editable={val== 'replanishitem' ? false : true}
+                      keyboardType="numeric"
                     />
                   ) : (
                     <Text style={Styles.textStyle}>{item[val]}</Text>
@@ -87,6 +111,7 @@ export const DisplayList = ({
                       placeholderTextColor={COLORS.Black}
                       style={Styles.inputStyles}
                       onChangeText={(val) => onchangeInp(val)}
+                      keyboardType="numeric"
                     />
                   ) : (
                     <Text style={Styles.textStyle}>{item[val]}</Text>
@@ -187,5 +212,6 @@ const Styles = StyleSheet.create({
     height: 35,
     backgroundColor: COLORS.graybackground,
     width: 140,
+    color:COLORS.White
   },
 });

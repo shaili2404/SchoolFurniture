@@ -43,6 +43,7 @@ const Images = {
     rightarrowBlack: require('./images/RightArrowBlack.png'),
     cameraIcon: require('./images/camera.png'),
     photoIcon: require('./images/photo.png'),
-    crossIcon: require('./images/crossIcon.png')
+    crossIcon: require('./images/crossIcon.png'),
+    printIconWhite: require('./images/printIconWhite.png'),
 }
 export default Images
