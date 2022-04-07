@@ -10,6 +10,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Alert,
+  TouchableOpacity
 } from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
@@ -28,7 +29,6 @@ import { AlertMessage } from "../../../Alert/alert";
 import AlertText from "../../../Alert/AlertText";
 import Loader from "../../../component/loader";
 import { DisplayList } from "./ListDisplay/displayList";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import ImagePickerModal from "../../../component/imagePickerModal";
 import Images from "../../../asset/images";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
@@ -264,41 +264,57 @@ export const FurnitureReplacmentProcess = () => {
     confirmCollectedCount.map((ele) => {
       obj[ele?.id] = ele?.confirm_count;
     });
-    console.log("262", obj);
-     const form = new FormData();
 
-    form.append("images", {
+    var photo = {
       uri: imgData[0].sourceURL,
       type: imgData[0].mime,
       name: imgData[0].filename,
-    });
-    form.append("confirm_count", obj);
+  };
+  console.log("photo",photo)
+
+     const form = new FormData();
+    form.append("images[]", photo);
+    // {
+    //   uri: imgData[0].sourceURL,
+      
+    //   type: imgData[0].mime,
+    //   name: imgData[0].filename,
+    // });
+    form.append("confirm_count[1]", 2);
     form.append("ref_number", ref_number);
+    // form.append('status',1)
+    
+    const url = 'https://furnitureapp.php-dev.in/api/user/furniture-collect'
 
-    console.log('277',JSON.stringify(form))
-
-
-
-    const data = {
-      ref_number: ref_number,
-      confirm_count: {7: 21, 8: 21} ,
-      // images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
-    };
-    console.log(data)
-
-    // axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
-    // axios.defaults.headers.common["Content-Type"] = "application/json";
-   
-    axios
-      .post(`${endUrl.acceptCollectionReuest}`,form)
-      .then((res) => {
-        setSuccessAlert(true);
-        setLoader(false);
-        setMainMsg(res?.data?.message);
-      })
-      .catch((e) => {
-        ErrorApi(e);
-      });
+    axios({
+      url: url,
+      method: 'POST',
+      data: form,
+      headers: {
+        // Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+        // 'token':`eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDkxNjY2NDYsImV4cCI6MTY0OTE3MDI0NiwibmJmIjoxNjQ5MTY2NjQ2LCJqdGkiOiJMQVROcTJsdXJuQ0JQZ3pmIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.B9iLdu56sqOPevazqY1jewAljzZrcNjr6e0qTSwwzx8`,
+        // 'Host': 'furnitureapp.php-dev.in',
+        // 'Content-Length': form.length
+      },
+    }).then((res) => {
+      setLoader(false)
+      console.log("response", res)
+    }).catch((err) => {
+      setLoader(false)
+      console.log("error", err)
+    })
+// .then((res) => {
+//   console.log('314',res)
+//         // setSuccessAlert(true);
+//         setLoader(false);
+//         // setMainMsg(res?.data?.message);
+//       })
+//       .catch((error) => {
+//         console.log('320',error)
+//         setLoader(false)
+//         // ErrorApi(e);
+//       });
   };
 
   const onschoolreqSubmit = async () => {
@@ -360,14 +376,19 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onConfirm = (imgData) => {
+    console.log("imgdat",imgData)
     let len;
     setImgData(imgData);
-    len = imgData.length > 10 ? "10+" : imgData.length;
-    setImgLen(len);
-    setPhotoSection(false);
+    len = imgData.length > 10 ? "10+" : imgData.length
+    if(len == 0){
+      setPhotoSection(true);
+    }else{
+      setImgLen(len);
+      setPhotoSection(false);
+    }
     setImageModal(false);
-    setViewImage(false);
-  };
+    setViewImage(false)
+  }
 
   const onPressDone = () => {
     seterrorAlert(false);
@@ -578,7 +599,7 @@ export const FurnitureReplacmentProcess = () => {
             printPickupPress={() => printPickupbutpress()}
           />
 
-          {/* <Text style={styles.textStyle}>{filePath}</Text> */}
+        {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null}
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
