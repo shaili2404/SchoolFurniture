@@ -7,38 +7,61 @@ import {
     Dimensions,
     TouchableOpacity,
     FlatList,
-    Image
+    Image,
+    Platform
 } from "react-native";
 import COLORS from "../asset/color";
 import Images from "../asset/images";
 import constants from "../locales/constants";
 
 const ShowImage = (props) => {
-    const { imageModal, selectedImg, onConfirm, onBack, prevImgData,newImg } = props;
+    const { imageModal, selectedImg, onConfirm, onBack, prevImgData, getResource } = props;
     const [newList, setnewList] = useState([]);
 
     useEffect(() => {
         if (prevImgData && prevImgData.length > 0) {
-             const newArr = [...prevImgData, ...selectedImg];
-            let map = new Map();
-            newArr.forEach(eachObj => map.set(eachObj.filename, eachObj));
-            const uniqueArr = Array.from(map.values());
-            setnewList(uniqueArr);
+            if (getResource == 'Camera') {
+                prevImgData.push(selectedImg)
+                setnewList(prevImgData);
+            } else {
+                const newArr = [...prevImgData, ...selectedImg];
+                let map = new Map();
+                if (Platform.OS === 'ios') {
+                    newArr.forEach(eachObj => map.set(eachObj.filename, eachObj));
+                } else {
+                    newArr.forEach(eachObj => map.set(eachObj.path.substring(eachObj.path.lastIndexOf('/') + 1), eachObj));
+                }
+                const uniqueArr = Array.from(map.values());
+                setnewList(uniqueArr);
+            }
+
         } else {
-             setnewList(selectedImg);
+            if (getResource == 'Camera') {
+                const a = [];
+                a.push(selectedImg);
+                setnewList(a);
+            } else {
+                setnewList(selectedImg);
+            }
+
         }
     }, [selectedImg]);
 
     const onPressCross = (filename) => {
-        filterList = newList.filter((ele) => ele.filename != filename);
+        if (Platform.OS === 'ios') {
+            filterList = newList.filter((ele) => ele.filename != filename);
+        } else {
+            filterList = newList.filter((ele) => ele.path.substring(ele.path.lastIndexOf('/') + 1) != filename);
+        }
         setnewList(filterList);
     }
 
     const renderItem = ({ item }) => {
+        const name = Platform.OS == "ios" ? item.filename : item.path.substring(item.path.lastIndexOf('/') + 1)
         return (
             <View style={styles.item}>
-                <Text style={styles.ImgName}>{item.filename}</Text>
-                <TouchableOpacity onPress={() => onPressCross(item.filename)}>
+                <Text style={styles.ImgName}>{name}</Text>
+                <TouchableOpacity style={styles.closeView} onPress={() => onPressCross(name)}>
                     <Image source={Images.crossIcon}></Image>
                 </TouchableOpacity>
             </View>
@@ -98,6 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     ImgName: {
+        flex: 0.8,
         fontSize: 18,
     },
     PhotoText: {
@@ -105,7 +129,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     PhotoContainer: {
-        height: '15%',
         padding: 10,
         borderBottomWidth: 0.5,
     },
@@ -135,6 +158,9 @@ const styles = StyleSheet.create({
         color: COLORS.AlertYesColor,
         alignSelf: "center",
     },
+    closeView: {
+        flex: 0.1,
+    }
 
 });
 

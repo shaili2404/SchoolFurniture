@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -15,8 +15,7 @@ import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
-import { RfH, RfW } from "../../../../utils/helpers";
-import style from "../style";
+import {RfW } from "../../../../utils/helpers";
 
 export const DisplayList = ({
   item,

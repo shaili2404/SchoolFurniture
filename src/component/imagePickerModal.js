@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Modal,
     StyleSheet,
@@ -13,7 +13,6 @@ import Images from "../asset/images";
 import constants from "../locales/constants";
 import ImagePicker from 'react-native-image-crop-picker';
 import ShowImages from "../component/showImages";
-import {decode as atob, encode as btoa} from 'base-64'
 
 const ImagePickerModal = (props) => {
     const { imageModal, setmodalVisible, onConfirm } = props;
@@ -22,26 +21,13 @@ const ImagePickerModal = (props) => {
     const [newImg,setNewImg]= useState([]);
     const [hideModal, setHideModal] = useState(false);
     const [imgData, setImgData] = useState([]);
-
-  function dataURLtoFile(dataurl, filename) {
-var arr = dataurl.split(',')
-var mime = arr[0].split(/:(.*?);/)
-var bstr = atob(arr[0])
-var n = bstr.length 
- var u8arr = new Uint8Array(n);
-    while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, {type:mime});
- }
+    const [getResource, setGetResource] = useState("");
 
     openImageGallery = () => {
         ImagePicker.openPicker({
-            // includeBase64:true,
             multiple: true
         }).then(images => {
-        //    var file = dataURLtoFile(images[0].data,images[0].filename);
-            // setNewImg(file);
+            setGetResource('Gallery')
             setSelectedImg(images)
             setViewImage(true);
             setHideModal(true);
@@ -54,6 +40,7 @@ var n = bstr.length
             height: 400,
             // cropping: true,
         }).then(image => {
+            setGetResource('Camera')
             setSelectedImg(image)
             setViewImage(true);
             setHideModal(true);
@@ -103,6 +90,7 @@ var n = bstr.length
                     onConfirm={(data) => { onConfirm(data) }}
                     onBack={(getPrevImgData) => onBack(getPrevImgData)}
                     prevImgData={imgData}
+                    getResource={getResource}
                 />
                 : null}
         </Modal>
@@ -158,3 +146,4 @@ const styles = StyleSheet.create({
 });
 
 export default ImagePickerModal;
+
