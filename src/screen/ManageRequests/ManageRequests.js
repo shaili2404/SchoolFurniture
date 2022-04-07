@@ -144,7 +144,6 @@ export const ManageRequests = () => {
    // Edit Functionality
    const onEdit = (task) => {
     let data = task
-    console.log("dddd",data)
      navigation.navigate('FurnitureReplacmentProcess',{items:data,task:'MangeRequest'})
   };
 

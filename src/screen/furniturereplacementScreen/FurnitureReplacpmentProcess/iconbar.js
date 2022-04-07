@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "./style";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image,TouchableOpacity } from "react-native";
 import Images from "../../../asset/images";
 import constants from "../../../locales/constants";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export const IconBar = ({
   createRequestIcon,

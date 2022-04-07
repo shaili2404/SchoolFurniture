@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -15,7 +15,7 @@ import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
-import { RfH, RfW } from "../../../../utils/helpers";
+import {RfW } from "../../../../utils/helpers";
 
 export const DisplayList = ({
   item,
@@ -30,29 +30,38 @@ export const DisplayList = ({
   onSubmitDetails,
   pageStatus,
 }) => {
-  console.log(pageStatus, tableKey);
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const [previousData, setPreviousData] = useState([]);
+  const [repItem, setRepItem] = useState("");
 
   const onchangeInp = (val) => {
     flatListData.map((element) => {
+      if (element.id === item.id) element.confirm_count = val;
+    });
+    setPreviousData(flatListData);
+    onSubmitDetails(previousData);
+  };
+
+  const onchangereparableval = (val) => {
+    let value = item?.confirmed_count - val;
+    if (val > item?.confirmed_count || val == "") setRepItem("");
+    else if (val <= item?.confirmed_count) setRepItem(value);
+    flatListData.map((element) => {
       if (element.id === item.id) {
-        element.confirm_count = val;
+        element.repair_count = val;
+        element.replenish_count = element?.confirmed_count - val;
       }
     });
     setPreviousData(flatListData);
     onSubmitDetails(previousData);
   };
   const onDelete = (item) => {
-    if (organization == "School") {
-      onDeleteFurItem(item);
-    } else {
-      setAlert(true);
-    }
+    if (organization == "School") onDeleteFurItem(item);
+    else setAlert(true);
   };
 
   return (
@@ -68,12 +77,21 @@ export const DisplayList = ({
                 <>
                   {val == "reparableitem" || val == "replanishitem" ? (
                     <TextInput
-                      placeholder={val == 'replanishitem'?'': constants.Enterval}
+                      placeholder={
+                        val == "replanishitem" ? "" : constants.Enterval
+                      }
                       placeholderTextColor={COLORS.Black}
-                      style={Styles.inputStyles}
-                      onChangeText={(val) => onchangeInp(val)}
-                      value={item[val]}
-                      editable={val== 'replanishitem' ? false : true}
+                      style={
+                        val == "replanishitem"
+                          ? Styles.grayinputStyles
+                          : Styles.inputStyles
+                      }
+                      onChangeText={(val) => onchangereparableval(val)}
+                      value={
+                        val == "replanishitem" ? String(repItem) : item[val]
+                      }
+                      editable={val == "replanishitem" ? false : true}
+                      keyboardType="numeric"
                     />
                   ) : (
                     <Text style={Styles.textStyle}>{item[val]}</Text>
@@ -81,12 +99,13 @@ export const DisplayList = ({
                 </>
               ) : (
                 <>
-                  {val == 'collectionCount' ? (
+                  {val == "collectionCount" ? (
                     <TextInput
                       placeholder={constants.Enterval}
                       placeholderTextColor={COLORS.Black}
                       style={Styles.inputStyles}
                       onChangeText={(val) => onchangeInp(val)}
+                      keyboardType="numeric"
                     />
                   ) : (
                     <Text style={Styles.textStyle}>{item[val]}</Text>
@@ -187,5 +206,6 @@ const Styles = StyleSheet.create({
     height: 35,
     backgroundColor: COLORS.graybackground,
     width: 140,
+    color: COLORS.White,
   },
 });

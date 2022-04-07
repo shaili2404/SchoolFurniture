@@ -24,5 +24,8 @@ const endUrl = {
     searchManageRequest: 'user/search/furniture-collection-manage',
     acceptCollectionReuest:'user/furniture-collect',
     annexure: 'user/download/annexure/a',
+    replanishStatus : 'user/status/get-all-replenishment-status',
+    annexureB:'user/download/annexure/b',
+    annexureC:'user/download/annexure/c',
 }
 export default endUrl;

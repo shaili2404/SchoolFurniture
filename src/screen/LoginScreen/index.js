@@ -47,7 +47,6 @@ export const LoginScreen = () => {
       setIpAddress(ipAddress)
     });
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
-      console.log(ipv4Address);
       setIpAddress(ipv4Address)
     });
   }, [loginData]);

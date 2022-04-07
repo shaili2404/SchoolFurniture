@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Modal,
     StyleSheet,
@@ -18,6 +18,7 @@ const ImagePickerModal = (props) => {
     const { imageModal, setmodalVisible, onConfirm } = props;
     const [viewImage, setViewImage] = useState(false);
     const [selectedImg, setSelectedImg] = useState([]);
+    const [newImg,setNewImg]= useState([]);
     const [hideModal, setHideModal] = useState(false);
     const [imgData, setImgData] = useState([]);
     const [getResource, setGetResource] = useState("");
@@ -87,6 +88,7 @@ const ImagePickerModal = (props) => {
                     imageModal={viewImage}
                     setmodalVisible={(val) => setViewImage(val)}
                     selectedImg={selectedImg}
+                    newImg={newImg}
                     onConfirm={(data) => { onConfirm(data) }}
                     onBack={(getPrevImgData) => onBack(getPrevImgData)}
                     prevImgData={imgData}

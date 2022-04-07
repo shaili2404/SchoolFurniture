@@ -124,7 +124,18 @@ const constants = {
   Back: "Back",
   uploaded: "Uploaded",
   ViewAll: "View All",
-  Ph: '10+ Photos'
+  Ph: '10+ Photos',
+
+  Replanish_certificate :"Email and Print Replenishment Request Form",
+  Replanish_Disposalcertificate:'Print Furniture Disposal Certificate',
+  Replanish_checkMessage:'Tick here when repairs are Completed',
+  Replanish_proofreplanish:'Upload Proof Of Replanishment Descion',
+  
+  Delivery_Note:'Print Delivery Note',
+  Delivery_signedCopy:'Uploaded Signed Delivery Note',
+  Delivery_hasDelivered:'The Furniture Items have been Delivered',
+  Delivery_hasreadytoDilvered:'Tick Here When Furniture Items Are Ready To Delivered',
+
 
 };
 export default constants;

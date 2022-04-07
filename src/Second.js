@@ -1,48 +1,48 @@
-// import React from 'react';
-// import { View, Text, TouchableOpacity } from 'react-native';
-// import { PermissionsAndroid, Alert } from "react-native";
-// import RNFetchBlob from 'rn-fetch-blob';
-// import ImagePicker from 'react-native-image-crop-picker';
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { PermissionsAndroid, Alert } from "react-native";
+import RNFetchBlob from 'rn-fetch-blob';
+import ImagePicker from 'react-native-image-crop-picker';
 
 // const image = require('../src/assets/Images/Common/inventory_black_24dp.png');
 
 
 
-// const Second = () => {
+const Second = () => {
 
-  // const actualDownload = () => {
-  //     const { dirs } = RNFetchBlob.fs;
-  //    RNFetchBlob.config({
-  //      fileCache: true,
-  //      addAndroidDownloads: {
-  //      useDownloadManager: true,
-  //      notification: true,
-  //      mediaScannable: true,
-  //      title: `test.pdf`,
-  //      path: `${dirs.DownloadDir}/test.pdf`,
-  //      },
-  //    })
-  //      .fetch('GET', 'http://www.africau.edu/images/default/sample.pdf', {})
-  //      .then((res) => {
-  //        console.log('The file saved to ', res.path());
-  //      })
-  //      .catch((e) => {
-  //        console.log(e)
-  //      });
-  //  }
+  const actualDownload = () => {
+      const { dirs } = RNFetchBlob.fs;
+     RNFetchBlob.config({
+       fileCache: true,
+       addAndroidDownloads: {
+       useDownloadManager: true,
+       notification: true,
+       mediaScannable: true,
+       title: `test.pdf`,
+       path: `${dirs.DownloadDir}/test.pdf`,
+       },
+     })
+       .fetch('GET', 'http://www.africau.edu/images/default/sample.pdf', {})
+       .then((res) => {
+         console.log('The file saved to ', res.path());
+       })
+       .catch((e) => {
+         console.log(e)
+       });
+   }
 
-  // const downloadFile = async() => {
-  //     try {
-  //         const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-  //         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //           actualDownload();
-  //         } else {
-  //           Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
-  //         }
-  //       } catch (err) {
-  //         console.warn(err);
-  //       } 
-  //   }
+  const downloadFile = async() => {
+      try {
+          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            actualDownload();
+          } else {
+            Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+          }
+        } catch (err) {
+          console.warn(err);
+        } 
+    }
 
   // const openGallery = () => {
   //   ImagePicker.openPicker({
@@ -76,12 +76,12 @@
   // };
 
 
-  // return (
-  //   <View>
-  //     <Text>Furniture</Text>
-      {/* <TouchableOpacity onPress={()=> downloadFile()}>
+   return (
+     <View>
+       <Text>Furniture</Text>
+      <TouchableOpacity onPress={()=> downloadFile()}>
                 <Text>Download!!!</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
       {/* <TouchableOpacity onPress={()=> openGallery()}>
                 <Text>Open Gallery</Text>
             </TouchableOpacity>
@@ -91,9 +91,9 @@
             <TouchableOpacity onPress={()=> openCrop()}>
                 <Text>Open Crop</Text>
             </TouchableOpacity> */}
-//     </View>
-//   );
-// };
+     </View>
+   );
+ };
 
 // export default Second;
 

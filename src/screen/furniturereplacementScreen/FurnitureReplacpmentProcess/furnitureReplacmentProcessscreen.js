@@ -33,6 +33,7 @@ import ImagePickerModal from "../../../component/imagePickerModal";
 import Images from "../../../asset/images";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
 import ShowImages from "../../../component/showImages";
+import { Baseurl } from "../../../redux/configration/baseurl";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -59,21 +60,24 @@ export const FurnitureReplacmentProcess = () => {
   const [delItem, setDelItem] = useState({});
   const [lenofContent, setlenofContent] = useState("");
   const [imageModal, setImageModal] = useState(false);
-  const [filePath, setFilePath] = useState("");
   const [annexure, setAnnexure] = useState(``);
   const [taskofPage, settaskOfPage] = useState("");
   const [imgData, setImgData] = useState([]);
   const [imgLen, setImgLen] = useState("");
   const [viewImage, setViewImage] = useState(false);
   const [confirmCollectedCount, setConfirmCollectedCount] = useState([]);
+  const [replanishCertificateStatus, setreplanishcertificateStatus] =
+    useState(false);
 
   const route = useRoute();
-  const organization = useSelector(
-    (state) => state?.loginData?.user?.data?.data?.user?.organization
-  );
+
   const schooldetails = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user
   );
+
+  const token = useSelector(
+    (state) => state?.loginData?.user?.data?.access_token
+  )
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -87,7 +91,7 @@ export const FurnitureReplacmentProcess = () => {
     broken_items,
     id,
     ref_number,
-  } = organization == "School" ? "" : route?.params;
+  } = schooldetails?.organization == "School" ? "" : route?.params;
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
@@ -116,7 +120,6 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     setFlatListData(broken_items);
-    console.log('119',tableKey,tableHeader)
     setLoader(false);
   };
   const onPendingRepair = () => {
@@ -125,11 +128,10 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableHeader((oldData) => [...oldData, constants.ReparableItem]);
     setTableHeader((oldData) => [...oldData, constants.ReplanishmentItems]);
-    setTableKey((oldData) => [...oldData, "collectionCount"]);
+    setTableKey((oldData) => [...oldData, "confirmed_count"]);
     setTableKey((oldData) => [...oldData, "reparableitem"]);
     setTableKey((oldData) => [...oldData, "replanishitem"]);
     setlenofContent("More");
-    console.log('131',tableKey,tableHeader)
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -137,15 +139,10 @@ export const FurnitureReplacmentProcess = () => {
   useEffect(() => {
     const task = route?.params?.status;
     settaskOfPage(task);
-    if (organization == "School") {
-      onSchool();
-    } else if (task == "Pending Collection") {
-      onrequestList();
-    } else if (task == "Collection Accepted") {
-      onCollectionAccepted();
-    } else if (task == "Pending Repairs") {
-      onPendingRepair();
-    }
+    if (schooldetails?.organization == "School") onSchool();
+    else if (task == "Pending Collection") onrequestList();
+    else if (task == "Collection Accepted") onCollectionAccepted();
+    else if (task == "Pending Repairs") onPendingRepair();
   }, [tableHeader, isFocused]);
 
   const [tableKey, setTableKey] = useState([
@@ -155,18 +152,18 @@ export const FurnitureReplacmentProcess = () => {
   ]);
 
   const [tableHeader, setTableHeader] =
-    organization == "School"
+    schooldetails?.organization == "School"
       ? useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-          constants.manage,
-        ])
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.manage,
+      ])
       : useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-        ]);
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
 
   const renderComponent = ({ item }) => {
     return (
@@ -174,12 +171,12 @@ export const FurnitureReplacmentProcess = () => {
         item={item}
         tableKey={tableKey}
         permissionId={permissionId}
-        organization={organization}
+        organization={schooldetails?.organization}
         onDeleteFurItem={(item) => onDeleteFurItem(item)}
         onEdit={(item, task) => onEdit(item, task)}
         flatListData={flatListData}
         onSubmitDetails={(data) => setConfirmCollectedCount(data)}
-        pageStatus = {taskofPage}
+        pageStatus={taskofPage}
       />
     );
   };
@@ -191,7 +188,7 @@ export const FurnitureReplacmentProcess = () => {
       flatListData: flatListData,
       screen:
         route?.params?.screen == "MangeRequest" ||
-        route?.params?.task == "MangeRequest"
+          route?.params?.task == "MangeRequest"
           ? "MangeRequest"
           : null,
       id:
@@ -246,15 +243,12 @@ export const FurnitureReplacmentProcess = () => {
 
   const onPressYes = () => {
     setAlert(false);
-    if (organization == "School") {
-      onschoolreqSubmit();
-    }
-    else if (taskofPage == "Pending Collection") {
+    if (schooldetails?.organization == "School") onschoolreqSubmit();
+    else if (
+      taskofPage == "Pending Collection" ||
+      taskofPage == "Collection Accepted"
+    )
       onSubmitcollectionRequest();
-    } 
-    else if (taskofPage == "Collection Accepted") {
-      onSubmitcollectionRequest();
-    }
   };
 
   const onSubmitcollectionRequest = async () => {
@@ -262,59 +256,50 @@ export const FurnitureReplacmentProcess = () => {
 
     let obj = {};
     confirmCollectedCount.map((ele) => {
-      obj[ele?.id] = ele?.confirm_count;
+      obj[ele?.id] = Number(ele?.confirm_count);
     });
 
-    var photo = {
-      uri: imgData[0].sourceURL,
-      type: imgData[0].mime,
-      name: imgData[0].filename,
-  };
-  console.log("photo",photo)
+    const url = `${Baseurl}${endUrl.acceptCollectionReuest}`
 
-     const form = new FormData();
-    form.append("images[]", photo);
-    // {
-    //   uri: imgData[0].sourceURL,
-      
-    //   type: imgData[0].mime,
-    //   name: imgData[0].filename,
-    // });
-    form.append("confirm_count[1]", 2);
-    form.append("ref_number", ref_number);
-    // form.append('status',1)
-    
-    const url = 'https://furnitureapp.php-dev.in/api/user/furniture-collect'
+    let body = new FormData();
 
-    axios({
-      url: url,
-      method: 'POST',
-      data: form,
-      headers: {
-        // Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-        // 'token':`eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZnVybml0dXJlYXBwLnBocC1kZXYuaW5cL2FwaVwvbG9naW4iLCJpYXQiOjE2NDkxNjY2NDYsImV4cCI6MTY0OTE3MDI0NiwibmJmIjoxNjQ5MTY2NjQ2LCJqdGkiOiJMQVROcTJsdXJuQ0JQZ3pmIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.B9iLdu56sqOPevazqY1jewAljzZrcNjr6e0qTSwwzx8`,
-        // 'Host': 'furnitureapp.php-dev.in',
-        // 'Content-Length': form.length
-      },
-    }).then((res) => {
-      setLoader(false)
-      console.log("response", res)
-    }).catch((err) => {
-      setLoader(false)
-      console.log("error", err)
+    imgData.forEach((img) => {
+      const name = Platform.OS == "ios" ? img.filename : img.path.substring(item.path.lastIndexOf('/') + 1)
+      body.append('images[]', {
+        uri: Platform.OS == "ios" ? img.sourceURL : img.path,
+        type: img.mime,
+        name: name,
+        filename: name
+      })
     })
-// .then((res) => {
-//   console.log('314',res)
-//         // setSuccessAlert(true);
-//         setLoader(false);
-//         // setMainMsg(res?.data?.message);
-//       })
-//       .catch((error) => {
-//         console.log('320',error)
-//         setLoader(false)
-//         // ErrorApi(e);
-//       });
+    for (const [key, value] of Object.entries(obj)) {
+      body.append(`confirm_count[${key}]`, `${value}`);
+    }
+    body.append("ref_number", ref_number);
+
+    const uploadImg = async () => {
+      try {
+        let response = await fetch(url, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Authorization": `Bearer${token}`
+          },
+          body: body
+        });
+        let res = await response.json();
+        if (response.ok) {
+          setSuccessAlert(true);
+          setLoader(false);
+          setMainMsg(res?.message);
+        } else {
+          ErrorApi(res, "collection");
+        }
+      } catch (err) {
+      }
+    }
+
+    uploadImg();
   };
 
   const onschoolreqSubmit = async () => {
@@ -323,17 +308,15 @@ export const FurnitureReplacmentProcess = () => {
       total_furniture: totalFurCount,
       broken_items: flatListData,
     };
-    console.log("301", route?.params?.screen, route?.params?.task);
     if (
       route?.params?.screen == "MangeRequest" ||
       route?.params?.task == "MangeRequest"
     ) {
       axios
         .put(
-          `${endUrl.delManageRequest}/${
-            route?.params?.screen == "MangeRequest"
-              ? route?.params?.id
-              : route?.params?.items?.id
+          `${endUrl.delManageRequest}/${route?.params?.screen == "MangeRequest"
+            ? route?.params?.id
+            : route?.params?.items?.id
           }`,
           data
         )
@@ -341,7 +324,6 @@ export const FurnitureReplacmentProcess = () => {
           setSuccessAlert(true);
           setLoader(false);
           setMainMsg(res?.data?.message);
-          console.log("232", res?.data?.message);
         })
         .catch((e) => {
           ErrorApi(e);
@@ -360,29 +342,30 @@ export const FurnitureReplacmentProcess = () => {
     }
   };
 
-  const ErrorApi = (e) => {
-    let { message, data, status } = e?.response?.data || {};
+  const ErrorApi = (e, arg) => {
+    let res = arg != "collection" ? e?.response?.data : e
+    let { message, data, status } = res || {};
     setLoader(false);
     seterrorAlert(true);
     {
       let str = "";
       status == 422
         ? Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setMainMsg(str);
-          })
+          str += `  ${value}`;
+          setMainMsg(str);
+        })
         : setMainMsg(message);
     }
   };
 
+
   const onConfirm = (imgData) => {
-    console.log("imgdat",imgData)
     let len;
     setImgData(imgData);
     len = imgData.length > 10 ? "10+" : imgData.length
-    if(len == 0){
+    if (len == 0) {
       setPhotoSection(true);
-    }else{
+    } else {
       setImgLen(len);
       setPhotoSection(false);
     }
@@ -424,7 +407,7 @@ export const FurnitureReplacmentProcess = () => {
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     axios
       .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
-      .then((res) => {})
+      .then((res) => { })
       .catch((e) => {
         ErrorApi(e);
       });
@@ -451,7 +434,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const createPDF = async () => {
-    if (await isPermitted()) {
+    // if (await isPermitted()) {
       const test = `${annexure}`;
       let options = {
         html: test,
@@ -460,17 +443,57 @@ export const FurnitureReplacmentProcess = () => {
         directory: "docs",
       };
       let file = await reactNativeHtmlToPdf.convert(options);
-      console.log(file.filePath);
-      setFilePath(file.filePath);
-    }
+      Alert.alert(
+        "Successfully Exported",
+        "Path:" + file.filePath,
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Open", onPress: () => openFile(file.filePath) },
+        ],
+        { cancelable: true }
+      );
+    // }
+  };
+  const openFile = async (filepath) => {
+    const path = filepath;
+    await FileViewer.open(path)
+      .then(() => {})
+      .catch((error) => {
+        console.log('449',error)
+      });
+  };
+
+
+  const ondisposalcertPress = () => {
+    setLoader(true);
+    let data = {
+      ref_number: ref_number,
+      items: confirmCollectedCount,
+    };
+    getpdfApi(endUrl?.annexureB, data);
+  };
+  const onreplanishemailcer = () => {
+    setLoader(true);
+    let data = {
+      ref_number: ref_number,
+      items: confirmCollectedCount,
+    };
+    getpdfApi(endUrl?.annexureC, data);
   };
 
   const printPickupbutpress = () => {
     setLoader(true);
     setPhotoSection(true);
+    let data = {
+      ref_number: ref_number,
+    };
 
+    getpdfApi(endUrl?.annexure, data);
+  };
+
+  const getpdfApi = (annexure, data) => {
     axios
-      .get(`${endUrl.annexure}?ref_number=${ref_number}`)
+      .post(annexure, data)
       .then((res) => {
         setAnnexure(res?.data);
         createPDF();
@@ -495,10 +518,18 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   useEffect(() => {
-    confirmCollectedCount.length > 0 && imgData.length > 0
-      ? setSaveButton(false)
-      : setSaveButton(true);
+    // confirmCollectedCount.length > 0 && imgData.length > 0
+    //   ? setSaveButton(false)
+    //   :
+    setSaveButton(false);
   }, [confirmCollectedCount, imgData]);
+
+  useEffect(() => {
+    // confirmCollectedCount.forEach((item) => {
+    //   if (item?.replanish_count != 0 && item?.replanish_count != "")
+    setreplanishcertificateStatus(true);
+    // });
+  }, [confirmCollectedCount]);
 
   return loader ? (
     <Loader />
@@ -506,7 +537,7 @@ export const FurnitureReplacmentProcess = () => {
     <SafeAreaView style={styles.mainView}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "android" ? "position" : null}
+          behavior={Platform.OS === "android" ? "position" : 'height'}
           keyboardVerticalOffset={0}
         >
           <View style={styles.furView}>
@@ -523,7 +554,7 @@ export const FurnitureReplacmentProcess = () => {
           />
           <TaskSection
             taskName={
-              organization == "School"
+              schooldetails?.organization == "School"
                 ? constants.createRequest
                 : constants.collectFurnitureRequest
             }
@@ -534,18 +565,22 @@ export const FurnitureReplacmentProcess = () => {
             <InputForm
               schoolname={constants.schoolName}
               schoolvalue={
-                organization == "School" ? schooldetails?.name : school_name
+                schooldetails?.organization == "School"
+                  ? schooldetails?.name
+                  : school_name
               }
               emisnumber={constants.emisNumber}
               emisvalue={
-                organization == "School" ? schooldetails?.username : emis
+                schooldetails?.organization == "School"
+                  ? schooldetails?.username
+                  : emis
               }
-              org={organization}
+              org={schooldetails?.organization}
               stockcollectionName={constants.schoolFurCount}
               stockcount={total_broken_items}
               onvalueEdit={(val) => onvalueEdit(val)}
             />
-            {organization == "School" ? (
+            {schooldetails?.organization == "School" ? (
               <View style={styles.addplusView}>
                 <TouchableOpacity
                   onPress={() =>
@@ -553,7 +588,7 @@ export const FurnitureReplacmentProcess = () => {
                       flatListData: flatListData,
                       screen:
                         route?.params?.screen == "MangeRequest" ||
-                        route?.params?.task == "MangeRequest"
+                          route?.params?.task == "MangeRequest"
                           ? "MangeRequest"
                           : null,
                       id:
@@ -599,7 +634,7 @@ export const FurnitureReplacmentProcess = () => {
             printPickupPress={() => printPickupbutpress()}
           />
 
-        {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null}
+        {/* {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null} */}
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
@@ -610,6 +645,13 @@ export const FurnitureReplacmentProcess = () => {
               showsVerticalScrollIndicator={false}
             />
           </ScrollView>
+          {/* {replanishCertificateStatus === true ? (
+            <DisposalCertificateButton
+              ondisposalcertPress={() => ondisposalcertPress()}
+              onreplanishemailcer={() => onreplanishemailcer()}
+            />
+          ) : null} */}
+          {/* <DisposalDIlveryButton/> */}
           <View style={{ height: 60 }} />
         </KeyboardAvoidingView>
       </ScrollView>
@@ -618,7 +660,6 @@ export const FurnitureReplacmentProcess = () => {
         <FooterFur
           saveButton={saveButton}
           submitButton={submitButton}
-          
           onCancel={onCancel}
           onSave={onSave}
           onSubmit={onSubmit}

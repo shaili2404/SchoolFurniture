@@ -20,37 +20,37 @@ const ShowImage = (props) => {
 
     useEffect(() => {
         if (prevImgData && prevImgData.length > 0) {
-            if(getResource == 'Camera'){
+            if (getResource == 'Camera') {
                 prevImgData.push(selectedImg)
                 setnewList(prevImgData);
-            }else {
+            } else {
                 const newArr = [...prevImgData, ...selectedImg];
                 let map = new Map();
-                if(Platform.OS === 'ios'){
+                if (Platform.OS === 'ios') {
                     newArr.forEach(eachObj => map.set(eachObj.filename, eachObj));
-                }else{
+                } else {
                     newArr.forEach(eachObj => map.set(eachObj.path.substring(eachObj.path.lastIndexOf('/') + 1), eachObj));
                 }
                 const uniqueArr = Array.from(map.values());
                 setnewList(uniqueArr);
             }
-            
+
         } else {
-            if(getResource == 'Camera'){
+            if (getResource == 'Camera') {
                 const a = [];
                 a.push(selectedImg);
                 setnewList(a);
-            }else {
+            } else {
                 setnewList(selectedImg);
             }
-            
+
         }
     }, [selectedImg]);
 
     const onPressCross = (filename) => {
-        if(Platform.OS === 'ios'){
+        if (Platform.OS === 'ios') {
             filterList = newList.filter((ele) => ele.filename != filename);
-        }else{
+        } else {
             filterList = newList.filter((ele) => ele.path.substring(ele.path.lastIndexOf('/') + 1) != filename);
         }
         setnewList(filterList);
