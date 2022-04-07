@@ -37,45 +37,32 @@ export const DisplayList = ({
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const [previousData, setPreviousData] = useState([]);
-  const [repItem,setRepItem] = useState("")
+  const [repItem, setRepItem] = useState("");
 
   const onchangeInp = (val) => {
     flatListData.map((element) => {
+      if (element.id === item.id) element.confirm_count = val;
+    });
+    setPreviousData(flatListData);
+    onSubmitDetails(previousData);
+  };
+
+  const onchangereparableval = (val) => {
+    let value = item?.confirmed_count - val;
+    if (val > item?.confirmed_count || val == "") setRepItem("");
+    else if (val <= item?.confirmed_count) setRepItem(value);
+    flatListData.map((element) => {
       if (element.id === item.id) {
-        element.confirm_count = val;
+        element.repair_count = val;
+        element.replenish_count = element?.confirmed_count - val;
       }
     });
     setPreviousData(flatListData);
     onSubmitDetails(previousData);
   };
-  const onchangereparableval = (val) =>{
-
-  if (val > item?.confirmed_count || val == ""){
-    setRepItem('')
-  } 
-  else if (val <= item?.confirmed_count){
-    let value = item?.confirmed_count - val
-     setRepItem(value)
-    flatListData.map((element) => {
-      if (element.id === item.id) {
-        element.reparable_count = val;
-        element.replanish_count = element?.confirmed_count - val
-      }
-    });
-  }
-
-
-
-
-    setPreviousData(flatListData);
-    onSubmitDetails(previousData);
-  }
   const onDelete = (item) => {
-    if (organization == "School") {
-      onDeleteFurItem(item);
-    } else {
-      setAlert(true);
-    }
+    if (organization == "School") onDeleteFurItem(item);
+    else setAlert(true);
   };
 
   return (
@@ -91,12 +78,20 @@ export const DisplayList = ({
                 <>
                   {val == "reparableitem" || val == "replanishitem" ? (
                     <TextInput
-                      placeholder={val == 'replanishitem'?'': constants.Enterval}
+                      placeholder={
+                        val == "replanishitem" ? "" : constants.Enterval
+                      }
                       placeholderTextColor={COLORS.Black}
-                      style={val == 'replanishitem'?  Styles.grayinputStyles: Styles.inputStyles}
+                      style={
+                        val == "replanishitem"
+                          ? Styles.grayinputStyles
+                          : Styles.inputStyles
+                      }
                       onChangeText={(val) => onchangereparableval(val)}
-                      value={val == 'replanishitem'? String(repItem) :item[val]}
-                      editable={val== 'replanishitem' ? false : true}
+                      value={
+                        val == "replanishitem" ? String(repItem) : item[val]
+                      }
+                      editable={val == "replanishitem" ? false : true}
                       keyboardType="numeric"
                     />
                   ) : (
@@ -105,7 +100,7 @@ export const DisplayList = ({
                 </>
               ) : (
                 <>
-                  {val == 'collectionCount' ? (
+                  {val == "collectionCount" ? (
                     <TextInput
                       placeholder={constants.Enterval}
                       placeholderTextColor={COLORS.Black}
@@ -212,6 +207,6 @@ const Styles = StyleSheet.create({
     height: 35,
     backgroundColor: COLORS.graybackground,
     width: 140,
-    color:COLORS.White
+    color: COLORS.White,
   },
 });

@@ -10,6 +10,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Alert,
+  TouchableOpacity
 } from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
@@ -28,13 +29,13 @@ import { AlertMessage } from "../../../Alert/alert";
 import AlertText from "../../../Alert/AlertText";
 import Loader from "../../../component/loader";
 import { DisplayList } from "./ListDisplay/displayList";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import ImagePickerModal from "../../../component/imagePickerModal";
 import Images from "../../../asset/images";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
 import ShowImages from "../../../component/showImages";
 import { DisposalCertificateButton } from "./certificateButton/disposalcertificateButton";
 import { DisposalDIlveryButton } from "./certificateButton/disposalDilveryButton";
+import FileViewer from "react-native-file-viewer";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -61,7 +62,6 @@ export const FurnitureReplacmentProcess = () => {
   const [delItem, setDelItem] = useState({});
   const [lenofContent, setlenofContent] = useState("");
   const [imageModal, setImageModal] = useState(false);
-  const [filePath, setFilePath] = useState("");
   const [annexure, setAnnexure] = useState(``);
   const [taskofPage, settaskOfPage] = useState("");
   const [imgData, setImgData] = useState([]);
@@ -72,9 +72,7 @@ export const FurnitureReplacmentProcess = () => {
     useState(false);
 
   const route = useRoute();
-  const organization = useSelector(
-    (state) => state?.loginData?.user?.data?.data?.user?.organization
-  );
+
   const schooldetails = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user
   );
@@ -91,7 +89,7 @@ export const FurnitureReplacmentProcess = () => {
     broken_items,
     id,
     ref_number,
-  } = organization == "School" ? "" : route?.params;
+  } = schooldetails?.organization == "School" ? "" : route?.params;
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
@@ -139,7 +137,7 @@ export const FurnitureReplacmentProcess = () => {
   useEffect(() => {
     const task = route?.params?.status;
     settaskOfPage(task);
-    if (organization == "School") onSchool();
+    if (schooldetails?.organization == "School") onSchool();
     else if (task == "Pending Collection") onrequestList();
     else if (task == "Collection Accepted") onCollectionAccepted();
     else if (task == "Pending Repairs") onPendingRepair();
@@ -152,7 +150,7 @@ export const FurnitureReplacmentProcess = () => {
   ]);
 
   const [tableHeader, setTableHeader] =
-    organization == "School"
+    schooldetails?.organization == "School"
       ? useState([
           constants.FurCategory,
           constants.furItem,
@@ -171,7 +169,7 @@ export const FurnitureReplacmentProcess = () => {
         item={item}
         tableKey={tableKey}
         permissionId={permissionId}
-        organization={organization}
+        organization={schooldetails?.organization}
         onDeleteFurItem={(item) => onDeleteFurItem(item)}
         onEdit={(item, task) => onEdit(item, task)}
         flatListData={flatListData}
@@ -243,7 +241,7 @@ export const FurnitureReplacmentProcess = () => {
 
   const onPressYes = () => {
     setAlert(false);
-    if (organization == "School") onschoolreqSubmit();
+    if (schooldetails?.organization == "School") onschoolreqSubmit();
     else if (
       taskofPage == "Pending Collection" ||
       taskofPage == "Collection Accepted"
@@ -423,7 +421,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const createPDF = async () => {
-    if (await isPermitted()) {
+    // if (await isPermitted()) {
       const test = `${annexure}`;
       let options = {
         html: test,
@@ -432,16 +430,57 @@ export const FurnitureReplacmentProcess = () => {
         directory: "docs",
       };
       let file = await reactNativeHtmlToPdf.convert(options);
-      setFilePath(file.filePath);
-    }
+      Alert.alert(
+        "Successfully Exported",
+        "Path:" + file.filePath,
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Open", onPress: () => openFile(file.filePath) },
+        ],
+        { cancelable: true }
+      );
+    // }
+  };
+  const openFile = async (filepath) => {
+    const path = filepath;
+    await FileViewer.open(path)
+      .then(() => {})
+      .catch((error) => {
+        console.log('449',error)
+      });
+  };
+
+
+  const ondisposalcertPress = () => {
+    setLoader(true);
+    let data = {
+      ref_number: ref_number,
+      items: confirmCollectedCount,
+    };
+    getpdfApi(endUrl?.annexureB, data);
+  };
+  const onreplanishemailcer = () => {
+    setLoader(true);
+    let data = {
+      ref_number: ref_number,
+      items: confirmCollectedCount,
+    };
+    getpdfApi(endUrl?.annexureC, data);
   };
 
   const printPickupbutpress = () => {
     setLoader(true);
     setPhotoSection(true);
+    let data = {
+      ref_number: ref_number,
+    };
 
+    getpdfApi(endUrl?.annexure, data);
+  };
+
+  const getpdfApi = (annexure, data) => {
     axios
-      .get(`${endUrl.annexure}?ref_number=${ref_number}`)
+      .post(annexure, data)
       .then((res) => {
         setAnnexure(res?.data);
         createPDF();
@@ -485,7 +524,7 @@ export const FurnitureReplacmentProcess = () => {
     <SafeAreaView style={styles.mainView}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "android" ? "position" : null}
+          behavior={Platform.OS === "android" ? "position" : 'height'}
           keyboardVerticalOffset={0}
         >
           <View style={styles.furView}>
@@ -502,7 +541,7 @@ export const FurnitureReplacmentProcess = () => {
           />
           <TaskSection
             taskName={
-              organization == "School"
+              schooldetails?.organization == "School"
                 ? constants.createRequest
                 : constants.collectFurnitureRequest
             }
@@ -513,18 +552,22 @@ export const FurnitureReplacmentProcess = () => {
             <InputForm
               schoolname={constants.schoolName}
               schoolvalue={
-                organization == "School" ? schooldetails?.name : school_name
+                schooldetails?.organization == "School"
+                  ? schooldetails?.name
+                  : school_name
               }
               emisnumber={constants.emisNumber}
               emisvalue={
-                organization == "School" ? schooldetails?.username : emis
+                schooldetails?.organization == "School"
+                  ? schooldetails?.username
+                  : emis
               }
-              org={organization}
+              org={schooldetails?.organization}
               stockcollectionName={constants.schoolFurCount}
               stockcount={total_broken_items}
               onvalueEdit={(val) => onvalueEdit(val)}
             />
-            {organization == "School" ? (
+            {schooldetails?.organization == "School" ? (
               <View style={styles.addplusView}>
                 <TouchableOpacity
                   onPress={() =>
@@ -577,8 +620,6 @@ export const FurnitureReplacmentProcess = () => {
             taskNamePrintButoonValue={taskListButtonValue}
             printPickupPress={() => printPickupbutpress()}
           />
-          {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null}
-
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponent}
@@ -588,9 +629,12 @@ export const FurnitureReplacmentProcess = () => {
               showsVerticalScrollIndicator={false}
             />
           </ScrollView>
-          {replanishCertificateStatus === true ? (
-            <DisposalCertificateButton />
-          ) : null}
+          {/* {replanishCertificateStatus === true ? (
+            <DisposalCertificateButton
+              ondisposalcertPress={() => ondisposalcertPress()}
+              onreplanishemailcer={() => onreplanishemailcer()}
+            />
+          ) : null} */}
           {/* <DisposalDIlveryButton/> */}
           <View style={{ height: 60 }} />
         </KeyboardAvoidingView>

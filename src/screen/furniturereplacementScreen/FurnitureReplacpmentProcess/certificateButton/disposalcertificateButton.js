@@ -9,19 +9,15 @@ import endUrl from "../../../../redux/configration/endUrl";
 import style from "./style";
 
 
-export const DisposalCertificateButton = () =>{
+export const DisposalCertificateButton = ({ondisposalcertPress,onreplanishemailcer}) =>{
 const [checkBoxStatus,setCheckBoxStatus] = useState(false)
 const [emailcer,setEmailcer] = useState(false)
 const [statusofrep,setstatusofrep] = useState(false)
 const [distList, setDistList] = useState([]);
 const [selected, setSelected] = useState({});
 
-const ondisposalcertPress = ()=>{
-setEmailcer(true)
-}
-const onreplanishemailcer =()=>{
-setstatusofrep(true)
-}
+
+
 
 const getstatusList = () => {
     axios
@@ -57,7 +53,6 @@ return(
             </View>
             </View>
         </TouchableOpacity>
-        {emailcer ?
         <TouchableOpacity style={style.buttonCol} onPress={()=>onreplanishemailcer()}  >
             <View>
                 <Text style={style.textCOl}>
@@ -65,7 +60,6 @@ return(
                 </Text>
             </View>
         </TouchableOpacity>
-        :null}
         {statusofrep?
         <>
         <View style={style.container}>
