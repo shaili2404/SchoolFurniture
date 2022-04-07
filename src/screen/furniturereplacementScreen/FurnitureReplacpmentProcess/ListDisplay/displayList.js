@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -15,7 +15,7 @@ import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
-import { RfH, RfW } from "../../../../utils/helpers";
+import { RfW } from "../../../../utils/helpers";
 
 export const DisplayList = ({
   item,
@@ -30,7 +30,6 @@ export const DisplayList = ({
   onSubmitDetails,
   pageStatus,
 }) => {
-  console.log(pageStatus, tableKey);
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -68,12 +67,12 @@ export const DisplayList = ({
                 <>
                   {val == "reparableitem" || val == "replanishitem" ? (
                     <TextInput
-                      placeholder={val == 'replanishitem'?'': constants.Enterval}
+                      placeholder={val == 'replanishitem' ? '' : constants.Enterval}
                       placeholderTextColor={COLORS.Black}
                       style={Styles.inputStyles}
                       onChangeText={(val) => onchangeInp(val)}
                       value={item[val]}
-                      editable={val== 'replanishitem' ? false : true}
+                      editable={val == 'replanishitem' ? false : true}
                     />
                   ) : (
                     <Text style={Styles.textStyle}>{item[val]}</Text>

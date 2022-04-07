@@ -9,7 +9,6 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
-  Alert,
 } from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
@@ -33,6 +32,7 @@ import ImagePickerModal from "../../../component/imagePickerModal";
 import Images from "../../../asset/images";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
 import ShowImages from "../../../component/showImages";
+import { Baseurl } from "../../../redux/configration/baseurl";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -75,6 +75,10 @@ export const FurnitureReplacmentProcess = () => {
     (state) => state?.loginData?.user?.data?.data?.user
   );
 
+  const token = useSelector(
+    (state) => state?.loginData?.user?.data?.access_token
+  )
+
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -116,7 +120,6 @@ export const FurnitureReplacmentProcess = () => {
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     setFlatListData(broken_items);
-    console.log('119',tableKey,tableHeader)
     setLoader(false);
   };
   const onPendingRepair = () => {
@@ -129,7 +132,6 @@ export const FurnitureReplacmentProcess = () => {
     setTableKey((oldData) => [...oldData, "reparableitem"]);
     setTableKey((oldData) => [...oldData, "replanishitem"]);
     setlenofContent("More");
-    console.log('131',tableKey,tableHeader)
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -157,16 +159,16 @@ export const FurnitureReplacmentProcess = () => {
   const [tableHeader, setTableHeader] =
     organization == "School"
       ? useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-          constants.manage,
-        ])
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.manage,
+      ])
       : useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-        ]);
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
 
   const renderComponent = ({ item }) => {
     return (
@@ -179,7 +181,7 @@ export const FurnitureReplacmentProcess = () => {
         onEdit={(item, task) => onEdit(item, task)}
         flatListData={flatListData}
         onSubmitDetails={(data) => setConfirmCollectedCount(data)}
-        pageStatus = {taskofPage}
+        pageStatus={taskofPage}
       />
     );
   };
@@ -191,7 +193,7 @@ export const FurnitureReplacmentProcess = () => {
       flatListData: flatListData,
       screen:
         route?.params?.screen == "MangeRequest" ||
-        route?.params?.task == "MangeRequest"
+          route?.params?.task == "MangeRequest"
           ? "MangeRequest"
           : null,
       id:
@@ -251,7 +253,7 @@ export const FurnitureReplacmentProcess = () => {
     }
     else if (taskofPage == "Pending Collection") {
       onSubmitcollectionRequest();
-    } 
+    }
     else if (taskofPage == "Collection Accepted") {
       onSubmitcollectionRequest();
     }
@@ -262,43 +264,50 @@ export const FurnitureReplacmentProcess = () => {
 
     let obj = {};
     confirmCollectedCount.map((ele) => {
-      obj[ele?.id] = ele?.confirm_count;
+      obj[ele?.id] = Number(ele?.confirm_count);
     });
-    console.log("262", obj);
-     const form = new FormData();
 
-    form.append("images", {
-      uri: imgData[0].sourceURL,
-      type: imgData[0].mime,
-      name: imgData[0].filename,
-    });
-    form.append("confirm_count", obj);
-    form.append("ref_number", ref_number);
+    const url = `${Baseurl}${endUrl.acceptCollectionReuest}`
 
-    console.log('277',JSON.stringify(form))
+    let body = new FormData();
 
-
-
-    const data = {
-      ref_number: ref_number,
-      confirm_count: {7: 21, 8: 21} ,
-      // images: [{ "fileName": "0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "fileSize": 6246673, "height": 2848, "type": "image/jpg", "uri": "file:///Users/admin/Library/Developer/CoreSimulator/Devices/CA08A838-1FC0-41E7-A281-DB0125C95EB8/data/Containers/Data/Application/28CBBA29-DF38-4910-B1A0-BD4093370C5C/tmp/0F3A8984-D251-45B7-A44F-6967859F3001.jpg", "width": 4288 }],
-    };
-    console.log(data)
-
-    // axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
-    // axios.defaults.headers.common["Content-Type"] = "application/json";
-   
-    axios
-      .post(`${endUrl.acceptCollectionReuest}`,form)
-      .then((res) => {
-        setSuccessAlert(true);
-        setLoader(false);
-        setMainMsg(res?.data?.message);
+    imgData.forEach((img) => {
+      const name = Platform.OS == "ios" ? img.filename : img.path.substring(item.path.lastIndexOf('/') + 1)
+      body.append('images[]', {
+        uri: Platform.OS == "ios" ? img.sourceURL : img.path,
+        type: img.mime,
+        name: name,
+        filename: name
       })
-      .catch((e) => {
-        ErrorApi(e);
-      });
+    })
+    for (const [key, value] of Object.entries(obj)) {
+      body.append(`confirm_count[${key}]`, `${value}`);
+    }
+    body.append("ref_number", ref_number);
+
+    const uploadImg = async () => {
+      try {
+        let response = await fetch(url, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "Authorization": `Bearer${token}`
+          },
+          body: body
+        });
+        let res = await response.json();
+        if (response.ok) {
+          setSuccessAlert(true);
+          setLoader(false);
+          setMainMsg(res?.message);
+        } else {
+          ErrorApi(res, "collection");
+        }
+      } catch (err) {
+      }
+    }
+
+    uploadImg();
   };
 
   const onschoolreqSubmit = async () => {
@@ -307,17 +316,16 @@ export const FurnitureReplacmentProcess = () => {
       total_furniture: totalFurCount,
       broken_items: flatListData,
     };
-    console.log("301", route?.params?.screen, route?.params?.task);
+
     if (
       route?.params?.screen == "MangeRequest" ||
       route?.params?.task == "MangeRequest"
     ) {
       axios
         .put(
-          `${endUrl.delManageRequest}/${
-            route?.params?.screen == "MangeRequest"
-              ? route?.params?.id
-              : route?.params?.items?.id
+          `${endUrl.delManageRequest}/${route?.params?.screen == "MangeRequest"
+            ? route?.params?.id
+            : route?.params?.items?.id
           }`,
           data
         )
@@ -325,7 +333,6 @@ export const FurnitureReplacmentProcess = () => {
           setSuccessAlert(true);
           setLoader(false);
           setMainMsg(res?.data?.message);
-          console.log("232", res?.data?.message);
         })
         .catch((e) => {
           ErrorApi(e);
@@ -344,17 +351,18 @@ export const FurnitureReplacmentProcess = () => {
     }
   };
 
-  const ErrorApi = (e) => {
-    let { message, data, status } = e?.response?.data || {};
+  const ErrorApi = (e, arg) => {
+    let res = arg != "collection" ? e?.response?.data : e
+    let { message, data, status } = res || {};
     setLoader(false);
     seterrorAlert(true);
     {
       let str = "";
       status == 422
         ? Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setMainMsg(str);
-          })
+          str += `  ${value}`;
+          setMainMsg(str);
+        })
         : setMainMsg(message);
     }
   };
@@ -362,12 +370,16 @@ export const FurnitureReplacmentProcess = () => {
   const onConfirm = (imgData) => {
     let len;
     setImgData(imgData);
-    len = imgData.length > 10 ? "10+" : imgData.length;
-    setImgLen(len);
-    setPhotoSection(false);
+    len = imgData.length > 10 ? "10+" : imgData.length
+    if (len == 0) {
+      setPhotoSection(true);
+    } else {
+      setImgLen(len);
+      setPhotoSection(false);
+    }
     setImageModal(false);
-    setViewImage(false);
-  };
+    setViewImage(false)
+  }
 
   const onPressDone = () => {
     seterrorAlert(false);
@@ -403,7 +415,7 @@ export const FurnitureReplacmentProcess = () => {
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     axios
       .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
-      .then((res) => {})
+      .then((res) => { })
       .catch((e) => {
         ErrorApi(e);
       });
@@ -439,7 +451,6 @@ export const FurnitureReplacmentProcess = () => {
         directory: "docs",
       };
       let file = await reactNativeHtmlToPdf.convert(options);
-      console.log(file.filePath);
       setFilePath(file.filePath);
     }
   };
@@ -532,7 +543,7 @@ export const FurnitureReplacmentProcess = () => {
                       flatListData: flatListData,
                       screen:
                         route?.params?.screen == "MangeRequest" ||
-                        route?.params?.task == "MangeRequest"
+                          route?.params?.task == "MangeRequest"
                           ? "MangeRequest"
                           : null,
                       id:
@@ -597,7 +608,7 @@ export const FurnitureReplacmentProcess = () => {
         <FooterFur
           saveButton={saveButton}
           submitButton={submitButton}
-          
+
           onCancel={onCancel}
           onSave={onSave}
           onSubmit={onSubmit}
