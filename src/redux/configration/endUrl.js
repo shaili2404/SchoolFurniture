@@ -27,5 +27,7 @@ const endUrl = {
     replanishStatus : 'user/status/get-all-replenishment-status',
     annexureB:'user/download/annexure/b',
     annexureC:'user/download/annexure/c',
+    uploadProofReplanishment : 'user/file/upload/proof-of-replenishment',
+    annexureD:'user/download/annexure/d',
 }
 export default endUrl;

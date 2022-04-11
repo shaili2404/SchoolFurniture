@@ -15,7 +15,7 @@ import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
-import {RfW } from "../../../../utils/helpers";
+import { RfW } from "../../../../utils/helpers";
 
 export const DisplayList = ({
   item,
@@ -29,6 +29,8 @@ export const DisplayList = ({
   flatListData,
   onSubmitDetails,
   pageStatus,
+  onSubmitreparableDetails,
+  onsubmitDilverdetails
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -37,13 +39,17 @@ export const DisplayList = ({
   const [subMsg, setSubMsg] = useState("");
   const [previousData, setPreviousData] = useState([]);
   const [repItem, setRepItem] = useState("");
+  const [confirmCount, setConfirmCount] = useState("");
 
   const onchangeInp = (val) => {
+    let Confirm_cnt;
+    if (val > item.count) Confirm_cnt = item.count;
+    else Confirm_cnt = val;
+    setConfirmCount(Confirm_cnt);
     flatListData.map((element) => {
-      if (element.id === item.id) element.confirm_count = val;
+      if (element.id === item.id) element.confirm_count = Confirm_cnt;
     });
-    setPreviousData(flatListData);
-    onSubmitDetails(previousData);
+    onSubmitDetails(flatListData);
   };
 
   const onchangereparableval = (val) => {
@@ -52,13 +58,19 @@ export const DisplayList = ({
     else if (val <= item?.confirmed_count) setRepItem(value);
     flatListData.map((element) => {
       if (element.id === item.id) {
+        if (val == "") element.replenish_count = "";
+        else element.replenish_count = element?.confirmed_count - val;
         element.repair_count = val;
-        element.replenish_count = element?.confirmed_count - val;
       }
     });
-    setPreviousData(flatListData);
-    onSubmitDetails(previousData);
+    onSubmitreparableDetails(flatListData);
   };
+  const onchangedilver =(val)=>{
+    flatListData.map((element) => {
+      if (element.id === item.id) element.deliver_count = val;
+    });
+    onsubmitDilverdetails(flatListData);
+  }
   const onDelete = (item) => {
     if (organization == "School") onDeleteFurItem(item);
     else setAlert(true);
@@ -73,7 +85,7 @@ export const DisplayList = ({
         <View style={Styles.mainView}>
           {tableKey.map((val, index) => (
             <View key={val} style={Styles.viewStyle} key={index}>
-              {pageStatus == "Pending Repairs" ? (
+              {pageStatus == constants.Status_pendingRepair ? (
                 <>
                   {val == "reparableitem" || val == "replanishitem" ? (
                     <TextInput
@@ -99,16 +111,35 @@ export const DisplayList = ({
                 </>
               ) : (
                 <>
-                  {val == "collectionCount" ? (
-                    <TextInput
-                      placeholder={constants.Enterval}
-                      placeholderTextColor={COLORS.Black}
-                      style={Styles.inputStyles}
-                      onChangeText={(val) => onchangeInp(val)}
-                      keyboardType="numeric"
-                    />
+                  {pageStatus == constants.Status_RepairCompleted ? (
+                    <>
+                      {val == "deliveritem" ? (
+                        <TextInput
+                          placeholder={constants.Enterval}
+                          placeholderTextColor={COLORS.Black}
+                          style={Styles.inputStyles}
+                           onChangeText={(val) => onchangedilver(val)}
+                          keyboardType="numeric"
+                        />
+                      ) : (
+                        <Text style={Styles.textStyle}>{item[val]}</Text>
+                      )}
+                    </>
                   ) : (
-                    <Text style={Styles.textStyle}>{item[val]}</Text>
+                    <>
+                      {val == "collectionCount" ? (
+                        <TextInput
+                          placeholder={constants.Enterval}
+                          placeholderTextColor={COLORS.Black}
+                          style={Styles.inputStyles}
+                          onChangeText={(val) => onchangeInp(val)}
+                          keyboardType="numeric"
+                          value={String(confirmCount)}
+                        />
+                      ) : (
+                        <Text style={Styles.textStyle}>{item[val]}</Text>
+                      )}
+                    </>
                   )}
                 </>
               )}
@@ -204,8 +235,7 @@ const Styles = StyleSheet.create({
   },
   grayinputStyles: {
     height: 35,
-    backgroundColor: COLORS.graybackground,
+    backgroundColor: COLORS.White,
     width: 140,
-    color: COLORS.White,
   },
 });

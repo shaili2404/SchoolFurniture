@@ -135,6 +135,13 @@ const constants = {
   Delivery_signedCopy:'Uploaded Signed Delivery Note',
   Delivery_hasDelivered:'The Furniture Items have been Delivered',
   Delivery_hasreadytoDilvered:'Tick Here When Furniture Items Are Ready To Delivered',
+  Dilvery_headerDil:'Confirm Number Of Items To Be delivered',
+
+  Status_PendingCollection :"Pending Collection",
+  Status_CollectionAccepted : "Collection Accepted",
+  Status_pendingRepair :"Pending Repairs",
+  Status_RepairCompleted :"Repair Completed",
+  Status_pendingDilver :'Pending Delivery'
 
 
 };

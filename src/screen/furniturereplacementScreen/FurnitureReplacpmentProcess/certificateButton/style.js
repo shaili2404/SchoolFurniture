@@ -4,10 +4,11 @@ import COLORS from "../../../../asset/color";
 const width = Dimensions.get("window").width;
 export default StyleSheet.create({
   buttonCol: {
-    backgroundColor: COLORS.ThemeGreen,
+    backgroundColor: COLORS.certificateboxGreen,
     height: 40,
     marginVertical: 10,
     justifyContent: "center",
+    borderRadius:5
   },
   textCOl: {
     color: COLORS.White,
