@@ -762,12 +762,39 @@ export const FurnitureReplacmentProcess = () => {
 
     getpdfApi(endUrl?.annexure, data);
   };
+  const askPermission = (data) => {
+    async function requestExternalWritePermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Pdf creator needs External Storage Write Permission',
+            message:
+              'Pdf creator needs access to Storage data in your SD Card',
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          createPDF(data);
+        } else {
+          alert('WRITE_EXTERNAL_STORAGE permission denied');
+        }
+      } catch (err) {
+        alert('Write permission err', err);
+        console.warn(err);
+      }
+    }
+    if (Platform.OS === 'android') {
+      requestExternalWritePermission();
+    } else {
+      createPDF(data);
+    }
+  }
 
   const getpdfApi = (annexure, data) => {
     axios
       .post(annexure, data)
       .then((res) => {
-        createPDF(res?.data);
+        askPermission(res?.data);
         setLoader(false);
       })
       .catch((e) => {
