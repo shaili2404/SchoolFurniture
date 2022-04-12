@@ -27,5 +27,9 @@ const endUrl = {
     replanishStatus : 'user/status/get-all-replenishment-status',
     annexureB:'user/download/annexure/b',
     annexureC:'user/download/annexure/c',
+    uploadProofReplanishment : 'user/file/upload/proof-of-replenishment',
+    annexureD:'user/download/annexure/d',
+    submitRepair :'user/furniture-collect/repair-submit',
+    finalDelivery :'user/collection/deliver-collection'
 }
 export default endUrl;
