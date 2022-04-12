@@ -20,7 +20,8 @@ export const DisposalDIlveryButton = ({
   uploadDilveryNote,
   checkboxStatusreplanish,
   oncheckboxvalue,
-  taskofPage
+  taskofPage,
+  checkoboxofDilveryitem
 }) => {
   const [checkBoxStatus1, setCheckBoxStatus1] = useState(false);
   const [checkBoxStatus2, setCheckBoxStatus2] = useState(false);
@@ -40,6 +41,8 @@ export const DisposalDIlveryButton = ({
     <View style={{ backgroundColor: COLORS.White }}>
       <SafeAreaView style={style.mainView}>
         <View>
+
+        {checkoboxofDilveryitem?
           <View style={style.bottonView}>
             <TouchableOpacity onPress={() => ondilverycheckone()} disabled={taskofPage == constants.Status_pendingDilver?true:false}>
               <View style={style.checkVIew} />
@@ -55,6 +58,7 @@ export const DisposalDIlveryButton = ({
               </Text>
             </View>
           </View>
+          : null}
           {printdilverystatus ? (
             <TouchableOpacity
               style={style.buttonCol}

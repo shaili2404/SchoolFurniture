@@ -74,6 +74,7 @@ export const FurnitureReplacmentProcess = () => {
   const [dileveryNote, setdileveryNote] = useState([]);
   const [uploadPrintDilveryStatus, setuploadPrintDilveryStatus] =
     useState(false);
+  const [checkoboxofDilveryitem, setcheckoboxofDilveryitem] = useState(false);
   const [selected, setselected] = useState([]);
   const [replanishCertificateStatus, setreplanishcertificateStatus] =
     useState(false);
@@ -220,6 +221,11 @@ export const FurnitureReplacmentProcess = () => {
     else if (task == constants.Status_pendingRepair) onPendingRepair();
     else if (task == constants.Status_RepairCompleted) onRepairCompleted();
     else if (task == constants.Status_pendingDilver) onpendingDilvery();
+    // else if (task == constants.Status_DileveryConfirmed ){
+    //   setSuccessAlert(true);
+    //   setMainMsg("Delivery Is Already Done")
+    //   setLoader(false)
+    // }
   }, [tableHeader, isFocused]);
 
   const [tableKey, setTableKey] = useState([
@@ -291,6 +297,7 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onsubmitDilverdetails = (data) => {
     setConfirmCollectedCount(data);
+    setcheckoboxofDilveryitem(true);
   };
 
   const onEdit = (item, task) => {
@@ -361,6 +368,85 @@ export const FurnitureReplacmentProcess = () => {
       taskofPage == constants.Status_CollectionAccepted
     )
       onSubmitcollectionRequest();
+    else if (taskofPage == constants.Status_pendingRepair)
+      onsubmitRepairDetails();
+    else if (
+      taskofPage == constants.Status_RepairCompleted ||
+      taskofPage == constants.Status_pendingDilver
+    )
+      onSubmitDelivery();
+  };
+
+  const onSubmitDelivery = async () => {
+    setLoader(true);
+
+    const url = `${Baseurl}${endUrl.finalDelivery}`;
+
+    let body = new FormData();
+
+    dileveryNote.forEach((data) => {
+      const name =
+        Platform.OS == "ios"
+          ? data.name
+          : data.path.substring(item.path.lastIndexOf("/") + 1);
+      body.append("upload_file", {
+        uri: Platform.OS == "ios" ? data.uri : data.uri,
+        type: data.type,
+        name: name,
+        filename: name,
+      });
+    });
+    body.append("ref_number", ref_number);
+    console.log('395',JSON.stringify(body))
+    const uploadImg = async () => {
+      try {
+        let response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer${token}`,
+          },
+          body: body,
+        });
+        let res = await response.json();
+        if (response.ok) {
+          setSuccessAlert(true);
+          setLoader(false);
+          setMainMsg(res?.message);
+        } else {
+          ErrorApi(res, "collection");
+        }
+      } catch (err) {}
+    };
+
+    uploadImg();
+  };
+
+  const onsubmitRepairDetails = () => {
+    setLoader(true);
+
+    flatListData.map((ele) => {
+      ele.replenish_count = ele.replenished_count;
+      ele.repair_count = ele.repaired_count;
+    });
+
+    let data = {
+      ref_number: ref_number,
+      items:
+        replenishment_status == 2 || replenishment_status == 3
+          ? flatListData
+          : confirmCollectedCount,
+    };
+    axios
+      .post(`${endUrl.submitRepair}`, data)
+      .then((res) => {
+        setSuccessAlert(true);
+        setLoader(false);
+        setMainMsg(res?.data?.message);
+      })
+      .catch((e) => {
+        ErrorApi(e);
+      });
   };
 
   const onSubmitcollectionRequest = async () => {
@@ -595,8 +681,6 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
-    console.log("563", result);
-    console.log("564", selected);
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
@@ -868,6 +952,11 @@ export const FurnitureReplacmentProcess = () => {
               checkboxStatusreplanish={checkboxStatusreplanish}
               oncheckboxvalue={(value) => setvaluesavebutton(value)}
               taskofPage={taskofPage}
+              checkoboxofDilveryitem={
+                taskofPage == constants.Status_pendingDilver
+                  ? true
+                  : checkoboxofDilveryitem
+              }
             />
           ) : null}
           <View style={{ height: 60 }} />

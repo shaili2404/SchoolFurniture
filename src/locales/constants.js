@@ -141,7 +141,8 @@ const constants = {
   Status_CollectionAccepted : "Collection Accepted",
   Status_pendingRepair :"Pending Repairs",
   Status_RepairCompleted :"Repair Completed",
-  Status_pendingDilver :'Pending Delivery'
+  Status_pendingDilver :'Pending Delivery',
+  Status_DileveryConfirmed :'Delivery Confirmed'
 
 
 };
