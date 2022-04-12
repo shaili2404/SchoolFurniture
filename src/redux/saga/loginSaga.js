@@ -3,7 +3,7 @@ import {
     LOGIN_SUCEESS,
     LOGIN_ERROR
 } from '../actionTypes'
-import { loginService } from '../configration/service';
+import { loginService, runLogoutTimer, saveTokenInLocalStorage } from '../configration/service';
 import { storeData } from '../../utils/helpers';
 import { navigate } from '../../routes/rootNavigation';
 import { setAuthentication } from '../configration';
@@ -13,6 +13,9 @@ function* loginSaga(action) {
         const data = yield call(loginService, action.payload)
         storeData('token', data?.data?.access_token);
         setAuthentication(data?.data?.access_token);
+        saveTokenInLocalStorage(data?.data);
+        runLogoutTimer(data?.data?.expires_in * 1000);
+        console.log("user details",data?.data);
         navigate('First');
         if (data?.data?.status === 200) {
             yield put({ type: LOGIN_SUCEESS, payload: data })
