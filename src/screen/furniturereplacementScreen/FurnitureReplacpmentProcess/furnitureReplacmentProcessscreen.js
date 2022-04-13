@@ -108,7 +108,7 @@ export const FurnitureReplacmentProcess = () => {
     id,
     ref_number,
     replenishment_status,
-  } = schooldetails?.organization == "School" ? "" : route?.params;
+  } = schooldetails?.organization == constants.school ? "" : route?.params;
 
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
@@ -117,11 +117,10 @@ export const FurnitureReplacmentProcess = () => {
       userDelete: true,
       userEdit: true,
     });
-    if (route?.params?.task == "MangeRequest") {
+    if (route?.params?.task == constants.ManageReqText)
       setFlatListData(route?.params?.items?.broken_items);
-    } else {
-      setFlatListData(route?.params?.finalList);
-    }
+    else setFlatListData(route?.params?.finalList);
+
     setLoader(false);
   };
   const onrequestList = () => {
@@ -169,7 +168,6 @@ export const FurnitureReplacmentProcess = () => {
     setDilverFurIcon(constants.inprogress);
     setTableHeader((oldData) => [
       ...oldData,
-
       constants.collectedcount,
       constants.ReparableItem,
       constants.ReplanishmentItems,
@@ -181,30 +179,9 @@ export const FurnitureReplacmentProcess = () => {
       "confirmed_count",
       "repaired_count",
       "replenished_count",
-    ]);
-    setTableKey((oldData) => [...oldData, "deliveritem"]);
-    setlenofContent("More");
-    setFlatListData(broken_items);
-    setLoader(false);
-  };
-  const onpendingDilvery = () => {
-    setCollectFurItem(constants.success);
-    setRepairIcon(constants.success);
-    setDilverFurIcon(constants.inprogress);
-    setTableHeader((oldData) => [
-      ...oldData,
-      constants.collectedcount,
-      constants.ReparableItem,
-      constants.ReplanishmentItems,
-      constants.Dilvery_headerDil,
-    ]);
-
-    setTableKey((oldData) => [
-      ...oldData,
-      "confirmed_count",
-      "repaired_count",
-      "replenished_count",
-      "delivered_count",
+      taskofPage == constants?.Status_pendingDilver
+        ? "delivered_count"
+        : "deliveritem",
     ]);
     setlenofContent("More");
     setFlatListData(broken_items);
@@ -214,18 +191,25 @@ export const FurnitureReplacmentProcess = () => {
   useEffect(() => {
     const task = route?.params?.status;
     settaskOfPage(task);
-    if (schooldetails?.organization == "School") onSchool();
+    if (schooldetails?.organization == constants.school) onSchool();
     else if (task == constants.Status_PendingCollection) onrequestList();
     else if (task == constants.Status_CollectionAccepted)
       onCollectionAccepted();
     else if (task == constants.Status_pendingRepair) onPendingRepair();
-    else if (task == constants.Status_RepairCompleted) onRepairCompleted();
-    else if (task == constants.Status_pendingDilver) onpendingDilvery();
-    // else if (task == constants.Status_DileveryConfirmed ){
-    //   setSuccessAlert(true);
-    //   setMainMsg("Delivery Is Already Done")
-    //   setLoader(false)
-    // }
+    else if (
+      task == constants.Status_RepairCompleted ||
+      task == constants.Status_pendingDilver
+    )
+      onRepairCompleted();
+    else if (task == constants.Status_DileveryConfirmed ){
+      setCreateRequestIcon(constants.success)
+      setCollectFurItem(constants.success)
+      setRepairIcon(constants.success)
+      setDilverFurIcon(constants.success)
+      setSuccessAlert(true);
+      setMainMsg("Delivery Is Already Done")
+      setLoader(false)
+    }
   }, [tableHeader, isFocused]);
 
   const [tableKey, setTableKey] = useState([
@@ -235,7 +219,7 @@ export const FurnitureReplacmentProcess = () => {
   ]);
 
   const [tableHeader, setTableHeader] =
-    schooldetails?.organization == "School"
+    schooldetails?.organization == constants.school
       ? useState([
           constants.FurCategory,
           constants.furItem,
@@ -273,9 +257,8 @@ export const FurnitureReplacmentProcess = () => {
           setSaveButton(true);
         else setSaveButton(false);
       });
-    } else {
-      setSaveButton(true);
-    }
+    } else setSaveButton(true);
+
     setConfirmCollectedCount(data);
   };
 
@@ -306,12 +289,12 @@ export const FurnitureReplacmentProcess = () => {
       task: task,
       flatListData: flatListData,
       screen:
-        route?.params?.screen == "MangeRequest" ||
-        route?.params?.task == "MangeRequest"
-          ? "MangeRequest"
+        route?.params?.screen == constants.ManageReqText ||
+        route?.params?.task == constants.ManageReqText
+          ? constants.ManageReqText
           : null,
       id:
-        route?.params?.screen == "MangeRequest"
+        route?.params?.screen == constants.ManageReqText
           ? route?.params?.id
           : route?.params?.items?.id,
     });
@@ -362,7 +345,7 @@ export const FurnitureReplacmentProcess = () => {
 
   const onPressYes = () => {
     setAlert(false);
-    if (schooldetails?.organization == "School") onschoolreqSubmit();
+    if (schooldetails?.organization == constants.school) onschoolreqSubmit();
     else if (
       taskofPage == constants.Status_PendingCollection ||
       taskofPage == constants.Status_CollectionAccepted
@@ -397,7 +380,7 @@ export const FurnitureReplacmentProcess = () => {
       });
     });
     body.append("ref_number", ref_number);
-    console.log('395',JSON.stringify(body))
+    console.log("395", JSON.stringify(body));
     const uploadImg = async () => {
       try {
         let response = await fetch(url, {
@@ -409,22 +392,25 @@ export const FurnitureReplacmentProcess = () => {
           body: body,
         });
         let res = await response.json();
-        if (response.ok) {
-          setSuccessAlert(true);
-          setLoader(false);
-          setMainMsg(res?.message);
-        } else {
-          ErrorApi(res, "collection");
-        }
+        if (response.ok) SuccessUploadImage(res);
+        else ErrorApi(res, "collection");
       } catch (err) {}
     };
-
     uploadImg();
+  };
+  const SuccessUploadImage = (res) => {
+    setSuccessAlert(true);
+    setLoader(false);
+    setMainMsg(res?.message);
+  };
+  const successApi = (res) => {
+    setSuccessAlert(true);
+    setLoader(false);
+    setMainMsg(res?.data?.message);
   };
 
   const onsubmitRepairDetails = () => {
     setLoader(true);
-
     flatListData.map((ele) => {
       ele.replenish_count = ele.replenished_count;
       ele.repair_count = ele.repaired_count;
@@ -439,14 +425,8 @@ export const FurnitureReplacmentProcess = () => {
     };
     axios
       .post(`${endUrl.submitRepair}`, data)
-      .then((res) => {
-        setSuccessAlert(true);
-        setLoader(false);
-        setMainMsg(res?.data?.message);
-      })
-      .catch((e) => {
-        ErrorApi(e);
-      });
+      .then((res) => successApi(res))
+      .catch((e) => ErrorApi(e));
   };
 
   const onSubmitcollectionRequest = async () => {
@@ -489,13 +469,8 @@ export const FurnitureReplacmentProcess = () => {
           body: body,
         });
         let res = await response.json();
-        if (response.ok) {
-          setSuccessAlert(true);
-          setLoader(false);
-          setMainMsg(res?.message);
-        } else {
-          ErrorApi(res, "collection");
-        }
+        if (response.ok) SuccessUploadImage(res);
+        else ErrorApi(res, "collection");
       } catch (err) {}
     };
 
@@ -509,37 +484,25 @@ export const FurnitureReplacmentProcess = () => {
       broken_items: flatListData,
     };
     if (
-      route?.params?.screen == "MangeRequest" ||
-      route?.params?.task == "MangeRequest"
+      route?.params?.screen == constants.ManageReqText ||
+      route?.params?.task == constants.ManageReqText
     ) {
       axios
         .put(
           `${endUrl.delManageRequest}/${
-            route?.params?.screen == "MangeRequest"
+            route?.params?.screen == constants.ManageReqText
               ? route?.params?.id
               : route?.params?.items?.id
           }`,
           data
         )
-        .then((res) => {
-          setSuccessAlert(true);
-          setLoader(false);
-          setMainMsg(res?.data?.message);
-        })
-        .catch((e) => {
-          ErrorApi(e);
-        });
+        .then((res) => successApi(res))
+        .catch((e) => ErrorApi(e));
     } else {
       axios
         .post(`${endUrl.addFurRequest}`, data)
-        .then((res) => {
-          setSuccessAlert(true);
-          setLoader(false);
-          setMainMsg(res?.data?.message);
-        })
-        .catch((e) => {
-          ErrorApi(e);
-        });
+        .then((res) => successApi(res))
+        .catch((e) => ErrorApi(e));
     }
   };
 
@@ -563,9 +526,8 @@ export const FurnitureReplacmentProcess = () => {
     let len;
     setImgData(imgData);
     len = imgData.length > 10 ? "10+" : imgData.length;
-    if (len == 0) {
-      setPhotoSection(true);
-    } else {
+    if (len == 0) setPhotoSection(true);
+    else {
       setImgLen(len);
       setPhotoSection(false);
     }
@@ -579,8 +541,8 @@ export const FurnitureReplacmentProcess = () => {
 
   const onSuccessPressDone = () => {
     if (
-      route?.params?.screen == "MangeRequest" ||
-      route?.params?.task == "MangeRequest"
+      route?.params?.screen == constants.ManageReqText ||
+      route?.params?.task == constants.ManageReqText
     ) {
       seterrorAlert(false);
       navigation.navigate("ManageRequests");
@@ -608,9 +570,7 @@ export const FurnitureReplacmentProcess = () => {
     axios
       .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
       .then((res) => {})
-      .catch((e) => {
-        ErrorApi(e);
-      });
+      .catch((e) => ErrorApi(e));
   };
 
   const isPermitted = async () => {
@@ -628,9 +588,7 @@ export const FurnitureReplacmentProcess = () => {
         alert("Write permission err", err);
         return false;
       }
-    } else {
-      return true;
-    }
+    } else return true;
   };
 
   const createPDF = async (data) => {
@@ -681,6 +639,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
+    setLoader(true)
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
@@ -699,7 +658,6 @@ export const FurnitureReplacmentProcess = () => {
     });
     body.append("ref_number", ref_number);
     body.append("replenishment_status", selected?.id);
-    console.log("583", JSON.stringify(body));
     const uploadImg = async () => {
       try {
         let response = await fetch(url, {
@@ -716,9 +674,7 @@ export const FurnitureReplacmentProcess = () => {
           setLoader(false);
           setMainMsg(res?.message);
           setcheckboxStatusreplanish(true);
-        } else {
-          ErrorApi(res, "collection");
-        }
+        } else ErrorApi(res, "collection");
       } catch (err) {}
     };
 
@@ -730,16 +686,12 @@ export const FurnitureReplacmentProcess = () => {
       const result = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
-      for (const res of result) {
-        console.log("res : " + JSON.stringify(res));
-      }
+
       setdileveryNote(result);
       if (taskofPage == constants.Status_pendingRepair)
         uploadSignedreplanishment(result);
       else setcheckboxStatusreplanish(true);
-    } catch (err) {
-      console.log("Unknown Error: " + JSON.stringify(err));
-    }
+    } catch (err) {}
   };
 
   const onPressDeliveryNote = () => {
@@ -747,7 +699,6 @@ export const FurnitureReplacmentProcess = () => {
       ref_number: ref_number,
       items: confirmCollectedCount,
     };
-    console.log("634", data);
 
     getpdfApi(endUrl?.annexureD, data);
     setuploadPrintDilveryStatus(true);
@@ -759,7 +710,6 @@ export const FurnitureReplacmentProcess = () => {
     let data = {
       ref_number: ref_number,
     };
-
     getpdfApi(endUrl?.annexure, data);
   };
   const askPermission = (data) => {
@@ -768,27 +718,19 @@ export const FurnitureReplacmentProcess = () => {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
           {
-            title: 'Pdf creator needs External Storage Write Permission',
-            message:
-              'Pdf creator needs access to Storage data in your SD Card',
+            title: "Pdf creator needs External Storage Write Permission",
+            message: "Pdf creator needs access to Storage data in your SD Card",
           }
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          createPDF(data);
-        } else {
-          alert('WRITE_EXTERNAL_STORAGE permission denied');
-        }
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) createPDF(data);
+        else alert("WRITE_EXTERNAL_STORAGE permission denied");
       } catch (err) {
-        alert('Write permission err', err);
-        console.warn(err);
+        alert("Write permission err", err);
       }
     }
-    if (Platform.OS === 'android') {
-      requestExternalWritePermission();
-    } else {
-      createPDF(data);
-    }
-  }
+    if (Platform.OS === "android") requestExternalWritePermission();
+    else createPDF(data);
+  };
 
   const getpdfApi = (annexure, data) => {
     axios
@@ -841,7 +783,7 @@ export const FurnitureReplacmentProcess = () => {
           />
           <TaskSection
             taskName={
-              schooldetails?.organization == "School"
+              schooldetails?.organization == constants.school
                 ? constants.createRequest
                 : constants.collectFurnitureRequest
             }
@@ -852,13 +794,13 @@ export const FurnitureReplacmentProcess = () => {
             <InputForm
               schoolname={constants.schoolName}
               schoolvalue={
-                schooldetails?.organization == "School"
+                schooldetails?.organization == constants.school
                   ? schooldetails?.name
                   : school_name
               }
               emisnumber={constants.emisNumber}
               emisvalue={
-                schooldetails?.organization == "School"
+                schooldetails?.organization == constants.school
                   ? schooldetails?.username
                   : emis
               }
@@ -867,19 +809,19 @@ export const FurnitureReplacmentProcess = () => {
               stockcount={total_broken_items}
               onvalueEdit={(val) => onvalueEdit(val)}
             />
-            {schooldetails?.organization == "School" ? (
+            {schooldetails?.organization == constants.school ? (
               <View style={styles.addplusView}>
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("AddRequestFur", {
                       flatListData: flatListData,
                       screen:
-                        route?.params?.screen == "MangeRequest" ||
-                        route?.params?.task == "MangeRequest"
-                          ? "MangeRequest"
+                        route?.params?.screen == constants.ManageReqText ||
+                        route?.params?.task == constants.ManageReqText
+                          ? constants.ManageReqText
                           : null,
                       id:
-                        route?.params?.screen == "MangeRequest"
+                        route?.params?.screen == constants.ManageReqText
                           ? route?.params?.id
                           : route?.params?.items?.id,
                     })
@@ -1006,7 +948,7 @@ export const FurnitureReplacmentProcess = () => {
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={mainMsg}
           subMessage={subMsg}
-          type="question"
+          type={constants.dropdown_Type}
           onConfirm={() => onPressYes()}
         />
       ) : null}
@@ -1017,7 +959,7 @@ export const FurnitureReplacmentProcess = () => {
           setmodalVisible={(val) => setdelteItemAlert(val)}
           mainMessage={mainMsg}
           subMessage={subMsg ? subMsg : ""}
-          type="question"
+          type={constants.dropdown_Type}
           onConfirm={() => onDeleteItemYes()}
         />
       ) : null}
@@ -1027,7 +969,7 @@ export const FurnitureReplacmentProcess = () => {
           setmodalVisible={(val) => setCancelProcessalert(val)}
           mainMessage={mainMsg}
           subMessage={subMsg ? subMsg : ""}
-          type="question"
+          type={constants.dropdown_Type}
           onConfirm={() => onPressYesCancel()}
         />
       ) : null}

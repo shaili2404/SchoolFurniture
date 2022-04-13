@@ -45,7 +45,6 @@ const ImagePickerModal = (props) => {
             setViewImage(true);
             setHideModal(true);
         }).catch(err => {
-            console.log(err, "err")
         })
     }
 

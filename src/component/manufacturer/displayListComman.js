@@ -140,7 +140,7 @@ export const DataDisplayList = ({
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={mainMessage ? mainMessage : ""}
           subMessage={submessage ? submessage : ""}
-          type="question"
+          type={constants.dropdown_Type}
           onConfirm={() => onPressYes()}
         />
       ) : null}

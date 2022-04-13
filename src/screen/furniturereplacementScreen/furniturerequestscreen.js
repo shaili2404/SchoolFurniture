@@ -14,7 +14,11 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./styles";
-import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
@@ -27,7 +31,7 @@ import AlertText from "../../Alert/AlertText";
 const PAGESIZE = 6;
 
 export const FurnitureReplacmentManfacturer = () => {
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -50,7 +54,6 @@ export const FurnitureReplacmentManfacturer = () => {
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
-  const route = useRoute()
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -61,61 +64,58 @@ export const FurnitureReplacmentManfacturer = () => {
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
   const validation = (value) => {
-    return value == "" || value == undefined || value == null
-  }
-   useEffect (()=>{
-    if (startDate.getTime() > endDate.getTime()){
-      setDateErrorMessage(AlertText.DateError)
-    }
-    else{
-      setDateErrorMessage('')
-    }
-   },[startDate,endDate])
+    return value == "" || value == undefined || value == null;
+  };
+  useEffect(() => {
+    if (startDate.getTime() > endDate.getTime())
+      setDateErrorMessage(AlertText.DateError);
+    else setDateErrorMessage("");
+  }, [startDate, endDate]);
   const onsearch = () => {
     setSearchStatus(false);
-    let strtDte = `${startDate?.getFullYear()}-${startDate?.getMonth()+1}-${startDate?.getDate()}`;
-    let endDte = `${endDate?.getFullYear()}-${endDate?.getMonth()+1}-${endDate.getDate()}`;
-    let str = ''
-    if (!validation(refnumber)) str += `ref_number=${refnumber}&`
-    if (startDateStatus == false) str += `start_date=${strtDte}&`
-    if (enddateStatus == false) str += `end_date=${endDte}&`
+    let strtDte = `${startDate?.getFullYear()}-${
+      startDate?.getMonth() + 1
+    }-${startDate?.getDate()}`;
+    let endDte = `${endDate?.getFullYear()}-${
+      endDate?.getMonth() + 1
+    }-${endDate.getDate()}`;
+    let str = "";
+    if (!validation(refnumber)) str += `ref_number=${refnumber}&`;
+    if (startDateStatus == false) str += `start_date=${strtDte}&`;
+    if (enddateStatus == false) str += `end_date=${endDte}&`;
     if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
-    if (select?.id) str += `status_id=${select?.id}&`
+    if (select?.id) str += `status_id=${select?.id}&`;
     setLoader(true);
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
       .get(`${endUrl.searchfurRequest}?${str}`)
-      .then((res) => {
-        setCollectionList(res?.data?.data);
-        initialPagination(res?.data?.data);
-        setLoader(false);
-      })
+      .then((res) => onsuccessapi(res))
       .catch((e) => {
-        setLoader(false);
+        onerrorapi(e);
         setErrorMessage(e?.response?.data?.message);
       });
+  };
+  const onsuccessapi = (res) => {
+    setCollectionList(res?.data?.data);
+    initialPagination(res?.data?.data);
+    setLoader(false);
+  };
+  const onerrorapi = (e) => {
+    setLoader(false);
   };
 
   const getCollectionRequest = () => {
     setLoader(true);
     axios
       .get(`${endUrl.collectionreqList}`)
-      .then((res) => {
-        setCollectionList(res?.data?.data);
-        initialPagination(res?.data?.data);
-        setLoader(false);
-      })
-      .catch((e) =>
-        setLoader(false)
-      );
+      .then((res) => onsuccessapi(res))
+      .catch((e) => onerrorapi(e));
   };
   const getstatusList = () => {
     setLoader(true);
     axios
       .get(`${endUrl.statusList}`)
-      .then((res) => {
-        setDropData(res?.data?.data);
-      })
+      .then((res) => setDropData(res?.data?.data))
       .catch((e) => console.log("apicall", e));
   };
 
@@ -137,9 +137,7 @@ export const FurnitureReplacmentManfacturer = () => {
 
   const onNext = () => {
     let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
+    if (currentPage === totalPage) return;
     setPagination((prevState) => {
       return {
         ...prevState,
@@ -155,9 +153,7 @@ export const FurnitureReplacmentManfacturer = () => {
 
   const onPrevious = () => {
     let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
+    if (currentPage === 1) return;
     setPagination((prevState) => {
       return {
         ...prevState,
@@ -175,44 +171,44 @@ export const FurnitureReplacmentManfacturer = () => {
     setStartDateStatus(true);
     setendDatestatus(true);
     setErrorMessage("");
-    setDateErrorMessage('')
+    setDateErrorMessage("");
   };
 
   useEffect(() => {
-    if (refnumber == '') {
+    if (refnumber == "") {
       getCollectionRequest();
       getstatusList();
     }
-  }, [refnumber])
+  }, [refnumber]);
 
   const tableHeader =
     organization == "School"
       ? [
-        constants.dateCreated,
-        constants.refrenceNo,
-        constants.emisNumber,
-        constants.status,
-        constants.totalFurnitureCount,
-      ]
+          constants.dateCreated,
+          constants.refrenceNo,
+          constants.emisNumber,
+          constants.status,
+          constants.totalFurnitureCount,
+        ]
       : [
-        constants.schoolName,
-        constants.dateCreated,
-        constants.refrenceNo,
-        constants.status,
-        constants.emis,
-        constants.totalFurnitureCount,
-      ];
+          constants.schoolName,
+          constants.dateCreated,
+          constants.refrenceNo,
+          constants.status,
+          constants.emis,
+          constants.totalFurnitureCount,
+        ];
   const tableKey =
     organization == "School"
       ? ["created_at", "ref_number", "status", "emis", "total_furniture"]
       : [
-        "school_name",
-        "created_at",
-        "ref_number",
-        "status",
-        "emis",
-        "total_furniture",
-      ];
+          "school_name",
+          "created_at",
+          "ref_number",
+          "status",
+          "emis",
+          "total_furniture",
+        ];
   const rendercomponent = ({ item }) => {
     return (
       <>
@@ -291,7 +287,9 @@ export const FurnitureReplacmentManfacturer = () => {
             <Text style={Styles.textStyle}>
               {startDateStatus
                 ? "Start Date"
-                : `${startDate?.getDate()}/${startDate?.getMonth()+1}/${startDate?.getFullYear()}`}
+                : `${startDate?.getDate()}/${
+                    startDate?.getMonth() + 1
+                  }/${startDate?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -318,7 +316,9 @@ export const FurnitureReplacmentManfacturer = () => {
             <Text style={Styles.textStyle}>
               {enddateStatus
                 ? "End Date"
-                : `${endDate?.getDate()}/${endDate?.getMonth()+1}/${endDate?.getFullYear()}`}
+                : `${endDate?.getDate()}/${
+                    endDate?.getMonth() + 1
+                  }/${endDate?.getFullYear()}`}
             </Text>
           </View>
           <TouchableOpacity
@@ -341,13 +341,12 @@ export const FurnitureReplacmentManfacturer = () => {
               }}
             />
           </TouchableOpacity>
-         
         </View>
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
           </View>
-          ):null}
+        ) : null}
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>

@@ -125,6 +125,7 @@ const constants = {
   uploaded: "Uploaded",
   ViewAll: "View All",
   Ph: '10+ Photos',
+  ManageReqText:"MangeRequest",
 
   Replanish_certificate :"Email and Print Replenishment Request Form",
   Replanish_Disposalcertificate:'Print Furniture Disposal Certificate',
@@ -142,7 +143,11 @@ const constants = {
   Status_pendingRepair :"Pending Repairs",
   Status_RepairCompleted :"Repair Completed",
   Status_pendingDilver :'Pending Delivery',
-  Status_DileveryConfirmed :'Delivery Confirmed'
+  Status_DileveryConfirmed :'Delivery Confirmed',
+
+  dropdown_Type :"question"
+
+
 
 
 };
