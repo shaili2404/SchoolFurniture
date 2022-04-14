@@ -143,7 +143,7 @@ const constants = {
   Status_pendingRepair :"Pending Repairs",
   Status_RepairCompleted :"Repair Completed",
   Status_pendingDilver :'Pending Delivery',
-  Status_DileveryConfirmed :'Delivery Confirmed',
+  Status_DeliveryConfirmed :'Delivery Confirmed',
 
   dropdown_Type :"question"
 

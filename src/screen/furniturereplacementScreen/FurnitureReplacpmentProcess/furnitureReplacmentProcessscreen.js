@@ -201,7 +201,7 @@ export const FurnitureReplacmentProcess = () => {
       task == constants.Status_pendingDilver
     )
       onRepairCompleted();
-    else if (task == constants.Status_DileveryConfirmed ){
+    else if (task == constants.Status_DeliveryConfirmed ){
       setCreateRequestIcon(constants.success)
       setCollectFurItem(constants.success)
       setRepairIcon(constants.success)
