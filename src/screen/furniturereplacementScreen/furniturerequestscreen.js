@@ -186,8 +186,8 @@ export const FurnitureReplacmentManfacturer = () => {
       ? [
           constants.dateCreated,
           constants.refrenceNo,
-          constants.emisNumber,
           constants.status,
+          constants.emisNumber,
           constants.totalFurnitureCount,
         ]
       : [
