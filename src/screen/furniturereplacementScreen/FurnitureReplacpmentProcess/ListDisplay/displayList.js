@@ -37,7 +37,6 @@ export const DisplayList = ({
   const [errorMsg, setErrorMsg] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
-  const [previousData, setPreviousData] = useState([]);
   const [repItem, setRepItem] = useState("");
   const [confirmCount, setConfirmCount] = useState("");
 
@@ -178,7 +177,7 @@ export const DisplayList = ({
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={mainMessage ? mainMessage : ""}
           subMessage={submessage ? submessage : ""}
-          type="question"
+          type={constants.dropdown_Type}
           onConfirm={() => onPressYes()}
         />
       ) : null}

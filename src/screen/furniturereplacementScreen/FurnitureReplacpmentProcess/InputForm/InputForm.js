@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  TextInput,
-} from "react-native";
+import React, { useState } from "react";
+import { Text, View, TextInput } from "react-native";
 
 import COLORS from "../../../../asset/color";
 import style from "./style";

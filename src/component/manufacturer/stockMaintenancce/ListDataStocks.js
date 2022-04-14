@@ -66,7 +66,7 @@ export const ListDataSTocks = ({ item, tableKey}) => {
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={mainMessage}
           subMessage={submessage}
-          type="question"
+          type={constants.dropdown_Type}
           onConfirm={() => onPressYes()}
         />
       ) : null}

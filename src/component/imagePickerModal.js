@@ -47,7 +47,6 @@ const ImagePickerModal = (props) => {
             setHideModal(true);
             console.log("imagecam",image)
         }).catch(err => {
-            console.log(err, "err")
         })
     }
 

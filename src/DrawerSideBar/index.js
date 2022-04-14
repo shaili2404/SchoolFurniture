@@ -22,6 +22,7 @@ import { AlertMessage } from "../Alert/alert";
 import AlertText from "../Alert/AlertText";
 import axios from "axios";
 import endUrl from "../redux/configration/endUrl";
+import constants from "../locales/constants";
 
 const DrawerSideBar = (props) => {
     const [name, setName] = useState("");
@@ -188,7 +189,7 @@ const DrawerSideBar = (props) => {
                         setmodalVisible={(val) => setAlert(val)}
                         mainMessage={AlertText.signout}
                         subMessage={AlertText.UndoMessgae}
-                        type="question"
+                        type={constants.dropdown_Type}
                         onConfirm={() => onPressYes()}
                     />
                 ) : null}

@@ -93,9 +93,9 @@ export const AddFurRequestScreen = () => {
 
     if (way == "Edit") {
       finalList.find(function (post, index) {
-        if (post.category_id == obj.category_id) {
+        if (post.category_id == obj.category_id) 
           setFinalList([obj]);
-        }
+        
       });
     }
 
@@ -103,9 +103,9 @@ export const AddFurRequestScreen = () => {
       if (post.item_id == obj.item_id) return true;
     });
 
-    if (found == undefined && way !== "Edit") {
+    if (found == undefined && way !== "Edit") 
       setFinalList((prevState) => [...prevState, obj]);
-    } else if (found !== undefined && way !== "Edit") {
+     else if (found !== undefined && way !== "Edit") {
       found.count += 1;
       setFinalList((prevState) => [...prevState]);
     }

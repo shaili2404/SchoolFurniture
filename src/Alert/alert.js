@@ -20,7 +20,7 @@ export const AlertMessage = (props) => {
             <Text style={Styles.mainMessage}>{props.mainMessage}</Text>
             <Text style={Styles.subMessage}>{props.subMessage}</Text>
             <View style={Styles.buttonView}>
-              {props.type === "question" ? (
+              {props.type === constants.dropdown_Type ? (
                 <View style={Styles.subButtonView}>
                   <TouchableOpacity
                     style={Styles.noView}

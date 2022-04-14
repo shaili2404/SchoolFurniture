@@ -81,7 +81,6 @@ export const Functionalities = () => {
         getOrgPermission(res?.data?.data);
       })
       .catch((e) => {
-        console.log("apicall", e);
         setLoader(false);
       });
   };

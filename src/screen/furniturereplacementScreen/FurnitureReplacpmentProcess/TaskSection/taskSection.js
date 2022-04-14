@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import Images from "../../../../asset/images";
 import Styles from "./style";
-import { useNavigation } from "@react-navigation/native";
 
 export const TaskSection = ({
   taskName,
@@ -11,7 +10,6 @@ export const TaskSection = ({
   acceptRequest,
   printPickupPress,
 }) => {
-  const navigation = useNavigation();
   const [disablestatus, setDisableStatus] = useState(false);
   useEffect(() => {
     if (taskNameButoonValue == "Accepted") setDisableStatus(true);
