@@ -749,7 +749,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   useLayoutEffect(() => {
-    const title = "Furniture Replacement";
+    const title = "Furniture Replacement Process";
     navigation.setOptions({ title });
   }, []);
 
