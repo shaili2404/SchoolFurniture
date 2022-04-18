@@ -97,7 +97,7 @@ export const IconBar = ({
             <Image source={Images.dilveryIcon} />
           )}
           <View style={styles.labelView}>
-            <Text style={styles.labelText}>{constants.DilverFurItem}</Text>
+          <Text style={styles.labelText}>{constants.DeliverFurItem}</Text>
           </View>
         </View>
       </View>

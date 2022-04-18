@@ -749,7 +749,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   useLayoutEffect(() => {
-    const title = "Furniture Replacement";
+    const title = "Furniture Replacement Process";
     navigation.setOptions({ title });
   }, []);
 
@@ -862,6 +862,9 @@ export const FurnitureReplacmentProcess = () => {
             taskNamePrintButoonValue={taskListButtonValue}
             printPickupPress={() => printPickupbutpress()}
           />
+
+        {/* {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null} */}
+
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponent}

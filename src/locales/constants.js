@@ -69,7 +69,7 @@ const constants = {
   createRequest: "Create Request",
   collectFurnitureRequest: "Collect Furniture Item",
   RepairReplnish: "Repair/Replenish",
-  DilverFurItem: "Dilver Furniture Item",
+  DeliverFurItem: "Deliver Furniture Item",
   Accept: "Accept",
   Accepted: "Accepted",
   userNotFound: "User Not Found",

@@ -184,12 +184,12 @@ export const FurnitureReplacmentManfacturer = () => {
   const tableHeader =
     organization == "School"
       ? [
-          constants.dateCreated,
-          constants.refrenceNo,
-          constants.status,
-          constants.emisNumber,
-          constants.totalFurnitureCount,
-        ]
+        constants.dateCreated,
+        constants.refrenceNo,
+        constants.status,
+        constants.emisNumber,
+        constants.totalFurnitureCount,
+      ]
       : [
           constants.schoolName,
           constants.dateCreated,

@@ -1,6 +1,7 @@
 import { Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STANDARD_SCREEN_DIMENSIONS } from './constants';
+import { navigate } from '../routes/rootNavigation';
 
 
 export const storeData = async (key, value) => {
@@ -35,7 +36,9 @@ export const storeData = async (key, value) => {
 
   export const logout = async () => {
     try {
-      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('userDetails');
+      console.log("logout successfully");
+      navigate('LoginScreen');
     } catch (e) { }
   };
 

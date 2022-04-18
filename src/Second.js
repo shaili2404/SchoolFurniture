@@ -114,7 +114,7 @@ const App = () => {
    for (const [key, value] of Object.entries(obj)) {
      body.append(`confirm_count[${key}]`, `${value}`);
    }
-   body.append("ref_number", ref_number);
+   body.append("ref_number", ref_number); 
 
 
    const uploadImg = async () => {

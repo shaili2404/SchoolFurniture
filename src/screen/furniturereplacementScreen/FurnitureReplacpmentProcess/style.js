@@ -126,5 +126,4 @@ export default StyleSheet.create({
     color: COLORS.ThemeGreen,
     textAlign: 'center',
   },
-  
 });
