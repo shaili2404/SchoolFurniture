@@ -25,7 +25,7 @@ import { StockItems } from "../screen/manufacturer/maintenance/StockMaintenance/
 import { FurnitureReplacmentProcess } from "../screen/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
 import { Search } from "../screen/manufacturer/searchManufacturer/search";
 import { ManageRequests } from "../screen/ManageRequests/ManageRequests";
-import { DashboardUser } from "../screen/dashboard/dashboarduser/dashboarduser";
+import { DashboardUser } from "../screen/dashboard/dashboarduser/Dashboarduser";
 import Third from "../Third";
 
 const Stack = createNativeStackNavigator();
@@ -49,7 +49,7 @@ const DashboardStack = () => {
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       <Drawer.Screen
         component={DashboardUser}
-        name='DASHBOARDUSER'
+        name={NavigationRouteNames.DASHBOARDUSER}
         options={CommonHeaderStyle}
       />
     </Drawer.Navigator>
@@ -122,6 +122,18 @@ const ManageRequestsDrawerStack = () => {
       <Drawer.Screen
         name={NavigationRouteNames.MANAGEREQUESTS}
         component={ManageRequests}
+        options={CommonHeaderStyle}
+      />
+    </Drawer.Navigator>
+  );
+};
+
+const thirdStack = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+      <Drawer.Screen
+        name={NavigationRouteNames.Third}
+        component={Third}
         options={CommonHeaderStyle}
       />
     </Drawer.Navigator>
@@ -329,7 +341,7 @@ const AppStack = (props) => {
         />
          <Stack.Screen
           name={NavigationRouteNames.Third}
-          component={DrawerStack}
+          component={thirdStack}
           options={{ headerShown: false }}
         />
       {/* ) : (

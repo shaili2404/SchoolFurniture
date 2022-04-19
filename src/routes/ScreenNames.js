@@ -17,7 +17,7 @@ const NavigationRouteNames = {
     SEARCH: "Search",
     MANAGEREQUESTS: "ManageRequests",
     FURNITUREREPLACMENTPROCESS : "FurnitureReplacmentProcess",
-    DASHBOARDUSER:'DASHBOARDUSER',
+    DASHBOARDUSER:'DashboardUser',
     Third: "Third",
 
 };
