@@ -30,6 +30,9 @@ const DrawerSideBar = (props) => {
     const [status, setStatus] = useState(false);
     const [alert, setAlert] = useState(false);
     const loginData = useSelector((state) => state?.loginData);
+    const schooldetails = useSelector(
+        (state) => state?.loginData?.user?.data?.data?.user?.organization
+      );
 
     // useEffect(() => {
     //     async function getUserName() {
@@ -177,7 +180,7 @@ const DrawerSideBar = (props) => {
                             </View>
                         </View>
                         <FlatList
-                            data={DRAWER_MENU["manufacturer"]}
+                            data={schooldetails == "School" ? DRAWER_MENU["manufacturer"].filter((item)=>item.name != "Maintenance" && item.name != "Manage Users")  : DRAWER_MENU["manufacturer"].filter((item)=>item.name != "Manage Request")}
                             keyExtractor={(_, index) => `${index}2`}
                             renderItem={({ index, item }) => onRenderMenu(index, item)}
                         />
