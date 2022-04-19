@@ -26,6 +26,7 @@ import { FurnitureReplacmentProcess } from "../screen/furniturereplacementScreen
 import { Search } from "../screen/manufacturer/searchManufacturer/search";
 import { ManageRequests } from "../screen/ManageRequests/ManageRequests";
 import { DashboardUser } from "../screen/dashboard/dashboarduser/dashboarduser";
+import Third from "../Third";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -324,6 +325,11 @@ const AppStack = (props) => {
        <Stack.Screen
           name={NavigationRouteNames.DASHBOARDUSER}
           component={DashboardStack}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.Third}
+          component={DrawerStack}
           options={{ headerShown: false }}
         />
       {/* ) : (
