@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -118,6 +118,11 @@ export const FurnitureReplacmentManfacturer = () => {
       .then((res) => setDropData(res?.data?.data))
       .catch((e) => console.log("apicall", e));
   };
+
+  useLayoutEffect(() => {
+    const title = "Furniture Replacement";
+    navigation.setOptions({ title });
+  }, []);
 
   useEffect(() => {
     getCollectionRequest();
