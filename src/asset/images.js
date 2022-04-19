@@ -45,5 +45,6 @@ const Images = {
     photoIcon: require('./images/photo.png'),
     crossIcon: require('./images/crossIcon.png'),
     printIconWhite: require('./images/printIconWhite.png'),
+    dashboardlogo :require('./images/DashboardLogo.png'),
 }
 export default Images

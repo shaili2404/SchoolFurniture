@@ -20,6 +20,7 @@ const COLORS = {
     viewGray: '#707070',
     transparent: '#00000000',
     certificateboxGreen :'#46A346',
+    Dashboard_green :'#36883C',
 
 }
 export default COLORS

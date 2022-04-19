@@ -16,7 +16,7 @@ function* loginSaga(action) {
         saveTokenInLocalStorage(data?.data);
         runLogoutTimer(data?.data?.expires_in * 1000);
         console.log("user details",data?.data);
-        navigate('First');
+        navigate('DASHBOARDUSER');
         if (data?.data?.status === 200) {
             yield put({ type: LOGIN_SUCEESS, payload: data })
         } else {

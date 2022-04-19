@@ -129,6 +129,7 @@ const constants = {
   Cmc :'CMC',
   Circuit : 'Circuit',
   subplacesname:'Sub Places Name',
+  Welcome :'Welcome',
 
   Replanish_certificate :"Email and Print Replenishment Request Form",
   Replanish_Disposalcertificate:'Print Furniture Disposal Certificate',
