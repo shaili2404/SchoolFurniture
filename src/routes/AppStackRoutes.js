@@ -25,6 +25,7 @@ import { StockItems } from "../screen/manufacturer/maintenance/StockMaintenance/
 import { FurnitureReplacmentProcess } from "../screen/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
 import { Search } from "../screen/manufacturer/searchManufacturer/search";
 import { ManageRequests } from "../screen/ManageRequests/ManageRequests";
+import { DashboardUser } from "../screen/dashboard/dashboarduser/dashboarduser";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,6 +38,17 @@ const DrawerStack = () => {
       <Drawer.Screen
         component={First}
         name="First"
+        options={CommonHeaderStyle}
+      />
+    </Drawer.Navigator>
+  );
+};
+const DashboardStack = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+      <Drawer.Screen
+        component={DashboardUser}
+        name='DASHBOARDUSER'
         options={CommonHeaderStyle}
       />
     </Drawer.Navigator>
@@ -309,6 +321,11 @@ const AppStack = (props) => {
           component={ManageRequestsDrawerStack}
           options={{ headerShown: false }}
       />
+       <Stack.Screen
+          name={NavigationRouteNames.DASHBOARDUSER}
+          component={DashboardStack}
+          options={{ headerShown: false }}
+        />
       {/* ) : (
         SwitchNavigation("Manufacturer")
       )} */}
