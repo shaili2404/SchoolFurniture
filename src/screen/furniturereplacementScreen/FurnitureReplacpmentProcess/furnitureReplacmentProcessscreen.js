@@ -201,7 +201,7 @@ export const FurnitureReplacmentProcess = () => {
       task == constants.Status_pendingDilver
     )
       onRepairCompleted();
-    else if (task == constants.Status_DeliveryConfirmed ){
+    else if (task == constants.Status_DeliveryConfirmed) {
       setCreateRequestIcon(constants.success)
       setCollectFurItem(constants.success)
       setRepairIcon(constants.success)
@@ -221,16 +221,16 @@ export const FurnitureReplacmentProcess = () => {
   const [tableHeader, setTableHeader] =
     schooldetails?.organization == constants.school
       ? useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-          constants.manage,
-        ])
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.manage,
+      ])
       : useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-        ]);
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
 
   const renderComponent = ({ item }) => {
     return (
@@ -290,7 +290,7 @@ export const FurnitureReplacmentProcess = () => {
       flatListData: flatListData,
       screen:
         route?.params?.screen == constants.ManageReqText ||
-        route?.params?.task == constants.ManageReqText
+          route?.params?.task == constants.ManageReqText
           ? constants.ManageReqText
           : null,
       id:
@@ -380,7 +380,6 @@ export const FurnitureReplacmentProcess = () => {
       });
     });
     body.append("ref_number", ref_number);
-    console.log("395", JSON.stringify(body));
     const uploadImg = async () => {
       try {
         let response = await fetch(url, {
@@ -394,7 +393,7 @@ export const FurnitureReplacmentProcess = () => {
         let res = await response.json();
         if (response.ok) SuccessUploadImage(res);
         else ErrorApi(res, "collection");
-      } catch (err) {}
+      } catch (err) { }
     };
     uploadImg();
   };
@@ -471,7 +470,7 @@ export const FurnitureReplacmentProcess = () => {
         let res = await response.json();
         if (response.ok) SuccessUploadImage(res);
         else ErrorApi(res, "collection");
-      } catch (err) {}
+      } catch (err) { }
     };
 
     uploadImg();
@@ -489,10 +488,9 @@ export const FurnitureReplacmentProcess = () => {
     ) {
       axios
         .put(
-          `${endUrl.delManageRequest}/${
-            route?.params?.screen == constants.ManageReqText
-              ? route?.params?.id
-              : route?.params?.items?.id
+          `${endUrl.delManageRequest}/${route?.params?.screen == constants.ManageReqText
+            ? route?.params?.id
+            : route?.params?.items?.id
           }`,
           data
         )
@@ -515,9 +513,9 @@ export const FurnitureReplacmentProcess = () => {
       let str = "";
       status == 422
         ? Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setMainMsg(str);
-          })
+          str += `  ${value}`;
+          setMainMsg(str);
+        })
         : setMainMsg(message);
     }
   };
@@ -569,7 +567,7 @@ export const FurnitureReplacmentProcess = () => {
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     axios
       .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
-      .then((res) => {})
+      .then((res) => { })
       .catch((e) => ErrorApi(e));
   };
 
@@ -615,8 +613,8 @@ export const FurnitureReplacmentProcess = () => {
   const openFile = async (filepath) => {
     const path = filepath;
     await FileViewer.open(path)
-      .then(() => {})
-      .catch((error) => {});
+      .then(() => { })
+      .catch((error) => { });
   };
 
   const ondisposalcertPress = () => {
@@ -675,7 +673,7 @@ export const FurnitureReplacmentProcess = () => {
           setMainMsg(res?.message);
           setcheckboxStatusreplanish(true);
         } else ErrorApi(res, "collection");
-      } catch (err) {}
+      } catch (err) { }
     };
 
     uploadImg();
@@ -691,7 +689,7 @@ export const FurnitureReplacmentProcess = () => {
       if (taskofPage == constants.Status_pendingRepair)
         uploadSignedreplanishment(result);
       else setcheckboxStatusreplanish(true);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const onPressDeliveryNote = () => {
@@ -817,7 +815,7 @@ export const FurnitureReplacmentProcess = () => {
                       flatListData: flatListData,
                       screen:
                         route?.params?.screen == constants.ManageReqText ||
-                        route?.params?.task == constants.ManageReqText
+                          route?.params?.task == constants.ManageReqText
                           ? constants.ManageReqText
                           : null,
                       id:
@@ -901,7 +899,7 @@ export const FurnitureReplacmentProcess = () => {
           ) : null}
 
           {taskofPage == constants.Status_RepairCompleted ||
-          taskofPage == constants.Status_pendingDilver ? (
+            taskofPage == constants.Status_pendingDilver ? (
             <DisposalDIlveryButton
               onPressDeliveryNote={() => onPressDeliveryNote()}
               ondilverycheckboxone={(value) =>
