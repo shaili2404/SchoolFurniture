@@ -33,7 +33,7 @@ export const DashboardUser = ()=>{
              </Text>
           </View>
           <View style={style.imgView}>
-          <Image source={Images.dashboardlogo} style={style.mainview}/>
+          <Image source={Images.dashboardlogo} style={style.Imageview}  resizeMode='contain'/>
           </View>
         </SafeAreaView>
     )

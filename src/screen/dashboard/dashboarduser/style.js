@@ -30,7 +30,11 @@ export default StyleSheet.create({
         fontWeight:'bold',
     },
     imgView:{
-        height:'50%',
+        height:'60%',
         justifyContent:'center'
     }
+    ,
+    Imageview:{
+        width:width, 
+ },
 })
