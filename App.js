@@ -18,10 +18,10 @@ const App = () => {
     setBasseUrl();
   }, [])
 
-  // useEffect(() => {
-  //   LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-  //   LogBox.ignoreAllLogs();//Ignore all log notifications
-  // })
+  useEffect(() => {
+    LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+    LogBox.ignoreAllLogs();//Ignore all log notifications
+  })
 
 
   return (

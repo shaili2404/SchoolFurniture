@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   searchButtonView: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-between", 
     marginHorizontal: 20,
     width: "90%",
     paddingEnd: 20,
