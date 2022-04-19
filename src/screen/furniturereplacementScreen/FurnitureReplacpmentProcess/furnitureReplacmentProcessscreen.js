@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   TouchableOpacity,
+  PermissionsAndroid,
 } from "react-native";
 import { IconBar } from "./iconbar";
 import { TaskSection } from "./TaskSection/taskSection";
@@ -179,10 +180,36 @@ export const FurnitureReplacmentProcess = () => {
       "confirmed_count",
       "repaired_count",
       "replenished_count",
-      taskofPage == constants?.Status_pendingDilver
-        ? "delivered_count"
-        : "deliveritem",
     ]);
+       setTableKey((oldData) => [...oldData, "deliveritem"]);
+      console.log('118',broken_items)
+    setlenofContent("More");
+    setFlatListData(broken_items);
+    setLoader(false);
+  };
+
+  const onpendingDeliver = () => {
+    setCollectFurItem(constants.success);
+    setRepairIcon(constants.success);
+    setDilverFurIcon(constants.inprogress);
+    setTableHeader((oldData) => [
+      ...oldData,
+      constants.collectedcount,
+      constants.ReparableItem,
+      constants.ReplanishmentItems,
+      constants.Dilvery_headerDil,
+    ]);
+
+    setTableKey((oldData) => [
+      ...oldData,
+      "confirmed_count",
+      "repaired_count",
+      "replenished_count",
+    ]);
+
+       setTableKey((oldData) => [...oldData, "delivered_count"])
+    
+      console.log('118',broken_items)
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -197,20 +224,22 @@ export const FurnitureReplacmentProcess = () => {
       onCollectionAccepted();
     else if (task == constants.Status_pendingRepair) onPendingRepair();
     else if (
-      task == constants.Status_RepairCompleted ||
-      task == constants.Status_pendingDilver
+      task == constants.Status_RepairCompleted 
     )
       onRepairCompleted();
-    else if (task == constants.Status_DeliveryConfirmed ){
-      setCreateRequestIcon(constants.success)
-      setCollectFurItem(constants.success)
-      setRepairIcon(constants.success)
-      setDilverFurIcon(constants.success)
+      else if (task == constants.Status_pendingDilver)
+      onpendingDeliver()
+    else if (task == constants.Status_DeliveryConfirmed) {
+      setCreateRequestIcon(constants.success);
+      setCollectFurItem(constants.success);
+      setRepairIcon(constants.success);
+      setDilverFurIcon(constants.success);
       setSuccessAlert(true);
-      setMainMsg("Delivery Is Already Done")
-      setLoader(false)
+      setMainMsg("Delivery Is Already Done");
+      setLoader(false);
     }
   }, [tableHeader, isFocused]);
+
 
   const [tableKey, setTableKey] = useState([
     "category_name",
@@ -371,7 +400,7 @@ export const FurnitureReplacmentProcess = () => {
       const name =
         Platform.OS == "ios"
           ? data.name
-          : data.path.substring(item.path.lastIndexOf("/") + 1);
+          : data.uri.substring(data.uri.lastIndexOf("/") + 1);
       body.append("upload_file", {
         uri: Platform.OS == "ios" ? data.uri : data.uri,
         type: data.type,
@@ -419,10 +448,11 @@ export const FurnitureReplacmentProcess = () => {
     let data = {
       ref_number: ref_number,
       items:
-        replenishment_status == 2 || replenishment_status == 3
+        replenishment_status == 1 || replenishment_status == 2 || replenishment_status == 3
           ? flatListData
           : confirmCollectedCount,
     };
+    console.log("aaa",data)
     axios
       .post(`${endUrl.submitRepair}`, data)
       .then((res) => successApi(res))
@@ -445,7 +475,7 @@ export const FurnitureReplacmentProcess = () => {
       const name =
         Platform.OS == "ios"
           ? img.filename
-          : img.path.substring(item.path.lastIndexOf("/") + 1);
+          : img.path.substring(img.path.lastIndexOf("/") + 1);
       body.append("images[]", {
         uri: Platform.OS == "ios" ? img.sourceURL : img.path,
         type: img.mime,
@@ -648,7 +678,7 @@ export const FurnitureReplacmentProcess = () => {
       const name =
         Platform.OS == "ios"
           ? data.name
-          : data.path.substring(item.path.lastIndexOf("/") + 1);
+          : data.uri.substring(data.uri.lastIndexOf("/") + 1);
       body.append("upload_proof", {
         uri: Platform.OS == "ios" ? data.uri : data.uri,
         type: data.type,
