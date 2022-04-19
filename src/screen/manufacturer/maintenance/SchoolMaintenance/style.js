@@ -9,6 +9,7 @@ export default StyleSheet.create({
     height: height,
     alignContent: "center",
     justifyContent: "center",
+    backgroundColor:COLORS.White
   },
   districtButton: {
     width: "60%",
@@ -28,12 +29,13 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
   schoolButton: {
-    width: "60%",
+    width: "80%",
     height: 78,
     backgroundColor: COLORS.ThemeGreen,
     alignSelf: "center",
     justifyContent: "center",
     borderRadius: 39,
+    marginBottom: "10%",
   },
   schooldistrict: {
     fontSize: 22,

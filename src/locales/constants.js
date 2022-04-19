@@ -130,6 +130,9 @@ const constants = {
   Circuit : 'Circuit',
   subplacesname:'Sub Places Name',
   Welcome :'Welcome',
+  SearchCircuit: "Search Circuit",
+  SearchCmc: "Search Cmc",
+  SearchSubplace: "Search Sub Places",
 
   Replanish_certificate :"Email and Print Replenishment Request Form",
   Replanish_Disposalcertificate:'Print Furniture Disposal Certificate',

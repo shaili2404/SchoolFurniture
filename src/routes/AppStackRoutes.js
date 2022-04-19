@@ -27,6 +27,9 @@ import { Search } from "../screen/manufacturer/searchManufacturer/search";
 import { ManageRequests } from "../screen/ManageRequests/ManageRequests";
 import { DashboardUser } from "../screen/dashboard/dashboarduser/Dashboarduser";
 import Third from "../Third";
+import { CircuitList } from "../screen/manufacturer/maintenance/SchoolMaintenance/Circuit/CircuitList";
+import { CMC } from "../screen/manufacturer/maintenance/SchoolMaintenance/cmc/CmcList";
+import { SubPlacesList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SubPlacesName/Subplaces";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -281,6 +284,7 @@ const AppStack = (props) => {
           component={SchoolList}
           options={CommonHeaderStyle}
         />
+
         <Stack.Screen
           name="Furniture Replacment"
           component={FurnitureReplaceDrawerStack}
@@ -343,6 +347,21 @@ const AppStack = (props) => {
           name={NavigationRouteNames.Third}
           component={thirdStack}
           options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.CIRCUIT}
+          component={CircuitList}
+          options={CommonHeaderStyle}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.CMC}
+          component={CMC}
+          options={CommonHeaderStyle}
+        />
+          <Stack.Screen
+          name={NavigationRouteNames.SUBPLACES}
+          component={SubPlacesList}
+          options={CommonHeaderStyle}
         />
       {/* ) : (
         SwitchNavigation("Manufacturer")

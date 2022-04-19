@@ -98,6 +98,13 @@ const style = StyleSheet.create({
   },
   mandatory: {
     fontWeight: 'bold'
-  }
+  },
+  changeView: {
+    position: "relative",
+    left: 10,
+    top: 3,
+    backgroundColor: COLORS.White,
+    width: 400,
+  },
 });
 export default style;

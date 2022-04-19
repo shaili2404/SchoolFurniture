@@ -8,25 +8,25 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Text,
+  Text
 } from "react-native";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
 import COLORS from "../../../../../asset/color";
 import Images from "../../../../../asset/images";
-
 import constants from "../../../../../locales/constants";
-import axios from "axios";
 import endUrl from "../../../../../redux/configration/endUrl";
-import { useSelector } from "react-redux";
+import AlertText from "../../../../../Alert/AlertText";
+import Loader from "../../../../../component/loader";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
-import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
-import Loader from "../../../../../component/loader";
-import AlertText from "../../../../../Alert/AlertText";
+import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
 import { AlertMessage } from "../../../../../Alert/alert";
 
 const PAGESIZE = 10;
 
-export const SchoolDistrictList = () => {
+export const SubPlacesList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
   const [addUserModal, setAdduserModal] = useState(false);
@@ -34,44 +34,41 @@ export const SchoolDistrictList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
-  const [alert, setAlert] = useState(false);
+  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
+  const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
+  const [alert, setAlert] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [eMsg, setEMsg] = useState("");
 
   const tableKey = [
-    "district_office",
+    "name",
+    "emis",
   ];
-
   const tableHeader = [
-    constants.DistrictOffice,
+    constants.subplacesname,
+    constants.Circuit,
     constants.manage,
   ];
 
   const addArray = [
-    { key: "district_office", value: constants.DistrictOffice },
+    { key: "name", value: constants.subplacesname },
+    { key: "emis", value: constants.Circuit },
   ];
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions
+    const arr = loginData?.user?.data?.data?.permissions;
     let userCreate = false, userEdit = false, userDlt = false;
     arr.forEach((input) => {
-      if (input.id === 6) {
+      if (input.id === 10) {
         userCreate = true
-      } if (input.id === 7) {
+      } if (input.id === 11) {
         userEdit = true
-      } if (input.id === 8) {
+      } if (input.id === 12) {
         userDlt = true
       }
     })
@@ -80,7 +77,6 @@ export const SchoolDistrictList = () => {
       userEdit: userEdit,
       userDelete: userDlt,
     })
-
   }, []);
 
   const rendercomponent = ({ item }) => {
@@ -90,8 +86,8 @@ export const SchoolDistrictList = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         onEdit={(item, task) => onEdit(item, task)}
-        link={endUrl.schoolDistList}
-        mainMessage={AlertText.deletedistrict}
+        link={endUrl.schoolList}
+        mainMessage={AlertText.deleteschool}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
       />
@@ -101,8 +97,8 @@ export const SchoolDistrictList = () => {
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
-    setAdduserModal(true);
-  };
+    setAdduserModal(true)
+  }
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -117,46 +113,40 @@ export const SchoolDistrictList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value !== null && value !== "") { obj[key] = value }
-    });
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    const service =
-      oper == "Add"
-        ? axios.post(`${endUrl.schoolDistList}`, obj)
-        : axios.put(`${endUrl.schoolDistList}/${updateItem.id}`, obj);
-    service
-      .then((res) => {
-        setLoader(false);
-        setAlert(true);
-        apicall();
-      })
-      .catch((e) => {
-        let { message, data, status } = e?.response?.data || {};
-        setLoader(false);
-        seterrorAlert(true)
-        {
-          let str = "";
-          status == 422 ?
-            Object.values(data).forEach((value) => {
-              str += `  ${value}`;
-              setEMsg(str);
-            }) :
-            setEMsg(message);
-        }
-      });
+      if (value != null && value != "" && key != "district_name") obj[key] = value;
+    })
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    const service = oper == "Add" ? axios.post(`${endUrl.schoolList}`, obj) : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
+    service.then((res) => {
+      setLoader(false);
+      setAlert(true);
+      apicall()
+    }).catch((e) => {
+      let { message, data, status } = e?.response?.data || {};
+      setLoader(false);
+      seterrorAlert(true)
+      {
+        let str = "";
+        status == 422 ?
+          Object.values(data).forEach((value) => {
+            str += `  ${value}`;
+            setErrMsg(str);
+          }) :
+          setErrMsg(message);
+      }
+    })
   };
 
-  const apicall = async () => {
+  const apicall = () => {
     setLoader(true)
-    axios.get(endUrl.schoolDistList)
-      .then((res) => {
-        initialPagination(res?.data?.data);
-        setListData(res?.data?.data);
-        setLoader(false)
-      })
-      .catch((e) => setLoader(false));
+    axios.get(`${endUrl.schoolList}`).then((res) => {
+      initialPagination(res?.data?.data);
+      setListData(res?.data?.data);
+      setLoader(false)
+    }).catch((e) =>
+      console.log('apicall', e)
+    )
   };
-
   const initialPagination = (list) => {
     const len = list.length;
     const totalPage = Math.ceil(len / PAGESIZE);
@@ -205,23 +195,16 @@ export const SchoolDistrictList = () => {
     setLoader(false)
   };
 
-  const onsearch = async () => {
-    if (searchtask == "") {
-      setErrorMessage(constants.enterSearchData)
-    } else {
-      setLoader(true)
-      axios
-        .get(`${endUrl.districtSearch}${searchtask}`)
-        .then((res) => {
-          setListData(res?.data?.data);
-          setLoader(false)
-        })
-        .catch((e) => {
-          let errorMsg = e?.response?.data?.message;
-          setLoader(false);
-          setErrorMessage(errorMsg);
-        });
-    }
+  const onsearch = () => {
+    setLoader(true)
+    axios.get(`${endUrl.searchSchool}${searchtask}`).then((res) => {
+      setListData(res?.data?.data);
+      setLoader(false)
+    }).catch((e) => {
+      let errorMsg = e?.response?.data?.message;
+      setLoader(false);
+      setErrorMessage(errorMsg);
+    })
   };
 
   const onAddPress = (task) => {
@@ -253,13 +236,13 @@ export const SchoolDistrictList = () => {
         <View>
           <TextInput
             style={Styles.refrenceStyle}
-            placeholder={constants.SearchDistrict}
+            placeholder={constants.subplacesname}
             placeholderTextColor={COLORS.Black}
             opacity={0.5}
             value={searchtask}
             onChangeText={(val) => setSearchTask(val)}
           />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}>
+          <TouchableOpacity style={Styles.eyeStyle} onPress={onsearch}>
             <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
           </TouchableOpacity>
         </View>
@@ -268,17 +251,16 @@ export const SchoolDistrictList = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={listData.slice(pagination.startIndex, pagination.endIndex)}
+              data={listData}
               renderItem={rendercomponent}
             />
           </ScrollView>
         )}
-
       </View>
       <View style={Styles.lastView}>
         <TouchableOpacity onPress={onPrevious}>
@@ -303,20 +285,22 @@ export const SchoolDistrictList = () => {
           )}
         </TouchableOpacity>
       </View>
+
       {permissionId.userCreate && (
-        <View style={Styles.plusView} >
+        <View style={Styles.plusView}>
           <TouchableOpacity onPress={() => onAddPress("Add")}>
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
       )}
+
       {addUserModal ? (
-        <AddUserModal
+        <AddSchool
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
           onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}
           data={addArray}
-          name={constants.District}
+          name={constants.subplacesname}
           operation={operation}
           updateItem={updateItem}
           buttonVal={operation === 'Add' ? constants.add : constants.update}
@@ -326,24 +310,15 @@ export const SchoolDistrictList = () => {
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={
-            operation == "Add"
-              ? AlertText.districtAdd
-              : AlertText.districtUpdate
-          }
-          subMessage={
-            operation == "Add"
-              ? AlertText.districtAddedSub
-              : AlertText.districtUpdateSub
-          }
+          mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
+          subMessage={operation == "Add" ? AlertText.SchoolAddedSub : AlertText.SchoolUpdateSub}
           onConfirm={() => onPressYes()}
-        />
-      ) : null}
+        />) : null}
       {erroralert ? (
         <AlertMessage
           visible={erroralert}
           setmodalVisible={(val) => seterrorAlert(val)}
-          mainMessage={eMsg}
+          mainMessage={errMsg}
           onConfirm={() => onPressokay()}
         />
       ) : null}

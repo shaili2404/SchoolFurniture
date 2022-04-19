@@ -19,6 +19,9 @@ const NavigationRouteNames = {
     FURNITUREREPLACMENTPROCESS : "FurnitureReplacmentProcess",
     DASHBOARDUSER:'DashboardUser',
     Third: "Third",
+    CIRCUIT:"Circuit",
+    CMC:"Cmc",
+    SUBPLACES:"SubPlace"
 
 };
 
