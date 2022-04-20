@@ -23,6 +23,7 @@ import { DataDisplayList } from "../../../../../component/manufacturer/displayLi
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
 import { AlertMessage } from "../../../../../Alert/alert";
+import { AddEditSubplaces } from "../../../../../component/manufacturer/AddFormModal/AddEditSubPlaces";
 
 const PAGESIZE = 10;
 
@@ -46,8 +47,8 @@ export const SubPlacesList = () => {
   });
 
   const tableKey = [
-    "name",
-    "emis",
+    "subplace_name",
+    "circuit_name",
   ];
   const tableHeader = [
     constants.subplacesname,
@@ -56,8 +57,8 @@ export const SubPlacesList = () => {
   ];
 
   const addArray = [
-    { key: "name", value: constants.subplacesname },
-    { key: "emis", value: constants.Circuit },
+    { key: "subplace_name", value: constants.subplacesname },
+    { key: "circuit_name", value: constants.Circuit },
   ];
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export const SubPlacesList = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         onEdit={(item, task) => onEdit(item, task)}
-        link={endUrl.schoolList}
+        link={endUrl.SubPlace_List}
         mainMessage={AlertText.deleteschool}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
@@ -116,7 +117,7 @@ export const SubPlacesList = () => {
       if (value != null && value != "" && key != "district_name") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
-    const service = oper == "Add" ? axios.post(`${endUrl.schoolList}`, obj) : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
+    const service = oper == "Add" ? axios.post(`${endUrl.SubPlace_List}`, obj) : axios.put(`${endUrl.SubPlace_List}/${updateItem.id}`, obj);
     service.then((res) => {
       setLoader(false);
       setAlert(true);
@@ -139,7 +140,7 @@ export const SubPlacesList = () => {
 
   const apicall = () => {
     setLoader(true)
-    axios.get(`${endUrl.schoolList}`).then((res) => {
+    axios.get(`${endUrl.SubPlace_List}`).then((res) => {
       initialPagination(res?.data?.data);
       setListData(res?.data?.data);
       setLoader(false)
@@ -256,14 +257,14 @@ export const SubPlacesList = () => {
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={listData}
+              data={listData.slice(pagination.startIndex, pagination.endIndex)}
               renderItem={rendercomponent}
             />
           </ScrollView>
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
+        <TouchableOpacity onPress={onPrevious} disabled={pagination.currentPage === 1 ? true : false}>
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -274,7 +275,7 @@ export const SubPlacesList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
+        <TouchableOpacity onPress={onNext} disabled={pagination.currentPage === pagination.totalPage ? true : false} >
           {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}
@@ -286,6 +287,7 @@ export const SubPlacesList = () => {
         </TouchableOpacity>
       </View>
 
+
       {permissionId.userCreate && (
         <View style={Styles.plusView}>
           <TouchableOpacity onPress={() => onAddPress("Add")}>
@@ -295,7 +297,7 @@ export const SubPlacesList = () => {
       )}
 
       {addUserModal ? (
-        <AddSchool
+        <AddEditSubplaces
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
           onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}

@@ -27,6 +27,12 @@ const AlertText = {
     deleteManageRequest: 'Are you sure you want to delete this request?',
     GoToTransactionList:'Information that is not saved will be lost, are you sure you want to leave the current page?',
     saveMsgIntransc :'The captured information has been saved successfully',
-    DateError:"End Date Should be Greater than Start Date"
+    DateError:"End Date Should be Greater than Start Date",
+    deleteCMC: 'Do You Want To Delete This CMC',
+    CMCAddedSub: 'CMC Added Successfully',
+    CMCUpdateSub: 'CMC Updated Successfully',
+    deleteCircuit: 'Do You Want To Delete This Circuit',
+    CircuitAddedSub: 'Circuit Added Successfully',
+    CircuitUpdateSub: 'Circuit Updated Successfully',
 }
 export default AlertText

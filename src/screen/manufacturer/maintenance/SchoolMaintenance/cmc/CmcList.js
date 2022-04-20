@@ -23,6 +23,8 @@ import { DataDisplayList } from "../../../../../component/manufacturer/displayLi
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
 import { AlertMessage } from "../../../../../Alert/alert";
+import { AddEditCMC } from "../../../../../component/manufacturer/AddFormModal/AddEdItCMC";
+import { useIsFocused } from "@react-navigation/native";
 
 const PAGESIZE = 10;
 
@@ -44,10 +46,11 @@ export const CMC = () => {
     userEdit: false,
     userDelete: false,
   });
+  const isFocused = useIsFocused()
 
   const tableKey = [
-    "name",
-    "emis",
+    "cmc_name",
+    "district_name",
   ];
   const tableHeader = [
     constants.Cmc,
@@ -56,8 +59,8 @@ export const CMC = () => {
   ];
 
   const addArray = [
-    { key: "name", value: constants.Cmc },
-    { key: "emis", value: constants.District },
+    { key: "cmc_name", value: constants.Cmc },
+    { key: "district_name", value: constants.District },
   ];
 
   useEffect(() => {
@@ -86,8 +89,8 @@ export const CMC = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         onEdit={(item, task) => onEdit(item, task)}
-        link={endUrl.schoolList}
-        mainMessage={AlertText.deleteschool}
+        link={endUrl.CMC_List}
+        mainMessage={AlertText.deleteCMC}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
       />
@@ -116,7 +119,7 @@ export const CMC = () => {
       if (value != null && value != "" && key != "district_name") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
-    const service = oper == "Add" ? axios.post(`${endUrl.schoolList}`, obj) : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
+    const service = oper == "Add" ? axios.post(`${endUrl.CMC_List}`, obj) : axios.put(`${endUrl.CMC_List}/${updateItem.id}`, obj);
     service.then((res) => {
       setLoader(false);
       setAlert(true);
@@ -139,7 +142,8 @@ export const CMC = () => {
 
   const apicall = () => {
     setLoader(true)
-    axios.get(`${endUrl.schoolList}`).then((res) => {
+    axios.get(`${endUrl.CMC_List}`).then((res) => {
+      console.log(res?.data?.data)
       initialPagination(res?.data?.data);
       setListData(res?.data?.data);
       setLoader(false)
@@ -197,13 +201,23 @@ export const CMC = () => {
 
   const onsearch = () => {
     setLoader(true)
-    axios.get(`${endUrl.searchSchool}${searchtask}`).then((res) => {
+    axios.get(`${endUrl.CMC_search}${searchtask}`).then((res) => {
       setListData(res?.data?.data);
       setLoader(false)
     }).catch((e) => {
-      let errorMsg = e?.response?.data?.message;
-      setLoader(false);
-      setErrorMessage(errorMsg);
+      {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        {
+          let str = "";
+          status == 422 ?
+            Object.values(data).forEach((value) => {
+              str += `  ${value}`;
+              setErrorMessage(str);
+            }) :
+            setErrorMessage(message);
+        }
+      }
     })
   };
 
@@ -214,7 +228,7 @@ export const CMC = () => {
 
   useEffect(() => {
     apicall();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (listData) setLoader(false);
@@ -256,14 +270,14 @@ export const CMC = () => {
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={listData}
+              data={listData.slice(pagination.startIndex, pagination.endIndex)}
               renderItem={rendercomponent}
             />
           </ScrollView>
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
+        <TouchableOpacity onPress={onPrevious} disabled={pagination.currentPage === 1 ? true : false}>
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -274,7 +288,7 @@ export const CMC = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
+        <TouchableOpacity onPress={onNext} disabled={pagination.currentPage === pagination.totalPage ? true : false} >
           {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}
@@ -295,7 +309,7 @@ export const CMC = () => {
       )}
 
       {addUserModal ? (
-        <AddSchool
+        <AddEditCMC
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
           onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}
@@ -311,7 +325,7 @@ export const CMC = () => {
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
-          subMessage={operation == "Add" ? AlertText.SchoolAddedSub : AlertText.SchoolUpdateSub}
+          subMessage={operation == "Add" ? AlertText.CMCAddedSub : AlertText.Cmc}
           onConfirm={() => onPressYes()}
         />) : null}
       {erroralert ? (

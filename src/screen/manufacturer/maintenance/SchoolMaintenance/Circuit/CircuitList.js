@@ -23,6 +23,7 @@ import { DataDisplayList } from "../../../../../component/manufacturer/displayLi
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
 import { AlertMessage } from "../../../../../Alert/alert";
+import { AddEditCircuit } from "../../../../../component/manufacturer/AddFormModal/AddEditCircuit";
 
 const PAGESIZE = 10;
 
@@ -46,8 +47,8 @@ export const CircuitList = () => {
   });
 
   const tableKey = [
-    "name",
-    "emis",
+    "circuit_name",
+    "cmc_name",
   ];
   const tableHeader = [
     constants.Circuit,
@@ -56,8 +57,8 @@ export const CircuitList = () => {
   ];
 
   const addArray = [
-    { key: "name", value: constants.Circuit },
-    { key: "emis", value: constants.Cmc },
+    { key: "circuit_name", value: constants.Circuit },
+    { key: "cmc_name", value: constants.Cmc },
   ];
 
   useEffect(() => {
@@ -86,8 +87,8 @@ export const CircuitList = () => {
         tableKey={tableKey}
         reloadList={() => reloadList()}
         onEdit={(item, task) => onEdit(item, task)}
-        link={endUrl.schoolList}
-        mainMessage={AlertText.deleteschool}
+        link={endUrl.CIRCUIT_List}
+        mainMessage={AlertText.deleteCircuit}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
       />
@@ -116,7 +117,7 @@ export const CircuitList = () => {
       if (value != null && value != "" && key != "district_name") obj[key] = value;
     })
     axios.defaults.headers.common['Content-Type'] = 'application/json';
-    const service = oper == "Add" ? axios.post(`${endUrl.schoolList}`, obj) : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
+    const service = oper == "Add" ? axios.post(`${endUrl.CIRCUIT_List}`, obj) : axios.put(`${endUrl.CIRCUIT_List}/${updateItem.id}`, obj);
     service.then((res) => {
       setLoader(false);
       setAlert(true);
@@ -139,7 +140,7 @@ export const CircuitList = () => {
 
   const apicall = () => {
     setLoader(true)
-    axios.get(`${endUrl.schoolList}`).then((res) => {
+    axios.get(`${endUrl.CIRCUIT_List}`).then((res) => {
       initialPagination(res?.data?.data);
       setListData(res?.data?.data);
       setLoader(false)
@@ -197,13 +198,23 @@ export const CircuitList = () => {
 
   const onsearch = () => {
     setLoader(true)
-    axios.get(`${endUrl.searchSchool}${searchtask}`).then((res) => {
+    axios.get(`${endUrl.CIRCUIT_search}${searchtask}`).then((res) => {
       setListData(res?.data?.data);
       setLoader(false)
     }).catch((e) => {
-      let errorMsg = e?.response?.data?.message;
-      setLoader(false);
-      setErrorMessage(errorMsg);
+      {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        {
+          let str = "";
+          status == 422 ?
+            Object.values(data).forEach((value) => {
+              str += `  ${value}`;
+              setErrorMessage(str);
+            }) :
+            setErrorMessage(message);
+        }
+      }
     })
   };
 
@@ -256,14 +267,14 @@ export const CircuitList = () => {
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={listData}
+              data={listData.slice(pagination.startIndex, pagination.endIndex)}
               renderItem={rendercomponent}
             />
           </ScrollView>
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
+        <TouchableOpacity onPress={onPrevious} disabled={pagination.currentPage === 1 ? true : false}>
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -274,7 +285,7 @@ export const CircuitList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
+        <TouchableOpacity onPress={onNext} disabled={pagination.currentPage === pagination.totalPage ? true : false} >
           {pagination.currentPage === pagination.totalPage ? (
             <Image
               source={Images.leftarrow}
@@ -295,7 +306,7 @@ export const CircuitList = () => {
       )}
 
       {addUserModal ? (
-        <AddSchool
+        <AddEditCircuit
           visible={addUserModal}
           setmodalVisible={(val) => setAdduserModal(val)}
           onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}
@@ -311,7 +322,7 @@ export const CircuitList = () => {
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
-          subMessage={operation == "Add" ? AlertText.SchoolAddedSub : AlertText.SchoolUpdateSub}
+          subMessage={operation == "Add" ? AlertText.CircuitAddedSub : AlertText.CircuitUpdateSub}
           onConfirm={() => onPressYes()}
         />) : null}
       {erroralert ? (
