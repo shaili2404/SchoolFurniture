@@ -8,6 +8,7 @@ const style = StyleSheet.create({
     height: height,
     width: width,
     alignItems: "center",
+
     backgroundColor: '#fff'
   },
   subContainer: {
