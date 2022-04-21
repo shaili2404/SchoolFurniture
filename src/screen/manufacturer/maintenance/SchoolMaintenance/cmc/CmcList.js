@@ -21,7 +21,6 @@ import AlertText from "../../../../../Alert/AlertText";
 import Loader from "../../../../../component/loader";
 import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
-import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/AddSchool";
 import { AlertMessage } from "../../../../../Alert/alert";
 import { AddEditCMC } from "../../../../../component/manufacturer/AddFormModal/AddEdItCMC";
 import { useIsFocused } from "@react-navigation/native";
@@ -50,7 +49,7 @@ export const CMC = () => {
 
   const tableKey = [
     "cmc_name",
-    "district_name",
+    "district_details",
   ];
   const tableHeader = [
     constants.Cmc,
@@ -64,6 +63,12 @@ export const CMC = () => {
   ];
 
   useEffect(() => {
+    setLoader(true)
+    apicall();
+  }, [isFocused]);
+
+  useEffect(() => {
+    setLoader(true)
     const arr = loginData?.user?.data?.data?.permissions;
     let userCreate = false, userEdit = false, userDlt = false;
     arr.forEach((input) => {
@@ -93,6 +98,7 @@ export const CMC = () => {
         mainMessage={AlertText.deleteCMC}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
+        ListPage = 'cmc'
       />
     );
   };
@@ -143,15 +149,15 @@ export const CMC = () => {
   const apicall = () => {
     setLoader(true)
     axios.get(`${endUrl.CMC_List}`).then((res) => {
-      console.log(res?.data?.data)
+      console.log('12',res?.data?.data)
       initialPagination(res?.data?.data);
       setListData(res?.data?.data);
-      setLoader(false)
     }).catch((e) =>
       console.log('apicall', e)
     )
   };
   const initialPagination = (list) => {
+    setLoader(true)
     const len = list.length;
     const totalPage = Math.ceil(len / PAGESIZE);
     setPagination({
@@ -226,15 +232,14 @@ export const CMC = () => {
     setAdduserModal(true);
   };
 
-  useEffect(() => {
-    apicall();
-  }, [isFocused]);
+  
 
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
 
   useEffect(() => {
+    setLoader(true)
     if (searchtask == "") {
       apicall();
       setErrorMessage("");
@@ -266,6 +271,7 @@ export const CMC = () => {
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            
             <FlatList
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}

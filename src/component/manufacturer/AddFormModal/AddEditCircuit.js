@@ -91,7 +91,6 @@ export const AddEditCircuit = (props) => {
     } else {
       inputValues.cmc_id = selected?.id;
     }
-    console.log(inputValues)
     onSubmitDetails(inputValues, operation);
   };
 

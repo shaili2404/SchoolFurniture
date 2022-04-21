@@ -32,6 +32,7 @@ export const DataDisplayList = ({
   permissionId,
   page,
   List,
+  ListPage
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -64,9 +65,12 @@ export const DataDisplayList = ({
     setAlert(false);
     try {
       const response = await axios.delete(`${link}/${item.id}`);
-      if (response.status === 200) {
+      if (response.status === 200) 
          reloadList();
-      }
+      
+      else
+        reloadList();
+      
     } catch (e) {
       setMainMsg(e?.response?.data?.message);
       setSubMsg(e?.response?.data?.data);

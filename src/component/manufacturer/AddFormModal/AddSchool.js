@@ -136,7 +136,7 @@ export const AddSchool = (props) => {
                           <Text style={input.value === 'School' || input.value === 'School EMIS Number' || input.value === 'School District' ? style.mandatory : null}>{input.value}</Text>
                         </View>
                       ) : null}
-                      {input.value == "School District" ? (
+                      {input.value == "District" ? (
                         <>
                           <View style={style.container}>
                             <Dropdown

@@ -91,7 +91,6 @@ export const AddEditCMC = (props) => {
     } else {
       inputValues.district_id = selected?.id;
     }
-
     onSubmitDetails(inputValues, operation);
   };
 
