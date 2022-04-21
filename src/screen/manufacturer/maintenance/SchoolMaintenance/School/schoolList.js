@@ -66,13 +66,13 @@ export const SchoolList = () => {
   const addArray = [
     { key: "name", value: constants.School },
     { key: "emis", value: constants.schoolEmisNumber },
-    { key: "district_name", value: constants.SchoolDistrict },
     { key: "school_principal", value: constants.SchoolPrinciple },
     { key: "tel", value: constants.SchoolTelno },
-    { key: "address1", value: constants.Address1 },
-    { key: "address2", value: constants.Address2 },
-    { key: "address3", value: constants.Address3 },
-    { key: "address4", value: constants.Address4 },
+    { key: "Level", value: constants.Level },
+    { key: "SNQ", value: constants.SNQ },
+    { key: "district_name", value: constants.SchoolDistrict },
+    // { key: "address3", value: constants.Address3 },
+    // { key: "address4", value: constants.Address4 },
     { key: "street_code", value: constants.streetCode },
   ];
 

@@ -12,20 +12,20 @@ import { LoginScreen } from "../screen/LoginScreen";
 import EmailSent from "../component/emailSent";
 import { useSelector } from "react-redux";
 import { AddFurRequestScreen } from "../screen/furniturereplacementScreen/AddRequestScreen/AddRequestScreen";
-import { Schoolmaintenancescreen } from "../screen/manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen";
-import { ManageUserScreen } from "../screen/manufacturer/ManageUserScreen/manageuserscreen";
-import { SchoolDistrictList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
-import { SchoolList } from "../screen/manufacturer/maintenance/SchoolMaintenance/School/schoolList";
-import AddNewUsers from "../screen/manufacturer/AddNewUsers/AddNewUsers";
+import { Schoolmaintenancescreen } from "../screen/Manufacturer/maintenance/SchoolMaintenance/schoolmaintenancescreen";
+import { ManageUserScreen } from "../screen/Manufacturer/ManageUserScreen/manageuserscreen";
+import { SchoolDistrictList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/SchoolDistrict/schooldistrictlist";
+import { SchoolList } from "../screen/Manufacturer/maintenance/SchoolMaintenance/School/schoolList";
+import AddNewUsers from "../screen/Manufacturer/AddNewUsers/AddNewUsers";
 import { FurnitureReplacmentManfacturer } from "../screen/furniturereplacementScreen/furniturerequestscreen";
-import { StockMaintenanceScreen } from "../screen/manufacturer/maintenance/StockMaintenance/stockmaintenanncescreen";
+import { StockMaintenanceScreen } from "../screen/Manufacturer/maintenance/StockMaintenance/stockmaintenanncescreen";
 import { Functionalities } from "../component/manufacturer/Functionalitiesuser";
-import StockCategory from "../screen/manufacturer/maintenance/StockCategory/StockCategory";
-import { StockItems } from "../screen/manufacturer/maintenance/StockMaintenance/stockItems/StockItems";
+import StockCategory from "../screen/Manufacturer/maintenance/StockCategory/StockCategory";
+import { StockItems } from "../screen/Manufacturer/maintenance/StockMaintenance/stockItems/StockItems";
 import { FurnitureReplacmentProcess } from "../screen/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
-import { Search } from "../screen/manufacturer/searchManufacturer/search";
+import { Search } from "../screen/Manufacturer/searchManufacturer/search";
 import { ManageRequests } from "../screen/ManageRequests/ManageRequests";
-import { DashboardUser } from "../screen/dashboard/dashboarduser/Dashboarduser";
+import { DashboardUser } from "../screen/dashboard/dashboarduser/dashboarduser";
 import Third from "../Third";
 
 const Stack = createNativeStackNavigator();
@@ -330,20 +330,20 @@ const AppStack = (props) => {
         />
       </>
       <Stack.Screen
-          name={NavigationRouteNames.MANAGEREQUESTS}
-          component={ManageRequestsDrawerStack}
-          options={{ headerShown: false }}
+        name={NavigationRouteNames.MANAGEREQUESTS}
+        component={ManageRequestsDrawerStack}
+        options={{ headerShown: false }}
       />
-       <Stack.Screen
-          name={NavigationRouteNames.DASHBOARDUSER}
-          component={DashboardStack}
-          options={{ headerShown: false }}
-        />
-         <Stack.Screen
-          name={NavigationRouteNames.Third}
-          component={thirdStack}
-          options={{ headerShown: false }}
-        />
+      <Stack.Screen
+        name={NavigationRouteNames.DASHBOARDUSER}
+        component={DashboardStack}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={NavigationRouteNames.Third}
+        component={thirdStack}
+        options={{ headerShown: false }}
+      />
       {/* ) : (
         SwitchNavigation("Manufacturer")
       )} */}

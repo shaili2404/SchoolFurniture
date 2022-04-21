@@ -125,31 +125,33 @@ const constants = {
   uploaded: "Uploaded",
   ViewAll: "View All",
   Ph: '10+ Photos',
-  ManageReqText:"MangeRequest",
-  Cmc :'CMC',
-  Circuit : 'Circuit',
-  subplacesname:'Sub Places Name',
-  Welcome :'Welcome',
+  ManageReqText: "MangeRequest",
+  Cmc: 'CMC',
+  Circuit: 'Circuit',
+  subplacesname: 'Sub Places Name',
+  Welcome: 'Welcome',
 
-  Replanish_certificate :"Email and Print Replenishment Request Form",
-  Replanish_Disposalcertificate:'Print Furniture Disposal Certificate',
-  Replanish_checkMessage:'Tick here when repairs are Completed',
-  Replanish_proofreplanish:'Upload Proof Of Replanishment Descion',
-  
-  Delivery_Note:'Print Delivery Note',
-  Delivery_signedCopy:'Uploaded Signed Delivery Note',
-  Delivery_hasDelivered:'The Furniture Items have been Delivered',
-  Delivery_hasreadytoDilvered:'Tick Here When Furniture Items Are Ready To Delivered',
-  Dilvery_headerDil:'Confirm Number Of Items To Be delivered',
+  Replanish_certificate: "Email and Print Replenishment Request Form",
+  Replanish_Disposalcertificate: 'Print Furniture Disposal Certificate',
+  Replanish_checkMessage: 'Tick here when repairs are Completed',
+  Replanish_proofreplanish: 'Upload Proof Of Replanishment Descion',
 
-  Status_PendingCollection :"Pending Collection",
-  Status_CollectionAccepted : "Collection Accepted",
-  Status_pendingRepair :"Pending Repairs",
-  Status_RepairCompleted :"Repair Completed",
-  Status_pendingDilver :'Pending Delivery',
-  Status_DeliveryConfirmed :'Delivery Confirmed',
+  Delivery_Note: 'Print Delivery Note',
+  Delivery_signedCopy: 'Uploaded Signed Delivery Note',
+  Delivery_hasDelivered: 'The Furniture Items have been Delivered',
+  Delivery_hasreadytoDilvered: 'Tick Here When Furniture Items Are Ready To Delivered',
+  Dilvery_headerDil: 'Confirm Number Of Items To Be delivered',
 
-  dropdown_Type :"question"
+  Status_PendingCollection: "Pending Collection",
+  Status_CollectionAccepted: "Collection Accepted",
+  Status_pendingRepair: "Pending Repairs",
+  Status_RepairCompleted: "Repair Completed",
+  Status_pendingDilver: 'Pending Delivery',
+  Status_DeliveryConfirmed: 'Delivery Confirmed',
+
+  dropdown_Type: "question",
+  Level: "Level",
+  SNQ: "SNQ"
 
 
 

@@ -181,8 +181,8 @@ export const FurnitureReplacmentProcess = () => {
       "repaired_count",
       "replenished_count",
     ]);
-       setTableKey((oldData) => [...oldData, "deliveritem"]);
-      console.log('118',broken_items)
+    setTableKey((oldData) => [...oldData, "deliveritem"]);
+    console.log('118', broken_items)
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -207,9 +207,9 @@ export const FurnitureReplacmentProcess = () => {
       "replenished_count",
     ]);
 
-       setTableKey((oldData) => [...oldData, "delivered_count"])
-    
-      console.log('118',broken_items)
+    setTableKey((oldData) => [...oldData, "delivered_count"])
+
+    console.log('118', broken_items)
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -224,10 +224,10 @@ export const FurnitureReplacmentProcess = () => {
       onCollectionAccepted();
     else if (task == constants.Status_pendingRepair) onPendingRepair();
     else if (
-      task == constants.Status_RepairCompleted 
+      task == constants.Status_RepairCompleted
     )
       onRepairCompleted();
-      else if (task == constants.Status_pendingDilver)
+    else if (task == constants.Status_pendingDilver)
       onpendingDeliver()
     else if (task == constants.Status_DeliveryConfirmed) {
       setCreateRequestIcon(constants.success);
@@ -250,16 +250,16 @@ export const FurnitureReplacmentProcess = () => {
   const [tableHeader, setTableHeader] =
     schooldetails?.organization == constants.school
       ? useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-          constants.manage,
-        ])
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.manage,
+      ])
       : useState([
-          constants.FurCategory,
-          constants.furItem,
-          constants.collectioncount,
-        ]);
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
 
   const renderComponent = ({ item }) => {
     return (
@@ -319,7 +319,7 @@ export const FurnitureReplacmentProcess = () => {
       flatListData: flatListData,
       screen:
         route?.params?.screen == constants.ManageReqText ||
-        route?.params?.task == constants.ManageReqText
+          route?.params?.task == constants.ManageReqText
           ? constants.ManageReqText
           : null,
       id:
@@ -423,7 +423,7 @@ export const FurnitureReplacmentProcess = () => {
         let res = await response.json();
         if (response.ok) SuccessUploadImage(res);
         else ErrorApi(res, "collection");
-      } catch (err) {}
+      } catch (err) { }
     };
     uploadImg();
   };
@@ -452,7 +452,7 @@ export const FurnitureReplacmentProcess = () => {
           ? flatListData
           : confirmCollectedCount,
     };
-    console.log("aaa",data)
+    console.log("aaa", data)
     axios
       .post(`${endUrl.submitRepair}`, data)
       .then((res) => successApi(res))
@@ -501,7 +501,7 @@ export const FurnitureReplacmentProcess = () => {
         let res = await response.json();
         if (response.ok) SuccessUploadImage(res);
         else ErrorApi(res, "collection");
-      } catch (err) {}
+      } catch (err) { }
     };
 
     uploadImg();
@@ -519,10 +519,9 @@ export const FurnitureReplacmentProcess = () => {
     ) {
       axios
         .put(
-          `${endUrl.delManageRequest}/${
-            route?.params?.screen == constants.ManageReqText
-              ? route?.params?.id
-              : route?.params?.items?.id
+          `${endUrl.delManageRequest}/${route?.params?.screen == constants.ManageReqText
+            ? route?.params?.id
+            : route?.params?.items?.id
           }`,
           data
         )
@@ -545,9 +544,9 @@ export const FurnitureReplacmentProcess = () => {
       let str = "";
       status == 422
         ? Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setMainMsg(str);
-          })
+          str += `  ${value}`;
+          setMainMsg(str);
+        })
         : setMainMsg(message);
     }
   };
@@ -599,7 +598,7 @@ export const FurnitureReplacmentProcess = () => {
     setTableKey((oldData) => [...oldData, "collectionCount"]);
     axios
       .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
-      .then((res) => {})
+      .then((res) => { })
       .catch((e) => ErrorApi(e));
   };
 
@@ -645,8 +644,8 @@ export const FurnitureReplacmentProcess = () => {
   const openFile = async (filepath) => {
     const path = filepath;
     await FileViewer.open(path)
-      .then(() => {})
-      .catch((error) => {});
+      .then(() => { })
+      .catch((error) => { });
   };
 
   const ondisposalcertPress = () => {
@@ -705,7 +704,7 @@ export const FurnitureReplacmentProcess = () => {
           setMainMsg(res?.message);
           setcheckboxStatusreplanish(true);
         } else ErrorApi(res, "collection");
-      } catch (err) {}
+      } catch (err) { }
     };
 
     uploadImg();
@@ -721,7 +720,7 @@ export const FurnitureReplacmentProcess = () => {
       if (taskofPage == constants.Status_pendingRepair)
         uploadSignedreplanishment(result);
       else setcheckboxStatusreplanish(true);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const onPressDeliveryNote = () => {
@@ -847,7 +846,7 @@ export const FurnitureReplacmentProcess = () => {
                       flatListData: flatListData,
                       screen:
                         route?.params?.screen == constants.ManageReqText ||
-                        route?.params?.task == constants.ManageReqText
+                          route?.params?.task == constants.ManageReqText
                           ? constants.ManageReqText
                           : null,
                       id:
@@ -893,7 +892,7 @@ export const FurnitureReplacmentProcess = () => {
             printPickupPress={() => printPickupbutpress()}
           />
 
-        {/* {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null} */}
+          {/* {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null} */}
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
@@ -934,7 +933,7 @@ export const FurnitureReplacmentProcess = () => {
           ) : null}
 
           {taskofPage == constants.Status_RepairCompleted ||
-          taskofPage == constants.Status_pendingDilver ? (
+            taskofPage == constants.Status_pendingDilver ? (
             <DisposalDIlveryButton
               onPressDeliveryNote={() => onPressDeliveryNote()}
               ondilverycheckboxone={(value) =>

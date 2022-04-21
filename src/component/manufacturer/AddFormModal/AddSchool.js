@@ -17,7 +17,7 @@ import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { numberonly,streetCode,emisNumber } from "../../../locales/regexp";
+import { numberonly, streetCode, emisNumber } from "../../../locales/regexp";
 
 export const AddSchool = (props) => {
   const {
@@ -33,6 +33,8 @@ export const AddSchool = (props) => {
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
   const [distList, setDistList] = useState([]);
+  const [levelList, setLevelList] = useState([]);
+  const [snqList, setSnqList] = useState([]);
   const [selected, setSelected] = useState({});
 
   const setValue = (key, value) => {
@@ -52,8 +54,29 @@ export const AddSchool = (props) => {
       })
       .catch((e) => console.log("apicall", e));
   };
+
+  const getLevelList = async () => {
+    axios
+      .get(`${endUrl.schoolDistList}`)
+      .then((res) => {
+        setLevelList(res?.data?.data);
+      })
+      .catch((e) => console.log("apicall", e));
+  };
+
+  const getSnqList = async () => {
+    axios
+      .get(`${endUrl.schoolDistList}`)
+      .then((res) => {
+        setSnqList(res?.data?.data);
+      })
+      .catch((e) => console.log("apicall", e));
+  };
+
   useEffect(() => {
     getDistrictList();
+    getLevelList();
+    getSnqList();
   }, []);
 
   validation = (value) => {
@@ -61,13 +84,10 @@ export const AddSchool = (props) => {
   }
 
   useEffect(() => {
-    console.log(selected)
     !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
       ? setDisable(true)
       : setDisable(false)
   }, [inputValues]);
-
- 
 
   useEffect(() => {
     const obj = {};
@@ -86,6 +106,22 @@ export const AddSchool = (props) => {
     setInputValues(obj);
   }, []);
 
+  const getList = (value) => {
+    if (value == "District") {
+      return distList;
+    } if (value == "Level") {
+      return levelList;
+    } if (value == "SNQ") {
+      return snqList;
+    }
+  }
+
+  const getTask = (value) => {
+    if (value == "District") {
+      return "district_office"
+    }
+  }
+
   const onNext = () => {
     if (operation == 'Edit') {
       if (selected === {}) {
@@ -99,7 +135,6 @@ export const AddSchool = (props) => {
       inputValues.district_id = selected.id
     }
     onSubmitDetails(inputValues, operation);
-    console.log(inputValues);
   };
 
   return (
@@ -131,12 +166,13 @@ export const AddSchool = (props) => {
                 <ScrollView showsVerticalScrollIndicator={false}>
                   {data.map((input, index) => (
                     <View key={index}>
+
                       {defaultState === true ? (
                         <View style={style.changeView}>
                           <Text style={input.value === 'School' || input.value === 'School EMIS Number' || input.value === 'School District' ? style.mandatory : null}>{input.value}</Text>
                         </View>
                       ) : null}
-                      {input.value == "School District" ? (
+                      {input.value == "District" || input.value == "Level" || input.value == "SNQ" ? (
                         <>
                           <View style={style.container}>
                             <Dropdown
@@ -145,9 +181,9 @@ export const AddSchool = (props) => {
                                   ? inputValues[input.key]
                                   : input.value
                               }
-                              data={distList}
+                              data={getList(input.value)}
                               onSelect={setSelected}
-                              task="district_office"
+                              task={getTask(input.value)}
                             />
                           </View>
                         </>
