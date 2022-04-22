@@ -73,6 +73,7 @@ export const FurnitureReplacmentProcess = () => {
   const [confirmCollectedCount, setConfirmCollectedCount] = useState([]);
   const [printdilverystatus, setprintdilverystatus] = useState(false);
   const [dileveryNote, setdileveryNote] = useState([]);
+  const [brokenItemsList, setBrokenItemsList] = useState([]);
   const [uploadPrintDilveryStatus, setuploadPrintDilveryStatus] =
     useState(false);
   const [checkoboxofDilveryitem, setcheckoboxofDilveryitem] = useState(false);
@@ -181,8 +182,7 @@ export const FurnitureReplacmentProcess = () => {
       "repaired_count",
       "replenished_count",
     ]);
-       setTableKey((oldData) => [...oldData, "deliveritem"]);
-      console.log('118',broken_items)
+    setTableKey((oldData) => [...oldData, "deliveritem"]);
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -207,9 +207,8 @@ export const FurnitureReplacmentProcess = () => {
       "replenished_count",
     ]);
 
-       setTableKey((oldData) => [...oldData, "delivered_count"])
-    
-      console.log('118',broken_items)
+    setTableKey((oldData) => [...oldData, "delivered_count"]);
+
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -223,12 +222,8 @@ export const FurnitureReplacmentProcess = () => {
     else if (task == constants.Status_CollectionAccepted)
       onCollectionAccepted();
     else if (task == constants.Status_pendingRepair) onPendingRepair();
-    else if (
-      task == constants.Status_RepairCompleted 
-    )
-      onRepairCompleted();
-      else if (task == constants.Status_pendingDilver)
-      onpendingDeliver()
+    else if (task == constants.Status_RepairCompleted) onRepairCompleted();
+    else if (task == constants.Status_pendingDilver) onpendingDeliver();
     else if (task == constants.Status_DeliveryConfirmed) {
       setCreateRequestIcon(constants.success);
       setCollectFurItem(constants.success);
@@ -239,7 +234,6 @@ export const FurnitureReplacmentProcess = () => {
       setLoader(false);
     }
   }, [tableHeader, isFocused]);
-
 
   const [tableKey, setTableKey] = useState([
     "category_name",
@@ -409,7 +403,6 @@ export const FurnitureReplacmentProcess = () => {
       });
     });
     body.append("ref_number", ref_number);
-    console.log("395", JSON.stringify(body));
     const uploadImg = async () => {
       try {
         let response = await fetch(url, {
@@ -439,21 +432,27 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onsubmitRepairDetails = () => {
-    setLoader(true);
-    flatListData.map((ele) => {
-      ele.replenish_count = ele.replenished_count;
-      ele.repair_count = ele.repaired_count;
-    });
-
-    let data = {
-      ref_number: ref_number,
-      items:
-        replenishment_status == 1 || replenishment_status == 2 || replenishment_status == 3
-          ? flatListData
-          : confirmCollectedCount,
-    };
-    console.log("aaa",data)
-    axios
+    setLoader(true)
+      if (replenishment_status == null){
+        confirmCollectedCount.map((ele) => {
+          ele.replenish_count = ele?.replenish_count;
+          ele.repair_count = ele?.repair_count;
+        });
+           }
+      else{
+      flatListData.map((ele) => {
+        ele.replenish_count = ele.replenished_count;
+        ele.repair_count = ele.repaired_count;
+      });
+    }
+      let data = {
+        ref_number: ref_number,
+        items:
+          replenishment_status == 1 || replenishment_status == 2 || replenishment_status == 3
+            ? flatListData
+            : confirmCollectedCount,
+      };
+     axios
       .post(`${endUrl.submitRepair}`, data)
       .then((res) => successApi(res))
       .catch((e) => ErrorApi(e));
@@ -650,7 +649,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const ondisposalcertPress = () => {
-    setLoader(true);
+    // setLoader(true);
     let data = {
       ref_number: ref_number,
       items: confirmCollectedCount,
@@ -659,7 +658,7 @@ export const FurnitureReplacmentProcess = () => {
     setEmailreplanishcertificateStatus(true);
   };
   const onreplanishemailcer = () => {
-    setLoader(true);
+    // setLoader(true);
     let data = {
       ref_number: ref_number,
       items: confirmCollectedCount,
@@ -893,7 +892,7 @@ export const FurnitureReplacmentProcess = () => {
             printPickupPress={() => printPickupbutpress()}
           />
 
-        {/* {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null} */}
+          {/* {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null} */}
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
