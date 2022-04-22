@@ -25,7 +25,7 @@ import { StockItems } from "../screen/manufacturer/maintenance/StockMaintenance/
 import { FurnitureReplacmentProcess } from "../screen/furniturereplacementScreen/FurnitureReplacpmentProcess/furnitureReplacmentProcessscreen";
 import { Search } from "../screen/manufacturer/searchManufacturer/search";
 import { ManageRequests } from "../screen/ManageRequests/ManageRequests";
-import { DashboardUser } from "../screen/dashboard/dashboarduser/Dashboarduser";
+import { DashboardUser } from "../screen/dashboard/dashboarduser";
 import Third from "../Third";
 
 const Stack = createNativeStackNavigator();

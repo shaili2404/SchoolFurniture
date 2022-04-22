@@ -440,10 +440,23 @@ export const FurnitureReplacmentProcess = () => {
 
   const onsubmitRepairDetails = () => {
     setLoader(true);
+    // flatListData.map((ele) => {
+    //   ele.replenish_count = ele.replenished_count;
+    //   ele.repair_count = ele.repaired_count;
+    // });
+    if (replenishment_status == null){
+      confirmCollectedCount.map((ele) => {
+        ele.replenish_count = ele?.replenish_count;
+        ele.repair_count = ele?.repair_count;
+      });
+         }
+    else{
     flatListData.map((ele) => {
       ele.replenish_count = ele.replenished_count;
       ele.repair_count = ele.repaired_count;
     });
+  }
+    
 
     let data = {
       ref_number: ref_number,
