@@ -35,7 +35,7 @@ const CommonHeaderStyle = { headerTitleStyle: { color: '#359934' } };
 
 const DrawerStack = () => {
   return (
-    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}> 
       <Drawer.Screen
         component={First}
         name="First"
