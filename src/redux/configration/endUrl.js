@@ -36,6 +36,7 @@ const endUrl = {
     CIRCUIT_List:'user/school-circuit',
     CIRCUIT_search:"user/search/school-circuit?query=",
     SubPlace_List:'user/school-subplace',
+    SubPlaces_search:"user/search/school-subplace?query=",
     singleRequest :"user/furniture-collect"
     
 }

@@ -49,7 +49,7 @@ export const CMC = () => {
 
   const tableKey = [
     "cmc_name",
-    "district_details",
+    "district_office",
   ];
   const tableHeader = [
     constants.Cmc,
@@ -59,7 +59,7 @@ export const CMC = () => {
 
   const addArray = [
     { key: "cmc_name", value: constants.Cmc },
-    { key: "district_name", value: constants.District },
+    { key:  "district_office", value: constants.District },
   ];
 
   useEffect(() => {
@@ -239,7 +239,6 @@ export const CMC = () => {
   }, [listData]);
 
   useEffect(() => {
-    setLoader(true)
     if (searchtask == "") {
       apicall();
       setErrorMessage("");

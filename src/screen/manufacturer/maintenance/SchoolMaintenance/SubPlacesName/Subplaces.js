@@ -60,6 +60,11 @@ export const SubPlacesList = () => {
     { key: "subplace_name", value: constants.subplacesname },
     { key: "circuit_name", value: constants.Circuit },
   ];
+  useEffect(() => {
+    setLoader(true)
+    apicall();
+  }, []);
+
 
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
@@ -88,7 +93,7 @@ export const SubPlacesList = () => {
         reloadList={() => reloadList()}
         onEdit={(item, task) => onEdit(item, task)}
         link={endUrl.SubPlace_List}
-        mainMessage={AlertText.deleteschool}
+        mainMessage={AlertText.deletesubplace}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
       />
@@ -149,6 +154,7 @@ export const SubPlacesList = () => {
     )
   };
   const initialPagination = (list) => {
+    setLoader(true)
     const len = list.length;
     const totalPage = Math.ceil(len / PAGESIZE);
     setPagination({
@@ -157,6 +163,7 @@ export const SubPlacesList = () => {
       startIndex: 0,
       endIndex: len > PAGESIZE ? PAGESIZE : len,
     });
+    setLoader(false)
   };
 
   const onNext = () => {
@@ -198,13 +205,23 @@ export const SubPlacesList = () => {
 
   const onsearch = () => {
     setLoader(true)
-    axios.get(`${endUrl.searchSchool}${searchtask}`).then((res) => {
+    axios.get(`${endUrl.SubPlaces_search}${searchtask}`).then((res) => {
       setListData(res?.data?.data);
       setLoader(false)
     }).catch((e) => {
-      let errorMsg = e?.response?.data?.message;
-      setLoader(false);
-      setErrorMessage(errorMsg);
+      {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        {
+          let str = "";
+          status == 422 ?
+            Object.values(data).forEach((value) => {
+              str += `  ${value}`;
+              setErrorMessage(str);
+            }) :
+            setErrorMessage(message);
+        }
+      }
     })
   };
 
@@ -213,9 +230,6 @@ export const SubPlacesList = () => {
     setAdduserModal(true);
   };
 
-  useEffect(() => {
-    apicall();
-  }, []);
 
   useEffect(() => {
     if (listData) setLoader(false);
@@ -223,6 +237,7 @@ export const SubPlacesList = () => {
 
   useEffect(() => {
     if (searchtask == "") {
+      setLoader(true)
       apicall();
       setErrorMessage("");
       setLoader(false)
@@ -313,7 +328,7 @@ export const SubPlacesList = () => {
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
-          subMessage={operation == "Add" ? AlertText.SchoolAddedSub : AlertText.SchoolUpdateSub}
+          subMessage={operation == "Add" ? AlertText.subplaceAddedSub : AlertText.SubplaceUpdateSub}
           onConfirm={() => onPressYes()}
         />) : null}
       {erroralert ? (

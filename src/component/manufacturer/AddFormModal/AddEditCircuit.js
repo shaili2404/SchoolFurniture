@@ -86,7 +86,7 @@ export const AddEditCircuit = (props) => {
       if (selected?.id) {
         inputValues.cmc_id = selected?.id;
       } else {
-        inputValues.cmc_id = updateItem.id;
+        inputValues.cmc_id = updateItem.cmc_id;
       }
     } else {
       inputValues.cmc_id = selected?.id;

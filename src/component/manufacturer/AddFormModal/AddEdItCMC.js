@@ -34,6 +34,8 @@ export const AddEditCMC = (props) => {
   const [disable, setDisable] = useState(false);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
+  console.log(inputValues)
+  console.log(updateItem)
 
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -73,6 +75,7 @@ export const AddEditCMC = (props) => {
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       });
+      console.log('78',data)
     } else {
       data.forEach((val) => {
         obj[val.key] = "";
@@ -86,7 +89,7 @@ export const AddEditCMC = (props) => {
       if (selected?.id) {
         inputValues.district_id = selected?.id;
       } else {
-        inputValues.district_id = updateItem.id;
+        inputValues.district_id = updateItem?.district_id;
       }
     } else {
       inputValues.district_id = selected?.id;

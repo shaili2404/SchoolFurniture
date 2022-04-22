@@ -39,7 +39,7 @@ export const DisplayList = ({
   const [subMsg, setSubMsg] = useState("");
   const [repItem, setRepItem] = useState("");
   const [confirmCount, setConfirmCount] = useState("");
-
+  const [deliverCount,setDeliverCount] = useState('')
   const onchangeInp = (val) => {
     let Confirm_cnt;
     if (val > item.count) Confirm_cnt = item.count;
@@ -64,9 +64,14 @@ export const DisplayList = ({
     });
     onSubmitreparableDetails(flatListData);
   };
-  const onchangedilver =(val)=>{
+  const onchangedeliver =(val)=>{
+    console.log(item)
+    let Confirm_cnt;
+    if (val > item.confirmed_count ) Confirm_cnt = item.confirmed_count ;
+    else Confirm_cnt = val;
+    setDeliverCount(Confirm_cnt);
     flatListData.map((element) => {
-      if (element.id === item.id) element.deliver_count = val;
+      if (element.id === item.id) element.deliver_count = Confirm_cnt;
     });
     onsubmitDilverdetails(flatListData);
   }
@@ -117,8 +122,9 @@ export const DisplayList = ({
                           placeholder={constants.Enterval}
                           placeholderTextColor={COLORS.Black}
                           style={Styles.inputStyles}
-                           onChangeText={(val) => onchangedilver(val)}
+                           onChangeText={(val) => onchangedeliver(val)}
                           keyboardType="numeric"
+                          value={String(deliverCount)}
                         />
                       ) : (
                         <Text style={Styles.textStyle}>{item[val]}</Text>

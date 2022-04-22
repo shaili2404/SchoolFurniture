@@ -34,5 +34,8 @@ const AlertText = {
     deleteCircuit: 'Do You Want To Delete This Circuit',
     CircuitAddedSub: 'Circuit Added Successfully',
     CircuitUpdateSub: 'Circuit Updated Successfully',
+    deletesubplace: 'Do You Want To Delete This Sub Place',
+    subplaceAddedSub: 'Sub Place Added Successfully',
+    SubplaceUpdateSub: 'Sub Place Updated Successfully',
 }
 export default AlertText
