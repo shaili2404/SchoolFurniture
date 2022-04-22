@@ -44,30 +44,33 @@ export const Schoolmaintenancescreen = () => {
   ];
 
 
-  const navigatetoPage = (task)=>{
-   if (task == constants.SchoolDistrict) navigation.navigate("School District")
-   else if (task == constants.Circuit) navigation.navigate("Circuit")
-   else if (task == constants.Cmc) navigation.navigate("Cmc")
-   else if (task == constants.subplacesname) navigation.navigate("SubPlace")
-   else if (task == constants.school) navigation.navigate("School")
- 
+  const navigatetoPage = (task) => {
+    if (task == constants.SchoolDistrict) navigation.navigate("School District")
+    else if (task == constants.Circuit) navigation.navigate("Circuit")
+    else if (task == constants.Cmc) navigation.navigate("Cmc")
+    else if (task == constants.subplacesname) navigation.navigate("SubPlace")
+    else if (task == constants.school) navigation.navigate("School")
+
   }
   return (
     <SafeAreaView style={style.container}>
       <View>
-        {ButtonName.map((ele) => 
-              <LinearGradient
+
+        {ButtonName.map((ele) =>
+          <TouchableOpacity
+            onPress={() => navigatetoPage(ele)}>
+            <LinearGradient
               colors={[COLORS.LinearBox, COLORS.GreenBox]}
               start={{ x: 1, y: 1 }}
               end={{ x: 0, y: 1 }}
               style={style.schoolButton}
             >
-          <TouchableOpacity
-            onPress={() => navigatetoPage(ele) }
-          >
-            <Text style={style.schooldistrict}>{ele}</Text>
+
+
+              <Text style={style.schooldistrict}>{ele}</Text>
+
+            </LinearGradient>
           </TouchableOpacity>
-          </LinearGradient>
         )}
       </View>
     </SafeAreaView>
