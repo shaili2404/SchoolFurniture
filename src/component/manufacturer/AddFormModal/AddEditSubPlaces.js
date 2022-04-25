@@ -82,11 +82,12 @@ export const AddEditSubplaces = (props) => {
   }, []);
 
   const onNext = () => {
+    console.log(updateItem)
     if (operation == "Edit") {
       if (selected?.id) {
         inputValues.circuit_id = selected?.id;
       } else {
-        inputValues.circuit_id = updateItem.id;
+        inputValues.circuit_id = updateItem.circuit_id;
       }
     } else {
       inputValues.circuit_id = selected?.id;
