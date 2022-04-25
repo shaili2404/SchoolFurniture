@@ -96,8 +96,9 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-between',
     width: "30%",
-    position: "absolute",
-    bottom: 10,
+    marginTop:10,
+    // position: "absolute",
+    // bottom: 10,
     alignSelf: "center",
   },
 

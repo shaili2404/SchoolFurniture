@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  ScrollView
 } from "react-native";
 import { useSelector } from "react-redux";
 import Styles from "./Styles";
@@ -39,6 +40,8 @@ const StockCategory = () => {
   const tableKey = ["name"];
   const navigation = useNavigation();
   const loginData = useSelector((state) => state?.loginData);
+  const [maximumNumber,setmaximunNumber] = useState(0)
+  const [number,setNumber] = useState(1)
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -108,14 +111,14 @@ const StockCategory = () => {
   };
 
   // List api call
-  const categorylistapi = () => {
+  const categorylistapi = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.stockCategoryList}`)
+      .get(`${endUrl.stockCategoryList}?page=${count? count : number}`)
       .then((res) => {
-        initialPagination(res?.data?.data);
-        setCategoryListData(res?.data?.data);
-        setLoader(false);
+        setCategoryListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page)
+        setLoader(false)
       })
       .catch((e) => {
         setLoader(false);
@@ -213,54 +216,28 @@ const StockCategory = () => {
     }
   }, [searchtask]);
 
-  // Pagination call
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
-  };
+
 
   const onNext = () => {
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > categoryListData.length
-            ? categoryListData.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    let count = number + 1
+    setLoader(true)
+    setNumber(number+1)
+    categorylistapi(count)
+    setLoader(false)
   };
 
   const onPrevious = () => {
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
+    let count = number -1
+    setLoader(true)
+    setNumber(number-1)
+    categorylistapi(count)
+        setLoader(false)
   };
 
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <View style={Styles.mainView}>
       <TextInput
         placeholder={Constants.StockCategories}
@@ -320,14 +297,14 @@ const StockCategory = () => {
           style={Styles.listStyle}
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          data={categoryListData.slice(pagination.startIndex, pagination.endIndex)}
+          data={categoryListData}
           renderItem={rendercomponent}
         />
       )}
 
-      <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
-          {pagination.currentPage === 1 ? (
+<View style={Styles.lastView}>
+        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+          {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
             <Image
@@ -337,8 +314,8 @@ const StockCategory = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
-          {pagination.currentPage === pagination.totalPage ? (
+        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
+          {number == maximumNumber? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -356,7 +333,10 @@ const StockCategory = () => {
         />
       ) : null}
     </View>
+    <View style={{ height: 20 }} />
+    </ScrollView>
   );
 };
 
 export default StockCategory;
+

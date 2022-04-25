@@ -89,6 +89,7 @@ export const SchoolDistrictList = () => {
         mainMessage={AlertText.deletedistrict}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
+        
       />
     );
   };

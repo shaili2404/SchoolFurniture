@@ -106,7 +106,7 @@ export const FurnitureReplacmentProcess = () => {
   const {
     school_name,
     emis,
-    total_broken_items,
+    total_furniture,
     broken_items,
     id,
     ref_number,
@@ -848,7 +848,7 @@ export const FurnitureReplacmentProcess = () => {
               }
               org={schooldetails?.organization}
               stockcollectionName={constants.schoolFurCount}
-              stockcount={total_broken_items}
+              stockcount={total_furniture}
               onvalueEdit={(val) => onvalueEdit(val)}
               totalFur={totalFur}
               task={constants.ManageReqText}

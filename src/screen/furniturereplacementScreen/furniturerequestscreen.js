@@ -54,6 +54,8 @@ export const FurnitureReplacmentManfacturer = () => {
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
+  const [maximumNumber,setmaximunNumber] = useState(0)
+  const [number,setNumber] = useState(1)
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -96,18 +98,18 @@ export const FurnitureReplacmentManfacturer = () => {
       });
   };
   const onsuccessapi = (res) => {
-    setCollectionList(res?.data?.data);
-    initialPagination(res?.data?.data);
-    setLoader(false);
+    setCollectionList(res?.data?.data?.records);
+      setmaximunNumber(res?.data?.data?.total_page)
+      setLoader(false)
   };
   const onerrorapi = (e) => {
     setLoader(false);
   };
 
-  const getCollectionRequest = () => {
+  const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.collectionreqList}`)
+      .get(`${endUrl.collectionreqList}?page=${count? count : number}`)
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
@@ -129,44 +131,20 @@ export const FurnitureReplacmentManfacturer = () => {
     getstatusList();
   }, [isFocused]);
 
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
-  };
-
   const onNext = () => {
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) return;
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > collectionList.length
-            ? collectionList.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    let count = number + 1
+    setLoader(true)
+    setNumber(number+1)
+    getCollectionRequest(count)
+    setLoader(false)
   };
 
   const onPrevious = () => {
-    let { currentPage } = pagination;
-    if (currentPage === 1) return;
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
+    let count = number -1
+    setLoader(true)
+    setNumber(number-1)
+    getCollectionRequest(count)
+        setLoader(false)
   };
 
   const onReset = () => {
@@ -247,6 +225,7 @@ export const FurnitureReplacmentManfacturer = () => {
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
+      <ScrollView showsHorizontalScrollIndicator={false}>
       <View style={Styles.halfView}>
         <View style={Styles.searchButtonView}>
           <Text style={Styles.transactionText}>
@@ -361,10 +340,7 @@ export const FurnitureReplacmentManfacturer = () => {
             <FlatList
               ListHeaderComponent={HeaderComponet}
               keyExtractor={(item) => item.id}
-              data={collectionList?.slice(
-                pagination.startIndex,
-                pagination.endIndex
-              )}
+              data={collectionList}
               renderItem={rendercomponent}
             />
           </ScrollView>
@@ -379,12 +355,9 @@ export const FurnitureReplacmentManfacturer = () => {
           </TouchableOpacity>
         </View>
       ) : null}
-      <View style={Styles.lastView}>
-        <TouchableOpacity
-          disabled={pagination.currentPage === 1 ? true : false}
-          onPress={onPrevious}
-        >
-          {pagination.currentPage === 1 ? (
+   <View style={Styles.lastView}>
+        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+          {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
             <Image
@@ -394,13 +367,8 @@ export const FurnitureReplacmentManfacturer = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity
-          disabled={
-            pagination.currentPage === pagination.totalPage ? true : false
-          }
-          onPress={onNext}
-        >
-          {pagination.currentPage === pagination.totalPage ? (
+        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
+          {number == maximumNumber? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -410,6 +378,8 @@ export const FurnitureReplacmentManfacturer = () => {
           )}
         </TouchableOpacity>
       </View>
+      <View style={{ height: 70 }} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
