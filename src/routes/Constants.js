@@ -15,6 +15,12 @@ const USER_ROLE = {
     manufacturer: 
     [
       {
+        name: 'Home',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/home-icon.png'),
+        screenName: NavigationRouteNames.DASHBOARDUSER
+      },
+      {
         name: 'Dashboard',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
@@ -35,7 +41,7 @@ const USER_ROLE = {
       {
         name: 'Manage Request',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/circle_notifications_black_24dp.png'),
+        iconName: require('../assets/Images/Common/manage_request_icon.png'),
         screenName: NavigationRouteNames.MANAGEREQUESTS
       },
       {
@@ -57,7 +63,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.manageuserscreen
       },
       {
-        name: 'Signout',
+        name: 'Logout',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/logout_black_24dp.png'),
         screenName: 'logout'

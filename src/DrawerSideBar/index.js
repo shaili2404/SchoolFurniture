@@ -180,7 +180,7 @@ const DrawerSideBar = (props) => {
                             </View>
                         </View>
                         <FlatList
-                            data={schooldetails == "School" ? DRAWER_MENU["manufacturer"].filter((item)=>item.name != "Maintenance" && item.name != "Manage Users")  : DRAWER_MENU["manufacturer"].filter((item)=>item.name != "Manage Request")}
+                            data={schooldetails == "School" ? DRAWER_MENU["manufacturer"].filter((item)=>item.name != "Maintenance" && item.name != "Manage Users" && item.name != "Dashboard")  : DRAWER_MENU["manufacturer"].filter((item)=>item.name != "Manage Request")}
                             keyExtractor={(_, index) => `${index}2`}
                             renderItem={({ index, item }) => onRenderMenu(index, item)}
                         />
