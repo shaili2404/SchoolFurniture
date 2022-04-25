@@ -24,7 +24,6 @@ import Loader from "../../../../../component/loader";
 import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
 
-const PAGESIZE = 10;
 
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
@@ -36,12 +35,8 @@ export const SchoolDistrictList = () => {
   const [updateItem, setUpdateItem] = useState({});
   const [alert, setAlert] = useState(false);
   const [erroralert, seterrorAlert] = useState(false);
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
+  const [maximumNumber,setmaximunNumber] = useState(0)
+  const [number,setNumber] = useState(1)
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -146,63 +141,31 @@ export const SchoolDistrictList = () => {
       });
   };
 
-  const apicall = async () => {
+  const apicall = async (count) => {
     setLoader(true)
-    axios.get(endUrl.schoolDistList)
+    axios.get(`${endUrl.schoolDistList}?page=${count? count : number}`)
       .then((res) => {
-        initialPagination(res?.data?.data);
-        setListData(res?.data?.data);
+        setListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page)
         setLoader(false)
       })
       .catch((e) => setLoader(false));
   };
 
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
-  };
-
   const onNext = () => {
+    let count = number + 1
     setLoader(true)
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > listData.length
-            ? listData.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    setNumber(number+1)
+    apicall(count)
     setLoader(false)
   };
 
   const onPrevious = () => {
+    let count = number -1
     setLoader(true)
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
-    setLoader(false)
+    setNumber(number-1)
+    apicall(count)
+        setLoader(false)
   };
 
   const onsearch = async () => {
@@ -273,7 +236,7 @@ export const SchoolDistrictList = () => {
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={listData.slice(pagination.startIndex, pagination.endIndex)}
+              data={listData}
               renderItem={rendercomponent}
             />
           </ScrollView>
@@ -281,8 +244,8 @@ export const SchoolDistrictList = () => {
 
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
-          {pagination.currentPage === 1 ? (
+        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+          {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
             <Image
@@ -292,8 +255,8 @@ export const SchoolDistrictList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
-          {pagination.currentPage === pagination.totalPage ? (
+        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
+          {number == maximumNumber? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -303,6 +266,7 @@ export const SchoolDistrictList = () => {
           )}
         </TouchableOpacity>
       </View>
+
       {permissionId.userCreate && (
         <View style={Styles.plusView} >
           <TouchableOpacity onPress={() => onAddPress("Add")}>
