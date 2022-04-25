@@ -74,6 +74,7 @@ export const FurnitureReplacmentProcess = () => {
   const [printdilverystatus, setprintdilverystatus] = useState(false);
   const [dileveryNote, setdileveryNote] = useState([]);
   const [brokenItemsList, setBrokenItemsList] = useState([]);
+  const [totalFur,setTotalFur] = useState('')
   const [uploadPrintDilveryStatus, setuploadPrintDilveryStatus] =
     useState(false);
   const [checkoboxofDilveryitem, setcheckoboxofDilveryitem] = useState(false);
@@ -119,8 +120,11 @@ export const FurnitureReplacmentProcess = () => {
       userDelete: true,
       userEdit: true,
     });
-    if (route?.params?.task == constants.ManageReqText)
+    if (route?.params?.task == constants.ManageReqText){
       setFlatListData(route?.params?.items?.broken_items);
+      setTotalFur(route?.params?.items?.total_furniture)
+      setSaveButton(false)
+    }
     else setFlatListData(route?.params?.finalList);
 
     setLoader(false);
@@ -275,11 +279,18 @@ export const FurnitureReplacmentProcess = () => {
 
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
-      data?.filter((ele) => {
-        if (ele?.confirm_count == "" || ele?.confirm_count == 0)
-          setSaveButton(true);
-        else setSaveButton(false);
-      });
+      let a 
+      a = data.length 
+     data?.filter((ele) => ele?.confirm_count == false)
+     let b 
+     b = data .length 
+
+      console.log('283',a,b)
+      // data?.filter((ele) => {
+      //   if (ele?.confirm_count == "" || ele?.confirm_count == 0)
+      //     setSaveButton(true);
+      //   else setSaveButton(false);
+      // });
     } else setSaveButton(true);
 
     setConfirmCollectedCount(data);
@@ -420,6 +431,8 @@ export const FurnitureReplacmentProcess = () => {
     };
     uploadImg();
   };
+ 
+   
   const SuccessUploadImage = (res) => {
     setSuccessAlert(true);
     setLoader(false);
@@ -837,6 +850,8 @@ export const FurnitureReplacmentProcess = () => {
               stockcollectionName={constants.schoolFurCount}
               stockcount={total_broken_items}
               onvalueEdit={(val) => onvalueEdit(val)}
+              totalFur={totalFur}
+              task={constants.ManageReqText}
             />
             {schooldetails?.organization == constants.school ? (
               <View style={styles.addplusView}>
