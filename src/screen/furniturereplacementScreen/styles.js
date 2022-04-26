@@ -8,6 +8,10 @@ export default StyleSheet.create({
     position: "relative",
     backgroundColor: COLORS.White,
   },
+  mainViews: {
+    position: "relative",
+    backgroundColor: COLORS.White,
+  },
   halfView: {
     backgroundColor: COLORS.LightGreen,
     width: width,
@@ -169,6 +173,14 @@ export default StyleSheet.create({
     marginTop:10,
     // position: "absolute",
     // bottom: 130,
+    alignSelf: "center",
+  },
+  lastViews: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "30%",
+    position: "absolute",
+    bottom: 130,
     alignSelf: "center",
   },
   plusView: {

@@ -37,7 +37,10 @@ const endUrl = {
     CIRCUIT_search:"user/search/school-circuit?query=",
     SubPlace_List:'user/school-subplace',
     SubPlaces_search:"user/search/school-subplace?query=",
-    singleRequest :"user/furniture-collect"
+    singleRequest :"user/furniture-collect",
+    single_distrequest:"user/school-district",
+    single_cmcrequest :'user/school-cmc',
+    single_circuitrequest:'user/school-circuit'
     
 }
 export default endUrl;

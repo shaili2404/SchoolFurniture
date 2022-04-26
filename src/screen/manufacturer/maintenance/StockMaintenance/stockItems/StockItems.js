@@ -47,6 +47,7 @@ export const StockItems = () => {
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
   const loginData = useSelector((state) => state?.loginData);
+  const [dropDownnumber, setDropDownNumber] = useState(1);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -178,16 +179,18 @@ export const StockItems = () => {
     return <ListHeaderComman tableHeader={tableHeader} List="screen" />;
   };
 
-  const getCategoriesList = () => {
-    setLoader(true);
+  const loadmoredata = ()=>{
+    let count = dropDownnumber +1 
+    setDropDownNumber(dropDownnumber+1)
+    getCategoriesList(count)
+  }
+  const getCategoriesList = (count) => {
     axios
-      .get(`${endUrl.stockCategoryList}`)
+      .get(`${endUrl.stockCategoryList}?page=${count ? count : dropDownnumber}`)
       .then((res) => {
-        setDataList(res?.data?.data);
-        setLoader(false);
+        setDataList(res?.data?.data?.records);
       })
       .catch((e) => {
-        setLoader(false);
       });
   };
 
@@ -249,7 +252,7 @@ export const StockItems = () => {
     let count = number + 1;
     setLoader(true);
     setNumber(number + 1);
-    categorylistapi(count);
+    getStockList(count);
     setLoader(false);
   };
 
@@ -257,7 +260,7 @@ export const StockItems = () => {
     let count = number - 1;
     setLoader(true);
     setNumber(number - 1);
-    categorylistapi(count);
+    getStockList(count);
     setLoader(false);
   };
 
@@ -273,6 +276,7 @@ export const StockItems = () => {
           onSelect={setSelected}
           task="name"
           way={taskfor == "Edit" ? "Edit" : null}
+          loadmoredata={()=>loadmoredata()}
         />
       </View>
       <View>

@@ -11,16 +11,29 @@ import {
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 
-const Dropdown = ({ label, data, onSelect, task, way, identify, selectedItem }) => {
+const Dropdown = ({
+  label,
+  data,
+  onSelect,
+  task,
+  way,
+  identify,
+  selectedItem,
+  loadmoredata,
+}) => {
   const DropdownButton = useRef();
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState({});
   const [dropdownTop, setDropdownTop] = useState(0);
-  const [isDisable, setIsDisable] = useState(false)
+  const [isDisable, setIsDisable] = useState(false);
   const toggleDropdown = () => {
     visible ? setVisible(false) : openDropdown();
   };
 
+  const loadData = ()=>{
+    loadmoredata()
+    // visible ? setVisible(false) : openDropdown();
+  }
   const openDropdown = () => {
     DropdownButton.current.measure((_fx, fy, w, h, _px, py) => {
       setDropdownTop(py + h);
@@ -30,24 +43,24 @@ const Dropdown = ({ label, data, onSelect, task, way, identify, selectedItem }) 
 
   useEffect(() => {
     if (way == "Edit" && identify == "dropdownA") {
-      setSelected(data[0])
+      setSelected(data[0]);
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [way])
+  }, [way]);
 
   useEffect(() => {
     if (way == "Edit" && identify == "dropdownB") {
       setIsDisable(false);
       data.map((element) => {
         Object.entries(element).forEach(([key, value]) => {
-          if (`${key}` == 'id' && `${value}` == selectedItem)
-            setSelected(element)
-        })
-      })
+          if (`${key}` == "id" && `${value}` == selectedItem)
+            setSelected(element);
+        });
+      });
     }
-  }, [data])
+  }, [data]);
 
   const onItemPress = (item) => {
     setSelected(item);
@@ -75,6 +88,8 @@ const Dropdown = ({ label, data, onSelect, task, way, identify, selectedItem }) 
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
               style={data?.length > 4 ? styles.flatStyle : styles.flatStyles}
+              extraData={useState}
+              // onEndReached={() => loadData()}
             />
           </View>
         </TouchableOpacity>
@@ -84,9 +99,7 @@ const Dropdown = ({ label, data, onSelect, task, way, identify, selectedItem }) 
 
   return (
     <>
-      <TouchableOpacity
-        style={styles.button}
-      >
+      <TouchableOpacity style={styles.button}>
         {renderDropdown()}
         <Text style={styles.buttonText}>
           {(selected && selected[task]) || label}
@@ -147,4 +160,3 @@ const styles = StyleSheet.create({
 });
 
 export default Dropdown;
-
