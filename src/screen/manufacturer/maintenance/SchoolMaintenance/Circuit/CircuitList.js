@@ -35,7 +35,8 @@ export const CircuitList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
-  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
+  const [maximumNumber,setmaximunNumber] = useState(0)
+  const [number,setNumber] = useState(1)
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -138,62 +139,30 @@ export const CircuitList = () => {
     })
   };
 
-  const apicall = () => {
+  const apicall = (count) => {
     setLoader(true)
-    axios.get(`${endUrl.CIRCUIT_List}`).then((res) => {
-      initialPagination(res?.data?.data);
-      setListData(res?.data?.data);
+    axios.get(`${endUrl.CIRCUIT_List}?page=${count? count : number}`).then((res) => {
+      setListData(res?.data?.data?.records);
+      setmaximunNumber(res?.data?.data?.total_page)
       setLoader(false)
     }).catch((e) =>
       console.log('apicall', e)
     )
   };
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
-  };
-
   const onNext = () => {
+    let count = number + 1
     setLoader(true)
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > listData.length
-            ? listData.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    setNumber(number+1)
+    apicall(count)
     setLoader(false)
   };
 
   const onPrevious = () => {
+    let count = number -1
     setLoader(true)
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
-    setLoader(false)
+    setNumber(number-1)
+    apicall(count)
+        setLoader(false)
   };
 
   const onsearch = () => {
@@ -267,15 +236,15 @@ export const CircuitList = () => {
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={listData.slice(pagination.startIndex, pagination.endIndex)}
+              data={listData}
               renderItem={rendercomponent}
             />
           </ScrollView>
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={pagination.currentPage === 1 ? true : false}>
-          {pagination.currentPage === 1 ? (
+        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+          {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
             <Image
@@ -285,8 +254,8 @@ export const CircuitList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={pagination.currentPage === pagination.totalPage ? true : false} >
-          {pagination.currentPage === pagination.totalPage ? (
+        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
+          {number == maximumNumber? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}

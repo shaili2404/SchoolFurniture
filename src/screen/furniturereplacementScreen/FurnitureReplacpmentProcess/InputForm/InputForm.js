@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, View, TextInput } from "react-native";
 
 import COLORS from "../../../../asset/color";
+import constants from "../../../../locales/constants";
 import style from "./style";
 
 export const InputForm = ({
@@ -13,16 +14,24 @@ export const InputForm = ({
   stockcollectionName,
   stockcount,
   onvalueEdit,
+  totalFur,
+  task
 }) => {
   const [defaultState, setDefaultState] = useState(true);
-  const [inputValues, setInputValues] = useState("");
+  const [inputValues, setInputValues] = task == constants.ManageReqText ? useState(totalFur) : useState("");
+  const [totalFurCount,setTotalFurCOunt] = useState(totalFur)
 
   const onValueChange = (val) => {
     if (val <= 0) {
       setInputValues("");
+      setTotalFurCOunt('')
+      onvalueEdit(val);
     } else {
       setInputValues(val);
+      setTotalFurCOunt(val)
       onvalueEdit(val);
+     
+
     }
   };
 
@@ -69,7 +78,7 @@ export const InputForm = ({
           placeholder={defaultState === true ? "" : { stockcollectionName }}
           placeholderTextColor={COLORS.Black}
           opacity={defaultState === true ? 1 : 0.5}
-          value={org == "School" ? inputValues : String(stockcount)}
+          value={org == "School" ? task == constants.ManageReqText? String(totalFurCount) : inputValues : String(stockcount)}
           editable={org == "School" ? true : false}
           onChangeText={(val) => onValueChange(val)}
           keyboardType="numeric"

@@ -28,14 +28,15 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-between',
     width: "30%",
-    position: "absolute",
-    bottom: 130,
+    marginTop:10,
+    // position: "absolute",
+    // bottom: 130,
     alignSelf: "center",
   },
   plusView: {
     width: "20%",
     position: "absolute",
-    bottom: 80,
+    bottom: 65,
     right: 10
   },
   lastText: {

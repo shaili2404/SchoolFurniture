@@ -120,8 +120,9 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "30%",
-    position: "absolute",
-    bottom: RfH(110),
+    marginTop:10,
+    // position: "absolute",
+    // bottom: RfH(110),
     alignSelf: "center",
   },
   errormessStyle: {

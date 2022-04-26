@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  ScrollView,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { AlertMessage } from "../../../../../Alert/alert";
@@ -43,6 +44,8 @@ export const StockItems = () => {
   const [dropdata, setDropdowndata] = useState("");
   const [onEditName, setOnEditName] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const loginData = useSelector((state) => state?.loginData);
   const [pagination, setPagination] = useState({
     currentPage: 0,
@@ -188,13 +191,13 @@ export const StockItems = () => {
       });
   };
 
-  const getStockList = () => {
+  const getStockList = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.stockitemList}`)
+      .get(`${endUrl.stockitemList}?page=${count ? count : number}`)
       .then((res) => {
-        setcategoryList(res?.data?.data);
-        initialPagination(res?.data?.data);
+        setcategoryList(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
         setLoader(false);
       })
       .catch((e) => {
@@ -208,7 +211,6 @@ export const StockItems = () => {
       .get(`${endUrl.stockItemSearch}${searchtask}`)
       .then((res) => {
         setcategoryList(res?.data?.data);
-        initialPagination(res?.data?.data);
         setLoader(false);
       })
       .catch((e) => {
@@ -217,12 +219,12 @@ export const StockItems = () => {
           setLoader(false);
           {
             let str = "";
-            status == 422 ?
-              Object.values(data).forEach((value) => {
-                str += `  ${value}`;
-                setErrorMessage(str);
-              }) :
-              setErrorMessage(message);
+            status == 422
+              ? Object.values(data).forEach((value) => {
+                  str += `  ${value}`;
+                  setErrorMessage(str);
+                })
+              : setErrorMessage(message);
           }
         }
       });
@@ -243,51 +245,19 @@ export const StockItems = () => {
     }
   }, [searchtask]);
 
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
-  };
-
   const onNext = () => {
+    let count = number + 1;
     setLoader(true);
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > categoryList.length
-            ? categoryList.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    setNumber(number + 1);
+    categorylistapi(count);
     setLoader(false);
   };
 
   const onPrevious = () => {
+    let count = number - 1;
     setLoader(true);
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
+    setNumber(number - 1);
+    categorylistapi(count);
     setLoader(false);
   };
 
@@ -295,6 +265,7 @@ export const StockItems = () => {
     <Loader />
   ) : (
     <SafeAreaView style={style.mainView}>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <View style={style.container}>
         <Dropdown
           label={taskfor == "Edit" ? dropdata : constants.stockCategory}
@@ -377,9 +348,9 @@ export const StockItems = () => {
         <FlatList
           ListHeaderComponent={HeaderComponent}
           style={style.listStyle}
-          data={categoryList
-            .sort((a, b) => a.category_name.localeCompare(b.category_name))
-            .slice(pagination.startIndex, pagination.endIndex)}
+          data={categoryList.sort((a, b) =>
+            a.category_name.localeCompare(b.category_name)
+          )}
           keyExtractor={(item) => item.id}
           renderItem={renderComponent}
           showsVerticalScrollIndicator={false}
@@ -389,9 +360,9 @@ export const StockItems = () => {
       <View style={style.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
-          disabled={pagination.currentPage === 1 ? true : false}
+          disabled={number == 1 ? true : false}
         >
-          {pagination.currentPage === 1 ? (
+          {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
             <Image
@@ -403,11 +374,9 @@ export const StockItems = () => {
 
         <TouchableOpacity
           onPress={onNext}
-          disabled={
-            pagination.currentPage === pagination.totalPage ? true : false
-          }
+          disabled={number == maximumNumber ? true : false}
         >
-          {pagination.currentPage === pagination.totalPage ? (
+          {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -425,6 +394,8 @@ export const StockItems = () => {
           mainMessage={successMessage}
         />
       ) : null}
+       <View style={{ height: 70 }} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
