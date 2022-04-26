@@ -73,7 +73,6 @@ export const FurnitureReplacmentProcess = () => {
   const [confirmCollectedCount, setConfirmCollectedCount] = useState([]);
   const [printdilverystatus, setprintdilverystatus] = useState(false);
   const [dileveryNote, setdileveryNote] = useState([]);
-  const [brokenItemsList, setBrokenItemsList] = useState([]);
   const [totalFur,setTotalFur] = useState('')
   const [uploadPrintDilveryStatus, setuploadPrintDilveryStatus] =
     useState(false);
@@ -522,9 +521,10 @@ export const FurnitureReplacmentProcess = () => {
   const onschoolreqSubmit = async () => {
     setLoader(true);
     const data = {
-      total_furniture: totalFurCount,
+      total_furniture: totalFurCount?totalFurCount :totalFur,
       broken_items: flatListData,
     };
+    console.log('527',data)
     if (
       route?.params?.screen == constants.ManageReqText ||
       route?.params?.task == constants.ManageReqText
