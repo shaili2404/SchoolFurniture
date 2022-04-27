@@ -48,9 +48,9 @@ export const AddEditCMC = (props) => {
 
   const getDistrictList = async () => {
     axios
-      .get(`${endUrl.schoolDistList}`)
+      .get(`${endUrl.schoolDistList}?all=true`)
       .then((res) => {
-        setDistList(res?.data?.data);
+        setDistList(res?.data?.data?.records);
       })
       .catch((e) => console.log("apicall", e));
   };

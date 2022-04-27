@@ -46,9 +46,9 @@ export const AddEditCircuit = (props) => {
 
   const getDistrictList = async () => {
     axios
-      .get(`${endUrl.CMC_List}`)
+      .get(`${endUrl.CMC_List}?all=true`)
       .then((res) => {
-        setDistList(res?.data?.data);
+        setDistList(res?.data?.data?.records);
       })
       .catch((e) => console.log("apicall", e));
   };

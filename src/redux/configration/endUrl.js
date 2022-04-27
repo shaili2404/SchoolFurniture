@@ -40,7 +40,9 @@ const endUrl = {
     singleRequest :"user/furniture-collect",
     single_distrequest:"user/school-district",
     single_cmcrequest :'user/school-cmc',
-    single_circuitrequest:'user/school-circuit'
+    single_circuitrequest:'user/school-circuit',
+    school_snq :'user/list/school-snq',
+    school_level :'user/list/school-level'
     
 }
 export default endUrl;

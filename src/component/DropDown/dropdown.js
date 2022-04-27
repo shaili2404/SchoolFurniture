@@ -19,7 +19,6 @@ const Dropdown = ({
   way,
   identify,
   selectedItem,
-  loadmoredata,
 }) => {
   const DropdownButton = useRef();
   const [visible, setVisible] = useState(false);
@@ -30,10 +29,7 @@ const Dropdown = ({
     visible ? setVisible(false) : openDropdown();
   };
 
-  const loadData = ()=>{
-    loadmoredata()
-    // visible ? setVisible(false) : openDropdown();
-  }
+ 
   const openDropdown = () => {
     DropdownButton.current.measure((_fx, fy, w, h, _px, py) => {
       setDropdownTop(py + h);
@@ -88,8 +84,6 @@ const Dropdown = ({
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
               style={data?.length > 4 ? styles.flatStyle : styles.flatStyles}
-              extraData={useState}
-              // onEndReached={() => loadData()}
             />
           </View>
         </TouchableOpacity>

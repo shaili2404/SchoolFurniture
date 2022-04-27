@@ -78,12 +78,12 @@ export const SchoolList = () => {
     { key: "emis", value: constants.schoolEmisNumber },
     { key: "school_principal", value: constants.SchoolPrinciple },
     { key: "tel", value: constants.SchoolTelno },
-    { key: "Level", value: constants.Level },
-    { key: "SNQ", value: constants.SNQ },
+    { key: "level_id", value: constants.Level },
+    { key: "snq_id", value: constants.SNQ },
     { key: "district_name", value: constants.SchoolDistrict },
-    { key: "CMC", value: constants.Cmc },
-    { key: "Circuit", value: constants.Circuit },
-    { key: "Sub Places Name", value: constants.subplacesname },
+    { key: "cmc_name", value: constants.Cmc },
+    { key: "circuit_name", value: constants.Circuit },
+    { key: "subplace_name", value: constants.subplacesname },
     { key: "street_code", value: constants.streetCode },
   ];
 
@@ -123,6 +123,7 @@ export const SchoolList = () => {
   };
 
   const onEdit = (item, task) => {
+    console.log('126',item)
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true)

@@ -42,6 +42,8 @@ export const AddSchool = (props) => {
   const [cmc_selected, setcmc_setSelected] = useState({});
   const [circuit_selected, setcircuit_setSelected] = useState({});
   const [subplaces_selected, setsubplaces_setSelected] = useState({});
+  const [level_selected, level_setSelected] = useState({});
+  const [snq_selected, snq_setSelected] = useState({});
 
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -54,58 +56,53 @@ export const AddSchool = (props) => {
 
   const getDistrictList = async () => {
     axios
-      .get(`${endUrl.schoolDistList}`)
+      .get(`${endUrl.schoolDistList}?all==true`)
       .then((res) => {
         setDistList(res?.data?.data?.records);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
 
   const getLevelList = async () => {
     axios
-      .get(`${endUrl.schoolDistList}`)
+      .get(`${endUrl.school_level}`)
       .then((res) => {
         setLevelList(res?.data?.data);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
 
   const getSnqList = async () => {
     axios
-      .get(`${endUrl.schoolDistList}`)
+      .get(`${endUrl.school_snq}`)
       .then((res) => {
         setSnqList(res?.data?.data);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
   const getsingledistdetail = async (id) => {
-    console.log(`${endUrl.single_distrequest}/${id}`)
     axios
       .get(`${endUrl.single_distrequest}/${dist_selected?.id}`)
       .then((res) => {
-        setCmcList(res?.data?.data?.cmc_list)
+        setCmcList(res?.data?.data?.cmc_list);
       })
-      .catch((e) => console.log("89", e));
+      .catch((e) => {});
   };
   const getsinglecmcdetail = async (id) => {
-    console.log(`${endUrl.single_distrequest}/${id}`)
     axios
       .get(`${endUrl.single_cmcrequest}/${id}`)
       .then((res) => {
         setCircuitList(res?.data?.data?.circuit_list);
-        console.log(res?.data?.data)
-
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
   const getsinglecircuitdetail = async (id) => {
     axios
       .get(`${endUrl.single_circuitrequest}/${id}`)
       .then((res) => {
         setSubplaceList(res?.data?.data?.subplace_list);
-        console.log(res?.data?.data)
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
 
   useEffect(() => {
@@ -164,31 +161,29 @@ export const AddSchool = (props) => {
     }
   };
 
- const onDropdownselect = (value,item)=>{
-  if (value == "District") {
-    setdist_setSelected(item)
-    getsingledistdetail(item?.id)
-  }
-  if (value == "Level") {
-    console.log('A')
-  }
-  if (value == "SNQ") {
-    console.log('A')
-  }
-  if (value == "CMC") {
-   setcmc_setSelected(item)
-   getsinglecmcdetail(item?.cmc_id)
-   
-  }
-  if (value == "Circuit") {
-    setcircuit_setSelected(item)
-    getsinglecircuitdetail(item?.id)
-  }
-  if (value == "Sub Places Name") {
-    setsubplaces_setSelected(item)
-   
-  }
- }
+  const onDropdownselect = (value, item) => {
+    if (value == "District") {
+      setdist_setSelected(item);
+      getsingledistdetail(item?.id);
+    }
+    if (value == "Level") {
+      level_setSelected(item);
+    }
+    if (value == "SNQ") {
+      snq_setSelected(item);
+    }
+    if (value == "CMC") {
+      setcmc_setSelected(item);
+      getsinglecmcdetail(item?.cmc_id);
+    }
+    if (value == "Circuit") {
+      setcircuit_setSelected(item);
+      getsinglecircuitdetail(item?.id);
+    }
+    if (value == "Sub Places Name") {
+      setsubplaces_setSelected(item);
+    }
+  };
 
   const getTask = (value) => {
     if (value == "District") {
@@ -203,17 +198,67 @@ export const AddSchool = (props) => {
     if (value == "Sub Places Name") {
       return "subplace_name";
     }
+    if (value == "SNQ") {
+      return "name";
+    }
+    if (value == "Level") {
+      return "name";
+    }
+  };
+  const getnameadd = (value, key) => {
+    if (value == "District") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "CMC") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "Circuit") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "Sub Places Name") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "SNQ") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "Level") {
+      return operation === "Edit"
+        ? inputValues[key] === 1
+          ? "P"
+          : inputValues[key] === 2
+          ? "S"
+          : "C"
+        : value;
+    }
   };
 
   const onNext = () => {
     if (operation == "Edit") {
-      if (selected === {}) {
-        inputValues.district_id = selected.id;
-      } else {
-        inputValues.district_id = updateItem.district_id;
-      }
+      dist_selected?.id
+        ? (inputValues.district_id = dist_selected.id)
+        : (inputValues.district_id = updateItem.district_id);
+      cmc_selected?.cmc_id
+        ? (inputValues.cmc_id = cmc_selected.cmc_id)
+        : (inputValues.cmc_id = updateItem.cmc_id);
+      circuit_selected?.id
+        ? (inputValues.circuit_id = circuit_selected.id)
+        : (inputValues.circuit_id = updateItem.circuit_id);
+      subplaces_selected?.id
+        ? (inputValues.subplace_id = circuit_selected.id)
+        : (inputValues.subplace_id = updateItem.subplace_id);
+      level_selected?.id
+        ? (inputValues.level_id = level_selected.id)
+        : (inputValues.level_id = updateItem.level_id);
+      snq_selected?.id
+        ? (inputValues.snq_id = snq_selected.id)
+        : (inputValues.snq_id = updateItem.snq_id);
     } else {
-      inputValues.district_id = selected.id;
+      inputValues.district_id = dist_selected.id;
+      inputValues.cmc_id = cmc_selected.cmc_id;
+      inputValues.circuit_id = circuit_selected.id;
+      inputValues.subplace_id = subplaces_selected.id;
+      inputValues.snq_id = snq_selected.id;
+      inputValues.level_id = level_selected.id;
     }
     onSubmitDetails(inputValues, operation);
   };
@@ -271,13 +316,11 @@ export const AddSchool = (props) => {
                         <>
                           <View style={style.container}>
                             <Dropdown
-                              label={
-                                operation === "Edit"
-                                  ? inputValues[input.key]
-                                  : input.value
-                              }
+                              label={getnameadd(input.value, input.key)}
                               data={getList(input.value)}
-                              onSelect={(item)=>onDropdownselect(input.value,item)}
+                              onSelect={(item) =>
+                                onDropdownselect(input.value, item)
+                              }
                               task={getTask(input.value)}
                             />
                           </View>

@@ -91,7 +91,10 @@ export const FurnitureReplacmentManfacturer = () => {
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
       .get(`${endUrl.searchfurRequest}?${str}`)
-      .then((res) => onsuccessapi(res))
+      .then((res) => {
+        setCollectionList(res?.data?.data);
+      setLoader(false)
+      })
       .catch((e) => {
         onerrorapi(e);
         setErrorMessage(e?.response?.data?.message);
@@ -155,6 +158,8 @@ export const FurnitureReplacmentManfacturer = () => {
     setendDatestatus(true);
     setErrorMessage("");
     setDateErrorMessage("");
+    getCollectionRequest()
+    setNumber(1)
   };
 
   useEffect(() => {

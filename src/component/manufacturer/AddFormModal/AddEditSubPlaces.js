@@ -46,9 +46,9 @@ export const AddEditSubplaces = (props) => {
 
   const getDistrictList = async () => {
     axios
-      .get(`${endUrl.CIRCUIT_List}`)
+      .get(`${endUrl.CIRCUIT_List}?all=true`)
       .then((res) => {
-        setDistList(res?.data?.data);
+        setDistList(res?.data?.data?.records);
       })
       .catch((e) => console.log("apicall", e));
   };
