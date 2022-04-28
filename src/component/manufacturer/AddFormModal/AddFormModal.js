@@ -35,7 +35,7 @@ export const AddUserModal = (props) => {
   }
 
   useEffect(() => {
-    console.log(inputValues.street_code)
+ 
     if (validation(inputValues.tel)) {
       (!numberonly.test(inputValues.tel) || inputValues.district_office == "") ? setDisable(true) : setDisable(false)
     } else {

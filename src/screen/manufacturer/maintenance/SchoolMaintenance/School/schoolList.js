@@ -44,35 +44,46 @@ export const SchoolList = () => {
     userEdit: false,
     userDelete: false,
   });
+  const [maximumNumber,setmaximunNumber] = useState(0)
+  const [number,setNumber] = useState(1)
 
   const tableKey = [
     "name",
     "emis",
-    "district_name",
     "school_principal",
     "tel",
-    "address1",
+    "level_id",
+    "snq_id",
+    "district_name",
+    "cmc_name",
+    "circuit_name",
+    "subplace_name",
   ];
   const tableHeader = [
     constants.School,
     constants.schoolEmisNumber,
-    constants.SchoolDistrict,
     constants.SchoolPrinciple,
     constants.SchoolTelno,
-    constants.StreetAddress,
+    constants.Level,
+    constants.SNQ,
+    constants.SchoolDistrict,
+    constants.Cmc,
+    constants.Circuit,
+    constants.subplacesname,
     constants.manage,
   ];
 
   const addArray = [
     { key: "name", value: constants.School },
     { key: "emis", value: constants.schoolEmisNumber },
-    { key: "district_name", value: constants.SchoolDistrict },
     { key: "school_principal", value: constants.SchoolPrinciple },
     { key: "tel", value: constants.SchoolTelno },
-    { key: "address1", value: constants.Address1 },
-    { key: "address2", value: constants.Address2 },
-    { key: "address3", value: constants.Address3 },
-    { key: "address4", value: constants.Address4 },
+    { key: "level_id", value: constants.Level },
+    { key: "snq_id", value: constants.SNQ },
+    { key: "district_name", value: constants.SchoolDistrict },
+    { key: "cmc_name", value: constants.Cmc },
+    { key: "circuit_name", value: constants.Circuit },
+    { key: "subplace_name", value: constants.subplacesname },
     { key: "street_code", value: constants.streetCode },
   ];
 
@@ -112,6 +123,7 @@ export const SchoolList = () => {
   };
 
   const onEdit = (item, task) => {
+
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true)
@@ -154,62 +166,30 @@ export const SchoolList = () => {
     })
   };
 
-  const apicall = () => {
+  const apicall = (count) => {
     setLoader(true)
-    axios.get(`${endUrl.schoolList}`).then((res) => {
-      initialPagination(res?.data?.data);
-      setListData(res?.data?.data);
+    axios.get(`${endUrl.schoolList}?page=${count? count : number}`).then((res) => {
+      setListData(res?.data?.data?.records);
+      setmaximunNumber(res?.data?.data?.total_page)
       setLoader(false)
     }).catch((e) =>
       console.log('apicall', e)
     )
   };
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
-  };
-
   const onNext = () => {
+    let count = number + 1
     setLoader(true)
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > listData.length
-            ? listData.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    setNumber(number+1)
+    apicall(count)
     setLoader(false)
   };
 
   const onPrevious = () => {
+    let count = number -1
     setLoader(true)
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
-    setLoader(false)
+    setNumber(number-1)
+    apicall(count)
+        setLoader(false)
   };
 
   const onsearch = () => {
@@ -280,8 +260,8 @@ export const SchoolList = () => {
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
-          {pagination.currentPage === 1 ? (
+        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+          {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
             <Image
@@ -291,8 +271,8 @@ export const SchoolList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
-          {pagination.currentPage === pagination.totalPage ? (
+        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
+          {number == maximumNumber? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}

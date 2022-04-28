@@ -37,11 +37,11 @@ export const DataDisplayList = ({
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [address1, setAddress1] = useState("");
+  const [level, setLevel] = item?.level_id == 1 ? useState("P") : item?.level_id == 2?  useState("S") : useState("C")  ;
   const [errorMsg, setErrorMsg] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const navigation = useNavigation();
-
   const onDelete = () => {
     setAlert(true);
   };
@@ -101,9 +101,9 @@ export const DataDisplayList = ({
               style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
               key={index}
             >
-              {val === "address1" && page === "School" ? (
+              {val === "level_id" && page === "School" ? (
                 <Text style={Styles.textStyle} numberOfLines={1}>
-                  {address1}
+                  {level}
                 </Text>
               ) : (
                 <Text style={Styles.textStyle}>{item[val]}</Text>

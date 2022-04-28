@@ -47,12 +47,7 @@ export const StockItems = () => {
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
   const loginData = useSelector((state) => state?.loginData);
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
+
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -178,16 +173,14 @@ export const StockItems = () => {
     return <ListHeaderComman tableHeader={tableHeader} List="screen" />;
   };
 
-  const getCategoriesList = () => {
-    setLoader(true);
+ 
+  const getCategoriesList = (count) => {
     axios
-      .get(`${endUrl.stockCategoryList}`)
+      .get(`${endUrl.stockCategoryList}?all==true`)
       .then((res) => {
-        setDataList(res?.data?.data);
-        setLoader(false);
+        setDataList(res?.data?.data?.records);
       })
       .catch((e) => {
-        setLoader(false);
       });
   };
 
@@ -249,7 +242,7 @@ export const StockItems = () => {
     let count = number + 1;
     setLoader(true);
     setNumber(number + 1);
-    categorylistapi(count);
+    getStockList(count);
     setLoader(false);
   };
 
@@ -257,7 +250,7 @@ export const StockItems = () => {
     let count = number - 1;
     setLoader(true);
     setNumber(number - 1);
-    categorylistapi(count);
+    getStockList(count);
     setLoader(false);
   };
 

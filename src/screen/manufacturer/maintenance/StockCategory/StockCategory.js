@@ -49,13 +49,6 @@ const StockCategory = () => {
   });
 
   const tableHeader = [Constants.categories, Constants.manage];
-
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
   const [alert, setAlert] = useState(false);
 
   useEffect(() => {

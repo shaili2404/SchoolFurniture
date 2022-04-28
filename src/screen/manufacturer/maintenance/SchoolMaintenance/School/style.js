@@ -29,16 +29,16 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-between',
     width: "30%",
-    position: "absolute",
-    bottom: 130,
+    marginTop:10,
+    // position: "absolute",
+    // bottom: 130,
     alignSelf: "center",
   },
   plusView: {
-    flexDirection: "row",
-    justifyContent: 'flex-end',
-    width: "100%",
+    width: "20%",
     position: "absolute",
     bottom: 65,
+    right: 10
   },
   lastText: {
     fontWeight: "bold",

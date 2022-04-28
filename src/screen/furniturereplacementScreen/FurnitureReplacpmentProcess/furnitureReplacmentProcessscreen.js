@@ -278,18 +278,11 @@ export const FurnitureReplacmentProcess = () => {
 
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
-      let a 
-      a = data.length 
-     data?.filter((ele) => ele?.confirm_count == false)
-     let b 
-     b = data .length 
-
-      console.log('283',a,b)
-      // data?.filter((ele) => {
-      //   if (ele?.confirm_count == "" || ele?.confirm_count == 0)
-      //     setSaveButton(true);
-      //   else setSaveButton(false);
-      // });
+      data?.filter((ele) => {
+        if (ele?.confirm_count == "" || ele?.confirm_count == 0)
+          setSaveButton(true);
+        else setSaveButton(false);
+      });
     } else setSaveButton(true);
 
     setConfirmCollectedCount(data);
@@ -524,7 +517,7 @@ export const FurnitureReplacmentProcess = () => {
       total_furniture: totalFurCount?totalFurCount :totalFur,
       broken_items: flatListData,
     };
-    console.log('527',data)
+  
     if (
       route?.params?.screen == constants.ManageReqText ||
       route?.params?.task == constants.ManageReqText

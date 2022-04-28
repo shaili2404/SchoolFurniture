@@ -17,7 +17,7 @@ import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { numberonly,streetCode,emisNumber } from "../../../locales/regexp";
+import { numberonly, streetCode, emisNumber } from "../../../locales/regexp";
 
 export const AddSchool = (props) => {
   const {
@@ -33,7 +33,17 @@ export const AddSchool = (props) => {
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
   const [distList, setDistList] = useState([]);
-  const [selected, setSelected] = useState({});
+  const [levelList, setLevelList] = useState([]);
+  const [snqList, setSnqList] = useState([]);
+  const [cmcList, setCmcList] = useState([]);
+  const [circuitList, setCircuitList] = useState([]);
+  const [subpalceList, setSubplaceList] = useState([]);
+  const [dist_selected, setdist_setSelected] = useState({});
+  const [cmc_selected, setcmc_setSelected] = useState({});
+  const [circuit_selected, setcircuit_setSelected] = useState({});
+  const [subplaces_selected, setsubplaces_setSelected] = useState({});
+  const [level_selected, level_setSelected] = useState({});
+  const [snq_selected, snq_setSelected] = useState({});
 
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -46,28 +56,72 @@ export const AddSchool = (props) => {
 
   const getDistrictList = async () => {
     axios
-      .get(`${endUrl.schoolDistList}`)
+      .get(`${endUrl.schoolDistList}?all==true`)
       .then((res) => {
-        setDistList(res?.data?.data);
+        setDistList(res?.data?.data?.records);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
+
+  const getLevelList = async () => {
+    axios
+      .get(`${endUrl.school_level}`)
+      .then((res) => {
+        setLevelList(res?.data?.data);
+      })
+      .catch((e) => {});
+  };
+
+  const getSnqList = async () => {
+    axios
+      .get(`${endUrl.school_snq}`)
+      .then((res) => {
+        setSnqList(res?.data?.data);
+      })
+      .catch((e) => {});
+  };
+  const getsingledistdetail = async (id) => {
+    axios
+      .get(`${endUrl.single_distrequest}/${dist_selected?.id}`)
+      .then((res) => {
+        setCmcList(res?.data?.data?.cmc_list);
+      })
+      .catch((e) => {});
+  };
+  const getsinglecmcdetail = async (id) => {
+    axios
+      .get(`${endUrl.single_cmcrequest}/${id}`)
+      .then((res) => {
+        setCircuitList(res?.data?.data?.circuit_list);
+      })
+      .catch((e) => {});
+  };
+  const getsinglecircuitdetail = async (id) => {
+    axios
+      .get(`${endUrl.single_circuitrequest}/${id}`)
+      .then((res) => {
+        setSubplaceList(res?.data?.data?.subplace_list);
+      })
+      .catch((e) => {});
+  };
+
   useEffect(() => {
     getDistrictList();
+    getLevelList();
+    getSnqList();
   }, []);
 
   validation = (value) => {
-    return value != '' && value != undefined && value != null
-  }
+    return value != "" && value != undefined && value != null;
+  };
 
   useEffect(() => {
-    console.log(selected)
-    !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
+    !validation(inputValues.name) ||
+    !validation(inputValues.emis) ||
+    !emisNumber.test(inputValues.emis)
       ? setDisable(true)
-      : setDisable(false)
+      : setDisable(false);
   }, [inputValues]);
-
- 
 
   useEffect(() => {
     const obj = {};
@@ -86,20 +140,127 @@ export const AddSchool = (props) => {
     setInputValues(obj);
   }, []);
 
-  const onNext = () => {
-    if (operation == 'Edit') {
-      if (selected === {}) {
-        inputValues.district_id = selected.id
-      }
-      else {
-        inputValues.district_id = updateItem.district_id
-      }
+  const getList = (value) => {
+    if (value == "District") {
+      return distList;
     }
-    else {
-      inputValues.district_id = selected.id
+    if (value == "Level") {
+      return levelList;
+    }
+    if (value == "SNQ") {
+      return snqList;
+    }
+    if (value == "CMC") {
+      return cmcList;
+    }
+    if (value == "Circuit") {
+      return circuitList;
+    }
+    if (value == "Sub Places Name") {
+      return subpalceList;
+    }
+  };
+
+  const onDropdownselect = (value, item) => {
+    if (value == "District") {
+      setdist_setSelected(item);
+      getsingledistdetail(item?.id);
+    }
+    if (value == "Level") {
+      level_setSelected(item);
+    }
+    if (value == "SNQ") {
+      snq_setSelected(item);
+    }
+    if (value == "CMC") {
+      setcmc_setSelected(item);
+      getsinglecmcdetail(item?.cmc_id);
+    }
+    if (value == "Circuit") {
+      setcircuit_setSelected(item);
+      getsinglecircuitdetail(item?.id);
+    }
+    if (value == "Sub Places Name") {
+      setsubplaces_setSelected(item);
+    }
+  };
+
+  const getTask = (value) => {
+    if (value == "District") {
+      return "district_office";
+    }
+    if (value == "CMC") {
+      return "cmc_name";
+    }
+    if (value == "Circuit") {
+      return "circuit_name";
+    }
+    if (value == "Sub Places Name") {
+      return "subplace_name";
+    }
+    if (value == "SNQ") {
+      return "name";
+    }
+    if (value == "Level") {
+      return "name";
+    }
+  };
+  const getnameadd = (value, key) => {
+    if (value == "District") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "CMC") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "Circuit") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "Sub Places Name") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "SNQ") {
+      return operation === "Edit" ? inputValues[key] : value;
+    }
+    if (value == "Level") {
+      return operation === "Edit"
+        ? inputValues[key] === 1
+          ? "P"
+          : inputValues[key] === 2
+          ? "S"
+          : "C"
+        : value;
+    }
+  };
+
+  const onNext = () => {
+    if (operation == "Edit") {
+      dist_selected?.id
+        ? (inputValues.district_id = dist_selected.id)
+        : (inputValues.district_id = updateItem.district_id);
+      cmc_selected?.cmc_id
+        ? (inputValues.cmc_id = cmc_selected.cmc_id)
+        : (inputValues.cmc_id = updateItem.cmc_id);
+      circuit_selected?.id
+        ? (inputValues.circuit_id = circuit_selected.id)
+        : (inputValues.circuit_id = updateItem.circuit_id);
+      subplaces_selected?.id
+        ? (inputValues.subplace_id = circuit_selected.id)
+        : (inputValues.subplace_id = updateItem.subplace_id);
+      level_selected?.id
+        ? (inputValues.level_id = level_selected.id)
+        : (inputValues.level_id = updateItem.level_id);
+      snq_selected?.id
+        ? (inputValues.snq_id = snq_selected.id)
+        : (inputValues.snq_id = updateItem.snq_id);
+    } else {
+      inputValues.district_id = dist_selected.id;
+      inputValues.cmc_id = cmc_selected.cmc_id;
+      inputValues.circuit_id = circuit_selected.id;
+      inputValues.subplace_id = subplaces_selected.id;
+      inputValues.snq_id = snq_selected.id;
+      inputValues.level_id = level_selected.id;
     }
     onSubmitDetails(inputValues, operation);
-    console.log(inputValues);
   };
 
   return (
@@ -133,21 +294,34 @@ export const AddSchool = (props) => {
                     <View key={index}>
                       {defaultState === true ? (
                         <View style={style.changeView}>
-                          <Text style={input.value === 'School' || input.value === 'School EMIS Number' || input.value === 'School District' ? style.mandatory : null}>{input.value}</Text>
+                          <Text
+                            style={
+                              input.value === "School" ||
+                              input.value === "School EMIS Number" ||
+                              input.value === "School District"
+                                ? style.mandatory
+                                : null
+                            }
+                          >
+                            {input.value}
+                          </Text>
                         </View>
                       ) : null}
-                      {input.value == "District" ? (
+                      {input.value == "District" ||
+                      input.value == "Level" ||
+                      input.value == "SNQ" ||
+                      input.value == "CMC" ||
+                      input.value == "Circuit" ||
+                      input.value == "Sub Places Name" ? (
                         <>
                           <View style={style.container}>
                             <Dropdown
-                              label={
-                                operation === "Edit"
-                                  ? inputValues[input.key]
-                                  : input.value
+                              label={getnameadd(input.value, input.key)}
+                              data={getList(input.value)}
+                              onSelect={(item) =>
+                                onDropdownselect(input.value, item)
                               }
-                              data={distList}
-                              onSelect={setSelected}
-                              task="district_office"
+                              task={getTask(input.value)}
                             />
                           </View>
                         </>

@@ -33,9 +33,9 @@ export const AddFurRequestScreen = () => {
   const getCategoriesList = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.stockCategoryList}`)
+      .get(`${endUrl.stockCategoryList}?all==true`)
       .then((res) => {
-        setDataList(res?.data?.data);
+        setDataList(res?.data?.data?.records);
         setLoader(false);
       })
       .catch((e) => {

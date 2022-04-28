@@ -152,7 +152,9 @@ const constants = {
   Status_pendingDilver :'Pending Delivery',
   Status_DeliveryConfirmed :'Delivery Confirmed',
 
-  dropdown_Type :"question"
+  dropdown_Type :"question",
+  Level: "Level",
+  SNQ: "SNQ"
 
 
 

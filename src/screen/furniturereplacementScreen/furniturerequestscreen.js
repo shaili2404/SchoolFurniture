@@ -91,7 +91,10 @@ export const FurnitureReplacmentManfacturer = () => {
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
       .get(`${endUrl.searchfurRequest}?${str}`)
-      .then((res) => onsuccessapi(res))
+      .then((res) => {
+        setCollectionList(res?.data?.data);
+      setLoader(false)
+      })
       .catch((e) => {
         onerrorapi(e);
         setErrorMessage(e?.response?.data?.message);
@@ -155,6 +158,8 @@ export const FurnitureReplacmentManfacturer = () => {
     setendDatestatus(true);
     setErrorMessage("");
     setDateErrorMessage("");
+    getCollectionRequest()
+    setNumber(1)
   };
 
   useEffect(() => {
@@ -224,8 +229,9 @@ export const FurnitureReplacmentManfacturer = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsHorizontalScrollIndicator={false} >
     <SafeAreaView style={Styles.mainView}>
-      <ScrollView showsHorizontalScrollIndicator={false}>
+      
       <View style={Styles.halfView}>
         <View style={Styles.searchButtonView}>
           <Text style={Styles.transactionText}>
@@ -355,7 +361,7 @@ export const FurnitureReplacmentManfacturer = () => {
           </TouchableOpacity>
         </View>
       ) : null}
-   <View style={Styles.lastView}>
+   <View style={maximumNumber == 1 ? Styles.lastViews : Styles.lastView}>
         <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
           {number == 1 ? (
             <Image source={Images.leftarrow} />
@@ -379,7 +385,8 @@ export const FurnitureReplacmentManfacturer = () => {
         </TouchableOpacity>
       </View>
       <View style={{ height: 70 }} />
-      </ScrollView>
+    
     </SafeAreaView>
+    </ScrollView>
   );
 };

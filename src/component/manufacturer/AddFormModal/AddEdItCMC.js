@@ -34,8 +34,6 @@ export const AddEditCMC = (props) => {
   const [disable, setDisable] = useState(false);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
-  console.log(inputValues)
-  console.log(updateItem)
 
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -48,11 +46,11 @@ export const AddEditCMC = (props) => {
 
   const getDistrictList = async () => {
     axios
-      .get(`${endUrl.schoolDistList}`)
+      .get(`${endUrl.schoolDistList}?all=true`)
       .then((res) => {
-        setDistList(res?.data?.data);
+        setDistList(res?.data?.data?.records);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) =>{});
   };
   useEffect(() => {
     getDistrictList();
@@ -63,7 +61,7 @@ export const AddEditCMC = (props) => {
   };
 
   //   useEffect(() => {
-  //     console.log(selected)
+  //    
   //     !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
   //       ? setDisable(true)
   //       : setDisable(false)
@@ -75,7 +73,6 @@ export const AddEditCMC = (props) => {
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       });
-      console.log('78',data)
     } else {
       data.forEach((val) => {
         obj[val.key] = "";
