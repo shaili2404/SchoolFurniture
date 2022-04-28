@@ -90,10 +90,16 @@ export const IconBar = ({
           )}
         </View>
         <View>
-          {dilverFurIcon == constants.inprogress ? (
+        {dilverFurIcon == constants.inprogress ? (
             <Image source={Images.dilveryIconInProgress} />
           ) : (
-            <Image source={Images.dilveryIcon} />
+            <>
+              {dilverFurIcon == constants.success ? (
+                <Image source={Images.dilverysuccess} />
+              ) : (
+                <Image source={Images.dilveryIcon} />
+              )}
+            </>
           )}
           <View style={styles.labelView}>
             <Text style={styles.labelText}>{constants.DeliverFurItem}</Text>

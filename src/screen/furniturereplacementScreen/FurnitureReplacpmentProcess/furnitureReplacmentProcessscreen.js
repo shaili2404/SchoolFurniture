@@ -73,7 +73,7 @@ export const FurnitureReplacmentProcess = () => {
   const [confirmCollectedCount, setConfirmCollectedCount] = useState([]);
   const [printdilverystatus, setprintdilverystatus] = useState(false);
   const [dileveryNote, setdileveryNote] = useState([]);
-  const [totalFur,setTotalFur] = useState('')
+  const [totalFur, setTotalFur] = useState("");
   const [uploadPrintDilveryStatus, setuploadPrintDilveryStatus] =
     useState(false);
   const [checkoboxofDilveryitem, setcheckoboxofDilveryitem] = useState(false);
@@ -119,12 +119,11 @@ export const FurnitureReplacmentProcess = () => {
       userDelete: true,
       userEdit: true,
     });
-    if (route?.params?.task == constants.ManageReqText){
+    if (route?.params?.task == constants.ManageReqText) {
       setFlatListData(route?.params?.items?.broken_items);
-      setTotalFur(route?.params?.items?.total_furniture)
-      setSaveButton(false)
-    }
-    else setFlatListData(route?.params?.finalList);
+      setTotalFur(route?.params?.items?.total_furniture);
+      setSaveButton(false);
+    } else setFlatListData(route?.params?.finalList);
 
     setLoader(false);
   };
@@ -216,6 +215,31 @@ export const FurnitureReplacmentProcess = () => {
     setFlatListData(broken_items);
     setLoader(false);
   };
+  const ondeliverydone = () => {
+    setCreateRequestIcon(constants.success);
+    setCollectFurItem(constants.success);
+    setRepairIcon(constants.success);
+    setDilverFurIcon(constants.success);
+    setTableHeader((oldData) => [
+      ...oldData,
+      constants.collectedcount,
+      constants.ReparableItem,
+      constants.ReplanishmentItems,
+      constants.Dilvery_headerDil,
+    ]);
+
+    setTableKey((oldData) => [
+      ...oldData,
+      "confirmed_count",
+      "repaired_count",
+      "replenished_count",
+      "delivered_count",
+    ]);
+    setlenofContent("More");
+    setFlatListData(broken_items);
+
+    setLoader(false);
+  };
 
   useEffect(() => {
     const task = route?.params?.status;
@@ -227,15 +251,7 @@ export const FurnitureReplacmentProcess = () => {
     else if (task == constants.Status_pendingRepair) onPendingRepair();
     else if (task == constants.Status_RepairCompleted) onRepairCompleted();
     else if (task == constants.Status_pendingDilver) onpendingDeliver();
-    else if (task == constants.Status_DeliveryConfirmed) {
-      setCreateRequestIcon(constants.success);
-      setCollectFurItem(constants.success);
-      setRepairIcon(constants.success);
-      setDilverFurIcon(constants.success);
-      setSuccessAlert(true);
-      setMainMsg("Delivery Is Already Done");
-      setLoader(false);
-    }
+    else if (task == constants.Status_DeliveryConfirmed) ondeliverydone();
   }, [tableHeader, isFocused]);
 
   const [tableKey, setTableKey] = useState([
@@ -423,8 +439,7 @@ export const FurnitureReplacmentProcess = () => {
     };
     uploadImg();
   };
- 
-   
+
   const SuccessUploadImage = (res) => {
     setSuccessAlert(true);
     setLoader(false);
@@ -437,27 +452,28 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onsubmitRepairDetails = () => {
-    setLoader(true)
-      if (replenishment_status == null){
-        confirmCollectedCount.map((ele) => {
-          ele.replenish_count = ele?.replenish_count;
-          ele.repair_count = ele?.repair_count;
-        });
-           }
-      else{
+    setLoader(true);
+    if (replenishment_status == null) {
+      confirmCollectedCount.map((ele) => {
+        ele.replenish_count = ele?.replenish_count;
+        ele.repair_count = ele?.repair_count;
+      });
+    } else {
       flatListData.map((ele) => {
         ele.replenish_count = ele.replenished_count;
         ele.repair_count = ele.repaired_count;
       });
     }
-      let data = {
-        ref_number: ref_number,
-        items:
-          replenishment_status == 1 || replenishment_status == 2 || replenishment_status == 3
-            ? flatListData
-            : confirmCollectedCount,
-      };
-     axios
+    let data = {
+      ref_number: ref_number,
+      items:
+        replenishment_status == 1 ||
+        replenishment_status == 2 ||
+        replenishment_status == 3
+          ? flatListData
+          : confirmCollectedCount,
+    };
+    axios
       .post(`${endUrl.submitRepair}`, data)
       .then((res) => successApi(res))
       .catch((e) => ErrorApi(e));
@@ -514,10 +530,10 @@ export const FurnitureReplacmentProcess = () => {
   const onschoolreqSubmit = async () => {
     setLoader(true);
     const data = {
-      total_furniture: totalFurCount?totalFurCount :totalFur,
+      total_furniture: totalFurCount ? totalFurCount : totalFur,
       broken_items: flatListData,
     };
-  
+
     if (
       route?.params?.screen == constants.ManageReqText ||
       route?.params?.task == constants.ManageReqText
@@ -674,7 +690,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
-    setLoader(true)
+    setLoader(true);
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
@@ -711,7 +727,7 @@ export const FurnitureReplacmentProcess = () => {
           setcheckboxStatusreplanish(true);
         } else ErrorApi(res, "collection");
       } catch (err) {
-        setLoader(false)
+        setLoader(false);
       }
     };
 
@@ -972,13 +988,15 @@ export const FurnitureReplacmentProcess = () => {
       </ScrollView>
 
       <View style={styles.bottomView}>
-        <FooterFur
-          saveButton={saveButton}
-          submitButton={submitButton}
-          onCancel={onCancel}
-          onSave={onSave}
-          onSubmit={onSubmit}
-        />
+        {taskofPage == constants.Status_DeliveryConfirmed ? null : (
+          <FooterFur
+            saveButton={saveButton}
+            submitButton={submitButton}
+            onCancel={onCancel}
+            onSave={onSave}
+            onSubmit={onSubmit}
+          />
+        )}
       </View>
 
       {alert ? (

@@ -46,5 +46,7 @@ const Images = {
   crossIcon: require("./images/crossIcon.png"),
   printIconWhite: require("./images/printIconWhite.png"),
   dashboardlogo: require("./images/DashboardLogo.png"),
+  dilverysuccess: require("./images/dilverysuccess.png"),
+
 };
 export default Images;
