@@ -24,7 +24,6 @@ import Loader from "../../../../../component/loader";
 import AlertText from "../../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../../Alert/alert";
 
-
 export const SchoolDistrictList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
@@ -35,8 +34,8 @@ export const SchoolDistrictList = () => {
   const [updateItem, setUpdateItem] = useState({});
   const [alert, setAlert] = useState(false);
   const [erroralert, seterrorAlert] = useState(false);
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -45,37 +44,35 @@ export const SchoolDistrictList = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [eMsg, setEMsg] = useState("");
 
-  const tableKey = [
-    "district_office",
-  ];
+  const tableKey = ["district_office"];
 
-  const tableHeader = [
-    constants.DistrictOffice,
-    constants.manage,
-  ];
+  const tableHeader = [constants.DistrictOffice, constants.manage];
 
   const addArray = [
     { key: "district_office", value: constants.DistrictOffice },
   ];
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions
-    let userCreate = false, userEdit = false, userDlt = false;
+    const arr = loginData?.user?.data?.data?.permissions;
+    let userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 6) {
-        userCreate = true
-      } if (input.id === 7) {
-        userEdit = true
-      } if (input.id === 8) {
-        userDlt = true
+        userCreate = true;
       }
-    })
+      if (input.id === 7) {
+        userEdit = true;
+      }
+      if (input.id === 8) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
-
+    });
   }, []);
 
   const rendercomponent = ({ item }) => {
@@ -89,7 +86,6 @@ export const SchoolDistrictList = () => {
         mainMessage={AlertText.deletedistrict}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
-        
       />
     );
   };
@@ -113,11 +109,13 @@ export const SchoolDistrictList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value !== null && value !== "") { obj[key] = value }
+      if (value !== null && value !== "") {
+        obj[key] = value;
+      }
     });
     axios.defaults.headers.common["Content-Type"] = "application/json";
     const service =
-      oper == "Add"
+      oper == constants.add
         ? axios.post(`${endUrl.schoolDistList}`, obj)
         : axios.put(`${endUrl.schoolDistList}/${updateItem.id}`, obj);
     service
@@ -129,56 +127,57 @@ export const SchoolDistrictList = () => {
       .catch((e) => {
         let { message, data, status } = e?.response?.data || {};
         setLoader(false);
-        seterrorAlert(true)
+        seterrorAlert(true);
         {
           let str = "";
-          status == 422 ?
-            Object.values(data).forEach((value) => {
-              str += `  ${value}`;
-              setEMsg(str);
-            }) :
-            setEMsg(message);
+          status == 422
+            ? Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setEMsg(str);
+              })
+            : setEMsg(message);
         }
       });
   };
 
   const apicall = async (count) => {
-    setLoader(true)
-    axios.get(`${endUrl.schoolDistList}?page=${count? count : number}`)
+    setLoader(true);
+    axios
+      .get(`${endUrl.schoolDistList}?page=${count ? count : number}`)
       .then((res) => {
         setListData(res?.data?.data?.records);
-        setmaximunNumber(res?.data?.data?.total_page)
-        setLoader(false)
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
       })
       .catch((e) => setLoader(false));
   };
 
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    apicall(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    apicall(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onsearch = async () => {
     if (searchtask == "") {
-      setErrorMessage(constants.enterSearchData)
+      setErrorMessage(constants.enterSearchData);
     } else {
-      setLoader(true)
+      setLoader(true);
       axios
         .get(`${endUrl.districtSearch}${searchtask}`)
         .then((res) => {
           setListData(res?.data?.data);
-          setLoader(false)
+          setLoader(false);
         })
         .catch((e) => {
           let errorMsg = e?.response?.data?.message;
@@ -205,7 +204,7 @@ export const SchoolDistrictList = () => {
     if (searchtask == "") {
       apicall();
       setErrorMessage("");
-      setLoader(false)
+      setLoader(false);
     }
   }, [searchtask]);
 
@@ -242,10 +241,12 @@ export const SchoolDistrictList = () => {
             />
           </ScrollView>
         )}
-
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={number == 1 ? true : false}
+        >
           {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -256,8 +257,11 @@ export const SchoolDistrictList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
+        <TouchableOpacity
+          onPress={onNext}
+          disabled={number == maximumNumber ? true : false}
+        >
+          {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -269,8 +273,8 @@ export const SchoolDistrictList = () => {
       </View>
 
       {permissionId.userCreate && (
-        <View style={Styles.plusView} >
-          <TouchableOpacity onPress={() => onAddPress("Add")}>
+        <View style={Styles.plusView}>
+          <TouchableOpacity onPress={() => onAddPress(constants.add)}>
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
@@ -284,7 +288,9 @@ export const SchoolDistrictList = () => {
           name={constants.District}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={operation === 'Add' ? constants.add : constants.update}
+          buttonVal={
+            operation === constants.add ? constants.add : constants.update
+          }
         />
       ) : null}
       {alert ? (
@@ -292,12 +298,12 @@ export const SchoolDistrictList = () => {
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
           mainMessage={
-            operation == "Add"
+            operation == constants.add
               ? AlertText.districtAdd
               : AlertText.districtUpdate
           }
           subMessage={
-            operation == "Add"
+            operation == constants.add
               ? AlertText.districtAddedSub
               : AlertText.districtUpdateSub
           }

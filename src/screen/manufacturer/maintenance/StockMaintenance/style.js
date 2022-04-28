@@ -9,7 +9,7 @@ export default StyleSheet.create({
     height: height,
     alignContent: "center",
     justifyContent: "center",
-    backgroundColor:COLORS.White
+    backgroundColor: COLORS.White,
   },
   districtButton: {
     width: "60%",

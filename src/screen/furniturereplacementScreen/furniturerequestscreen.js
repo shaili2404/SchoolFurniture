@@ -54,8 +54,8 @@ export const FurnitureReplacmentManfacturer = () => {
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -93,7 +93,7 @@ export const FurnitureReplacmentManfacturer = () => {
       .get(`${endUrl.searchfurRequest}?${str}`)
       .then((res) => {
         setCollectionList(res?.data?.data);
-      setLoader(false)
+        setLoader(false);
       })
       .catch((e) => {
         onerrorapi(e);
@@ -102,8 +102,8 @@ export const FurnitureReplacmentManfacturer = () => {
   };
   const onsuccessapi = (res) => {
     setCollectionList(res?.data?.data?.records);
-      setmaximunNumber(res?.data?.data?.total_page)
-      setLoader(false)
+    setmaximunNumber(res?.data?.data?.total_page);
+    setLoader(false);
   };
   const onerrorapi = (e) => {
     setLoader(false);
@@ -112,7 +112,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.collectionreqList}?page=${count? count : number}`)
+      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
@@ -135,19 +135,19 @@ export const FurnitureReplacmentManfacturer = () => {
   }, [isFocused]);
 
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    getCollectionRequest(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    getCollectionRequest(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    getCollectionRequest(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    getCollectionRequest(count);
+    setLoader(false);
   };
 
   const onReset = () => {
@@ -158,8 +158,8 @@ export const FurnitureReplacmentManfacturer = () => {
     setendDatestatus(true);
     setErrorMessage("");
     setDateErrorMessage("");
-    getCollectionRequest()
-    setNumber(1)
+    getCollectionRequest();
+    setNumber(1);
   };
 
   useEffect(() => {
@@ -170,14 +170,14 @@ export const FurnitureReplacmentManfacturer = () => {
   }, [refnumber]);
 
   const tableHeader =
-    organization == "School"
+    organization == constants.school
       ? [
-        constants.dateCreated,
-        constants.refrenceNo,
-        constants.status,
-        constants.emisNumber,
-        constants.totalFurnitureCount,
-      ]
+          constants.dateCreated,
+          constants.refrenceNo,
+          constants.status,
+          constants.emisNumber,
+          constants.totalFurnitureCount,
+        ]
       : [
           constants.schoolName,
           constants.dateCreated,
@@ -187,7 +187,7 @@ export const FurnitureReplacmentManfacturer = () => {
           constants.totalFurnitureCount,
         ];
   const tableKey =
-    organization == "School"
+    organization == constants.school
       ? ["created_at", "ref_number", "status", "emis", "total_furniture"]
       : [
           "school_name",
@@ -200,7 +200,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const rendercomponent = ({ item }) => {
     return (
       <>
-        {organization == "School" ? (
+        {organization == constants.school ? (
           <DataDisplayList
             tableKey={tableKey}
             item={item}
@@ -229,164 +229,171 @@ export const FurnitureReplacmentManfacturer = () => {
   return loader ? (
     <Loader />
   ) : (
-    <ScrollView showsHorizontalScrollIndicator={false} >
-    <SafeAreaView style={Styles.mainView}>
-      
-      <View style={Styles.halfView}>
-        <View style={Styles.searchButtonView}>
-          <Text style={Styles.transactionText}>
-            {constants.transactionSearch}
-          </Text>
-          <TouchableOpacity
-            style={Styles.searchButton}
-            onPress={searchStatus ? onsearch : onReset}
-          >
-            <Text style={Styles.searchText}>
-              {searchStatus ? constants.search : constants.Reset}
+    <ScrollView showsHorizontalScrollIndicator={false}>
+      <SafeAreaView style={Styles.mainView}>
+        <View style={Styles.halfView}>
+          <View style={Styles.searchButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.transactionSearch}
             </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={Styles.refView}>
-          <TextInput
-            style={Styles.refrenceStyle}
-            placeholder={constants.refrenceNumber}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={refnumber}
-            onChangeText={(val) => setrefNumber(val)}
-          />
-          <TextInput
-            style={Styles.dropStyle}
-            placeholder={constants.emisNumber}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={emisNumber}
-            onChangeText={(val) => setEmisNumber(val)}
-          />
-        </View>
-        <View style={Styles.container}>
-          <Dropdown
-            label={constants.status}
-            data={dropData}
-            onSelect={setSelect}
-            task="name"
-          />
-        </View>
-        <View style={Styles.viewInputStyle}>
-          <View style={Styles.dropsssssStyle}>
-            <Text style={Styles.textStyle}>
-              {startDateStatus
-                ? "Start Date"
-                : `${startDate?.getDate()}/${
-                    startDate?.getMonth() + 1
-                  }/${startDate?.getFullYear()}`}
-            </Text>
+            <TouchableOpacity
+              style={Styles.searchButton}
+              onPress={searchStatus ? onsearch : onReset}
+            >
+              <Text style={Styles.searchText}>
+                {searchStatus ? constants.search : constants.Reset}
+              </Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={Styles.eyeStyle}
-            onPress={() => setOpen(true)}
-          >
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-            <DatePicker
-              modal
-              open={open}
-              date={startDate}
-              mode="date"
-              onConfirm={(date) => {
-                setOpen(false);
-                setStartDate(date);
-                setStartDateStatus(false);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
+          <View style={Styles.refView}>
+            <TextInput
+              style={Styles.refrenceStyle}
+              placeholder={constants.refrenceNumber}
+              placeholderTextColor={COLORS.Black}
+              opacity={0.5}
+              value={refnumber}
+              onChangeText={(val) => setrefNumber(val)}
             />
-          </TouchableOpacity>
-          <View style={Styles.dropsssssStyle}>
-            <Text style={Styles.textStyle}>
-              {enddateStatus
-                ? "End Date"
-                : `${endDate?.getDate()}/${
-                    endDate?.getMonth() + 1
-                  }/${endDate?.getFullYear()}`}
-            </Text>
+            <TextInput
+              style={Styles.dropStyle}
+              placeholder={constants.emisNumber}
+              placeholderTextColor={COLORS.Black}
+              opacity={0.5}
+              value={emisNumber}
+              onChangeText={(val) => setEmisNumber(val)}
+            />
           </View>
-          <TouchableOpacity
-            style={Styles.eyeStyle}
-            onPress={() => setCLose(true)}
-          >
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-            <DatePicker
-              modal
-              open={close}
-              date={endDate}
-              mode="date"
-              onConfirm={(date) => {
-                setCLose(false);
-                setEndDate(date);
-                setendDatestatus(false);
-              }}
-              onCancel={() => {
-                setCLose(false);
-              }}
+          <View style={Styles.container}>
+            <Dropdown
+              label={constants.status}
+              data={dropData}
+              onSelect={setSelect}
+              task="name"
             />
-          </TouchableOpacity>
+          </View>
+          <View style={Styles.viewInputStyle}>
+            <View style={Styles.dropsssssStyle}>
+              <Text style={Styles.textStyle}>
+                {startDateStatus
+                  ? "Start Date"
+                  : `${startDate?.getDate()}/${
+                      startDate?.getMonth() + 1
+                    }/${startDate?.getFullYear()}`}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={Styles.eyeStyle}
+              onPress={() => setOpen(true)}
+            >
+              <Image source={Images.Calender} style={Styles.imgStyle} />
+              <DatePicker
+                modal
+                open={open}
+                date={startDate}
+                mode="date"
+                onConfirm={(date) => {
+                  setOpen(false);
+                  setStartDate(date);
+                  setStartDateStatus(false);
+                }}
+                onCancel={() => {
+                  setOpen(false);
+                }}
+              />
+            </TouchableOpacity>
+            <View style={Styles.dropsssssStyle}>
+              <Text style={Styles.textStyle}>
+                {enddateStatus
+                  ? "End Date"
+                  : `${endDate?.getDate()}/${
+                      endDate?.getMonth() + 1
+                    }/${endDate?.getFullYear()}`}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={Styles.eyeStyle}
+              onPress={() => setCLose(true)}
+            >
+              <Image source={Images.Calender} style={Styles.imgStyle} />
+              <DatePicker
+                modal
+                open={close}
+                date={endDate}
+                mode="date"
+                onConfirm={(date) => {
+                  setCLose(false);
+                  setEndDate(date);
+                  setendDatestatus(false);
+                }}
+                onCancel={() => {
+                  setCLose(false);
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+          {dateErrorMessage ? (
+            <View style={Styles.dateerrorView}>
+              <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
+            </View>
+          ) : null}
+          {errorMessage ? (
+            <View style={Styles.errorView}>
+              <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+            </View>
+          ) : (
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <FlatList
+                ListHeaderComponent={HeaderComponet}
+                keyExtractor={(item) => item.id}
+                data={collectionList}
+                renderItem={rendercomponent}
+              />
+            </ScrollView>
+          )}
         </View>
-        {dateErrorMessage ? (
-          <View style={Styles.dateerrorView}>
-            <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
+        {organization == constants.school ? (
+          <View style={Styles.plusView}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
+            >
+              <Image source={Images.addCricleIcon} />
+            </TouchableOpacity>
           </View>
         ) : null}
-        {errorMessage ? (
-          <View style={Styles.errorView}>
-            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-          </View>
-        ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-            />
-          </ScrollView>
-        )}
-      </View>
-      {organization == "School" ? (
-        <View style={Styles.plusView}>
+        <View style={maximumNumber == 1 ? Styles.lastViews : Styles.lastView}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
+            onPress={onPrevious}
+            disabled={number == 1 ? true : false}
           >
-            <Image source={Images.addCricleIcon} />
+            {number == 1 ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={number == maximumNumber ? true : false}
+          >
+            {number == maximumNumber ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
           </TouchableOpacity>
         </View>
-      ) : null}
-   <View style={maximumNumber == 1 ? Styles.lastViews : Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
-      <View style={{ height: 70 }} />
-    
-    </SafeAreaView>
+        <View style={{ height: 70 }} />
+      </SafeAreaView>
     </ScrollView>
   );
 };

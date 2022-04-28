@@ -1,7 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../../../../asset/color";
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 export default StyleSheet.create({
   mainVIew: {
@@ -26,7 +24,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     backgroundColor: COLORS.ThemeGreen,
     alignSelf: "center",
-    opacity:0.5
+    opacity: 0.5,
   },
   buttonSaveText: {
     fontWeight: "500",

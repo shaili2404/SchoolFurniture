@@ -87,11 +87,11 @@ export const AddFurRequestScreen = () => {
     let obj = {};
     obj.category_id = item.category_id;
     obj.category_name = item.category_name;
-    obj.item_name = task == "Edit" ? item.item_name : item.name;
-    obj.item_id = task == "Edit" ? item.item_id : item.id;
-    obj.count = task == "Edit" ? item.count : 1;
+    obj.item_name = task == constants.Edit ? item.item_name : item.name;
+    obj.item_id = task == constants.Edit ? item.item_id : item.id;
+    obj.count = task == constants.Edit ? item.count : 1;
 
-    if (way == "Edit") {
+    if (way == constants.Edit) {
       finalList.find(function (post, index) {
         if (post.category_id == obj.category_id) 
           setFinalList([obj]);
@@ -103,9 +103,9 @@ export const AddFurRequestScreen = () => {
       if (post.item_id == obj.item_id) return true;
     });
 
-    if (found == undefined && way !== "Edit") 
+    if (found == undefined && way !== constants.Edit) 
       setFinalList((prevState) => [...prevState, obj]);
-     else if (found !== undefined && way !== "Edit") {
+     else if (found !== undefined && way !== constants.Edit) {
       found.count += 1;
       setFinalList((prevState) => [...prevState]);
     }
@@ -139,7 +139,7 @@ export const AddFurRequestScreen = () => {
           <Text style={style.qutStyle}>{item.count}</Text>
           <TouchableOpacity
             style={style.plusButton}
-            onPress={() => setQuantity(item, "Add")}
+            onPress={() => setQuantity(item, constants.add)}
           >
             <Image source={Images.PlusIcon} />
           </TouchableOpacity>
@@ -149,7 +149,7 @@ export const AddFurRequestScreen = () => {
   };
 
   const onPressNext = () => {
-    if (way !== "Edit") {
+    if (way !== constants.Edit) {
       if (prevData && prevData.length > 0) {
         const newArr = [...prevData, ...finalList];
         let map = new Map();
@@ -203,12 +203,12 @@ export const AddFurRequestScreen = () => {
     <SafeAreaView style={style.mainView}>
       <View style={style.subview}>
         <Text style={style.createNewStyle}>
-          {way == "Edit" ? constants.Editreq : constants.createNewReq}
+          {way == constants.Edit ? constants.Editreq : constants.createNewReq}
         </Text>
         <TouchableOpacity
           style={style.crossImg}
           onPress={() => {
-            way == "Edit"
+            way == constants.Edit
               ? navigation.navigate("FurnitureReplacmentProcess", prevData)
               : navigation.navigate("FurnitureReplacmentProcess");
           }}
@@ -220,11 +220,11 @@ export const AddFurRequestScreen = () => {
         <View style={style.container}>
           <Dropdown
             label={
-              way == "Edit"
+              way == constants.Edit
                 ? finalList[0]?.category_name
                 : constants.FurCategory
             }
-            data={way == "Edit" ? finalList[0]?.category_name : dataList}
+            data={way == constants.Edit ? finalList[0]?.category_name : dataList}
             onSelect={setCategoryValue}
             task="name"
             way={way}
@@ -233,7 +233,7 @@ export const AddFurRequestScreen = () => {
         </View>
         <View style={style.container}>
           <Dropdown
-            label={way == "Edit" ? finalList[0]?.item_name : constants.furItem}
+            label={way == constants.Edit ? finalList[0]?.item_name : constants.furItem}
             data={categoryItemList}
             onSelect={setItemValue}
             task="name"

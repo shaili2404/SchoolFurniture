@@ -8,7 +8,7 @@ export default StyleSheet.create({
     height: 40,
     marginVertical: 10,
     justifyContent: "center",
-    borderRadius:5
+    borderRadius: 5,
   },
   textCOl: {
     color: COLORS.White,

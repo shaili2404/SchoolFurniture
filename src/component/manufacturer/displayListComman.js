@@ -32,7 +32,6 @@ export const DataDisplayList = ({
   permissionId,
   page,
   List,
-  ListPage
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -84,7 +83,7 @@ export const DataDisplayList = ({
         <View style={Styles.mainView}>
           {tableKey.map((val, index) => (
             <TouchableOpacity
-              onPress={() => schoolDataList(item, "Edit")}
+              onPress={() => schoolDataList(item, constants.Edit)}
               key={index}
             >
               <View key={val} style={Styles.viewStyle}>
@@ -101,7 +100,7 @@ export const DataDisplayList = ({
               style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
               key={index}
             >
-              {val === "level_id" && page === "School" ? (
+              {val === "level_id" && page === constants.school ? (
                 <Text style={Styles.textStyle} numberOfLines={1}>
                   {level}
                 </Text>
@@ -113,7 +112,7 @@ export const DataDisplayList = ({
        
               {permissionId.userEdit && (
                 <View style={Styles.viewsssStyle}>
-                  <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
+                  <TouchableOpacity onPress={() => onEdit(item, constants.Edit)}>
                     <Image source={Images.editIcon} />
                   </TouchableOpacity>
                 </View>
@@ -133,7 +132,7 @@ export const DataDisplayList = ({
           visible={userModal}
           setmodalVisible={(val) => setUserModal(val)}
           data={item}
-          name={`Edit ${constants.School} `}
+          name={`${constants.Edit} ${constants.School} `}
           buttonVal={constants.update}
         />
       ) : null}

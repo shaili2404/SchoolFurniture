@@ -30,14 +30,14 @@ export default StyleSheet.create({
     backgroundColor: COLORS.White,
   },
   changeText: {
-    fontSize: RFValue(10,STANDARD_SCREEN_SIZE),
+    fontSize: RFValue(10, STANDARD_SCREEN_SIZE),
   },
   changeView: {
     position: "relative",
     left: RfW(25),
     top: RfH(2),
     backgroundColor: COLORS.White,
-    width: '30%',
+    width: "30%",
   },
   emailInputStyle: {
     borderRadius: RfH(5),
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
   addText: {
-    fontSize: RFValue(16,STANDARD_SCREEN_SIZE),
+    fontSize: RFValue(16, STANDARD_SCREEN_SIZE),
     color: COLORS.White,
     textAlign: "center",
   },
@@ -106,7 +106,7 @@ export default StyleSheet.create({
     marginHorizontal: RfW(4),
   },
   textStyle: {
-    fontSize: RFValue(16,STANDARD_SCREEN_SIZE),
+    fontSize: RFValue(16, STANDARD_SCREEN_SIZE),
     fontWeight: "normal",
     color: COLORS.White,
     textAlign: "left",
@@ -120,7 +120,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "30%",
-    marginTop:10,
+    marginTop: 10,
     // position: "absolute",
     // bottom: RfH(110),
     alignSelf: "center",
@@ -128,7 +128,7 @@ export default StyleSheet.create({
   errormessStyle: {
     textAlign: "center",
     color: COLORS.red,
-    fontSize: RFValue(22,STANDARD_SCREEN_SIZE),
+    fontSize: RFValue(22, STANDARD_SCREEN_SIZE),
   },
   errorView: {
     width: "100%",

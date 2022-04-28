@@ -1,12 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 import COLORS from "../../../asset/color";
-import { RFValue } from "react-native-responsive-fontsize";
 import { RfW, RfH } from "../../../utils/helpers";
-import Fonts from "../../../asset/Fonts";
-import {
-  STANDARD_SCREEN_DIMENSIONS,
-  STANDARD_SCREEN_SIZE,
-} from "../../../utils/constants";
+
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -93,7 +88,7 @@ export default StyleSheet.create({
   responsiveHiegth: { height: 230 },
   photoText: {
     textAlign: "center",
-    textDecorationLine: "underline"
+    textDecorationLine: "underline",
   },
   uploadedView: {
     backgroundColor: COLORS.White,
@@ -104,26 +99,26 @@ export default StyleSheet.create({
     width: RfW(124),
     height: RfH(54),
     justifyContent: "center",
-    flexDirection:'row'
+    flexDirection: "row",
   },
   uploadedText: {
     fontSize: 14,
-    padding: 2
+    padding: 2,
   },
   viewAllText: {
     color: COLORS.blue,
     left: RfW(10),
     fontSize: 12,
-    textDecorationLine: 'underline',
-    top: 8
+    textDecorationLine: "underline",
+    top: 8,
   },
   noOfPhoto: {
-    flexDirection: 'column'
+    flexDirection: "column",
   },
   textStyle: {
     fontSize: 10,
     padding: 10,
     color: COLORS.ThemeGreen,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

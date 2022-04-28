@@ -23,7 +23,7 @@ export default StyleSheet.create({
     width: width,
     position: "absolute",
     backgroundColor: COLORS.White,
-    flex:1
+    flex: 1,
   },
   subview: {
     marginVertical: "8%",
@@ -33,14 +33,14 @@ export default StyleSheet.create({
   },
   createNewStyle: {
     fontSize: 18,
-    fontWeight:"bold",
+    fontWeight: "bold",
     color: COLORS.ThemeGreen,
     marginTop: 10,
   },
-  crossImg:{
-    marginTop:10
-      },
-  NewStyle:{
+  crossImg: {
+    marginTop: 10,
+  },
+  NewStyle: {
     fontSize: 14,
     color: COLORS.Black,
     marginTop: 10,
@@ -96,7 +96,7 @@ export default StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: width,
-    height: '10%',
+    height: "10%",
   },
   inputTextStyle: {
     borderRadius: 10,
@@ -104,11 +104,11 @@ export default StyleSheet.create({
     backgroundColor: "#F4F9F4",
     marginTop: 30,
     paddingLeft: 20,
-    height:70,
+    height: 70,
     width: "90%",
-    alignItems: 'center',
-    alignSelf:'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
   },
   item: {
     paddingHorizontal: 10,

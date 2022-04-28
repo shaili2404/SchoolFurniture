@@ -674,7 +674,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
-    // setLoader(true)
+    setLoader(true)
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
@@ -710,7 +710,9 @@ export const FurnitureReplacmentProcess = () => {
           setMainMsg(res?.message);
           setcheckboxStatusreplanish(true);
         } else ErrorApi(res, "collection");
-      } catch (err) {}
+      } catch (err) {
+        setLoader(false)
+      }
     };
 
     uploadImg();
@@ -899,9 +901,6 @@ export const FurnitureReplacmentProcess = () => {
             taskNamePrintButoonValue={taskListButtonValue}
             printPickupPress={() => printPickupbutpress()}
           />
-
-          {/* {filePath ? <Text style={styles.textStyle}>{filePath}</Text> : null} */}
-
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponent}

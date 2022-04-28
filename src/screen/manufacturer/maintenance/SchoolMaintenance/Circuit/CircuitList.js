@@ -8,7 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Text
+  Text,
 } from "react-native";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -25,8 +25,6 @@ import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/Ad
 import { AlertMessage } from "../../../../../Alert/alert";
 import { AddEditCircuit } from "../../../../../component/manufacturer/AddFormModal/AddEditCircuit";
 
-const PAGESIZE = 10;
-
 export const CircuitList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
@@ -35,8 +33,8 @@ export const CircuitList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -47,15 +45,8 @@ export const CircuitList = () => {
     userDelete: false,
   });
 
-  const tableKey = [
-    "circuit_name",
-    "cmc_name",
-  ];
-  const tableHeader = [
-    constants.Circuit,
-    constants.Cmc,
-    constants.manage,
-  ];
+  const tableKey = ["circuit_name", "cmc_name"];
+  const tableHeader = [constants.Circuit, constants.Cmc, constants.manage];
 
   const addArray = [
     { key: "circuit_name", value: constants.Circuit },
@@ -64,21 +55,25 @@ export const CircuitList = () => {
 
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false, userEdit = false, userDlt = false;
+    let userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 10) {
-        userCreate = true
-      } if (input.id === 11) {
-        userEdit = true
-      } if (input.id === 12) {
-        userDlt = true
+        userCreate = true;
       }
-    })
+      if (input.id === 11) {
+        userEdit = true;
+      }
+      if (input.id === 12) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
+    });
   }, []);
 
   const rendercomponent = ({ item }) => {
@@ -99,8 +94,8 @@ export const CircuitList = () => {
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
-    setAdduserModal(true)
-  }
+    setAdduserModal(true);
+  };
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -115,76 +110,86 @@ export const CircuitList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "" && key != "district_name") obj[key] = value;
-    })
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    const service = oper == "Add" ? axios.post(`${endUrl.CIRCUIT_List}`, obj) : axios.put(`${endUrl.CIRCUIT_List}/${updateItem.id}`, obj);
-    service.then((res) => {
-      setLoader(false);
-      setAlert(true);
-      apicall()
-    }).catch((e) => {
-      let { message, data, status } = e?.response?.data || {};
-      setLoader(false);
-      seterrorAlert(true)
-      {
-        let str = "";
-        status == 422 ?
-          Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setErrMsg(str);
-          }) :
-          setErrMsg(message);
-      }
-    })
+      if (value != null && value != "" && key != "district_name")
+        obj[key] = value;
+    });
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+    const service =
+      oper == "Add"
+        ? axios.post(`${endUrl.CIRCUIT_List}`, obj)
+        : axios.put(`${endUrl.CIRCUIT_List}/${updateItem.id}`, obj);
+    service
+      .then((res) => {
+        setLoader(false);
+        setAlert(true);
+        apicall();
+      })
+      .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        seterrorAlert(true);
+        {
+          let str = "";
+          status == 422
+            ? Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setErrMsg(str);
+              })
+            : setErrMsg(message);
+        }
+      });
   };
 
   const apicall = (count) => {
-    setLoader(true)
-    axios.get(`${endUrl.CIRCUIT_List}?page=${count? count : number}`).then((res) => {
-      setListData(res?.data?.data?.records);
-      setmaximunNumber(res?.data?.data?.total_page)
-      setLoader(false)
-    }).catch((e) =>
-      console.log('apicall', e)
-    )
+    setLoader(true);
+    axios
+      .get(`${endUrl.CIRCUIT_List}?page=${count ? count : number}`)
+      .then((res) => {
+        setListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
+      })
+      .catch((e) => console.log("apicall", e));
   };
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    apicall(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    apicall(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onsearch = () => {
-    setLoader(true)
-    axios.get(`${endUrl.CIRCUIT_search}${searchtask}`).then((res) => {
-      setListData(res?.data?.data);
-      setLoader(false)
-    }).catch((e) => {
-      {
-        let { message, data, status } = e?.response?.data || {};
+    setLoader(true);
+    axios
+      .get(`${endUrl.CIRCUIT_search}${searchtask}`)
+      .then((res) => {
+        setListData(res?.data?.data);
         setLoader(false);
+      })
+      .catch((e) => {
         {
-          let str = "";
-          status == 422 ?
-            Object.values(data).forEach((value) => {
-              str += `  ${value}`;
-              setErrorMessage(str);
-            }) :
-            setErrorMessage(message);
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
+          {
+            let str = "";
+            status == 422
+              ? Object.values(data).forEach((value) => {
+                  str += `  ${value}`;
+                  setErrorMessage(str);
+                })
+              : setErrorMessage(message);
+          }
         }
-      }
-    })
+      });
   };
 
   const onAddPress = (task) => {
@@ -204,7 +209,7 @@ export const CircuitList = () => {
     if (searchtask == "") {
       apicall();
       setErrorMessage("");
-      setLoader(false)
+      setLoader(false);
     }
   }, [searchtask]);
 
@@ -243,7 +248,10 @@ export const CircuitList = () => {
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={number == 1 ? true : false}
+        >
           {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -254,8 +262,11 @@ export const CircuitList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
+        <TouchableOpacity
+          onPress={onNext}
+          disabled={number == maximumNumber ? true : false}
+        >
+          {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -268,7 +279,7 @@ export const CircuitList = () => {
 
       {permissionId.userCreate && (
         <View style={Styles.plusView}>
-          <TouchableOpacity onPress={() => onAddPress("Add")}>
+          <TouchableOpacity onPress={() => onAddPress(constants.add)}>
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
@@ -283,17 +294,28 @@ export const CircuitList = () => {
           name={constants.Circuit}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={operation === 'Add' ? constants.add : constants.update}
+          buttonVal={
+            operation === constants.add ? constants.add : constants.update
+          }
         />
       ) : null}
       {alert ? (
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
-          subMessage={operation == "Add" ? AlertText.CircuitAddedSub : AlertText.CircuitUpdateSub}
+          mainMessage={
+            operation == constants.add
+              ? AlertText.AddedSuccessFully
+              : AlertText.SchoolUpdate
+          }
+          subMessage={
+            operation == constants.add
+              ? AlertText.CircuitAddedSub
+              : AlertText.CircuitUpdateSub
+          }
           onConfirm={() => onPressYes()}
-        />) : null}
+        />
+      ) : null}
       {erroralert ? (
         <AlertMessage
           visible={erroralert}
