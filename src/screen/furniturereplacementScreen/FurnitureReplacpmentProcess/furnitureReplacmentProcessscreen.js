@@ -517,7 +517,7 @@ export const FurnitureReplacmentProcess = () => {
       total_furniture: totalFurCount?totalFurCount :totalFur,
       broken_items: flatListData,
     };
-    console.log('527',data)
+  
     if (
       route?.params?.screen == constants.ManageReqText ||
       route?.params?.task == constants.ManageReqText

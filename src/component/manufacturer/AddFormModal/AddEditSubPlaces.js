@@ -61,7 +61,7 @@ export const AddEditSubplaces = (props) => {
   };
 
   //   useEffect(() => {
-  //     console.log(selected)
+  //    
   //     !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
   //       ? setDisable(true)
   //       : setDisable(false)
@@ -82,7 +82,7 @@ export const AddEditSubplaces = (props) => {
   }, []);
 
   const onNext = () => {
-    console.log(updateItem)
+   
     if (operation == "Edit") {
       if (selected?.id) {
         inputValues.circuit_id = selected?.id;
@@ -92,7 +92,7 @@ export const AddEditSubplaces = (props) => {
     } else {
       inputValues.circuit_id = selected?.id;
     }
-    console.log(inputValues)
+  
     onSubmitDetails(inputValues, operation);
   };
 

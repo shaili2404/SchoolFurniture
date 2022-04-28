@@ -123,7 +123,7 @@ export const SchoolList = () => {
   };
 
   const onEdit = (item, task) => {
-    console.log('126',item)
+
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true)

@@ -109,7 +109,6 @@ const StockCategory = () => {
     axios
       .get(`${endUrl.stockCategoryList}?page=${count? count : number}`)
       .then((res) => {
-        console.log(res?.data?.data)
         setCategoryListData(res?.data?.data?.records);
         setmaximunNumber(res?.data?.data?.total_page)
         setLoader(false)

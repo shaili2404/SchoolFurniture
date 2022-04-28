@@ -65,7 +65,7 @@ export const DisplayList = ({
     onSubmitreparableDetails(flatListData);
   };
   const onchangedeliver =(val)=>{
-    console.log(item)
+ 
     let Confirm_cnt;
     if (val > item.confirmed_count ) Confirm_cnt = item.confirmed_count ;
     else Confirm_cnt = val;

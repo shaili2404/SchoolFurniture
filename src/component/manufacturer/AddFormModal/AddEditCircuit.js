@@ -50,7 +50,7 @@ export const AddEditCircuit = (props) => {
       .then((res) => {
         setDistList(res?.data?.data?.records);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
   useEffect(() => {
     getDistrictList();
@@ -61,7 +61,7 @@ export const AddEditCircuit = (props) => {
   };
 
   //   useEffect(() => {
-  //     console.log(selected)
+  //     
   //     !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
   //       ? setDisable(true)
   //       : setDisable(false)

@@ -59,7 +59,7 @@ const DrawerSideBar = (props) => {
                 }
             })
             .catch((err) => {
-                console.log("ERROR", err);
+               
             });
     };
 
