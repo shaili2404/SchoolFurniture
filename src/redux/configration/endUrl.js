@@ -18,6 +18,7 @@ const endUrl = {
     collectionreqList:'user/furniture-collection-request',
     categoryWiseItem : 'user/stock-category',
     addFurRequest :"user/furniture-collection-request",
+    getManageRequest: "user/furniture-manage-collection/list",
     statusList:'user/status/get-all-status',
     searchfurRequest:'user/search/furniture-collection-request',
     delManageRequest: 'user/furniture-collection-request',
