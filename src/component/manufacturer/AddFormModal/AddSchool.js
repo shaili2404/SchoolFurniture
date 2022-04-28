@@ -116,12 +116,34 @@ export const AddSchool = (props) => {
   };
 
   useEffect(() => {
-    !validation(inputValues.name) ||
-    !validation(inputValues.emis) ||
-    !emisNumber.test(inputValues.emis)
-      ? setDisable(true)
-      : setDisable(false);
-  }, [inputValues]);
+    if (operation == "Edit") {
+      !validation(inputValues.name) ||
+      !validation(inputValues.emis) ||
+      !emisNumber.test(inputValues.emis)
+        ? setDisable(true)
+        : setDisable(false);
+    } else {
+      !validation(inputValues.name) ||
+      !validation(inputValues.emis) ||
+      !emisNumber.test(inputValues.emis) ||
+      !validation(dist_selected?.id) ||
+      !validation(cmc_selected?.cmc_id) ||
+      !validation(circuit_selected?.id) ||
+      !validation(subplaces_selected?.id) ||
+      !validation(level_selected?.id) ||
+      !validation(snq_selected?.id)
+        ? setDisable(true)
+        : setDisable(false);
+    }
+  }, [
+    inputValues,
+    dist_selected,
+    cmc_selected,
+    circuit_selected,
+    subplaces_selected,
+    level_selected,
+    snq_selected,
+  ]);
 
   useEffect(() => {
     const obj = {};
