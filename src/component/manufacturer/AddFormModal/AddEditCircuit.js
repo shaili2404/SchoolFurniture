@@ -61,7 +61,6 @@ export const AddEditCircuit = (props) => {
   };
 
   useEffect(() => {
-    console.log(selected)
     if (operation == "Edit"){ 
       !validation(inputValues.circuit_name) 
         ? setDisable(true)

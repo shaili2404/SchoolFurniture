@@ -60,12 +60,20 @@ export const AddEditCMC = (props) => {
     return value != "" && value != undefined && value != null;
   };
 
-  //   useEffect(() => {
-  //    
-  //     !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
-  //       ? setDisable(true)
-  //       : setDisable(false)
-  //   }, [inputValues]);
+    useEffect(() => {
+      if (operation == "Edit"){ 
+        !validation(inputValues.cmc_name) 
+          ? setDisable(true)
+          : setDisable(false);
+      }
+       else {
+        !validation(inputValues.cmc_name) 
+        !validation(selected?.id)
+        
+          ? setDisable(true)
+          : setDisable(false);
+       }
+    }, [inputValues,selected]);
 
   useEffect(() => {
     const obj = {};

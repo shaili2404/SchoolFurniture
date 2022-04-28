@@ -60,12 +60,20 @@ export const AddEditSubplaces = (props) => {
     return value != "" && value != undefined && value != null;
   };
 
-  //   useEffect(() => {
-  //    
-  //     !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
-  //       ? setDisable(true)
-  //       : setDisable(false)
-  //   }, [inputValues]);
+  useEffect(() => {
+    if (operation == "Edit"){ 
+      !validation(inputValues.subplace_name) 
+        ? setDisable(true)
+        : setDisable(false);
+    }
+     else {
+      !validation(inputValues.subplace_name) 
+      !validation(selected?.id)
+      
+        ? setDisable(true)
+        : setDisable(false);
+     }
+  }, [inputValues,selected]);
 
   useEffect(() => {
     const obj = {};
