@@ -60,11 +60,21 @@ export const AddEditCircuit = (props) => {
     return value != "" && value != undefined && value != null;
   };
 
-    useEffect(() => {
-      !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
+  useEffect(() => {
+    console.log(selected)
+    if (operation == "Edit"){ 
+      !validation(inputValues.circuit_name) 
         ? setDisable(true)
-        : setDisable(false)
-    }, [inputValues]);
+        : setDisable(false);
+    }
+     else {
+      !validation(inputValues.circuit_name) 
+      !validation(selected?.id)
+      
+        ? setDisable(true)
+        : setDisable(false);
+     }
+  }, [inputValues,selected]);
 
   useEffect(() => {
     const obj = {};
