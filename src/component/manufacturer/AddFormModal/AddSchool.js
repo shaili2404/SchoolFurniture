@@ -17,7 +17,8 @@ import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { numberonly, streetCode, emisNumber } from "../../../locales/regexp";
+import { emisNumber } from "../../../locales/regexp";
+import constants from "../../../locales/constants";
 
 export const AddSchool = (props) => {
   const {
@@ -80,7 +81,7 @@ export const AddSchool = (props) => {
       })
       .catch((e) => {});
   };
-  const getsingledistdetail = async (id) => {
+  const getsingledistdetail = async () => {
     axios
       .get(`${endUrl.single_distrequest}/${dist_selected?.id}`)
       .then((res) => {
@@ -116,7 +117,7 @@ export const AddSchool = (props) => {
   };
 
   useEffect(() => {
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       !validation(inputValues.name) ||
       !validation(inputValues.emis) ||
       !emisNumber.test(inputValues.emis)
@@ -147,7 +148,7 @@ export const AddSchool = (props) => {
 
   useEffect(() => {
     const obj = {};
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       updateItem.street_code =
         updateItem.street_code === null ? null : String(updateItem.street_code);
       updateItem.emis = String(updateItem.emis);
@@ -163,99 +164,99 @@ export const AddSchool = (props) => {
   }, []);
 
   const getList = (value) => {
-    if (value == "District") {
+    if (value == constants.District) {
       return distList;
     }
-    if (value == "Level") {
+    if (value == constants.Level) {
       return levelList;
     }
-    if (value == "SNQ") {
+    if (value == constants.SNQ) {
       return snqList;
     }
-    if (value == "CMC") {
+    if (value == constants.Cmc) {
       return cmcList;
     }
-    if (value == "Circuit") {
+    if (value == constants.Circuit) {
       return circuitList;
     }
-    if (value == "Sub Places Name") {
+    if (value == constants.subplacesname) {
       return subpalceList;
     }
   };
 
   const onDropdownselect = (value, item) => {
-    if (value == "District") {
+    if (value == constants.District) {
       setdist_setSelected(item);
       getsingledistdetail(item?.id);
     }
-    if (value == "Level") {
+    if (value == constants.Level) {
       level_setSelected(item);
     }
-    if (value == "SNQ") {
+    if (value == constants.SNQ) {
       snq_setSelected(item);
     }
-    if (value == "CMC") {
+    if (value == constants.Cmc) {
       setcmc_setSelected(item);
       getsinglecmcdetail(item?.cmc_id);
     }
-    if (value == "Circuit") {
+    if (value == constants.Circuit) {
       setcircuit_setSelected(item);
       getsinglecircuitdetail(item?.id);
     }
-    if (value == "Sub Places Name") {
+    if (value == constants.subplacesname) {
       setsubplaces_setSelected(item);
     }
   };
 
   const getTask = (value) => {
-    if (value == "District") {
+    if (value == constants.District) {
       return "district_office";
     }
-    if (value == "CMC") {
+    if (value == constants.Cmc) {
       return "cmc_name";
     }
-    if (value == "Circuit") {
+    if (value == constants.Circuit) {
       return "circuit_name";
     }
-    if (value == "Sub Places Name") {
+    if (value == constants.subplacesname) {
       return "subplace_name";
     }
-    if (value == "SNQ") {
+    if (value == constants.SNQ) {
       return "name";
     }
-    if (value == "Level") {
+    if (value == constants.Level) {
       return "name";
     }
   };
   const getnameadd = (value, key) => {
-    if (value == "District") {
-      return operation === "Edit" ? inputValues[key] : value;
+    if (value == constants.District) {
+      return operation === constants.Edit ? inputValues[key] : value;
     }
-    if (value == "CMC") {
-      return operation === "Edit" ? inputValues[key] : value;
+    if (value == constants.Cmc) {
+      return operation === constants.Edit ? inputValues[key] : value;
     }
-    if (value == "Circuit") {
-      return operation === "Edit" ? inputValues[key] : value;
+    if (value == constants.Circuit) {
+      return operation === constants.Edit ? inputValues[key] : value;
     }
-    if (value == "Sub Places Name") {
-      return operation === "Edit" ? inputValues[key] : value;
+    if (value == constants.subplacesname) {
+      return operation === constants.Edit ? inputValues[key] : value;
     }
-    if (value == "SNQ") {
-      return operation === "Edit" ? inputValues[key] : value;
+    if (value == constants.SNQ) {
+      return operation === constants.Edit ? inputValues[key] : value;
     }
-    if (value == "Level") {
-      return operation === "Edit"
+    if (value == constants.Level) {
+      return operation === constants.Edit
         ? inputValues[key] === 1
-          ? "P"
+          ? constants.SNQ_p
           : inputValues[key] === 2
-          ? "S"
-          : "C"
+          ? constants.SNQ_s
+          : constants.SNQ_c
         : value;
     }
   };
 
   const onNext = () => {
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       dist_selected?.id
         ? (inputValues.district_id = dist_selected.id)
         : (inputValues.district_id = updateItem.district_id);
@@ -318,9 +319,14 @@ export const AddSchool = (props) => {
                         <View style={style.changeView}>
                           <Text
                             style={
-                              input.value === "School" ||
-                              input.value === "School EMIS Number" ||
-                              input.value === "School District"
+                              input.value === constants.school ||
+                              input.value === constants.schoolEmisNumber ||
+                              input.value === constants.District ||
+                              input.value == constants.Level ||
+                              input.value == constants.SNQ ||
+                              input.value == constants.Cmc ||
+                              input.value == constants.Circuit ||
+                              input.value == constants.subplacesname
                                 ? style.mandatory
                                 : null
                             }
@@ -329,12 +335,12 @@ export const AddSchool = (props) => {
                           </Text>
                         </View>
                       ) : null}
-                      {input.value == "District" ||
-                      input.value == "Level" ||
-                      input.value == "SNQ" ||
-                      input.value == "CMC" ||
-                      input.value == "Circuit" ||
-                      input.value == "Sub Places Name" ? (
+                      {input.value == constants.District ||
+                      input.value == constants.Level ||
+                      input.value == constants.SNQ ||
+                      input.value == constants.Cmc ||
+                      input.value == constants.Circuit ||
+                      input.value == constants.subplacesname ? (
                         <>
                           <View style={style.container}>
                             <Dropdown

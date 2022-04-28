@@ -14,59 +14,69 @@ import {
 import style from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
-import { numberonly, streetCode } from "../../../locales/regexp";
+import constants from "../../../locales/constants";
 
 export const AddUserModal = (props) => {
-  const { visible, setmodalVisible, onSubmitDetails, data, operation, updateItem, buttonVal } = props;
+  const {
+    visible,
+    setmodalVisible,
+    onSubmitDetails,
+    data,
+    operation,
+    updateItem,
+    buttonVal,
+  } = props;
   const [defaultState, setDefaultState] = useState(false);
   const [inputValues, setInputValues] = useState({});
   const [disable, setDisable] = useState(true);
   const setValue = (key, value) => {
-    setInputValues(prevState => {
+    setInputValues((prevState) => {
       return {
         ...prevState,
         [key]: value,
-      }
-    })
-  }
+      };
+    });
+  };
 
   validation = (value) => {
-    return value != '' && value != undefined && value != null
-  }
+    return value != "" && value != undefined && value != null;
+  };
 
   useEffect(() => {
-      inputValues.district_office == "" ? setDisable(true) : setDisable(false);
-  }, [inputValues])
+    inputValues.district_office == "" ? setDisable(true) : setDisable(false);
+  }, [inputValues]);
 
   useEffect(() => {
     const obj = {};
-    if (operation == "Edit") {
-      updateItem.street_code = updateItem.street_code && String(updateItem?.street_code)
+    if (operation == constants.Edit) {
+      updateItem.street_code =
+        updateItem.street_code && String(updateItem?.street_code);
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
-      })
+      });
     } else {
       data.forEach((val) => {
         obj[val.key] = "";
-      })
+      });
     }
     setInputValues(obj);
-  }, [])
+  }, []);
 
   const onNext = () => {
-    onSubmitDetails(inputValues, operation)
-  }
+    onSubmitDetails(inputValues, operation);
+  };
 
   return (
     <>
-      <SafeAreaView >
+      <SafeAreaView>
         <Modal animationType="slide" visible={visible}>
           <View style={style.mainView}>
             <View style={style.subContainer}>
-
               <View style={style.inputStyles}>
                 <View style={style.textContainer}>
-                  <Text style={style.EditText}>{` ${operation} ${props.name}`}</Text>
+                  <Text
+                    style={style.EditText}
+                  >{` ${operation} ${props.name}`}</Text>
                 </View>
                 <View style={style.textContainer}>
                   <TouchableOpacity onPress={() => setmodalVisible(false)}>
@@ -75,18 +85,32 @@ export const AddUserModal = (props) => {
                 </View>
               </View>
 
-              <KeyboardAvoidingView behavior={Platform.OS === 'android' || 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={0} style={{ flex: 1 }}>
-                <ScrollView showsVerticalScrollIndicator={false} >
-                  {data.map((input, index) =>
+              <KeyboardAvoidingView
+                behavior={
+                  Platform.OS === "android" || "ios" ? "padding" : "height"
+                }
+                keyboardVerticalOffset={0}
+                style={{ flex: 1 }}
+              >
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  {data.map((input, index) => (
                     <View key={index}>
-                      {defaultState === true ?
+                      {defaultState === true ? (
                         <View style={style.changeView}>
-                          <Text style={input.value == "District Office" ? style.mandatory : style.changeText}>{input.value}</Text>
+                          <Text
+                            style={
+                              input.value == constants.DistrictOffice
+                                ? style.mandatory
+                                : style.changeText
+                            }
+                          >
+                            {input.value}
+                          </Text>
                         </View>
-                        : null}
+                      ) : null}
                       <TextInput
                         style={style.emailInputStyle}
-                        placeholder={defaultState === true ? '' : input.value}
+                        placeholder={defaultState === true ? "" : input.value}
                         placeholderTextColor={COLORS.Black}
                         onFocus={() => setDefaultState(true)}
                         onBlur={() => setDefaultState(false)}
@@ -95,7 +119,7 @@ export const AddUserModal = (props) => {
                         onChangeText={(value) => setValue(input.key, value)}
                       />
                     </View>
-                  )}
+                  ))}
                 </ScrollView>
               </KeyboardAvoidingView>
             </View>

@@ -18,6 +18,7 @@ import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { emisNumber } from "../../../locales/regexp";
+import constants from "../../../locales/constants";
 
 export const AddEditSubplaces = (props) => {
   const {
@@ -61,7 +62,7 @@ export const AddEditSubplaces = (props) => {
   };
 
   useEffect(() => {
-    if (operation == "Edit"){ 
+    if (operation == constants.Edit){ 
       !validation(inputValues.subplace_name) 
         ? setDisable(true)
         : setDisable(false);
@@ -77,7 +78,7 @@ export const AddEditSubplaces = (props) => {
 
   useEffect(() => {
     const obj = {};
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       });
@@ -91,7 +92,7 @@ export const AddEditSubplaces = (props) => {
 
   const onNext = () => {
    
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       if (selected?.id) {
         inputValues.circuit_id = selected?.id;
       } else {
@@ -137,8 +138,8 @@ export const AddEditSubplaces = (props) => {
                         <View style={style.changeView}>
                           <Text
                             style={
-                              input.value === "CMC" ||
-                              input.value === "District"
+                              input.value === constants.Circuit ||
+                              input.value === constants.subplacesname
                                 ? style.mandatory
                                 : null
                             }
@@ -147,12 +148,12 @@ export const AddEditSubplaces = (props) => {
                           </Text>
                         </View>
                       ) : null}
-                      {input.value == "Circuit" ? (
+                      {input.value == constants.Circuit ? (
                         <>
                           <View style={style.container}>
                             <Dropdown
                               label={
-                                operation === "Edit"
+                                operation === constants.Edit
                                   ? inputValues[input.key]
                                   : input.value
                               }

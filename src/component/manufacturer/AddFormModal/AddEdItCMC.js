@@ -18,6 +18,7 @@ import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { emisNumber } from "../../../locales/regexp";
+import constants from "../../../locales/constants";
 
 export const AddEditCMC = (props) => {
   const {
@@ -61,7 +62,7 @@ export const AddEditCMC = (props) => {
   };
 
     useEffect(() => {
-      if (operation == "Edit"){ 
+      if (operation == constants.Edit){ 
         !validation(inputValues.cmc_name) 
           ? setDisable(true)
           : setDisable(false);
@@ -77,7 +78,7 @@ export const AddEditCMC = (props) => {
 
   useEffect(() => {
     const obj = {};
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       });
@@ -90,7 +91,7 @@ export const AddEditCMC = (props) => {
   }, []);
 
   const onNext = () => {
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       if (selected?.id) {
         inputValues.district_id = selected?.id;
       } else {
@@ -135,8 +136,8 @@ export const AddEditCMC = (props) => {
                         <View style={style.changeView}>
                           <Text
                             style={
-                              input.value === "CMC" ||
-                              input.value === "District"
+                              input.value === constants.Cmc ||
+                              input.value === constants.District
                                 ? style.mandatory
                                 : null
                             }
@@ -145,12 +146,12 @@ export const AddEditCMC = (props) => {
                           </Text>
                         </View>
                       ) : null}
-                      {input.value == "District" ? (
+                      {input.value == constants.District? (
                         <>
                           <View style={style.container}>
                             <Dropdown
                               label={
-                                operation === "Edit"
+                                operation === constants.Edit
                                   ? inputValues[input.key]
                                   : input.value
                               }
