@@ -154,7 +154,10 @@ const constants = {
 
   dropdown_Type :"question",
   Level: "Level",
-  SNQ: "SNQ"
+  SNQ: "SNQ",
+  SNQ_p :'P',
+  SNQ_s :'S',
+  SNQ_c :'C'
 
 
 

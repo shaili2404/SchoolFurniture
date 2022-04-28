@@ -18,6 +18,7 @@ import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { emisNumber } from "../../../locales/regexp";
+import constants from "../../../locales/constants";
 
 export const AddEditCircuit = (props) => {
   const {
@@ -60,16 +61,24 @@ export const AddEditCircuit = (props) => {
     return value != "" && value != undefined && value != null;
   };
 
-  //   useEffect(() => {
-  //     
-  //     !validation(inputValues.name) || !validation(inputValues.emis) || !emisNumber.test(inputValues.emis)
-  //       ? setDisable(true)
-  //       : setDisable(false)
-  //   }, [inputValues]);
+  useEffect(() => {
+    if (operation == constants.Edit){ 
+      !validation(inputValues.circuit_name) 
+        ? setDisable(true)
+        : setDisable(false);
+    }
+     else {
+      !validation(inputValues.circuit_name) 
+      !validation(selected?.id)
+      
+        ? setDisable(true)
+        : setDisable(false);
+     }
+  }, [inputValues,selected]);
 
   useEffect(() => {
     const obj = {};
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       data.forEach((val) => {
         obj[val.key] = updateItem[val.key];
       });
@@ -82,7 +91,7 @@ export const AddEditCircuit = (props) => {
   }, []);
 
   const onNext = () => {
-    if (operation == "Edit") {
+    if (operation == constants.Edit) {
       if (selected?.id) {
         inputValues.cmc_id = selected?.id;
       } else {
@@ -127,8 +136,8 @@ export const AddEditCircuit = (props) => {
                         <View style={style.changeView}>
                           <Text
                             style={
-                              input.value === "CMC" ||
-                              input.value === "District"
+                              input.value === constants.Circuit||
+                              input.value === constants.Cmc
                                 ? style.mandatory
                                 : null
                             }
@@ -137,12 +146,12 @@ export const AddEditCircuit = (props) => {
                           </Text>
                         </View>
                       ) : null}
-                      {input.value == "CMC" ? (
+                      {input.value == constants.Cmc ? (
                         <>
                           <View style={style.container}>
                             <Dropdown
                               label={
-                                operation === "Edit"
+                                operation === constants.Edit
                                   ? inputValues[input.key]
                                   : input.value
                               }
