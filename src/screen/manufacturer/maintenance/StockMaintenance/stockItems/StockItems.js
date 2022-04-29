@@ -350,7 +350,7 @@ export const StockItems = () => {
           />
         )}
 
-        <View style={style.lastView}>
+        <View style={errorMessage ? style.lastssView : style.lastView}>
           <TouchableOpacity
             onPress={onPrevious}
             disabled={number == 1 ? true : false}

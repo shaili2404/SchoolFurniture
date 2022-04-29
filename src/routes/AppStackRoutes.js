@@ -30,6 +30,7 @@ import Third from "../Third";
 import { CircuitList } from "../screen/manufacturer/maintenance/SchoolMaintenance/Circuit/CircuitList";
 import { CMC } from "../screen/manufacturer/maintenance/SchoolMaintenance/cmc/CmcList";
 import { SubPlacesList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SubPlacesName/Subplaces";
+import { Reports } from "../screen/reports/reports";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -41,6 +42,17 @@ const DrawerStack = () => {
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       <Drawer.Screen
         component={First}
+        name="First"
+        options={CommonHeaderStyle}
+      />
+    </Drawer.Navigator>
+  );
+};
+const ReportsDrawerStack = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+      <Drawer.Screen
+        component={Reports}
         name="First"
         options={CommonHeaderStyle}
       />
@@ -362,6 +374,11 @@ const AppStack = (props) => {
           name={NavigationRouteNames.SUBPLACES}
           component={SubPlacesList}
           options={CommonHeaderStyle}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.REPORTS}
+          component={ReportsDrawerStack}
+          options={{ headerShown: false }}
         />
       {/* ) : (
         SwitchNavigation("Manufacturer")
