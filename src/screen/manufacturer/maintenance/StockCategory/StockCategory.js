@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { useSelector } from "react-redux";
 import Styles from "./Styles";
@@ -23,7 +23,6 @@ import AlertText from "../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../Alert/alert";
 import constants from "../../../../locales/constants";
 
-
 const StockCategory = () => {
   const [stockCategory, setStockCategory] = useState("");
   const [categoryListData, setCategoryListData] = useState([]);
@@ -38,8 +37,8 @@ const StockCategory = () => {
   const tableKey = ["name"];
   const navigation = useNavigation();
   const loginData = useSelector((state) => state?.loginData);
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -50,23 +49,26 @@ const StockCategory = () => {
   const [alert, setAlert] = useState(false);
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions
-    let userCreate = false, userEdit = false, userDlt = false;
+    const arr = loginData?.user?.data?.data?.permissions;
+    let userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 18) {
-        userCreate = true
-      } if (input.id === 19) {
-        userEdit = true
-      } if (input.id === 20) {
-        userDlt = true
+        userCreate = true;
       }
-    })
+      if (input.id === 19) {
+        userEdit = true;
+      }
+      if (input.id === 20) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
-
+    });
   }, []);
 
   const HeaderComponent = () => {
@@ -105,11 +107,11 @@ const StockCategory = () => {
   const categorylistapi = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.stockCategoryList}?page=${count? count : number}`)
+      .get(`${endUrl.stockCategoryList}?page=${count ? count : number}`)
       .then((res) => {
         setCategoryListData(res?.data?.data?.records);
-        setmaximunNumber(res?.data?.data?.total_page)
-        setLoader(false)
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
       })
       .catch((e) => {
         setLoader(false);
@@ -145,21 +147,20 @@ const StockCategory = () => {
         setSuccessMessage(res?.data?.message);
         setLoader(false);
       })
-      .catch((e) => 
+      .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        setAlert(true);
         {
-          let { message, data, status } = e?.response?.data || {};
-          setLoader(false);
-          setAlert(true)
-          {
-            let str = "";
-            status == 422 ?
-              Object.values(data).forEach((value) => {
+          let str = "";
+          status == 422
+            ? Object.values(data).forEach((value) => {
                 str += `  ${value}`;
                 setSuccessMessage(str);
-              }) :
-              setSuccessMessage(message);
-          }
-        })
+              })
+            : setSuccessMessage(message);
+        }
+      });
   };
 
   // Add Button Functionality
@@ -188,12 +189,12 @@ const StockCategory = () => {
           setLoader(false);
           {
             let str = "";
-            status == 422 ?
-              Object.values(data).forEach((value) => {
-                str += `  ${value}`;
-                setErrorMessage(str);
-              }) :
-              setErrorMessage(message);
+            status == 422
+              ? Object.values(data).forEach((value) => {
+                  str += `  ${value}`;
+                  setErrorMessage(str);
+                })
+              : setErrorMessage(message);
           }
         }
       });
@@ -207,127 +208,133 @@ const StockCategory = () => {
     }
   }, [searchtask]);
 
-
-
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    categorylistapi(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    categorylistapi(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    categorylistapi(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    categorylistapi(count);
+    setLoader(false);
   };
 
   return loader ? (
     <Loader />
   ) : (
-    <ScrollView showsVerticalScrollIndicator={false}>
-    <View style={Styles.mainView}>
-      <TextInput
-        placeholder={Constants.StockCategories}
-        style={Styles.inputTxtStyle}
-        value={editState === true ? defaultStockCategory : stockCategory}
-        onChangeText={(txt) =>
-          editState === true
-            ? setDefaultStockCategory(txt)
-            : setStockCategory(txt)
-        }
-        maxLength={50}
-      />
-      {permissionId.userCreate && (
-        <View style={Styles.buttonView}>
-          <TouchableOpacity
-            style={Styles.buttonStyle}
-            onPress={editState === true ? onUpdate : onAdd}
-          >
-            <Text style={Styles.buttonText}>
-              {editState === true ? Constants.update : Constants.add}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      <View style={Styles.boxDefault}>
-        {defaultState === true ? (
-          <View style={Styles.changeView}>
-            <Text style={Styles.changeText}>{Constants.searchItem}</Text>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={Styles.mainView}>
+      <View style={Styles.mainView}>
+        <TextInput
+          placeholder={Constants.StockCategories}
+          style={Styles.inputTxtStyle}
+          value={editState === true ? defaultStockCategory : stockCategory}
+          onChangeText={(txt) =>
+            editState === true
+              ? setDefaultStockCategory(txt)
+              : setStockCategory(txt)
+          }
+          maxLength={50}
+        />
+        {permissionId.userCreate && (
+          <View style={Styles.buttonView}>
+            <TouchableOpacity
+              style={Styles.buttonStyle}
+              onPress={editState === true ? onUpdate : onAdd}
+            >
+              <Text style={Styles.buttonText}>
+                {editState === true ? Constants.update : Constants.add}
+              </Text>
+            </TouchableOpacity>
           </View>
-        ) : null}
-        <View style={Styles.searchBox}>
-          <TextInput
-            style={Styles.searchInputStyle}
-            placeholder={defaultState === true ? " " : Constants.searchCategory}
-            placeholderTextColor={COLORS.Black}
-            value={searchtask}
-            onChangeText={(val) => setSearchTask(val)}
-            onFocus={() => setDefaultState(true)}
-            onBlur={() => setDefaultState(false)}
-            opacity={defaultState === true ? 1 : 0.5}
+        )}
+        <View style={Styles.boxDefault}>
+          {defaultState === true ? (
+            <View style={Styles.changeView}>
+              <Text style={Styles.changeText}>{Constants.searchItem}</Text>
+            </View>
+          ) : null}
+          <View style={Styles.searchBox}>
+            <TextInput
+              style={Styles.searchInputStyle}
+              placeholder={
+                defaultState === true ? " " : Constants.searchCategory
+              }
+              placeholderTextColor={COLORS.Black}
+              value={searchtask}
+              onChangeText={(val) => setSearchTask(val)}
+              onFocus={() => setDefaultState(true)}
+              onBlur={() => setDefaultState(false)}
+              opacity={defaultState === true ? 1 : 0.5}
+            />
+            <TouchableOpacity
+              style={Styles.searchButton}
+              onPress={() => onsearch()}
+            >
+              <Image source={Images.SearchIconWhite} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {errorMessage ? (
+          <View style={Styles.errorView}>
+            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+          </View>
+        ) : (
+          <FlatList
+            ListHeaderComponent={HeaderComponent}
+            showsVerticalScrollIndicator={false}
+            style={Styles.listStyle}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            data={categoryListData}
+            renderItem={rendercomponent}
           />
+        )}
+
+        <View style={errorMessage ? Styles.lastssView : Styles.lastView}>
           <TouchableOpacity
-            style={Styles.searchButton}
-            onPress={() => onsearch()}
+            onPress={onPrevious}
+            disabled={number == 1 ? true : false}
           >
-            <Image source={Images.SearchIconWhite} />
+            {number == 1 ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={number == maximumNumber ? true : false}
+          >
+            {number == maximumNumber ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
           </TouchableOpacity>
         </View>
+        {alert ? (
+          <AlertMessage
+            visible={alert}
+            setmodalVisible={(val) => setAlert(val)}
+            mainMessage={successMessage}
+          />
+        ) : null}
       </View>
-      {errorMessage ? (
-        <View style={Styles.errorView}>
-          <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-        </View>
-      ) : (
-        <FlatList
-          ListHeaderComponent={HeaderComponent}
-          style={Styles.listStyle}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) => item.id}
-          data={categoryListData}
-          renderItem={rendercomponent}
-        />
-      )}
-
-<View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
-      {alert ? (
-        <AlertMessage
-          visible={alert}
-          setmodalVisible={(val) => setAlert(val)}
-          mainMessage={successMessage}
-        />
-      ) : null}
-    </View>
-    <View style={{ height: 20 }} />
+      <View style={{ height: 20 }} />
     </ScrollView>
   );
 };
 
 export default StockCategory;
-

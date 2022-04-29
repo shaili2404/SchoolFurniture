@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import COLORS from "../../../../asset/color";
 import Fonts from "../../../../asset/Fonts";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -21,6 +21,7 @@ export default StyleSheet.create({
   mainView: {
     backgroundColor: "#fff",
     flex: 1,
+    height:Dimensions.get('window').height
   },
   buttonStyle: {
     marginTop: RfH(30),
@@ -97,8 +98,14 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     width: "30%",
     marginTop: 10,
-    // position: "absolute",
-    // bottom: 10,
+    alignSelf: "center",
+  },
+  lastssView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "30%",
+    position: "absolute",
+    bottom: 0,
     alignSelf: "center",
   },
 });

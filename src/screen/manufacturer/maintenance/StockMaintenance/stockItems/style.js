@@ -125,6 +125,14 @@ export default StyleSheet.create({
     // bottom: RfH(110),
     alignSelf: "center",
   },
+  lastssView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "30%",
+    position: "absolute",
+    bottom: 0,
+    alignSelf: "center",
+  },
   errormessStyle: {
     textAlign: "center",
     color: COLORS.red,
