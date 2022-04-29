@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import COLORS from "../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -188,7 +188,7 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     width: "100%",
     position: "absolute",
-    bottom: 85,
+    bottom: Platform.OS === 'android'? 25 : 65,
   },
   container: {
     borderRadius: 5,

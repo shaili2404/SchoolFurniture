@@ -363,7 +363,7 @@ export const FurnitureReplacmentManfacturer = () => {
             </TouchableOpacity>
           </View>
         ) : null}
-        <View style={maximumNumber == 1 ? Styles.lastViews : Styles.lastView}>
+        <View style={Styles.lastView}>
           <TouchableOpacity
             onPress={onPrevious}
             disabled={number == 1 ? true : false}

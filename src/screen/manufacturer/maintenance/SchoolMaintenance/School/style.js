@@ -46,7 +46,7 @@ export default StyleSheet.create({
   plusView: {
     width: "20%",
     position: "absolute",
-    bottom: Platform.OS === 'android'? 0 : 65,
+    bottom: Platform.OS === 'android'? 25 : 65,
     right: 10,
   },
   lastText: {

@@ -50,7 +50,7 @@ export default StyleSheet.create({
   cecktext: {
     fontSize: 14,
     color: COLORS.Black,
-    marginTop: 2,
+    marginLeft: 5,
   },
   printView: {
     flexDirection: "row",
