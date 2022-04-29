@@ -8,7 +8,7 @@ import {
   TextInput,
   Image,
   Keyboard,
-  Platform
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,7 +19,7 @@ import style from "./styles";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
 import Loader from "../../component/loader";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const PasswordReset = () => {
   const [username, setUserName] = useState("");
@@ -43,7 +43,7 @@ const PasswordReset = () => {
       username: username,
     };
     dispatch(resetRequest(data));
-  }
+  };
 
   const onChangeEmail = (username) => {
     if (username == "") {
@@ -56,7 +56,7 @@ const PasswordReset = () => {
   };
 
   const onClear = () => {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
     setDefaultState(false);
     setUserName("");
     setErrorMessage("");
@@ -68,7 +68,9 @@ const PasswordReset = () => {
   ) : (
     <SafeAreaView style={style.mainView}>
       <View style={style.subContainer}>
-        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'position' : ''} >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "android" ? "position" : ""}
+        >
           <View>
             <LogoImg />
           </View>
@@ -97,10 +99,7 @@ const PasswordReset = () => {
                 opacity={defaultState === true ? 1 : 0.5}
               />
               {errorMessage ? (
-                <TouchableOpacity
-                  disabled
-                  style={style.errIcon}
-                >
+                <TouchableOpacity disabled style={style.errIcon}>
                   <Image source={Images.error} style={style.errIconStyle} />
                 </TouchableOpacity>
               ) : null}
@@ -108,16 +107,18 @@ const PasswordReset = () => {
           </View>
           {errorMessage ? (
             <View style={style.credStyle}>
-              <Text style={style.errorStyle}>
-                {errorMessage}
-              </Text>
+              <Text style={style.errorStyle}>{errorMessage}</Text>
             </View>
           ) : null}
 
           {defaultState === true ? (
             <View style={style.inputStyles}>
               <TouchableOpacity
-                style={emptymail ? [style.buttonStyle, { opacity: 0.5 }] : style.buttonStyle}
+                style={
+                  emptymail
+                    ? [style.buttonStyle, { opacity: 0.5 }]
+                    : style.buttonStyle
+                }
                 onPress={onPressReset}
                 disabled={emptymail}
               >
@@ -133,10 +134,11 @@ const PasswordReset = () => {
           ) : (
             false
           )}
-
         </KeyboardAvoidingView>
-        <TouchableOpacity style={style.backContainer}
-          onPress={() => navigation.navigate('LoginScreen')}>
+        <TouchableOpacity
+          style={style.backContainer}
+          onPress={() => navigation.navigate("LoginScreen")}
+        >
           <Text style={style.BackText}>{constants.BackToLogin}</Text>
         </TouchableOpacity>
       </View>

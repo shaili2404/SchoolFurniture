@@ -3,11 +3,11 @@ import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import COLORS from "../../asset/color";
 import LinearGradient from "react-native-linear-gradient";
 import Fonts from "../../asset/Fonts";
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFValue } from "react-native-responsive-fontsize";
 import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
 import { RfH, RfW } from "../../utils/helpers";
 
-export const ListHeaderComman = ({ tableHeader, List,lenofContent }) => {
+export const ListHeaderComman = ({ tableHeader, List, lenofContent }) => {
   return (
     <SafeAreaView>
       <LinearGradient
@@ -59,6 +59,6 @@ const Styles = StyleSheet.create({
   ScreenStyles: {
     width: "30%",
     marginTop: 12,
-    marginHorizontal:4,
+    marginHorizontal: 4,
   },
 });

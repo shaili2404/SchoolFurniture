@@ -8,7 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Text
+  Text,
 } from "react-native";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -25,7 +25,6 @@ import { AddSchool } from "../../../../../component/manufacturer/AddFormModal/Ad
 import { AlertMessage } from "../../../../../Alert/alert";
 import { AddEditSubplaces } from "../../../../../component/manufacturer/AddFormModal/AddEditSubPlaces";
 
-
 export const SubPlacesList = () => {
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
@@ -36,8 +35,8 @@ export const SubPlacesList = () => {
   const [updateItem, setUpdateItem] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [alert, setAlert] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [permissionId, setPermissionId] = useState({
@@ -46,10 +45,7 @@ export const SubPlacesList = () => {
     userDelete: false,
   });
 
-  const tableKey = [
-    "subplace_name",
-    "circuit_name",
-  ];
+  const tableKey = ["subplace_name", "circuit_name"];
   const tableHeader = [
     constants.subplacesname,
     constants.Circuit,
@@ -61,28 +57,31 @@ export const SubPlacesList = () => {
     { key: "circuit_name", value: constants.Circuit },
   ];
   useEffect(() => {
-    setLoader(true)
+    setLoader(true);
     apicall();
   }, []);
 
-
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false, userEdit = false, userDlt = false;
+    let userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 10) {
-        userCreate = true
-      } if (input.id === 11) {
-        userEdit = true
-      } if (input.id === 12) {
-        userDlt = true
+        userCreate = true;
       }
-    })
+      if (input.id === 11) {
+        userEdit = true;
+      }
+      if (input.id === 12) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
+    });
   }, []);
 
   const rendercomponent = ({ item }) => {
@@ -103,8 +102,8 @@ export const SubPlacesList = () => {
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
-    setAdduserModal(true)
-  }
+    setAdduserModal(true);
+  };
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -119,77 +118,87 @@ export const SubPlacesList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "" && key != "district_name") obj[key] = value;
-    })
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    const service = oper == "Add" ? axios.post(`${endUrl.SubPlace_List}`, obj) : axios.put(`${endUrl.SubPlace_List}/${updateItem.id}`, obj);
-    service.then((res) => {
-      setLoader(false);
-      setAlert(true);
-      apicall()
-    }).catch((e) => {
-      let { message, data, status } = e?.response?.data || {};
-      setLoader(false);
-      seterrorAlert(true)
-      {
-        let str = "";
-        status == 422 ?
-          Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setErrMsg(str);
-          }) :
-          setErrMsg(message);
-      }
-    })
+      if (value != null && value != "" && key != "district_name")
+        obj[key] = value;
+    });
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+    const service =
+      oper == constants.add
+        ? axios.post(`${endUrl.SubPlace_List}`, obj)
+        : axios.put(`${endUrl.SubPlace_List}/${updateItem.id}`, obj);
+    service
+      .then((res) => {
+        setLoader(false);
+        setAlert(true);
+        apicall();
+      })
+      .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        seterrorAlert(true);
+        {
+          let str = "";
+          status == 422
+            ? Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setErrMsg(str);
+              })
+            : setErrMsg(message);
+        }
+      });
   };
 
   const apicall = (count) => {
-    setLoader(true)
-    axios.get(`${endUrl.SubPlace_List}?page=${count? count : number}`).then((res) => {
-      setListData(res?.data?.data?.records);
-      setmaximunNumber(res?.data?.data?.total_page)
-      setLoader(false)
-    }).catch((e) =>
-      console.log('apicall', e)
-    )
+    setLoader(true);
+    axios
+      .get(`${endUrl.SubPlace_List}?page=${count ? count : number}`)
+      .then((res) => {
+        setListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
+      })
+      .catch((e) => console.log("apicall", e));
   };
 
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    apicall(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    apicall(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onsearch = () => {
-    setLoader(true)
-    axios.get(`${endUrl.SubPlaces_search}${searchtask}`).then((res) => {
-      setListData(res?.data?.data);
-      setLoader(false)
-    }).catch((e) => {
-      {
-        let { message, data, status } = e?.response?.data || {};
+    setLoader(true);
+    axios
+      .get(`${endUrl.SubPlaces_search}${searchtask}`)
+      .then((res) => {
+        setListData(res?.data?.data);
         setLoader(false);
+      })
+      .catch((e) => {
         {
-          let str = "";
-          status == 422 ?
-            Object.values(data).forEach((value) => {
-              str += `  ${value}`;
-              setErrorMessage(str);
-            }) :
-            setErrorMessage(message);
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
+          {
+            let str = "";
+            status == 422
+              ? Object.values(data).forEach((value) => {
+                  str += `  ${value}`;
+                  setErrorMessage(str);
+                })
+              : setErrorMessage(message);
+          }
         }
-      }
-    })
+      });
   };
 
   const onAddPress = (task) => {
@@ -197,17 +206,16 @@ export const SubPlacesList = () => {
     setAdduserModal(true);
   };
 
-
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
 
   useEffect(() => {
     if (searchtask == "") {
-      setLoader(true)
+      setLoader(true);
       apicall();
       setErrorMessage("");
-      setLoader(false)
+      setLoader(false);
     }
   }, [searchtask]);
 
@@ -246,7 +254,10 @@ export const SubPlacesList = () => {
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={number == 1 ? true : false}
+        >
           {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -257,8 +268,11 @@ export const SubPlacesList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
+        <TouchableOpacity
+          onPress={onNext}
+          disabled={number == maximumNumber ? true : false}
+        >
+          {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -269,10 +283,9 @@ export const SubPlacesList = () => {
         </TouchableOpacity>
       </View>
 
-
       {permissionId.userCreate && (
         <View style={Styles.plusView}>
-          <TouchableOpacity onPress={() => onAddPress("Add")}>
+          <TouchableOpacity onPress={() => onAddPress(constants.add)}>
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
@@ -287,17 +300,28 @@ export const SubPlacesList = () => {
           name={constants.subplacesname}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={operation === 'Add' ? constants.add : constants.update}
+          buttonVal={
+            operation === constants.add ? constants.add : constants.update
+          }
         />
       ) : null}
       {alert ? (
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
-          subMessage={operation == "Add" ? AlertText.subplaceAddedSub : AlertText.SubplaceUpdateSub}
+          mainMessage={
+            operation == constants.add
+              ? AlertText.AddedSuccessFully
+              : AlertText.SchoolUpdate
+          }
+          subMessage={
+            operation == constants.add
+              ? AlertText.subplaceAddedSub
+              : AlertText.SubplaceUpdateSub
+          }
           onConfirm={() => onPressYes()}
-        />) : null}
+        />
+      ) : null}
       {erroralert ? (
         <AlertMessage
           visible={erroralert}

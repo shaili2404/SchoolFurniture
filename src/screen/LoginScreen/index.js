@@ -8,7 +8,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Keyboard,
-  Platform
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,7 +21,7 @@ import constants from "../../locales/constants";
 import Loader from "../../component/loader";
 import Styles from "./styles";
 import { NetworkInfo } from "react-native-network-info";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 export const LoginScreen = () => {
   const [defaultState, setDefaultState] = useState(false);
@@ -44,10 +44,10 @@ export const LoginScreen = () => {
     setErrorMessage(message);
 
     NetworkInfo.getIPAddress().then((ipAddress) => {
-      setIpAddress(ipAddress)
+      setIpAddress(ipAddress);
     });
     NetworkInfo.getIPV4Address().then((ipv4Address) => {
-      setIpAddress(ipv4Address)
+      setIpAddress(ipv4Address);
     });
   }, [loginData]);
 
@@ -95,12 +95,17 @@ export const LoginScreen = () => {
   ) : (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.subContainer}>
-        <KeyboardAvoidingView behavior={Platform.OS === 'android' ? 'position' : null} keyboardVerticalOffset={0} >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "android" ? "position" : null}
+          keyboardVerticalOffset={0}
+        >
           <LogoImg />
           <View style={Styles.loginView}>
             <Text style={Styles.loginText}>{constants.Login}</Text>
           </View>
-          <View style={defaultState === true ? Styles.inputSty : Styles.inputStyles}>
+          <View
+            style={defaultState === true ? Styles.inputSty : Styles.inputStyles}
+          >
             {defaultState === true ? (
               <View style={Styles.changeView}>
                 <Text style={Styles.changeText}>{constants.EnterUsername}</Text>
@@ -109,7 +114,9 @@ export const LoginScreen = () => {
             <View>
               <TextInput
                 style={
-                  errorMessage ? Styles.emailInputStyles : Styles.emailInputStyle
+                  errorMessage
+                    ? Styles.emailInputStyles
+                    : Styles.emailInputStyle
                 }
                 placeholder={
                   defaultState === true ? " " : constants.EnterUsername
@@ -130,7 +137,9 @@ export const LoginScreen = () => {
             <View style={Styles.passView}>
               {defaultState === true ? (
                 <View style={Styles.changeView}>
-                  <Text style={Styles.changeText}>{constants.EnterPassword}</Text>
+                  <Text style={Styles.changeText}>
+                    {constants.EnterPassword}
+                  </Text>
                 </View>
               ) : null}
               <TextInput
@@ -164,11 +173,19 @@ export const LoginScreen = () => {
               <TouchableOpacity
                 style={errorMessage ? Styles.eyeStyles : Styles.eyeStyle}
                 onPress={() => {
-                  textEntery === true ? setTextEntry(false) : setTextEntry(true);
+                  textEntery === true
+                    ? setTextEntry(false)
+                    : setTextEntry(true);
                 }}
               >
                 <Image
-                  source={defaultState === true ? textEntery === true ? Images.Eye_off : Images.Eye : Images.Eye}
+                  source={
+                    defaultState === true
+                      ? textEntery === true
+                        ? Images.Eye_off
+                        : Images.Eye
+                      : Images.Eye
+                  }
                   style={Styles.imgStyle}
                 />
               </TouchableOpacity>
@@ -183,7 +200,7 @@ export const LoginScreen = () => {
             ) : null}
             <View>
               <TouchableOpacity
-                onPress={() => navigation.navigate('PasswordReset')}
+                onPress={() => navigation.navigate("PasswordReset")}
               >
                 <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
               </TouchableOpacity>
@@ -191,9 +208,17 @@ export const LoginScreen = () => {
           </View>
         </KeyboardAvoidingView>
 
-        <View style={defaultState === true ? Styles.inputStyless : Styles.inputStyles}>
+        <View
+          style={
+            defaultState === true ? Styles.inputStyless : Styles.inputStyles
+          }
+        >
           <TouchableOpacity
-            style={(emptyUserName || emptyPass) ? [Styles.buttonStyle, { opacity: 0.5 }] : Styles.buttonStyle}
+            style={
+              emptyUserName || emptyPass
+                ? [Styles.buttonStyle, { opacity: 0.5 }]
+                : Styles.buttonStyle
+            }
             onPress={onLogin}
             disabled={emptyUserName || emptyPass}
           >

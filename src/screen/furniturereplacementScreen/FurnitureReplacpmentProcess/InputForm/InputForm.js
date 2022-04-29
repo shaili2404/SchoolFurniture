@@ -78,8 +78,8 @@ export const InputForm = ({
           placeholder={defaultState === true ? "" : { stockcollectionName }}
           placeholderTextColor={COLORS.Black}
           opacity={defaultState === true ? 1 : 0.5}
-          value={org == "School" ? task == constants.ManageReqText? String(totalFurCount) : inputValues : String(stockcount)}
-          editable={org == "School" ? true : false}
+          value={org == constants.school ? task == constants.ManageReqText? String(totalFurCount) : inputValues : String(stockcount)}
+          editable={org == constants.school ? true : false}
           onChangeText={(val) => onValueChange(val)}
           keyboardType="numeric"
         />

@@ -8,7 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Text
+  Text,
 } from "react-native";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -34,7 +34,12 @@ export const SchoolList = () => {
   const [searchtask, setSearchTask] = useState("");
   const [operation, setOperation] = useState("");
   const [updateItem, setUpdateItem] = useState({});
-  const [pagination, setPagination] = useState({ currentPage: 0, totalPage: 0, startIndex: 0, endIndex: 0 });
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPage: 0,
+    startIndex: 0,
+    endIndex: 0,
+  });
   const [errorMessage, setErrorMessage] = useState("");
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -44,8 +49,8 @@ export const SchoolList = () => {
     userEdit: false,
     userDelete: false,
   });
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
 
   const tableKey = [
     "name",
@@ -89,21 +94,25 @@ export const SchoolList = () => {
 
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false, userEdit = false, userDlt = false;
+    let userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 10) {
-        userCreate = true
-      } if (input.id === 11) {
-        userEdit = true
-      } if (input.id === 12) {
-        userDlt = true
+        userCreate = true;
       }
-    })
+      if (input.id === 11) {
+        userEdit = true;
+      }
+      if (input.id === 12) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
+    });
   }, []);
 
   const rendercomponent = ({ item }) => {
@@ -117,17 +126,16 @@ export const SchoolList = () => {
         mainMessage={AlertText.deleteschool}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
-        page='School'
+        page="School"
       />
     );
   };
 
   const onEdit = (item, task) => {
-
     setOperation(task);
     setUpdateItem(item);
-    setAdduserModal(true)
-  }
+    setAdduserModal(true);
+  };
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -142,66 +150,76 @@ export const SchoolList = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "" && key != "district_name") obj[key] = value;
-    })
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    const service = oper == "Add" ? axios.post(`${endUrl.schoolList}`, obj) : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
-    service.then((res) => {
-      setLoader(false);
-      setAlert(true);
-      apicall()
-    }).catch((e) => {
-      let { message, data, status } = e?.response?.data || {};
-      setLoader(false);
-      seterrorAlert(true)
-      {
-        let str = "";
-        status == 422 ?
-          Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setErrMsg(str);
-          }) :
-          setErrMsg(message);
-      }
-    })
+      if (value != null && value != "" && key != "district_name")
+        obj[key] = value;
+    });
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+    const service =
+      oper == constants.add
+        ? axios.post(`${endUrl.schoolList}`, obj)
+        : axios.put(`${endUrl.schoolList}/${updateItem.id}`, obj);
+    service
+      .then((res) => {
+        setLoader(false);
+        setAlert(true);
+        apicall();
+      })
+      .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        seterrorAlert(true);
+        {
+          let str = "";
+          status == 422
+            ? Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setErrMsg(str);
+              })
+            : setErrMsg(message);
+        }
+      });
   };
 
   const apicall = (count) => {
-    setLoader(true)
-    axios.get(`${endUrl.schoolList}?page=${count? count : number}`).then((res) => {
-      setListData(res?.data?.data?.records);
-      setmaximunNumber(res?.data?.data?.total_page)
-      setLoader(false)
-    }).catch((e) =>
-      console.log('apicall', e)
-    )
+    setLoader(true);
+    axios
+      .get(`${endUrl.schoolList}?page=${count ? count : number}`)
+      .then((res) => {
+        setListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
+      })
+      .catch((e) => console.log("apicall", e));
   };
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    apicall(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    apicall(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onsearch = () => {
-    setLoader(true)
-    axios.get(`${endUrl.searchSchool}${searchtask}`).then((res) => {
-      setListData(res?.data?.data);
-      setLoader(false)
-    }).catch((e) => {
-      let errorMsg = e?.response?.data?.message;
-      setLoader(false);
-      setErrorMessage(errorMsg);
-    })
+    setLoader(true);
+    axios
+      .get(`${endUrl.searchSchool}${searchtask}`)
+      .then((res) => {
+        setListData(res?.data?.data);
+        setLoader(false);
+      })
+      .catch((e) => {
+        let errorMsg = e?.response?.data?.message;
+        setLoader(false);
+        setErrorMessage(errorMsg);
+      });
   };
 
   const onAddPress = (task) => {
@@ -221,7 +239,7 @@ export const SchoolList = () => {
     if (searchtask == "") {
       apicall();
       setErrorMessage("");
-      setLoader(false)
+      setLoader(false);
     }
   }, [searchtask]);
 
@@ -260,7 +278,10 @@ export const SchoolList = () => {
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={number == 1 ? true : false}
+        >
           {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -271,8 +292,11 @@ export const SchoolList = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
+        <TouchableOpacity
+          onPress={onNext}
+          disabled={number == maximumNumber ? true : false}
+        >
+          {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -285,7 +309,7 @@ export const SchoolList = () => {
 
       {permissionId.userCreate && (
         <View style={Styles.plusView}>
-          <TouchableOpacity onPress={() => onAddPress("Add")}>
+          <TouchableOpacity onPress={() => onAddPress(constants.add)}>
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
@@ -300,17 +324,28 @@ export const SchoolList = () => {
           name={constants.School}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={operation === 'Add' ? constants.add : constants.update}
+          buttonVal={
+            operation === constants.add ? constants.add : constants.update
+          }
         />
       ) : null}
       {alert ? (
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
-          subMessage={operation == "Add" ? AlertText.SchoolAddedSub : AlertText.SchoolUpdateSub}
+          mainMessage={
+            operation == constants.add
+              ? AlertText.AddedSuccessFully
+              : AlertText.SchoolUpdate
+          }
+          subMessage={
+            operation == constants.add
+              ? AlertText.SchoolAddedSub
+              : AlertText.SchoolUpdateSub
+          }
           onConfirm={() => onPressYes()}
-        />) : null}
+        />
+      ) : null}
       {erroralert ? (
         <AlertMessage
           visible={erroralert}

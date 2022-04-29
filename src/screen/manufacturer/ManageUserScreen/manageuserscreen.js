@@ -34,8 +34,8 @@ export const ManageUserScreen = () => {
   const [searchtask, setSearchTask] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigation = useNavigation();
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -49,13 +49,7 @@ export const ManageUserScreen = () => {
     userDelete: false,
   });
 
-  const tableKey = [
-    "name",
-    "surname",
-    "username",
-    "email",
-    "organization",
-  ];
+  const tableKey = ["name", "surname", "username", "email", "organization"];
   const tableHeader = [
     constants.name,
     constants.surname,
@@ -67,24 +61,30 @@ export const ManageUserScreen = () => {
 
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
-    let userList = false, userCreate = false, userEdit = false, userDlt = false;
+    let userList = false,
+      userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 1) {
         userList = true;
-      } if (input.id === 2) {
-        userCreate = true
-      } if (input.id === 3) {
-        userEdit = true
-      } if (input.id === 4) {
-        userDlt = true
       }
-    })
+      if (input.id === 2) {
+        userCreate = true;
+      }
+      if (input.id === 3) {
+        userEdit = true;
+      }
+      if (input.id === 4) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userList: userList,
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
+    });
   }, []);
 
   const rendercomponent = ({ item }) => {
@@ -104,11 +104,11 @@ export const ManageUserScreen = () => {
 
   const onEdit = (item, task) => {
     let btnStatus;
-    if (task == "Edit") {
-      btnStatus = '0'
+    if (task == constants.Edit) {
+      btnStatus = "0";
     }
-    navigation.navigate('AddNewUsers', { Item: item, btnStatus: btnStatus });
-  }
+    navigation.navigate("AddNewUsers", { Item: item, btnStatus: btnStatus });
+  };
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -119,43 +119,40 @@ export const ManageUserScreen = () => {
   };
 
   const onSubmitDetails = async (value) => {
-    const a = "${loginData?.user?.data?.access_token}";
     try {
-      const response = await axios.post(
-        `${endUrl.schoolList}`,
-        value
-      );
-    } catch (e) { }
+      const response = await axios.post(`${endUrl.schoolList}`, value);
+    } catch (e) {}
   };
 
   const apicall = (count) => {
     setLoader(true);
-    axios.get(`${endUrl.userList}?page=${count? count : number}`)
+    axios
+      .get(`${endUrl.userList}?page=${count ? count : number}`)
       .then((res) => {
         setListData(res?.data?.data?.records);
-        setmaximunNumber(res?.data?.data?.total_page)
-        setLoader(false)
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
       })
       .catch((e) => {
-        setLoader(false)
-        console.log("apicall", e)
-      })
+        setLoader(false);
+        console.log("apicall", e);
+      });
   };
 
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    apicall(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    apicall(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    apicall(count);
+    setLoader(false);
   };
   const onsearch = () => {
     setLoader(true);
@@ -213,21 +210,28 @@ export const ManageUserScreen = () => {
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <>
-              <View style={pagination.endIndex > 7 ? Styles.listView80 : Styles.listView}>
-              <FlatList
-                ListHeaderComponent={HeaderComponet}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.id}
-                data={listData.sort((a, b) => a.name.localeCompare(b.name))}
-                renderItem={rendercomponent}
-              />
+              <View
+                style={
+                  pagination.endIndex > 7 ? Styles.listView80 : Styles.listView
+                }
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.id}
+                  data={listData.sort((a, b) => a.name.localeCompare(b.name))}
+                  renderItem={rendercomponent}
+                />
               </View>
             </>
           </ScrollView>
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={number == 1 ? true : false}
+        >
           {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -238,8 +242,11 @@ export const ManageUserScreen = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
+        <TouchableOpacity
+          onPress={onNext}
+          disabled={number == maximumNumber ? true : false}
+        >
+          {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -252,7 +259,9 @@ export const ManageUserScreen = () => {
       {permissionId.userCreate && (
         <View style={Styles.plusView}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("AddNewUsers", { btnStatus: "1" })}
+            onPress={() =>
+              navigation.navigate("AddNewUsers", { btnStatus: "1" })
+            }
           >
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>

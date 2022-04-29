@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import COLORS from "../../../../asset/color";
 import Fonts from "../../../../asset/Fonts";
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFValue } from "react-native-responsive-fontsize";
 import { STANDARD_SCREEN_SIZE } from "../../../../utils/constants";
 import { RfH, RfW } from "../../../../utils/helpers";
 
@@ -14,9 +14,9 @@ export default StyleSheet.create({
     paddingLeft: RfW(20),
     height: 70,
     width: "90%",
-    alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
   },
   mainView: {
     backgroundColor: "#fff",
@@ -36,14 +36,14 @@ export default StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontFamily: Fonts.semiBold,
-    fontSize: RFValue(16, STANDARD_SCREEN_SIZE)
+    fontSize: RFValue(16, STANDARD_SCREEN_SIZE),
   },
   buttonView: {
     alignItems: "flex-end",
   },
   listStyle: {
-    width: '90%',
-    alignSelf: 'center'
+    width: "90%",
+    alignSelf: "center",
   },
   changeText: {
     fontSize: 10,
@@ -56,7 +56,7 @@ export default StyleSheet.create({
     width: 90,
   },
   boxDefault: {
-    marginTop: '10%'
+    marginTop: "10%",
   },
   searchInputStyle: {
     borderRadius: 5,
@@ -66,40 +66,39 @@ export default StyleSheet.create({
     paddingLeft: RfW(20),
     marginBottom: RfH(20),
     alignItems: "center",
-    alignSelf: 'center',
+    alignSelf: "center",
     justifyContent: "center",
   },
   searchBox: {
-    flexDirection: 'row',
-    width: '90%',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
+    flexDirection: "row",
+    width: "90%",
+    justifyContent: "space-between",
+    alignSelf: "center",
   },
   searchButton: {
     width: 50,
     height: 50,
     borderRadius: 25,
     backgroundColor: COLORS.GreenBox,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorView: {
-    width: '100%',
-    alignContent: 'center'
+    width: "100%",
+    alignContent: "center",
   },
   errormessStyle: {
-    textAlign: 'center',
+    textAlign: "center",
     color: COLORS.red,
-    fontSize: 22
+    fontSize: 22,
   },
   lastView: {
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     width: "30%",
-    marginTop:10,
+    marginTop: 10,
     // position: "absolute",
     // bottom: 10,
     alignSelf: "center",
   },
-
 });

@@ -173,15 +173,13 @@ export const StockItems = () => {
     return <ListHeaderComman tableHeader={tableHeader} List="screen" />;
   };
 
- 
   const getCategoriesList = (count) => {
     axios
       .get(`${endUrl.stockCategoryList}?all==true`)
       .then((res) => {
         setDataList(res?.data?.data?.records);
       })
-      .catch((e) => {
-      });
+      .catch((e) => {});
   };
 
   const getStockList = (count) => {
@@ -259,135 +257,137 @@ export const StockItems = () => {
   ) : (
     <SafeAreaView style={style.mainView}>
       <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={style.container}>
-        <Dropdown
-          label={taskfor == "Edit" ? dropdata : constants.stockCategory}
-          data={dataList}
-          onSelect={setSelected}
-          task="name"
-          way={taskfor == "Edit" ? "Edit" : null}
-        />
-      </View>
-      <View>
-        {defaultState === true ? (
-          <View style={style.changeView}>
-            <Text style={style.changeText}>{constants.stockitems}</Text>
-          </View>
-        ) : null}
-        <View>
-          <TextInput
-            style={style.emailInputStyle}
-            placeholder={defaultState === true ? " " : constants.stockitems}
-            placeholderTextColor={COLORS.Black}
-            onFocus={() => setDefaultState(true)}
-            onBlur={() => setDefaultState(false)}
-            opacity={defaultState === true ? 1 : 0.5}
-            value={
-              editState === true ? defaultStockCategory : stockCategoryName
+        <View style={style.container}>
+          <Dropdown
+            label={
+              taskfor == constants.Edit ? dropdata : constants.stockCategory
             }
-            onChangeText={(value) =>
-              editState === true
-                ? setDefaultStockCategory(value)
-                : setStockCategoryName(value)
-            }
+            data={dataList}
+            onSelect={setSelected}
+            task="name"
+            way={taskfor == constants.Edit ? constants.Edit : null}
           />
         </View>
-      </View>
-      <TouchableOpacity
-        style={style.addStyling}
-        onPress={editState === true ? onUpdate : onAdd}
-      >
-        <LinearGradient
-          colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
-          start={{ x: 1, y: 1 }}
-          end={{ x: 0, y: 0 }}
-          style={style.addButton}
-        >
-          {permissionId.userCreate && (
-            <Text style={style.addText}>
-              {editState === true ? constants.update : constants.add}
-            </Text>
-          )}
-        </LinearGradient>
-      </TouchableOpacity>
-
-      <View style={style.boxDefault}>
-        {defaultState === true ? (
-          <View style={style.changeView}>
-            <Text style={style.changeText}>{constants.searchItem}</Text>
+        <View>
+          {defaultState === true ? (
+            <View style={style.changeView}>
+              <Text style={style.changeText}>{constants.stockitems}</Text>
+            </View>
+          ) : null}
+          <View>
+            <TextInput
+              style={style.emailInputStyle}
+              placeholder={defaultState === true ? " " : constants.stockitems}
+              placeholderTextColor={COLORS.Black}
+              onFocus={() => setDefaultState(true)}
+              onBlur={() => setDefaultState(false)}
+              opacity={defaultState === true ? 1 : 0.5}
+              value={
+                editState === true ? defaultStockCategory : stockCategoryName
+              }
+              onChangeText={(value) =>
+                editState === true
+                  ? setDefaultStockCategory(value)
+                  : setStockCategoryName(value)
+              }
+            />
           </View>
-        ) : null}
-        <View style={style.searchBox}>
-          <TextInput
-            style={style.searchInputStyle}
-            placeholder={defaultState === true ? " " : constants.searchItem}
-            placeholderTextColor={COLORS.Black}
-            onFocus={() => setDefaultState(true)}
-            onBlur={() => setDefaultState(false)}
-            opacity={defaultState === true ? 1 : 0.5}
-            value={searchtask}
-            onChangeText={(val) => setSearchTask(val)}
+        </View>
+        <TouchableOpacity
+          style={style.addStyling}
+          onPress={editState === true ? onUpdate : onAdd}
+        >
+          <LinearGradient
+            colors={[COLORS.LinearGreen1, COLORS.LinearGreen2]}
+            start={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 0 }}
+            style={style.addButton}
+          >
+            {permissionId.userCreate && (
+              <Text style={style.addText}>
+                {editState === true ? constants.update : constants.add}
+              </Text>
+            )}
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <View style={style.boxDefault}>
+          {defaultState === true ? (
+            <View style={style.changeView}>
+              <Text style={style.changeText}>{constants.searchItem}</Text>
+            </View>
+          ) : null}
+          <View style={style.searchBox}>
+            <TextInput
+              style={style.searchInputStyle}
+              placeholder={defaultState === true ? " " : constants.searchItem}
+              placeholderTextColor={COLORS.Black}
+              onFocus={() => setDefaultState(true)}
+              onBlur={() => setDefaultState(false)}
+              opacity={defaultState === true ? 1 : 0.5}
+              value={searchtask}
+              onChangeText={(val) => setSearchTask(val)}
+            />
+            <TouchableOpacity style={style.searchButton} onPress={onsearch}>
+              <Image source={Images.SearchIconWhite} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {errorMessage ? (
+          <View style={style.errorView}>
+            <Text style={style.errormessStyle}>{errorMessage}</Text>
+          </View>
+        ) : (
+          <FlatList
+            ListHeaderComponent={HeaderComponent}
+            style={style.listStyle}
+            data={categoryList.sort((a, b) =>
+              a.category_name.localeCompare(b.category_name)
+            )}
+            keyExtractor={(item) => item.id}
+            renderItem={renderComponent}
+            showsVerticalScrollIndicator={false}
           />
-          <TouchableOpacity style={style.searchButton} onPress={onsearch}>
-            <Image source={Images.SearchIconWhite} />
+        )}
+
+        <View style={style.lastView}>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={number == 1 ? true : false}
+          >
+            {number == 1 ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={number == maximumNumber ? true : false}
+          >
+            {number == maximumNumber ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
           </TouchableOpacity>
         </View>
-      </View>
-      {errorMessage ? (
-        <View style={style.errorView}>
-          <Text style={style.errormessStyle}>{errorMessage}</Text>
-        </View>
-      ) : (
-        <FlatList
-          ListHeaderComponent={HeaderComponent}
-          style={style.listStyle}
-          data={categoryList.sort((a, b) =>
-            a.category_name.localeCompare(b.category_name)
-          )}
-          keyExtractor={(item) => item.id}
-          renderItem={renderComponent}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
 
-      <View style={style.lastView}>
-        <TouchableOpacity
-          onPress={onPrevious}
-          disabled={number == 1 ? true : false}
-        >
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={onNext}
-          disabled={number == maximumNumber ? true : false}
-        >
-          {number == maximumNumber ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
-
-      {alert ? (
-        <AlertMessage
-          visible={alert}
-          setmodalVisible={(val) => setAlert(val)}
-          mainMessage={successMessage}
-        />
-      ) : null}
-       <View style={{ height: 70 }} />
+        {alert ? (
+          <AlertMessage
+            visible={alert}
+            setmodalVisible={(val) => setAlert(val)}
+            mainMessage={successMessage}
+          />
+        ) : null}
+        <View style={{ height: 70 }} />
       </ScrollView>
     </SafeAreaView>
   );

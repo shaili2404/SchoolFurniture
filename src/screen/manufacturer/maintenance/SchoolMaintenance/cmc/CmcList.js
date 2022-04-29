@@ -8,7 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Text
+  Text,
 } from "react-native";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -37,54 +37,51 @@ export const CMC = () => {
   const [erroralert, seterrorAlert] = useState(false);
   const [alert, setAlert] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const [maximumNumber,setmaximunNumber] = useState(0)
-  const [number,setNumber] = useState(1)
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
   });
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
-  const tableKey = [
-    "cmc_name",
-    "district_office",
-  ];
-  const tableHeader = [
-    constants.Cmc,
-    constants.District,
-    constants.manage,
-  ];
+  const tableKey = ["cmc_name", "district_office"];
+  const tableHeader = [constants.Cmc, constants.District, constants.manage];
 
   const addArray = [
     { key: "cmc_name", value: constants.Cmc },
-    { key:  "district_office", value: constants.District },
+    { key: "district_office", value: constants.District },
   ];
 
   useEffect(() => {
-    setLoader(true)
+    setLoader(true);
     apicall();
   }, [isFocused]);
 
   useEffect(() => {
-    setLoader(true)
+    setLoader(true);
     const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false, userEdit = false, userDlt = false;
+    let userCreate = false,
+      userEdit = false,
+      userDlt = false;
     arr.forEach((input) => {
       if (input.id === 10) {
-        userCreate = true
-      } if (input.id === 11) {
-        userEdit = true
-      } if (input.id === 12) {
-        userDlt = true
+        userCreate = true;
       }
-    })
+      if (input.id === 11) {
+        userEdit = true;
+      }
+      if (input.id === 12) {
+        userDlt = true;
+      }
+    });
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
+    });
   }, []);
 
   const rendercomponent = ({ item }) => {
@@ -98,7 +95,6 @@ export const CMC = () => {
         mainMessage={AlertText.deleteCMC}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
-        ListPage = 'cmc'
       />
     );
   };
@@ -106,8 +102,8 @@ export const CMC = () => {
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
-    setAdduserModal(true)
-  }
+    setAdduserModal(true);
+  };
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -122,84 +118,92 @@ export const CMC = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "" && key != "district_name") obj[key] = value;
-    })
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    const service = oper == "Add" ? axios.post(`${endUrl.CMC_List}`, obj) : axios.put(`${endUrl.CMC_List}/${updateItem.id}`, obj);
-    service.then((res) => {
-      setLoader(false);
-      setAlert(true);
-      apicall()
-    }).catch((e) => {
-      let { message, data, status } = e?.response?.data || {};
-      setLoader(false);
-      seterrorAlert(true)
-      {
-        let str = "";
-        status == 422 ?
-          Object.values(data).forEach((value) => {
-            str += `  ${value}`;
-            setErrMsg(str);
-          }) :
-          setErrMsg(message);
-      }
-    })
+      if (value != null && value != "" && key != "district_name")
+        obj[key] = value;
+    });
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+    const service =
+      oper == constants.add
+        ? axios.post(`${endUrl.CMC_List}`, obj)
+        : axios.put(`${endUrl.CMC_List}/${updateItem.id}`, obj);
+    service
+      .then((res) => {
+        setLoader(false);
+        setAlert(true);
+        apicall();
+      })
+      .catch((e) => {
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        seterrorAlert(true);
+        {
+          let str = "";
+          status == 422
+            ? Object.values(data).forEach((value) => {
+                str += `  ${value}`;
+                setErrMsg(str);
+              })
+            : setErrMsg(message);
+        }
+      });
   };
 
   const apicall = (count) => {
-    setLoader(true)
-    axios.get(`${endUrl.CMC_List}?page=${count? count : number}`).then((res) => {
-      setListData(res?.data?.data?.records);
-        setmaximunNumber(res?.data?.data?.total_page)
-        setLoader(false)
-    }).catch((e) =>
-      console.log('apicall', e)
-    )
+    setLoader(true);
+    axios
+      .get(`${endUrl.CMC_List}?page=${count ? count : number}`)
+      .then((res) => {
+        setListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
+      })
+      .catch((e) => console.log("apicall", e));
   };
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number+1)
-    apicall(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onPrevious = () => {
-    let count = number -1
-    setLoader(true)
-    setNumber(number-1)
-    apicall(count)
-        setLoader(false)
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    apicall(count);
+    setLoader(false);
   };
 
   const onsearch = () => {
-    setLoader(true)
-    axios.get(`${endUrl.CMC_search}${searchtask}`).then((res) => {
-      setListData(res?.data?.data);
-      setLoader(false)
-    }).catch((e) => {
-      {
-        let { message, data, status } = e?.response?.data || {};
+    setLoader(true);
+    axios
+      .get(`${endUrl.CMC_search}${searchtask}`)
+      .then((res) => {
+        setListData(res?.data?.data);
         setLoader(false);
+      })
+      .catch((e) => {
         {
-          let str = "";
-          status == 422 ?
-            Object.values(data).forEach((value) => {
-              str += `  ${value}`;
-              setErrorMessage(str);
-            }) :
-            setErrorMessage(message);
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
+          {
+            let str = "";
+            status == 422
+              ? Object.values(data).forEach((value) => {
+                  str += `  ${value}`;
+                  setErrorMessage(str);
+                })
+              : setErrorMessage(message);
+          }
         }
-      }
-    })
+      });
   };
 
   const onAddPress = (task) => {
     setOperation(task);
     setAdduserModal(true);
   };
-
-  
 
   useEffect(() => {
     if (listData) setLoader(false);
@@ -209,7 +213,7 @@ export const CMC = () => {
     if (searchtask == "") {
       apicall();
       setErrorMessage("");
-      setLoader(false)
+      setLoader(false);
     }
   }, [searchtask]);
 
@@ -237,7 +241,6 @@ export const CMC = () => {
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            
             <FlatList
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
@@ -249,7 +252,10 @@ export const CMC = () => {
         )}
       </View>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious} disabled={number == 1 ? true  : false}>
+        <TouchableOpacity
+          onPress={onPrevious}
+          disabled={number == 1 ? true : false}
+        >
           {number == 1 ? (
             <Image source={Images.leftarrow} />
           ) : (
@@ -260,8 +266,11 @@ export const CMC = () => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext} disabled={number == maximumNumber ?  true :false}  >
-          {number == maximumNumber? (
+        <TouchableOpacity
+          onPress={onNext}
+          disabled={number == maximumNumber ? true : false}
+        >
+          {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
               style={{ transform: [{ rotate: "180deg" }] }}
@@ -274,7 +283,7 @@ export const CMC = () => {
 
       {permissionId.userCreate && (
         <View style={Styles.plusView}>
-          <TouchableOpacity onPress={() => onAddPress("Add")}>
+          <TouchableOpacity onPress={() => onAddPress(constants.add)}>
             <Image source={Images.addCricleIcon} />
           </TouchableOpacity>
         </View>
@@ -289,17 +298,26 @@ export const CMC = () => {
           name={constants.Cmc}
           operation={operation}
           updateItem={updateItem}
-          buttonVal={operation === 'Add' ? constants.add : constants.update}
+          buttonVal={
+            operation === constants.add ? constants.add : constants.update
+          }
         />
       ) : null}
       {alert ? (
         <AlertMessage
           visible={alert}
           setmodalVisible={(val) => setAlert(val)}
-          mainMessage={operation == "Add" ? AlertText.AddedSuccessFully : AlertText.SchoolUpdate}
-          subMessage={operation == "Add" ? AlertText.CMCAddedSub : AlertText.Cmc}
+          mainMessage={
+            operation == constants.add
+              ? AlertText.AddedSuccessFully
+              : AlertText.SchoolUpdate
+          }
+          subMessage={
+            operation == constants.add ? AlertText.CMCAddedSub : AlertText.Cmc
+          }
           onConfirm={() => onPressYes()}
-        />) : null}
+        />
+      ) : null}
       {erroralert ? (
         <AlertMessage
           visible={erroralert}

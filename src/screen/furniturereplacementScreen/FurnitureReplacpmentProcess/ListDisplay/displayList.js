@@ -76,7 +76,7 @@ export const DisplayList = ({
     onsubmitDilverdetails(flatListData);
   }
   const onDelete = (item) => {
-    if (organization == "School") onDeleteFurItem(item);
+    if (organization == constants.school) onDeleteFurItem(item);
     else setAlert(true);
   };
 

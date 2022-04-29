@@ -29,7 +29,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-between',
     width: "30%",
-    marginTop:10,
+    marginTop: 10,
     // position: "absolute",
     // bottom: 130,
     alignSelf: "center",

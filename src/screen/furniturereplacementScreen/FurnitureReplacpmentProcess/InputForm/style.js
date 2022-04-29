@@ -1,16 +1,13 @@
 import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../../../../asset/color";
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 const style = StyleSheet.create({
-
   subContainer: {
-    width: '100%',
-    paddingHorizontal:40,
+    width: "100%",
+    paddingHorizontal: 40,
     position: "relative",
-    backgroundColor:COLORS.White,
-    alignSelf:'center'
+    backgroundColor: COLORS.White,
+    alignSelf: "center",
   },
   emailInputStyle: {
     borderRadius: 5,
@@ -26,11 +23,11 @@ const style = StyleSheet.create({
     width: "50%",
     height: 55,
     paddingLeft: 20,
-    marginBottom:10
+    marginBottom: 10,
   },
   changeText: {
-    opacity:0.5,
-    fontSize:12
+    opacity: 0.5,
+    fontSize: 12,
   },
   changeView: {
     position: "relative",
@@ -39,6 +36,5 @@ const style = StyleSheet.create({
     backgroundColor: COLORS.White,
     width: 400,
   },
-  
 });
 export default style;

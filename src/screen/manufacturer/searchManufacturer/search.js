@@ -22,7 +22,11 @@ import { DataDisplayList } from "../../../component/manufacturer/displayListComm
 import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import Loader from "../../../component/loader";
 import AlertText from "../../../Alert/AlertText";
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from "react-native-simple-radio-button";
 import DatePicker from "react-native-date-picker";
 
 const PAGESIZE = 10;
@@ -32,12 +36,11 @@ export const Search = () => {
   const loginData = useSelector((state) => state?.loginData);
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
-  const [radioParam, setRadioParam] = useState(
-      [
-          {label: 'Data Range', value: 0 },
-          {label: 'Reference Number', value: 1 }
-      ]);
-  const [searchValue, setSearchValue] =useState(0);
+  const [radioParam, setRadioParam] = useState([
+    { label: "Data Range", value: 0 },
+    { label: "Reference Number", value: 1 },
+  ]);
+  const [searchValue, setSearchValue] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endData, setEndDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -234,121 +237,122 @@ export const Search = () => {
     }
   }, [searchtask]);
 
-
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-    <View style={styles.radioView}>
-      <View>
-        <Text style={styles.selectSearchText}>{constants.selectSearchOption}</Text>
-        <View style={styles.line}></View>
-      </View>
-      <View style={styles.radioDate}>
-       <View style={styles.radView}>
-        <RadioForm
-          radio_props={radioParam}
-          initial={0}
-          formHorizontal={true}
-          buttonSize={10}
-          buttonColor={'#48A448'}
-          selectedButtonColor={'#359934'}
-          buttonWrapStyle={{paddingLeft: 50}}
-          radioStyle={{paddingRight: 40}}
-          labelStyle={{fontSize: 16, color: '#000000',}}
-          onPress={(value) => setSearchValue(value)}
-        />
-        </View>
-        { searchValue == 0 ?
-          // Search by Date Range
-          <View style={styles.viewInputStyle}>
-          <View style={styles.dropStyle}>
-            <Text style={styles.textStyle}>
-              {" "}
-              {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={styles.eyeStyle}
-            onPress={() => setOpen(true)}
-          >
-            <Image source={Images.Calendar} style={styles.imgStyle} />
-            <DatePicker
-              modal
-              open={open}
-              date={startDate}
-              mode="date"
-              onConfirm={(date) => {
-                setOpen(false);
-                setStartDate(date);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
-            />
-          </TouchableOpacity>
-          <View style={styles.dropStyle}>
-            <Text style={styles.textStyle}>
-              {" "}
-              {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={styles.eyeStylee}
-            onPress={() => setCLose(true)}
-          >
-            <Image source={Images.Calendar} style={styles.imgStylee} />
-            <DatePicker
-              modal
-              open={close}
-              date={endData}
-              mode="date"
-              onConfirm={(date) => {
-                setCLose(false);
-                setEndDate(date);
-              }}
-              onCancel={() => {
-                setCLose(false);
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        : 
+      <View style={styles.radioView}>
         <View>
-         {/* Search by reference number */}
-         <TextInput
-            style={styles.refrenceStyle}
-            placeholder={constants.referenceNumber}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={searchtask}
-            onChangeText={(val) => setSearchTask(val)}
-          />
-         </View>
-        }
-       
-        
-       
-  
-      </View>
-      <View style={styles.buttonView}>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-        //   onPress={editState === true ? onUpdate : onAdd}
-        >
-          <Text style={styles.buttonText}>{constants.search}</Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-      <ScrollView style={styles.radView} horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              data={listData.slice(pagination.startIndex, pagination.endIndex)}
-              renderItem={rendercomponent}
+          <Text style={styles.selectSearchText}>
+            {constants.selectSearchOption}
+          </Text>
+          <View style={styles.line}></View>
+        </View>
+        <View style={styles.radioDate}>
+          <View style={styles.radView}>
+            <RadioForm
+              radio_props={radioParam}
+              initial={0}
+              formHorizontal={true}
+              buttonSize={10}
+              buttonColor={"#48A448"}
+              selectedButtonColor={"#359934"}
+              buttonWrapStyle={{ paddingLeft: 50 }}
+              radioStyle={{ paddingRight: 40 }}
+              labelStyle={{ fontSize: 16, color: "#000000" }}
+              onPress={(value) => setSearchValue(value)}
             />
-          </ScrollView>
+          </View>
+          {searchValue == 0 ? (
+            // Search by Date Range
+            <View style={styles.viewInputStyle}>
+              <View style={styles.dropStyle}>
+                <Text style={styles.textStyle}>
+                  {" "}
+                  {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.eyeStyle}
+                onPress={() => setOpen(true)}
+              >
+                <Image source={Images.Calendar} style={styles.imgStyle} />
+                <DatePicker
+                  modal
+                  open={open}
+                  date={startDate}
+                  mode="date"
+                  onConfirm={(date) => {
+                    setOpen(false);
+                    setStartDate(date);
+                  }}
+                  onCancel={() => {
+                    setOpen(false);
+                  }}
+                />
+              </TouchableOpacity>
+              <View style={styles.dropStyle}>
+                <Text style={styles.textStyle}>
+                  {" "}
+                  {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.eyeStylee}
+                onPress={() => setCLose(true)}
+              >
+                <Image source={Images.Calendar} style={styles.imgStylee} />
+                <DatePicker
+                  modal
+                  open={close}
+                  date={endData}
+                  mode="date"
+                  onConfirm={(date) => {
+                    setCLose(false);
+                    setEndDate(date);
+                  }}
+                  onCancel={() => {
+                    setCLose(false);
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View>
+              {/* Search by reference number */}
+              <TextInput
+                style={styles.refrenceStyle}
+                placeholder={constants.referenceNumber}
+                placeholderTextColor={COLORS.Black}
+                opacity={0.5}
+                value={searchtask}
+                onChangeText={(val) => setSearchTask(val)}
+              />
+            </View>
+          )}
+        </View>
+        <View style={styles.buttonView}>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            //   onPress={editState === true ? onUpdate : onAdd}
+          >
+            <Text style={styles.buttonText}>{constants.search}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <ScrollView
+        style={styles.radView}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      >
+        <FlatList
+          ListHeaderComponent={HeaderComponet}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          data={listData.slice(pagination.startIndex, pagination.endIndex)}
+          renderItem={rendercomponent}
+        />
+      </ScrollView>
       <View style={Styles.lastView}>
         <TouchableOpacity onPress={onPrevious}>
           {pagination.currentPage === 1 ? (

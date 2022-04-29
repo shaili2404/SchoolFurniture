@@ -8,7 +8,7 @@ const style = StyleSheet.create({
     height: height,
     width: width,
     alignItems: "center",
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
   },
   subContainer: {
     width: "90%",
@@ -90,7 +90,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    bottom: '5%',
+    bottom: "5%",
     width: "100%",
   },
 });

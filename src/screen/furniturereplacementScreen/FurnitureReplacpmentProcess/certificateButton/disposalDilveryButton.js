@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -21,7 +21,7 @@ export const DisposalDIlveryButton = ({
   checkboxStatusreplanish,
   oncheckboxvalue,
   taskofPage,
-  checkoboxofDilveryitem
+  checkoboxofDilveryitem,
 }) => {
   const [checkBoxStatus1, setCheckBoxStatus1] = useState(false);
   const [checkBoxStatus2, setCheckBoxStatus2] = useState(false);
@@ -35,30 +35,36 @@ export const DisposalDIlveryButton = ({
     oncheckboxvalue(checkBoxStatus2);
   };
   useEffect(() => {
-    taskofPage  == constants.Status_pendingDilver ? setCheckBoxStatus1(true) : null
+    taskofPage == constants.Status_pendingDilver
+      ? setCheckBoxStatus1(true)
+      : null;
   }, []);
   return (
     <View style={{ backgroundColor: COLORS.White }}>
       <SafeAreaView style={style.mainView}>
         <View>
-
-        {checkoboxofDilveryitem?
-          <View style={style.bottonView}>
-            <TouchableOpacity onPress={() => ondilverycheckone()} disabled={taskofPage == constants.Status_pendingDilver?true:false}>
-              <View style={style.checkVIew} />
-              {checkBoxStatus1 ? (
-                <Image source={Images.rightIcon} style={style.rightTick} />
-              ) : (
-                false
-              )}
-            </TouchableOpacity>
-            <View>
-              <Text style={style.cecktext}>
-                {constants.Delivery_hasreadytoDilvered}
-              </Text>
+          {checkoboxofDilveryitem ? (
+            <View style={style.bottonView}>
+              <TouchableOpacity
+                onPress={() => ondilverycheckone()}
+                disabled={
+                  taskofPage == constants.Status_pendingDilver ? true : false
+                }
+              >
+                <View style={style.checkVIew} />
+                {checkBoxStatus1 ? (
+                  <Image source={Images.rightIcon} style={style.rightTick} />
+                ) : (
+                  false
+                )}
+              </TouchableOpacity>
+              <View>
+                <Text style={style.cecktext}>
+                  {constants.Delivery_hasreadytoDilvered}
+                </Text>
+              </View>
             </View>
-          </View>
-          : null}
+          ) : null}
           {printdilverystatus ? (
             <TouchableOpacity
               style={style.buttonCol}
@@ -77,7 +83,10 @@ export const DisposalDIlveryButton = ({
             false
           )}
           {uploadPrintDilveryStatus ? (
-            <TouchableOpacity style={style.buttonCol} onPress={() => uploadDilveryNote()}>
+            <TouchableOpacity
+              style={style.buttonCol}
+              onPress={() => uploadDilveryNote()}
+            >
               <View>
                 <Text style={style.textCOl}>
                   {constants.Delivery_signedCopy}
@@ -87,34 +96,34 @@ export const DisposalDIlveryButton = ({
           ) : (
             false
           )}
-          {checkboxStatusreplanish?
-          <View style={style.bottonView}>
-            <TouchableOpacity
-              onPress={() => onclickcheckbox()}
-            >
-              <View style={style.checkVIew} />
-              {checkBoxStatus2 ? (
-                <Image
-                  source={Images.rightIcon}
-                  style={{
-                    height: 15,
-                    width: 15,
-                    alignSelf: "center",
-                    position: "absolute",
-                    top: 4,
-                  }}
-                />
-              ) : (
-                false
-              )}
-            </TouchableOpacity>
-            <View>
-              <Text style={style.cecktext}>
-                {constants.Delivery_hasDelivered}
-              </Text>
+          {checkboxStatusreplanish ? (
+            <View style={style.bottonView}>
+              <TouchableOpacity onPress={() => onclickcheckbox()}>
+                <View style={style.checkVIew} />
+                {checkBoxStatus2 ? (
+                  <Image
+                    source={Images.rightIcon}
+                    style={{
+                      height: 15,
+                      width: 15,
+                      alignSelf: "center",
+                      position: "absolute",
+                      top: 4,
+                    }}
+                  />
+                ) : (
+                  false
+                )}
+              </TouchableOpacity>
+              <View>
+                <Text style={style.cecktext}>
+                  {constants.Delivery_hasDelivered}
+                </Text>
+              </View>
             </View>
-          </View>
-          : false}
+          ) : (
+            false
+          )}
         </View>
       </SafeAreaView>
     </View>

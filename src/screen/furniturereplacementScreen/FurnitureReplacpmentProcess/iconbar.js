@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./style";
-import { View, Text, Image,TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import Images from "../../../asset/images";
 import constants from "../../../locales/constants";
 
@@ -10,13 +10,12 @@ export const IconBar = ({
   repairIcon,
   dilverFurIcon,
   onTransactionListPress,
-
 }) => {
   return (
     <View style={styles.imagesView}>
       <View style={styles.partImageView}>
-        <TouchableOpacity onPress={()=>onTransactionListPress()}>
-        <Image source={Images.transactionlist} />
+        <TouchableOpacity onPress={() => onTransactionListPress()}>
+          <Image source={Images.transactionlist} />
         </TouchableOpacity>
         <View style={styles.labelView}>
           <Text style={styles.labelText}>{constants.TransactionList}</Text>
@@ -91,13 +90,19 @@ export const IconBar = ({
           )}
         </View>
         <View>
-          {dilverFurIcon == constants.inprogress ? (
+        {dilverFurIcon == constants.inprogress ? (
             <Image source={Images.dilveryIconInProgress} />
           ) : (
-            <Image source={Images.dilveryIcon} />
+            <>
+              {dilverFurIcon == constants.success ? (
+                <Image source={Images.dilverysuccess} />
+              ) : (
+                <Image source={Images.dilveryIcon} />
+              )}
+            </>
           )}
           <View style={styles.labelView}>
-          <Text style={styles.labelText}>{constants.DeliverFurItem}</Text>
+            <Text style={styles.labelText}>{constants.DeliverFurItem}</Text>
           </View>
         </View>
       </View>

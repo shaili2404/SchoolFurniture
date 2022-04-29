@@ -21,10 +21,8 @@ import COLORS from "../../../../asset/color";
 import Images from "../../../../asset/images";
 import AlertText from "../../../../Alert/AlertText";
 import { AlertMessage } from "../../../../Alert/alert";
+import constants from "../../../../locales/constants";
 
-
-// Current Data in List Per Page
-const PAGESIZE = 4;
 
 const StockCategory = () => {
   const [stockCategory, setStockCategory] = useState("");
@@ -96,7 +94,7 @@ const StockCategory = () => {
 
   // Edit Functionality
   const onEdit = (item, task) => {
-    if (task == "Edit") {
+    if (task == constants.Edit) {
       setEditState(true);
       setDefaultStockCategory(item.name);
       setUpdateItem(item);
