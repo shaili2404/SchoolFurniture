@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-import { SafeAreaView, TouchableOpacity, Text, View } from "react-native";
+import { SafeAreaView, TouchableOpacity, Text, View, ScrollView } from "react-native";
 import constants from "../../../../locales/constants";
 import style from "./style";
 import LinearGradient from "react-native-linear-gradient";
@@ -52,7 +52,9 @@ export const Schoolmaintenancescreen = () => {
     else if (task == constants.school) navigation.navigate("School");
   };
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={style.container}>
+      
       <View>
         {ButtonName.map((ele) => (
           <TouchableOpacity onPress={() => navigatetoPage(ele)}>
@@ -67,6 +69,8 @@ export const Schoolmaintenancescreen = () => {
           </TouchableOpacity>
         ))}
       </View>
+   
     </SafeAreaView>
+    </ScrollView>
   );
 };

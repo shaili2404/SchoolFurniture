@@ -246,6 +246,7 @@ export const SchoolList = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -355,5 +356,6 @@ export const SchoolList = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };

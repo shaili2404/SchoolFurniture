@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import COLORS from "../../../../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -36,7 +36,7 @@ export default StyleSheet.create({
   plusView: {
     width: "20%",
     position: "absolute",
-    bottom: 65,
+    bottom: Platform.OS === 'android'? 0 : 65,
     right: 10,
   },
   lastText: {

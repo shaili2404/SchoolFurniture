@@ -211,6 +211,7 @@ export const SchoolDistrictList = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -231,10 +232,11 @@ export const SchoolDistrictList = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
               keyExtractor={(item) => item.id}
               data={listData}
               renderItem={rendercomponent}
@@ -319,5 +321,6 @@ export const SchoolDistrictList = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };

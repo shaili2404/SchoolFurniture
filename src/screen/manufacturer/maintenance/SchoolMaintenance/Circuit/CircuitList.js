@@ -216,6 +216,7 @@ export const CircuitList = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -325,5 +326,6 @@ export const CircuitList = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };

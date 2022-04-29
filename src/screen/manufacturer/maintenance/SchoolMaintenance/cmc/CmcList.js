@@ -220,6 +220,7 @@ export const CMC = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -327,5 +328,6 @@ export const CMC = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };

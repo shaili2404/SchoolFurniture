@@ -222,6 +222,7 @@ export const SubPlacesList = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -331,5 +332,6 @@ export const SubPlacesList = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };
