@@ -208,6 +208,9 @@ export const SchoolList = () => {
   };
 
   const onsearch = () => {
+    if (searchtask == "") {
+      setErrorMessage(constants.enterSearchData);
+    } else {
     setLoader(true);
     axios
       .get(`${endUrl.searchSchool}${searchtask}`)
@@ -220,6 +223,7 @@ export const SchoolList = () => {
         setLoader(false);
         setErrorMessage(errorMsg);
       });
+    }
   };
 
   const onAddPress = (task) => {
@@ -246,6 +250,7 @@ export const SchoolList = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -277,7 +282,7 @@ export const SchoolList = () => {
           </ScrollView>
         )}
       </View>
-      <View style={Styles.lastView}>
+      <View style={errorMessage ? Styles.lastssView :Styles.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
           disabled={number == 1 ? true : false}
@@ -355,5 +360,6 @@ export const SchoolList = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };

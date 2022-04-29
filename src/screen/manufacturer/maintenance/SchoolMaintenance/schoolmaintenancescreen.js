@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-import { SafeAreaView, TouchableOpacity, Text, View } from "react-native";
+import { SafeAreaView, TouchableOpacity, Text, View, ScrollView } from "react-native";
 import constants from "../../../../locales/constants";
 import style from "./style";
 import LinearGradient from "react-native-linear-gradient";
@@ -36,23 +36,25 @@ export const Schoolmaintenancescreen = () => {
   }, []);
 
   const ButtonName = [
-    permissionId.districtList && constants.SchoolDistrict,
+    permissionId.districtList && constants.Sc_District,
     constants.Cmc,
     constants.Circuit,
-    constants.subplacesname,
+    constants.sub_places,
     permissionId.schoolList && constants.school,
   ];
 
   const navigatetoPage = (task) => {
-    if (task == constants.SchoolDistrict)
+    if (task == constants.Sc_District)
       navigation.navigate("School District");
     else if (task == constants.Circuit) navigation.navigate("Circuit");
     else if (task == constants.Cmc) navigation.navigate("Cmc");
-    else if (task == constants.subplacesname) navigation.navigate("SubPlace");
+    else if (task == constants.sub_places) navigation.navigate("Sub Places");
     else if (task == constants.school) navigation.navigate("School");
   };
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={style.container}>
+      
       <View>
         {ButtonName.map((ele) => (
           <TouchableOpacity onPress={() => navigatetoPage(ele)}>
@@ -67,6 +69,8 @@ export const Schoolmaintenancescreen = () => {
           </TouchableOpacity>
         ))}
       </View>
+   
     </SafeAreaView>
+    </ScrollView>
   );
 };

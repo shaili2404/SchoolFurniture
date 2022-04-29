@@ -168,6 +168,9 @@ export const CircuitList = () => {
   };
 
   const onsearch = () => {
+    if (searchtask == "") {
+      setErrorMessage(constants.enterSearchData);
+    } else {
     setLoader(true);
     axios
       .get(`${endUrl.CIRCUIT_search}${searchtask}`)
@@ -190,6 +193,7 @@ export const CircuitList = () => {
           }
         }
       });
+    }
   };
 
   const onAddPress = (task) => {
@@ -216,6 +220,7 @@ export const CircuitList = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -247,7 +252,7 @@ export const CircuitList = () => {
           </ScrollView>
         )}
       </View>
-      <View style={Styles.lastView}>
+      <View style={errorMessage ? Styles.lastssView :Styles.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
           disabled={number == 1 ? true : false}
@@ -325,5 +330,6 @@ export const CircuitList = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };

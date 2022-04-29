@@ -21,7 +21,7 @@ const NavigationRouteNames = {
     Third: "Third",
     CIRCUIT:"Circuit",
     CMC:"Cmc",
-    SUBPLACES:"SubPlace"
+    SUBPLACES:"Sub Places"
 
 };
 

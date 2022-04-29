@@ -157,7 +157,9 @@ const constants = {
   SNQ: "SNQ",
   SNQ_p :'P',
   SNQ_s :'S',
-  SNQ_c :'C'
+  SNQ_c :'C',
+  Sc_District: "School District",
+  sub_places:'Sub Places',
 
 
 

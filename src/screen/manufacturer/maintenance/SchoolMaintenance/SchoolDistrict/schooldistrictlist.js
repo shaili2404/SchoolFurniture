@@ -180,9 +180,19 @@ export const SchoolDistrictList = () => {
           setLoader(false);
         })
         .catch((e) => {
-          let errorMsg = e?.response?.data?.message;
-          setLoader(false);
-          setErrorMessage(errorMsg);
+          {
+            let { message, data, status } = e?.response?.data || {};
+            setLoader(false);
+            {
+              let str = "";
+              status == 422
+                ? Object.values(data).forEach((value) => {
+                    str += `  ${value}`;
+                    setErrorMessage(str);
+                  })
+                : setErrorMessage(message);
+            }
+          }
         });
     }
   };
@@ -211,6 +221,7 @@ export const SchoolDistrictList = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -231,10 +242,11 @@ export const SchoolDistrictList = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={true}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <FlatList
               ListHeaderComponent={HeaderComponet}
               showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
               keyExtractor={(item) => item.id}
               data={listData}
               renderItem={rendercomponent}
@@ -242,7 +254,7 @@ export const SchoolDistrictList = () => {
           </ScrollView>
         )}
       </View>
-      <View style={Styles.lastView}>
+      <View style={errorMessage ? Styles.lastssView : Styles.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
           disabled={number == 1 ? true : false}
@@ -319,5 +331,6 @@ export const SchoolDistrictList = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };

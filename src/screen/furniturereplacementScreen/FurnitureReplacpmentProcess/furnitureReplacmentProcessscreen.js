@@ -82,6 +82,7 @@ export const FurnitureReplacmentProcess = () => {
     useState(false);
   const [EmailreplanishCertificateStatus, setEmailreplanishcertificateStatus] =
     useState(false);
+    const [onetaskSection,setOnetasksection] = useState('')
   const [
     statusOFreplanishCertificateStatus,
     setStatusOFEmailreplanishcertificateStatus,
@@ -112,8 +113,13 @@ export const FurnitureReplacmentProcess = () => {
     replenishment_status,
   } = schooldetails?.organization == constants.school ? "" : route?.params;
 
+  schooldetails?.organization == constants.school
+  ? constants.createRequest
+  : constants.collectFurnitureRequest
+
   const onSchool = () => {
     setCreateRequestIcon(constants.inprogress);
+    setOnetasksection(constants.createRequest)
     setPermissionId({
       userCreate: true,
       userDelete: true,
@@ -129,6 +135,7 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onrequestList = () => {
     setCollectFurItem(constants.inprogress);
+    setOnetasksection(constants.collectFurnitureRequest)
     setTaskNameButtonValue(constants.Accept);
     setFlatListData(broken_items);
     setLoader(false);
@@ -136,6 +143,7 @@ export const FurnitureReplacmentProcess = () => {
   const onCollectionAccepted = () => {
     setCollectFurItem(constants.inprogress);
     setTaskNameButtonValue(constants.Accepted);
+    setOnetasksection(constants.collectFurnitureRequest)
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
@@ -145,6 +153,7 @@ export const FurnitureReplacmentProcess = () => {
   const onPendingRepair = () => {
     setCollectFurItem(constants.success);
     setRepairIcon(constants.inprogress);
+    setOnetasksection(constants.RepairReplnish)
     setTableHeader((oldData) => [
       ...oldData,
       constants.collectedcount,
@@ -169,6 +178,7 @@ export const FurnitureReplacmentProcess = () => {
   const onRepairCompleted = () => {
     setCollectFurItem(constants.success);
     setRepairIcon(constants.success);
+    setOnetasksection(constants.DeliverFurItem)
     setDilverFurIcon(constants.inprogress);
     setTableHeader((oldData) => [
       ...oldData,
@@ -193,6 +203,7 @@ export const FurnitureReplacmentProcess = () => {
   const onpendingDeliver = () => {
     setCollectFurItem(constants.success);
     setRepairIcon(constants.success);
+    setOnetasksection(constants.Delivery_signedCopy)
     setDilverFurIcon(constants.inprogress);
     setTableHeader((oldData) => [
       ...oldData,
@@ -218,6 +229,7 @@ export const FurnitureReplacmentProcess = () => {
   const ondeliverydone = () => {
     setCreateRequestIcon(constants.success);
     setCollectFurItem(constants.success);
+    setOnetasksection(constants.DeliverFurItem)
     setRepairIcon(constants.success);
     setDilverFurIcon(constants.success);
     setTableHeader((oldData) => [
@@ -835,11 +847,7 @@ export const FurnitureReplacmentProcess = () => {
             onTransactionListPress={() => onTransactionList()}
           />
           <TaskSection
-            taskName={
-              schooldetails?.organization == constants.school
-                ? constants.createRequest
-                : constants.collectFurnitureRequest
-            }
+            taskName={onetaskSection}
             taskNameButoonValue={taskNameButoonValue}
             acceptRequest={() => acceptRequestList()}
           />

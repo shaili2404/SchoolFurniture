@@ -176,6 +176,9 @@ export const CMC = () => {
   };
 
   const onsearch = () => {
+    if (searchtask == "") {
+      setErrorMessage(constants.enterSearchData);
+    } else {
     setLoader(true);
     axios
       .get(`${endUrl.CMC_search}${searchtask}`)
@@ -198,6 +201,7 @@ export const CMC = () => {
           }
         }
       });
+    }
   };
 
   const onAddPress = (task) => {
@@ -220,6 +224,7 @@ export const CMC = () => {
   return loader ? (
     <Loader />
   ) : (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View>
@@ -251,7 +256,7 @@ export const CMC = () => {
           </ScrollView>
         )}
       </View>
-      <View style={Styles.lastView}>
+      <View style={errorMessage ? Styles.lastssView :Styles.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
           disabled={number == 1 ? true : false}
@@ -327,5 +332,6 @@ export const CMC = () => {
         />
       ) : null}
     </SafeAreaView>
+    </ScrollView>
   );
 };
