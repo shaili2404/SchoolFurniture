@@ -4,7 +4,7 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default StyleSheet.create({
   mainMessage: {
-    fontSize: 22,
+    fontSize: 18,
     color: COLORS.Black,
     fontWeight: "bold",
     textAlign: "center",

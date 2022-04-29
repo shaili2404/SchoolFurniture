@@ -160,7 +160,9 @@ const constants = {
   SNQ_c :'C',
   Sc_District: "School District",
   sub_places:'Sub Places',
-
+  Filter:'Filters',
+  Reports:'Reports',
+  selReports:'Select Reports'
 
 
 
