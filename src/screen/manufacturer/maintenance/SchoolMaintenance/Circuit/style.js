@@ -30,8 +30,15 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     width: "30%",
     marginTop: 10,
-    // position: "absolute",
-    // bottom: 130,
+    alignSelf: "center",
+  },
+  lastssView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "30%",
+    marginTop: 10,
+    position: "absolute",
+    bottom: 130,
     alignSelf: "center",
   },
   plusView: {

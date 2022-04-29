@@ -177,6 +177,9 @@ export const SubPlacesList = () => {
   };
 
   const onsearch = () => {
+    if (searchtask == "") {
+      setErrorMessage(constants.enterSearchData);
+    } else {
     setLoader(true);
     axios
       .get(`${endUrl.SubPlaces_search}${searchtask}`)
@@ -199,6 +202,7 @@ export const SubPlacesList = () => {
           }
         }
       });
+    }
   };
 
   const onAddPress = (task) => {
@@ -254,7 +258,7 @@ export const SubPlacesList = () => {
           </ScrollView>
         )}
       </View>
-      <View style={Styles.lastView}>
+      <View style={errorMessage ? Styles.lastssView :Styles.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
           disabled={number == 1 ? true : false}

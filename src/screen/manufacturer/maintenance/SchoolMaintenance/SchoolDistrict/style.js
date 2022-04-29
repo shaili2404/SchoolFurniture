@@ -24,13 +24,20 @@ export default StyleSheet.create({
     backgroundColor: COLORS.LightGreen,
     flex: 1,
   },
+  lastssView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "30%",
+    marginTop: 10,
+    position: "absolute",
+    bottom: 130,
+    alignSelf: "center",
+  },
   lastView: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "30%",
     marginTop: 10,
-    // position: "absolute",
-    // bottom: 130,
     alignSelf: "center",
   },
   plusView: {

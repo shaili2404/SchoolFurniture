@@ -36,19 +36,19 @@ export const Schoolmaintenancescreen = () => {
   }, []);
 
   const ButtonName = [
-    permissionId.districtList && constants.SchoolDistrict,
+    permissionId.districtList && constants.Sc_District,
     constants.Cmc,
     constants.Circuit,
-    constants.subplacesname,
+    constants.sub_places,
     permissionId.schoolList && constants.school,
   ];
 
   const navigatetoPage = (task) => {
-    if (task == constants.SchoolDistrict)
+    if (task == constants.Sc_District)
       navigation.navigate("School District");
     else if (task == constants.Circuit) navigation.navigate("Circuit");
     else if (task == constants.Cmc) navigation.navigate("Cmc");
-    else if (task == constants.subplacesname) navigation.navigate("SubPlace");
+    else if (task == constants.sub_places) navigation.navigate("Sub Places");
     else if (task == constants.school) navigation.navigate("School");
   };
   return (

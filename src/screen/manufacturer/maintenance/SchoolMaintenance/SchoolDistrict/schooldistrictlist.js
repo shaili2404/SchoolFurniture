@@ -180,9 +180,19 @@ export const SchoolDistrictList = () => {
           setLoader(false);
         })
         .catch((e) => {
-          let errorMsg = e?.response?.data?.message;
-          setLoader(false);
-          setErrorMessage(errorMsg);
+          {
+            let { message, data, status } = e?.response?.data || {};
+            setLoader(false);
+            {
+              let str = "";
+              status == 422
+                ? Object.values(data).forEach((value) => {
+                    str += `  ${value}`;
+                    setErrorMessage(str);
+                  })
+                : setErrorMessage(message);
+            }
+          }
         });
     }
   };
@@ -244,7 +254,7 @@ export const SchoolDistrictList = () => {
           </ScrollView>
         )}
       </View>
-      <View style={Styles.lastView}>
+      <View style={errorMessage ? Styles.lastssView : Styles.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
           disabled={number == 1 ? true : false}

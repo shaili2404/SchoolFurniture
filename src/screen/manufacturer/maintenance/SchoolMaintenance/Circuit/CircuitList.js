@@ -168,6 +168,9 @@ export const CircuitList = () => {
   };
 
   const onsearch = () => {
+    if (searchtask == "") {
+      setErrorMessage(constants.enterSearchData);
+    } else {
     setLoader(true);
     axios
       .get(`${endUrl.CIRCUIT_search}${searchtask}`)
@@ -190,6 +193,7 @@ export const CircuitList = () => {
           }
         }
       });
+    }
   };
 
   const onAddPress = (task) => {
@@ -248,7 +252,7 @@ export const CircuitList = () => {
           </ScrollView>
         )}
       </View>
-      <View style={Styles.lastView}>
+      <View style={errorMessage ? Styles.lastssView :Styles.lastView}>
         <TouchableOpacity
           onPress={onPrevious}
           disabled={number == 1 ? true : false}
