@@ -35,6 +35,7 @@ const AddNewUsers = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { btnStatus, Item } = route.params;
+  
 
   const tableKey = ["name", "emis"];
   const tableHeader = [constants.school, constants.emis];
