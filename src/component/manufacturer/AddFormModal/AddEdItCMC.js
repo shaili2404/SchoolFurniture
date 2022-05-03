@@ -68,7 +68,7 @@ export const AddEditCMC = (props) => {
           : setDisable(false);
       }
        else {
-        !validation(inputValues.cmc_name) 
+        !validation(inputValues.cmc_name) ||
         !validation(selected?.id)
         
           ? setDisable(true)

@@ -162,7 +162,8 @@ const constants = {
   sub_places:'Sub Places',
   Filter:'Filters',
   Reports:'Reports',
-  selReports:'Select Reports'
+  selReports:'Select Reports',
+  replanishment_status:'Replanishment Status'
 
 
 

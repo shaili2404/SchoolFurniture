@@ -229,8 +229,9 @@ export const Reports = () => {
   return loader ? (
     <Loader />
   ) : (
-    <ScrollView showsHorizontalScrollIndicator={false}>
+   
       <SafeAreaView style={Styles.mainView}>
+         <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
         <View>
          <View style={Styles.changeView}>
                 <Text style={Styles.changeText}>{constants.selReports}</Text>
@@ -278,7 +279,7 @@ export const Reports = () => {
           </View>
           <View style={Styles.container}>
             <Dropdown
-              label={constants.FurnitureCat}
+              label={constants.replanishment_status}
               data={dropData}
               onSelect={setSelect}
               task="name"
@@ -324,7 +325,7 @@ export const Reports = () => {
               </Text>
             </View>
             <TouchableOpacity
-              style={Styles.eyeStyle}
+              style={Styles.eyeStyles}
               onPress={() => setCLose(true)}
             >
               <Image source={Images.Calender} style={Styles.imgStyle} />
@@ -343,6 +344,14 @@ export const Reports = () => {
                 }}
               />
             </TouchableOpacity>
+          </View>
+          <View style={Styles.containerfurcat}>
+            <Dropdown
+              label={constants.FurnitureCat}
+              data={dropData}
+              onSelect={setSelect}
+              task="name"
+            />
           </View>
           {dateErrorMessage ? (
             <View style={Styles.dateerrorView}>
@@ -376,7 +385,7 @@ export const Reports = () => {
             </TouchableOpacity>
           </View>
         ) : null}
-        <View style={maximumNumber == 1 ? Styles.lastViews : Styles.lastView}>
+        <View style={Styles.lastView}>
           <TouchableOpacity
             onPress={onPrevious}
             disabled={number == 1 ? true : false}
@@ -406,7 +415,8 @@ export const Reports = () => {
           </TouchableOpacity>
         </View>
         <View style={{ height: 70 }} />
+        </ScrollView>
       </SafeAreaView>
-    </ScrollView>
+ 
   );
 };

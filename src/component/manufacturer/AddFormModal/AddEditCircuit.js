@@ -62,13 +62,14 @@ export const AddEditCircuit = (props) => {
   };
 
   useEffect(() => {
+    console.log(inputValues)
     if (operation == constants.Edit){ 
       !validation(inputValues.circuit_name) 
         ? setDisable(true)
         : setDisable(false);
     }
      else {
-      !validation(inputValues.circuit_name) 
+      !validation(inputValues.circuit_name) ||
       !validation(selected?.id)
       
         ? setDisable(true)

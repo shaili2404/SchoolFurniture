@@ -54,7 +54,7 @@ const USER_ROLE = {
         name: 'Reports',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
-        screenName: NavigationRouteNames.FIRST
+        screenName: NavigationRouteNames.REPORTS
       },
       {
         name: 'Manage Users',

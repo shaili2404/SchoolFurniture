@@ -68,7 +68,7 @@ export const AddEditSubplaces = (props) => {
         : setDisable(false);
     }
      else {
-      !validation(inputValues.subplace_name) 
+      !validation(inputValues.subplace_name) ||
       !validation(selected?.id)
       
         ? setDisable(true)
