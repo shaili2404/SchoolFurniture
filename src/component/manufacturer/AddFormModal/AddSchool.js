@@ -23,6 +23,7 @@ import {
   streetCode,
 } from "../../../locales/regexp";
 import constants from "../../../locales/constants";
+import DropdownCR from "../../DropDown/dropDOwnCR";
 
 export const AddSchool = (props) => {
   const {
@@ -54,25 +55,25 @@ export const AddSchool = (props) => {
   const [emis_validateer, setemis_validateer] = useState(false);
 
   const setValue = (key, value) => {
-    console.log(key,value)
+    console.log(key, value);
     setInputValues((prevState) => {
       return {
         ...prevState,
         [key]: value,
       };
     });
-    if(key == 'tel')
-    !numberStartWithZero.test(value)
-      ? setTel_validate(true)
-      : setTel_validate(false);
-      else if(key == 'street_code')
-    !streetCode.test(value)
-      ? setStreetCode_validate(true)
-      : setStreetCode_validate(false);
-     else if(key == 'emis')
-    !emisNumber.test(value)
-    ? setemis_validateer(true)
-    : setemis_validateer(false);
+    if (key == "tel")
+      !numberStartWithZero.test(value)
+        ? setTel_validate(true)
+        : setTel_validate(false);
+    else if (key == "street_code")
+      !streetCode.test(value)
+        ? setStreetCode_validate(true)
+        : setStreetCode_validate(false);
+    else if (key == "emis")
+      !emisNumber.test(value)
+        ? setemis_validateer(true)
+        : setemis_validateer(false);
   };
 
   const getDistrictList = async () => {
@@ -152,7 +153,7 @@ export const AddSchool = (props) => {
       !validation(circuit_selected?.id) ||
       !validation(subplaces_selected?.id) ||
       !validation(level_selected?.id) ||
-      !validation(snq_selected?.id) 
+      !validation(snq_selected?.id)
         ? setDisable(true)
         : setDisable(false);
     }
@@ -369,14 +370,27 @@ export const AddSchool = (props) => {
                       input.value == constants.subplacesname ? (
                         <>
                           <View style={style.container}>
-                            <Dropdown
-                              label={getnameadd(input.value, input.key)}
-                              data={getList(input.value)}
-                              onSelect={(item) =>
-                                onDropdownselect(input.value, item)
-                              }
-                              task={getTask(input.value)}
-                            />
+                            {input.value == constants.District ? (
+                              <DropdownCR
+                                label={getnameadd(input.value, input.key)}
+                                data={getList(input.value)}
+                                onSelect={(item) =>
+                                  onDropdownselect(input.value, item)
+                                }
+                                task={getTask(input.value)}
+                                urlval={endUrl.districtSearch}
+                                searchboxname={constants.District}
+                              />
+                            ) : (
+                              <Dropdown
+                                label={getnameadd(input.value, input.key)}
+                                data={getList(input.value)}
+                                onSelect={(item) =>
+                                  onDropdownselect(input.value, item)
+                                }
+                                task={getTask(input.value)}
+                              />
+                            )}
                           </View>
                         </>
                       ) : (
@@ -407,9 +421,7 @@ export const AddSchool = (props) => {
                           ) : null}
                           {input.value == constants.schoolEmisNumber ? (
                             <Text style={style.errorcol}>
-                              {emis_validateer
-                                ? constants.Emis_val
-                                : null}
+                              {emis_validateer ? constants.Emis_val : null}
                             </Text>
                           ) : null}
                         </>

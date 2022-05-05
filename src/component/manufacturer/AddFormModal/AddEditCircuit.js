@@ -19,6 +19,7 @@ import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { emisNumber } from "../../../locales/regexp";
 import constants from "../../../locales/constants";
+import DropdownCR from "../../DropDown/dropDOwnCR";
 
 export const AddEditCircuit = (props) => {
   const {
@@ -62,7 +63,6 @@ export const AddEditCircuit = (props) => {
   };
 
   useEffect(() => {
-    console.log(inputValues)
     if (operation == constants.Edit){ 
       !validation(inputValues.circuit_name) 
         ? setDisable(true)
@@ -150,7 +150,7 @@ export const AddEditCircuit = (props) => {
                       {input.value == constants.Cmc ? (
                         <>
                           <View style={style.container}>
-                            <Dropdown
+                            <DropdownCR
                               label={
                                 operation === constants.Edit
                                   ? inputValues[input.key]
@@ -159,6 +159,8 @@ export const AddEditCircuit = (props) => {
                               data={distList}
                               onSelect={setSelected}
                               task="cmc_name"
+                              urlval={endUrl.CMC_search}
+                              searchboxname={constants.Cmc}
                             />
                           </View>
                         </>

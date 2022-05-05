@@ -23,7 +23,8 @@ const DropdownCR = ({
   way,
   identify,
   selectedItem,
-  urlval
+  urlval,
+  searchboxname
   
 }) => {
   const DropdownButton = useRef();
@@ -129,7 +130,7 @@ const DropdownCR = ({
               }}
             >
               <TextInput
-                placeholder={constants.District}
+                placeholder={searchboxname}
                 style={styles.inputTextStyle}
                 maxLength={50}
                 value={searchTask}

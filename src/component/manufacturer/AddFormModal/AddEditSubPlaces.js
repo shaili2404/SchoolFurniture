@@ -19,6 +19,7 @@ import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { emisNumber } from "../../../locales/regexp";
 import constants from "../../../locales/constants";
+import DropdownCR from "../../DropDown/dropDOwnCR";
 
 export const AddEditSubplaces = (props) => {
   const {
@@ -151,7 +152,7 @@ export const AddEditSubplaces = (props) => {
                       {input.value == constants.Circuit ? (
                         <>
                           <View style={style.container}>
-                            <Dropdown
+                            <DropdownCR
                               label={
                                 operation === constants.Edit
                                   ? inputValues[input.key]
@@ -160,6 +161,8 @@ export const AddEditSubplaces = (props) => {
                               data={distList}
                               onSelect={setSelected}
                               task="circuit_name"
+                              urlval={endUrl.CIRCUIT_search}
+                              searchboxname={constants.Circuit}
                             />
                           </View>
                         </>

@@ -159,6 +159,7 @@ export const AddEditCMC = (props) => {
                               onSelect={setSelected}
                               task="district_office"
                               urlval={endUrl.districtSearch}
+                              searchboxname={constants.District}
                             />
                           </View>
                         </>
