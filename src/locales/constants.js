@@ -163,7 +163,10 @@ const constants = {
   Filter:'Filters',
   Reports:'Reports',
   selReports:'Select Reports',
-  replanishment_status:'Replanishment Status'
+  replanishment_status:'Replanishment Status',
+  streetcode_val:'Street code must be of 4 digit',
+  telPhone_val:"Telephone.no  must be of 10 digit Start With 0 ",
+  Emis_val:'Emis must be of 9 digit'
 
 
 
