@@ -27,11 +27,16 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button";
+import {
+  useNavigation,
+} from "@react-navigation/native";
 import DatePicker from "react-native-date-picker";
+import { DisplayList } from "../../furniturereplacementScreen/FurnitureReplacpmentProcess/ListDisplay/displayList";
 
 const PAGESIZE = 10;
 
 export const Search = () => {
+  const navigation = useNavigation();
   const [listData, setListData] = useState([]);
   const loginData = useSelector((state) => state?.loginData);
   const [loader, setLoader] = useState(true);
@@ -41,10 +46,15 @@ export const Search = () => {
     { label: "Reference Number", value: 1 },
   ]);
   const [searchValue, setSearchValue] = useState(0);
+  const organization = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
   const [startDate, setStartDate] = useState(new Date());
   const [endData, setEndDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [close, setCLose] = useState(false);
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [status, setStatus] = useState(false);
   const [pagination, setPagination] = useState({
     currentPage: 0,
@@ -61,38 +71,36 @@ export const Search = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [permissionArr, setpermissionArr] = useState([]);
 
-  const tableKey = [
-    "district_office",
-    "director",
-    "tel",
-    "address1",
-    "address2",
-    "address3",
-    "address4",
-    "street_code",
-  ];
+  const tableHeader =
+    organization == constants.school
+      ? [
+          constants.dateCreated,
+          constants.refrenceNo,
+          constants.status,
+          constants.emisNumber,
+          constants.totalFurnitureCount,
+        ]
+      : [
+          constants.schoolName,
+          constants.dateCreated,
+          constants.refrenceNo,
+          constants.status,
+          constants.emis,
+          constants.totalFurnitureCount,
+        ];
+  const tableKey =
+    organization == constants.school
+      ? ["created_at", "ref_number", "status", "emis", "total_furniture"]
+      : [
+          "school_name",
+          "created_at",
+          "ref_number",
+          "status",
+          "emis",
+          "total_furniture",
+        ];
 
-  const tableHeader = [
-    constants.School,
-    constants.emisNumber,
-    constants.refrenceNumber,
-    constants.dateCreated,
-    constants.FurnitureCat,
-    constants.ItemCount,
-    constants.status,
-  ];
-
-  const addArray = [
-    { key: "district_office", value: constants.DistrictOffice },
-    { key: "director", value: constants.Director },
-    { key: "tel", value: constants.TelphoneNo },
-    { key: "address1", value: constants.Address1 },
-    { key: "address2", value: constants.Address2 },
-    { key: "address3", value: constants.Address3 },
-    { key: "address4", value: constants.Address4 },
-    { key: "street_code", value: constants.streetCode },
-  ];
-
+ 
   useEffect(() => {
     setpermissionArr(loginData?.user?.data?.data?.permissions);
     let userList = false,
@@ -125,7 +133,12 @@ export const Search = () => {
 
   const rendercomponent = ({ item }) => {
     return (
-      <DataDisplayList
+      <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("FurnitureReplacmentProcess", item)
+      }
+    >
+      <DisplayList
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
@@ -135,6 +148,7 @@ export const Search = () => {
         permissionId={permissionId}
         data={"0"}
       />
+      </TouchableOpacity>
     );
   };
 
@@ -145,82 +159,60 @@ export const Search = () => {
   const reloadList = () => {
     apicall();
   };
-
-  const apicall = async () => {
-    setLoader(true);
-    axios
-      .get(endUrl.userList)
-      .then((res) => {
-        initialPagination(res?.data?.data);
-        setListData(res?.data?.data);
-        setLoader(false);
-      })
-      .catch((e) => setLoader(false));
+  const onsuccessapi = (res) => {
+    setListData(res?.data?.data?.records);
+    setmaximunNumber(res?.data?.data?.total_page);
+    setLoader(false);
   };
 
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
+  const apicall = (count) => {
+    setLoader(true);
+    axios
+      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
+      .then((res) => onsuccessapi(res))
+      .catch((e) => onerrorapi(e));
   };
 
   const onNext = () => {
+    let count = number + 1;
     setLoader(true);
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > listData.length
-            ? listData.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    setNumber(number + 1);
+    apicall(count);
     setLoader(false);
   };
 
   const onPrevious = () => {
+    let count = number - 1;
     setLoader(true);
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
+    setNumber(number - 1);
+    apicall(count);
     setLoader(false);
   };
 
-  const onsearch = async () => {
+
+  const onsearchbyDate = () => {
+    let strtDte = `${startDate?.getFullYear()}-${
+      startDate?.getMonth() + 1
+    }-${startDate?.getDate()}`;
+    let endDte = `${endData?.getFullYear()}-${
+      endData?.getMonth() + 1
+    }-${endData.getDate()}`;
+    let str = "";
+    if (startDateStatus == false) str += `start_date=${strtDte}&`;
+    if (enddateStatus == false) str += `end_date=${endDte}&`;
     setLoader(true);
+    axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
-      .get(`${endUrl.districtSearch}${searchtask}`)
+      .get(`${endUrl.searchfurRequest}?${str}`)
       .then((res) => {
         setListData(res?.data?.data);
         setLoader(false);
       })
       .catch((e) => {
-        let errorMsg = e?.response?.data?.message;
-        setLoader(false);
-        setErrorMessage(errorMsg);
+        onerrorapi(e);
+        setErrorMessage(e?.response?.data?.message);
       });
   };
-
   useEffect(() => {
     apicall();
   }, []);
@@ -334,7 +326,7 @@ export const Search = () => {
         <View style={styles.buttonView}>
           <TouchableOpacity
             style={styles.buttonStyle}
-            //   onPress={editState === true ? onUpdate : onAdd}
+              onPress={searchValue == 0 ? onsearchbyDate : onsearchbyref}
           >
             <Text style={styles.buttonText}>{constants.search}</Text>
           </TouchableOpacity>
@@ -349,33 +341,40 @@ export const Search = () => {
           ListHeaderComponent={HeaderComponet}
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          data={listData.slice(pagination.startIndex, pagination.endIndex)}
+          data={listData}
           renderItem={rendercomponent}
         />
       </ScrollView>
       <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
-          {pagination.currentPage === 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={number == 1 ? true : false}
+          >
+            {number == 1 ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={onNext}>
-          {pagination.currentPage === pagination.totalPage ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={number == maximumNumber ? true : false}
+          >
+            {number == maximumNumber ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={{ height: 70 }} />
     </SafeAreaView>
   );
 };

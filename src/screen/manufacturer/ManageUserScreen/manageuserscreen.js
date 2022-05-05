@@ -21,7 +21,7 @@ import { DataDisplayList } from "../../../component/manufacturer/displayListComm
 import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import { AddUserModal } from "../../../component/manufacturer/AddFormModal/AddFormModal";
 import Loader from "../../../component/loader";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AlertText from "../../../Alert/AlertText";
 
 const PAGESIZE = 10;
@@ -42,6 +42,7 @@ export const ManageUserScreen = () => {
     startIndex: 0,
     endIndex: 0,
   });
+  const isFocused = useIsFocused()
   const [permissionId, setPermissionId] = useState({
     userList: false,
     userCreate: false,
@@ -181,7 +182,7 @@ export const ManageUserScreen = () => {
 
   useEffect(() => {
     apicall();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (listData) setLoader(false);

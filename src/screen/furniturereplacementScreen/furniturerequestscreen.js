@@ -199,14 +199,7 @@ export const FurnitureReplacmentManfacturer = () => {
         ];
   const rendercomponent = ({ item }) => {
     return (
-      <>
-        {organization == constants.school ? (
-          <DataDisplayList
-            tableKey={tableKey}
-            item={item}
-            permissionId={permissionId}
-          />
-        ) : (
+   
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("FurnitureReplacmentProcess", item)
@@ -217,9 +210,7 @@ export const FurnitureReplacmentManfacturer = () => {
               item={item}
               permissionId={permissionId}
             />
-          </TouchableOpacity>
-        )}
-      </>
+      </TouchableOpacity>
     );
   };
   const HeaderComponet = () => {
@@ -229,8 +220,9 @@ export const FurnitureReplacmentManfacturer = () => {
   return loader ? (
     <Loader />
   ) : (
-    <ScrollView showsHorizontalScrollIndicator={false}>
+   
       <SafeAreaView style={Styles.mainView}>
+         <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={Styles.halfView}>
           <View style={Styles.searchButtonView}>
             <Text style={Styles.transactionText}>
@@ -393,7 +385,8 @@ export const FurnitureReplacmentManfacturer = () => {
           </TouchableOpacity>
         </View>
         <View style={{ height: 70 }} />
+        </ScrollView>
       </SafeAreaView>
-    </ScrollView>
+   
   );
 };

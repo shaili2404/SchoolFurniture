@@ -17,7 +17,7 @@ import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { emisNumber } from "../../../locales/regexp";
+import { emisNumber, numberStartWithZero } from "../../../locales/regexp";
 import constants from "../../../locales/constants";
 
 export const AddSchool = (props) => {
@@ -132,7 +132,8 @@ export const AddSchool = (props) => {
       !validation(circuit_selected?.id) ||
       !validation(subplaces_selected?.id) ||
       !validation(level_selected?.id) ||
-      !validation(snq_selected?.id)
+      !validation(snq_selected?.id)||
+      !numberStartWithZero.test(inputValues.tel) 
         ? setDisable(true)
         : setDisable(false);
     }
