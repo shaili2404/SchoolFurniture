@@ -49,4 +49,4 @@ const endUrl = {
     reports_ReplanishmentReports:"user/reports/replenishment-report",
     
 }
-export default endUrl;
+export default endUrl; 
