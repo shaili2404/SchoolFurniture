@@ -74,11 +74,9 @@ export const Search = () => {
     "emis",
     "ref_number",
     "created_at",
-    "category_name",
+    "broken_items",
     "total_broken_items",
     "status",
-    // "broken_items",[
-    //   "category_name"]
   ];
 
   const tableHeader = [
@@ -153,21 +151,6 @@ export const Search = () => {
     );
   };
 
-  // const rendercomponent = ({ item }) => {
-  //   return (
-  //     <DataDisplayList
-  //       item={item}
-  //       tableKey={tableKey}
-  //       reloadList={() => reloadList()}
-  //       link={endUrl.schoolDistList}
-  //       mainMessage={AlertText.deletedistrict}
-  //       submessage={AlertText.UndoMessgae}
-  //       permissionId={permissionId}
-  //       data={"0"}
-  //     />
-  //   );
-  // };
-
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
@@ -188,61 +171,7 @@ export const Search = () => {
       .catch((e) => setLoader(false));
   };
 
-  // const apicall = (count) => {
-  //   setLoader(true);
-  //   axios
-  //     .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
-  //     .then((res) => onsuccessapi(res))
-  //     .catch((e) => onerrorapi(e));
-  // };
 
-  // const initialPagination = (list) => {
-  //   const len = list.length;
-  //   const totalPage = Math.ceil(len / PAGESIZE);
-  //   setPagination({
-  //     currentPage: 1,
-  //     totalPage: totalPage,
-  //     startIndex: 0,
-  //     endIndex: len > PAGESIZE ? PAGESIZE : len,
-  //   });
-  // };
-
-  // const onNext = () => {
-  //   setLoader(true);
-  //   let { currentPage, totalPage } = pagination;
-  //   if (currentPage === totalPage) {
-  //     return;
-  //   }
-  //   setPagination((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       currentPage: currentPage + 1,
-  //       startIndex: currentPage * PAGESIZE,
-  //       endIndex:
-  //         (currentPage + 1) * PAGESIZE > listData.length
-  //           ? listData.length
-  //           : (currentPage + 1) * PAGESIZE,
-  //     };
-  //   });
-  //   setLoader(false);
-  // };
-
-  // const onPrevious = () => {
-  //   setLoader(true);
-  //   let { currentPage } = pagination;
-  //   if (currentPage === 1) {
-  //     return;
-  //   }
-  //   setPagination((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       currentPage: currentPage - 1,
-  //       startIndex: (currentPage - 2) * PAGESIZE,
-  //       endIndex: (currentPage - 1) * PAGESIZE,
-  //     };
-  //   });
-  //   setLoader(false);
-  // };
 
   const onNext = () => {
     let count = number + 1;
@@ -337,8 +266,6 @@ export const Search = () => {
             <View style={styles.viewInputStyle}>
               <View style={styles.dropStyle}>
                 <Text style={styles.textStyle}>
-                  {/* {" "}
-                  {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`} */}
                   {startDateStatus
                   ? "Start Date"
                   : `${startDate?.getDate()}/${
@@ -368,8 +295,6 @@ export const Search = () => {
               </TouchableOpacity>
               <View style={styles.dropStyle}>
                 <Text style={styles.textStyle}>
-                  {/* {" "}
-                  {`${endDate.getDate()}/${endDate.getMonth()}/${endDate.getFullYear()}`} */}
                   {enddateStatus
                   ? "End Date"
                   : `${endDate?.getDate()}/${
@@ -430,35 +355,11 @@ export const Search = () => {
           ListHeaderComponent={HeaderComponet}
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          data={listData
-            // .slice(pagination.startIndex, pagination.endIndex)
-          }
+          data={listData}
           renderItem={rendercomponent}
         />
       </ScrollView>
-      {/* <View style={Styles.lastView}>
-        <TouchableOpacity onPress={onPrevious}>
-          {pagination.currentPage === 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={onNext}>
-          {pagination.currentPage === pagination.totalPage ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View> */}
+      
       <View style={Styles.lastView}>
           <TouchableOpacity
             onPress={onPrevious}

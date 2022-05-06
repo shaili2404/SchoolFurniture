@@ -44,6 +44,7 @@ export const DataDisplayList = ({
     const [repItem, setRepItem] = useState("");
     const [confirmCount, setConfirmCount] = useState("");
     const [deliverCount,setDeliverCount] = useState('')
+    const [brokenItems, setBrokenItems] = useState(false);
     const onchangeInp = (val) => {
       let Confirm_cnt;
       if (val > item.count) Confirm_cnt = item.count;
@@ -93,83 +94,20 @@ export const DataDisplayList = ({
 {data == "0" ? (
 <View style={Styles.mainView}>
             {tableKey.map((val, index) => (
+              <View>
+              {item[val] == [] &&  
+              broken_items.length > 0 && (
+                broken_items.map((ele) => {
+                  <Text style={Styles.textStyle}>Arvind</Text>
+                })
+              ) }
               <View key={val} style={Styles.viewStyle} key={index}>
-                {pageStatus == constants.Status_pendingRepair ? (
-                  <>
-                    {val == "reparableitem" || val == "replanishitem" ? (
-                      <TextInput
-                        placeholder={
-                          val == "replanishitem" ? "" : constants.Enterval
-                        }
-                        placeholderTextColor={COLORS.Black}
-                        style={
-                          val == "replanishitem"
-                            ? Styles.grayinputStyles
-                            : Styles.inputStyles
-                        }
-                        onChangeText={(val) => onchangereparableval(val)}
-                        value={
-                          val == "replanishitem" ? String(repItem) : item[val]
-                        }
-                        editable={val == "replanishitem" ? false : true}
-                        keyboardType="numeric"
-                      />
-                    ) : (
-                      <Text style={Styles.textStyle}>{item[val]}</Text>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {pageStatus == constants.Status_RepairCompleted ? (
-                      <>
-                        {val == "deliveritem" ? (
-                          <TextInput
-                            placeholder={constants.Enterval}
-                            placeholderTextColor={COLORS.Black}
-                            style={Styles.inputStyles}
-                             onChangeText={(val) => onchangedeliver(val)}
-                            keyboardType="numeric"
-                            value={String(deliverCount)}
-                          />
-                        ) : (
-                          <Text style={Styles.textStyle}>{item[val]}</Text>
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        {val == "collectionCount" ? (
-                          <TextInput
-                            placeholder={constants.Enterval}
-                            placeholderTextColor={COLORS.Black}
-                            style={Styles.inputStyles}
-                            onChangeText={(val) => onchangeInp(val)}
-                            keyboardType="numeric"
-                            value={String(confirmCount)}
-                          />
-                        ) : (
-                          <Text style={Styles.textStyle}>{item[val]}</Text>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
+                    <Text style={Styles.textStyle}>{item[val]}</Text>
+              </View>
               </View>
             ))}
   
-            {/* {permissionId.userEdit && (
-              <View style={Styles.viewsssStyle}>
-                <TouchableOpacity onPress={() => onEdit(item, "Edit")}>
-                  <Image source={Images.editIcon} />
-                </TouchableOpacity>
-              </View>
-            )}
-            {permissionId.userDelete && (
-              <View style={Styles.viewsssStyle}>
-                <TouchableOpacity onPress={() => onDelete(item)}>
-                  <Image source={Images.deleteIcon} />
-                </TouchableOpacity>
-              </View>
-            )} */}
+           
           </View> ) : (
 
           <View style={Styles.mainView}>

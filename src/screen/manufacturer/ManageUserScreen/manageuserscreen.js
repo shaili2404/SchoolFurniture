@@ -33,7 +33,6 @@ export const ManageUserScreen = () => {
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const isFocused = useIsFocused()
   const navigation = useNavigation();
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
