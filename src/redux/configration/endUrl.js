@@ -15,7 +15,7 @@ const endUrl = {
     stockCategoryList : 'user/stock-category',
     stockitemList:'user/stock-item',
     stockItemSearch:'user/search/stock-item?query=',
-    collectionreqList:'user/furniture-collection-request',
+    collectionreqList:'user/furniture-collection-request', 
     categoryWiseItem : 'user/stock-category',
     addFurRequest :"user/furniture-collection-request",
     getManageRequest: "user/furniture-manage-collection/list",
@@ -43,7 +43,9 @@ const endUrl = {
     single_cmcrequest :'user/school-cmc',
     single_circuitrequest:'user/school-circuit',
     school_snq :'user/list/school-snq',
-    school_level :'user/list/school-level'
+    school_level :'user/list/school-level',
+    searchBy_ReferenceNumber : 'user/collection-request/search/reference-number',
+    searchBy_DateRange : 'user/collection-request/search/date-range',
     
 }
 export default endUrl;

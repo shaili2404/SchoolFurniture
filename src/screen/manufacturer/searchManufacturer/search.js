@@ -18,10 +18,13 @@ import constants from "../../../locales/constants";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { useSelector } from "react-redux";
-import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
+import { DataDisplayList } from "./searchDisplayListComman";
 import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import Loader from "../../../component/loader";
 import AlertText from "../../../Alert/AlertText";
+import {
+  useNavigation,
+} from "@react-navigation/native";
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -42,10 +45,15 @@ export const Search = () => {
   ]);
   const [searchValue, setSearchValue] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
-  const [endData, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [close, setCLose] = useState(false);
   const [status, setStatus] = useState(false);
+  const [startDateStatus, setStartDateStatus] = useState(true);
+  const [enddateStatus, setendDatestatus] = useState(true);
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
+  const navigation = useNavigation();
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -62,14 +70,15 @@ export const Search = () => {
   const [permissionArr, setpermissionArr] = useState([]);
 
   const tableKey = [
-    "district_office",
-    "director",
-    "tel",
-    "address1",
-    "address2",
-    "address3",
-    "address4",
-    "street_code",
+    "school_name",
+    "emis",
+    "ref_number",
+    "created_at",
+    "category_name",
+    "total_broken_items",
+    "status",
+    // "broken_items",[
+    //   "category_name"]
   ];
 
   const tableHeader = [
@@ -125,18 +134,39 @@ export const Search = () => {
 
   const rendercomponent = ({ item }) => {
     return (
+      <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("FurnitureReplacmentProcess", item)
+      }
+    >
       <DataDisplayList
-        item={item}
-        tableKey={tableKey}
-        reloadList={() => reloadList()}
-        link={endUrl.schoolDistList}
-        mainMessage={AlertText.deletedistrict}
-        submessage={AlertText.UndoMessgae}
-        permissionId={permissionId}
-        data={"0"}
-      />
+         item={item}
+         tableKey={tableKey}
+         reloadList={() => reloadList()}
+         link={endUrl.schoolDistList}
+         mainMessage={AlertText.deletedistrict}
+         submessage={AlertText.UndoMessgae}
+         permissionId={permissionId}
+         data={"0"}
+       />
+      </TouchableOpacity>
     );
   };
+
+  // const rendercomponent = ({ item }) => {
+  //   return (
+  //     <DataDisplayList
+  //       item={item}
+  //       tableKey={tableKey}
+  //       reloadList={() => reloadList()}
+  //       link={endUrl.schoolDistList}
+  //       mainMessage={AlertText.deletedistrict}
+  //       submessage={AlertText.UndoMessgae}
+  //       permissionId={permissionId}
+  //       data={"0"}
+  //     />
+  //   );
+  // };
 
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -146,75 +176,114 @@ export const Search = () => {
     apicall();
   };
 
-  const apicall = async () => {
+  const apicall = (count) => {
     setLoader(true);
     axios
-      .get(endUrl.userList)
+    .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
       .then((res) => {
-        initialPagination(res?.data?.data);
-        setListData(res?.data?.data);
+        setListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
         setLoader(false);
       })
       .catch((e) => setLoader(false));
   };
 
-  const initialPagination = (list) => {
-    const len = list.length;
-    const totalPage = Math.ceil(len / PAGESIZE);
-    setPagination({
-      currentPage: 1,
-      totalPage: totalPage,
-      startIndex: 0,
-      endIndex: len > PAGESIZE ? PAGESIZE : len,
-    });
-  };
+  // const apicall = (count) => {
+  //   setLoader(true);
+  //   axios
+  //     .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
+  //     .then((res) => onsuccessapi(res))
+  //     .catch((e) => onerrorapi(e));
+  // };
+
+  // const initialPagination = (list) => {
+  //   const len = list.length;
+  //   const totalPage = Math.ceil(len / PAGESIZE);
+  //   setPagination({
+  //     currentPage: 1,
+  //     totalPage: totalPage,
+  //     startIndex: 0,
+  //     endIndex: len > PAGESIZE ? PAGESIZE : len,
+  //   });
+  // };
+
+  // const onNext = () => {
+  //   setLoader(true);
+  //   let { currentPage, totalPage } = pagination;
+  //   if (currentPage === totalPage) {
+  //     return;
+  //   }
+  //   setPagination((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       currentPage: currentPage + 1,
+  //       startIndex: currentPage * PAGESIZE,
+  //       endIndex:
+  //         (currentPage + 1) * PAGESIZE > listData.length
+  //           ? listData.length
+  //           : (currentPage + 1) * PAGESIZE,
+  //     };
+  //   });
+  //   setLoader(false);
+  // };
+
+  // const onPrevious = () => {
+  //   setLoader(true);
+  //   let { currentPage } = pagination;
+  //   if (currentPage === 1) {
+  //     return;
+  //   }
+  //   setPagination((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       currentPage: currentPage - 1,
+  //       startIndex: (currentPage - 2) * PAGESIZE,
+  //       endIndex: (currentPage - 1) * PAGESIZE,
+  //     };
+  //   });
+  //   setLoader(false);
+  // };
 
   const onNext = () => {
+    let count = number + 1;
     setLoader(true);
-    let { currentPage, totalPage } = pagination;
-    if (currentPage === totalPage) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage + 1,
-        startIndex: currentPage * PAGESIZE,
-        endIndex:
-          (currentPage + 1) * PAGESIZE > listData.length
-            ? listData.length
-            : (currentPage + 1) * PAGESIZE,
-      };
-    });
+    setNumber(number + 1);
+    apicall(count);
     setLoader(false);
   };
 
   const onPrevious = () => {
+    let count = number - 1;
     setLoader(true);
-    let { currentPage } = pagination;
-    if (currentPage === 1) {
-      return;
-    }
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        currentPage: currentPage - 1,
-        startIndex: (currentPage - 2) * PAGESIZE,
-        endIndex: (currentPage - 1) * PAGESIZE,
-      };
-    });
+    setNumber(number - 1);
+    apicall(count);
     setLoader(false);
   };
 
   const onsearch = async () => {
-    setLoader(true);
+    console.log("hi",searchValue);
+    // setLoader(true);
+    let strtDte = `${startDate?.getFullYear()}-${
+      startDate?.getMonth() + 1
+    }-${startDate?.getDate()}`;
+    let endDte = `${endDate?.getFullYear()}-${
+      endDate?.getMonth() + 1
+    }-${endDate.getDate()}`;
+    let str = "";
+    if (startDateStatus == false) str += `start_date=${strtDte}&`;
+    if (enddateStatus == false) str += `end_date=${endDte}&`;
+
+     let obj = searchValue != 0  ? { ref_number : searchtask } : { start_date: strtDte, end_date: endDte,};
+     console.log("obbbj",obj)
     axios
-      .get(`${endUrl.districtSearch}${searchtask}`)
+      .post(`${ searchValue != 0 ? endUrl.searchBy_ReferenceNumber : endUrl.searchBy_DateRange}`,  obj)
       .then((res) => {
+        console.log("res",res?.data?.data)
         setListData(res?.data?.data);
         setLoader(false);
       })
       .catch((e) => {
+        console.log("err",e?.response)
         let errorMsg = e?.response?.data?.message;
         setLoader(false);
         setErrorMessage(errorMsg);
@@ -268,8 +337,13 @@ export const Search = () => {
             <View style={styles.viewInputStyle}>
               <View style={styles.dropStyle}>
                 <Text style={styles.textStyle}>
-                  {" "}
-                  {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`}
+                  {/* {" "}
+                  {`${startDate.getDate()}/${startDate.getMonth()}/${startDate.getFullYear()}`} */}
+                  {startDateStatus
+                  ? "Start Date"
+                  : `${startDate?.getDate()}/${
+                      startDate?.getMonth() + 1
+                    }/${startDate?.getFullYear()}`}
                 </Text>
               </View>
               <TouchableOpacity
@@ -285,6 +359,7 @@ export const Search = () => {
                   onConfirm={(date) => {
                     setOpen(false);
                     setStartDate(date);
+                    setStartDateStatus(false);
                   }}
                   onCancel={() => {
                     setOpen(false);
@@ -293,8 +368,13 @@ export const Search = () => {
               </TouchableOpacity>
               <View style={styles.dropStyle}>
                 <Text style={styles.textStyle}>
-                  {" "}
-                  {`${endData.getDate()}/${endData.getMonth()}/${endData.getFullYear()}`}
+                  {/* {" "}
+                  {`${endDate.getDate()}/${endDate.getMonth()}/${endDate.getFullYear()}`} */}
+                  {enddateStatus
+                  ? "End Date"
+                  : `${endDate?.getDate()}/${
+                      endDate?.getMonth() + 1
+                    }/${endDate?.getFullYear()}`}
                 </Text>
               </View>
               <TouchableOpacity
@@ -305,11 +385,12 @@ export const Search = () => {
                 <DatePicker
                   modal
                   open={close}
-                  date={endData}
+                  date={endDate}
                   mode="date"
                   onConfirm={(date) => {
                     setCLose(false);
                     setEndDate(date);
+                    setendDatestatus(false);
                   }}
                   onCancel={() => {
                     setCLose(false);
@@ -334,7 +415,7 @@ export const Search = () => {
         <View style={styles.buttonView}>
           <TouchableOpacity
             style={styles.buttonStyle}
-            //   onPress={editState === true ? onUpdate : onAdd}
+            onPress={() => onsearch()}
           >
             <Text style={styles.buttonText}>{constants.search}</Text>
           </TouchableOpacity>
@@ -349,11 +430,13 @@ export const Search = () => {
           ListHeaderComponent={HeaderComponet}
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          data={listData.slice(pagination.startIndex, pagination.endIndex)}
+          data={listData
+            // .slice(pagination.startIndex, pagination.endIndex)
+          }
           renderItem={rendercomponent}
         />
       </ScrollView>
-      <View style={Styles.lastView}>
+      {/* <View style={Styles.lastView}>
         <TouchableOpacity onPress={onPrevious}>
           {pagination.currentPage === 1 ? (
             <Image source={Images.leftarrow} />
@@ -375,7 +458,37 @@ export const Search = () => {
             <Image source={Images.rightarrow} />
           )}
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <View style={Styles.lastView}>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={number == 1 ? true : false}
+          >
+            {number == 1 ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={number == maximumNumber ? true : false}
+          >
+            {number == maximumNumber ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={{ height: 70 }} />
     </SafeAreaView>
   );
 };

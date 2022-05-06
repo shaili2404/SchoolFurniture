@@ -21,7 +21,7 @@ import { DataDisplayList } from "../../../component/manufacturer/displayListComm
 import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import { AddUserModal } from "../../../component/manufacturer/AddFormModal/AddFormModal";
 import Loader from "../../../component/loader";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AlertText from "../../../Alert/AlertText";
 
 const PAGESIZE = 10;
@@ -33,6 +33,7 @@ export const ManageUserScreen = () => {
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const isFocused = useIsFocused()
   const navigation = useNavigation();
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
@@ -181,7 +182,7 @@ export const ManageUserScreen = () => {
 
   useEffect(() => {
     apicall();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (listData) setLoader(false);

@@ -81,9 +81,9 @@ export const AddSchool = (props) => {
       })
       .catch((e) => {});
   };
-  const getsingledistdetail = async () => {
+  const getsingledistdetail = async (id) => {
     axios
-      .get(`${endUrl.single_distrequest}/${dist_selected?.id}`)
+      .get(`${endUrl.single_distrequest}/${id}`)
       .then((res) => {
         setCmcList(res?.data?.data?.cmc_list);
       })

@@ -73,8 +73,10 @@ const AddNewUsers = () => {
 
   const addSchool = async () => {
     try {
-      const response = await axios.get(`${endUrl.schoolList}?all==true`);
-      setSchoolData(response?.data?.data?.records);
+      // const response = await axios.get(`${endUrl.schoolList}?all==true`);
+      // setSchoolData(response?.data?.data?.records);
+      const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
+      setSchoolData(response?.data?.data);
     } catch (e) {
       console.log(e);
     }
@@ -119,6 +121,7 @@ const AddNewUsers = () => {
 
   const showHide = () => {
     setStatus(!status);
+    addSchool()
   };
 
   const schoolDataList = (value) => {
