@@ -9,7 +9,7 @@ import {
   View,
   Image,
   TextInput,
-  urlval
+  urlval,
 } from "react-native";
 import COLORS from "../../asset/color";
 import Images from "../../asset/images";
@@ -24,41 +24,37 @@ const DropdownCR = ({
   identify,
   selectedItem,
   urlval,
-  searchboxname
-  
+  searchboxname,
 }) => {
   const DropdownButton = useRef();
-  const [dropData,setDropData] = useState([])
+  const [dropData, setDropData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
   const [dropdownTop, setDropdownTop] = useState(0);
   const [isDisable, setIsDisable] = useState(false);
-  const [searchTask,setSearchTask] = useState('')
+  const [searchTask, setSearchTask] = useState("");
   const toggleDropdown = () => {
     visible ? setVisible(false) : openDropdown();
   };
 
-  const onsearch = (val)=>{
-      if (val == ''){ 
-          setDropData(data)
-        setSearchTask(val)
-      }
-      else{
-        console.log(`${urlval}${val}`)
-        setSearchTask(val)
-        axios
+  const onsearch = (val) => {
+    if (val == "") {
+      setDropData(data);
+      setSearchTask(val);
+    } else {
+      setSearchTask(val);
+      axios
         .get(`${urlval}${val}`)
         .then((res) => {
-           setErrorMessage('')
+          setErrorMessage("");
           setDropData(res?.data?.data);
-        //   setLoader(false);
+          //   setLoader(false);
         })
         .catch((e) => {
-
           {
             let { message, data, status } = e?.response?.data || {};
-    
+
             {
               let str = "";
               status == 422
@@ -70,8 +66,8 @@ const DropdownCR = ({
             }
           }
         });
-      }
-  }
+    }
+  };
 
   const openDropdown = () => {
     DropdownButton.current.measure((_fx, fy, w, h, _px, py) => {
@@ -109,7 +105,7 @@ const DropdownCR = ({
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.item} onPress={() => onItemPress(item)}>
-      <Text style={{fontSize:16}}>{item[task]}</Text>
+      <Text style={{ fontSize: 16 }}>{item[task]}</Text>
     </TouchableOpacity>
   );
 
@@ -120,9 +116,8 @@ const DropdownCR = ({
           style={styles.overlay}
           onPress={() => setVisible(false)}
         >
-           
           <View style={[styles.dropdown, { top: dropdownTop }]}>
-          <View
+            <View
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
@@ -134,7 +129,7 @@ const DropdownCR = ({
                 style={styles.inputTextStyle}
                 maxLength={50}
                 value={searchTask}
-                onChangeText={(val)=>onsearch(val)}
+                onChangeText={(val) => onsearch(val)}
               />
               <TouchableOpacity>
                 <Image
@@ -149,20 +144,23 @@ const DropdownCR = ({
                 />
               </TouchableOpacity>
             </View>
-            {errorMessage ? 
-          <View style={styles.errorView}>
-            <Text style={styles.errormessStyle}>{errorMessage}</Text>
-          </View>
-          : 
-          <>
-            <FlatList
-              data={searchTask == ''?  data : dropData}
-              renderItem={renderItem}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-              style={data?.length > 4 ? styles.flatStyle : styles.flatStyles}
-            />
-          </>}
+            {errorMessage ? (
+              <View style={styles.errorView}>
+                <Text style={styles.errormessStyle}>{errorMessage}</Text>
+              </View>
+            ) : (
+              <>
+                <FlatList
+                  data={searchTask == "" ? data : dropData}
+                  renderItem={renderItem}
+                  showsVerticalScrollIndicator={false}
+                  keyExtractor={(item, index) => index.toString()}
+                  style={
+                    data?.length > 4 ? styles.flatStyle : styles.flatStyles
+                  }
+                />
+              </>
+            )}
           </View>
         </TouchableOpacity>
       </Modal>
@@ -234,12 +232,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.White,
     marginTop: 30,
     paddingLeft: 15,
-    height:40,
+    height: 40,
     width: "100%",
-    alignItems: 'center',
-    alignSelf:'center',
-    justifyContent: 'center',
-    fontSize:18
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    fontSize: 18,
   },
   errormessStyle: {
     textAlign: "center",

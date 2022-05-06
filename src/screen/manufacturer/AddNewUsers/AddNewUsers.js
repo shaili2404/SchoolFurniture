@@ -166,7 +166,7 @@ const AddNewUsers = () => {
     <View style={Styles.mainView}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "android" ? "position" : null}
+        behavior={Platform.OS === "android" ? "padding" : null}
         keyboardVerticalOffset={0}
       >
         <View style={Styles.container}>

@@ -30,7 +30,7 @@ const USER_ROLE = {
         name: 'Search',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/search_black_24dp.png'),
-        screenName: NavigationRouteNames.SEARCH
+        screenName: NavigationRouteNames.Third
       },
       {
         name: 'Furniture Replacement',
@@ -54,7 +54,7 @@ const USER_ROLE = {
         name: 'Reports',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
-        screenName: NavigationRouteNames.REPORTS
+        screenName: NavigationRouteNames.FIRST
       },
       {
         name: 'Manage Users',
