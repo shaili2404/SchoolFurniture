@@ -14,7 +14,7 @@ import {
 import style from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
-import Dropdown from "../../DropDown/dropdown";
+import DropdownCR from "../../DropDown/dropDOwnCR";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { emisNumber } from "../../../locales/regexp";
@@ -68,7 +68,7 @@ export const AddEditCMC = (props) => {
           : setDisable(false);
       }
        else {
-        !validation(inputValues.cmc_name) 
+        !validation(inputValues.cmc_name) ||
         !validation(selected?.id)
         
           ? setDisable(true)
@@ -149,7 +149,7 @@ export const AddEditCMC = (props) => {
                       {input.value == constants.District? (
                         <>
                           <View style={style.container}>
-                            <Dropdown
+                            <DropdownCR
                               label={
                                 operation === constants.Edit
                                   ? inputValues[input.key]
@@ -158,6 +158,8 @@ export const AddEditCMC = (props) => {
                               data={distList}
                               onSelect={setSelected}
                               task="district_office"
+                              urlval={endUrl.districtSearch}
+                              searchboxname={constants.District}
                             />
                           </View>
                         </>

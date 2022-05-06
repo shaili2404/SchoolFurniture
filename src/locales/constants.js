@@ -38,8 +38,8 @@ const constants = {
   School: "School",
   schoolEmisNumber: "School EMIS Number",
   SchoolDistrict: "District",
-  SchoolPrinciple: "School Principle",
-  SchoolTelno: "School Tel.no",
+  SchoolPrinciple: "School Principal",
+  SchoolTelno: "School Telephone",
   StreetAddress: "Street Address",
   name: "Name",
   surname: "Surname",
@@ -53,7 +53,7 @@ const constants = {
   search: "Search",
   refrenceNumber: "Refrence Number",
   startDate: "Start Date",
-  emisNumber: "EMIS Number",
+  emisNumber: "EMIS",
   endDate: "End Date",
   status: "Status",
   functionalities: "Functionalities",
@@ -74,7 +74,7 @@ const constants = {
   Accepted: "Accepted",
   userNotFound: "User Not Found",
   school: "School",
-  emis: "EMIS Number",
+  emis: "EMIS",
   manageEmailId: "Enter Email id",
   enterSurname: "Enter Surname",
   enterName: "Enter Name",
@@ -162,7 +162,18 @@ const constants = {
   sub_places:'Sub Places',
   Filter:'Filters',
   Reports:'Reports',
-  selReports:'Select Reports'
+  selReports:'Select Reports',
+  replanishment_status:'Replanishment Status',
+  streetcode_val:'Street code must be of 4 digit',
+  telPhone_val:"Telephone.no  must be of 10 digit Start With 0 ",
+  Emis_val:'Emis must be of 9 digit',
+
+  ReplanishmentReports_Replcount:"Replanishment Count",
+  ReplanishmentReports_trancRefNo:"Transaction Reference Number",
+  ReplanishmentReports_tranRefDate:"Transaction Reference Date",
+  ReplanishmentReports_replaStatus:"Replanishment Status",
+  ReplanishmentReports_TotalPerSchool:"Total Per School",
+
 
 
 

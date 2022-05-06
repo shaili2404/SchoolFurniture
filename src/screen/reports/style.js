@@ -139,10 +139,17 @@ export default StyleSheet.create({
     paddingVertical: 20,
   },
   eyeStyle: {
-    position: "relative",
+    position: "absolute",
     top: 10,
-    right: 30,
+    left:130
   },
+  eyeStyles: {
+    position: "absolute",
+    top: 10,
+     right: 15,
+  },
+
+
   errormessStyle: {
     textAlign: "center",
     color: COLORS.red,
@@ -209,6 +216,18 @@ export default StyleSheet.create({
     justifyContent: "center",
     flexDirection: "column",
     marginTop: 20,
+  },
+  containerfurcat: {
+    borderRadius: 5,
+    backgroundColor: COLORS.White,
+    width: "90%",
+    height: 40,
+    paddingLeft: 20,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    marginBottom: 20,
   },
   containersup: {
     borderRadius: 5,

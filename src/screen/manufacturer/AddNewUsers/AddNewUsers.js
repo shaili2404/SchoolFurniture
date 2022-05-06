@@ -35,6 +35,7 @@ const AddNewUsers = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { btnStatus, Item } = route.params;
+  
 
   const tableKey = ["name", "emis"];
   const tableHeader = [constants.school, constants.emis];
@@ -82,6 +83,16 @@ const AddNewUsers = () => {
     }
   };
 
+  const addSchoolSearch = async () => {
+    try {
+      const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
+      console.log(response?.data?.data)
+      setSchoolData(response?.data?.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useLayoutEffect(() => {
     let title;
     if (btnStatus == "0") {
@@ -122,6 +133,7 @@ const AddNewUsers = () => {
   const showHide = () => {
     setStatus(!status);
     addSchool()
+    addSchoolSearch()
   };
 
   const schoolDataList = (value) => {
@@ -157,7 +169,7 @@ const AddNewUsers = () => {
     <View style={Styles.mainView}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "android" ? "position" : null}
+        behavior={Platform.OS === "android" ? "padding" : null}
         keyboardVerticalOffset={0}
       >
         <View style={Styles.container}>

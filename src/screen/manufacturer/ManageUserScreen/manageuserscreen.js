@@ -43,6 +43,7 @@ export const ManageUserScreen = () => {
     startIndex: 0,
     endIndex: 0,
   });
+  const isFocused = useIsFocused()
   const [permissionId, setPermissionId] = useState({
     userList: false,
     userCreate: false,

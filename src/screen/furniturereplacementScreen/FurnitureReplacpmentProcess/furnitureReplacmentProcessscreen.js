@@ -82,7 +82,7 @@ export const FurnitureReplacmentProcess = () => {
     useState(false);
   const [EmailreplanishCertificateStatus, setEmailreplanishcertificateStatus] =
     useState(false);
-    const [onetaskSection,setOnetasksection] = useState('')
+  const [onetaskSection, setOnetasksection] = useState("");
   const [
     statusOFreplanishCertificateStatus,
     setStatusOFEmailreplanishcertificateStatus,
@@ -103,6 +103,10 @@ export const FurnitureReplacmentProcess = () => {
     userEdit: false,
     userDelete: false,
   });
+  const [plusSign, setPlusSign] = useState(false);
+  const [footerSign, setfooterSign] = useState(false);
+  footerSign;
+
   const {
     school_name,
     emis,
@@ -114,36 +118,156 @@ export const FurnitureReplacmentProcess = () => {
   } = schooldetails?.organization == constants.school ? "" : route?.params;
 
   schooldetails?.organization == constants.school
-  ? constants.createRequest
-  : constants.collectFurnitureRequest
+    ? constants.createRequest
+    : constants.collectFurnitureRequest;
 
   const onSchool = () => {
-    setCreateRequestIcon(constants.inprogress);
-    setOnetasksection(constants.createRequest)
-    setPermissionId({
-      userCreate: true,
-      userDelete: true,
-      userEdit: true,
-    });
+    let task = route?.params?.status;
     if (route?.params?.task == constants.ManageReqText) {
+      setPlusSign(false);
+      setfooterSign(false);
+      setCreateRequestIcon(constants.inprogress);
+      setOnetasksection(constants.createRequest);
+      setPermissionId({
+        userCreate: true,
+        userDelete: true,
+        userEdit: true,
+      });
       setFlatListData(route?.params?.items?.broken_items);
       setTotalFur(route?.params?.items?.total_furniture);
       setSaveButton(false);
-    } else setFlatListData(route?.params?.finalList);
+    } else if (task == constants.Status_PendingCollection) {
+      setTotalFur(route?.params?.total_furniture);
+      setPlusSign(true);
+      setfooterSign(true);
+      setCollectFurItem(constants.inprogress);
+      setOnetasksection(constants.collectFurnitureRequest);
+      setFlatListData(route?.params?.broken_items);
+      setTableHeader([
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
+      setLoader(false);
+    } else if (task == constants.Status_CollectionAccepted) {
+      setTotalFur(route?.params?.total_furniture);
+      setPlusSign(true);
+      setfooterSign(true);
+      setCollectFurItem(constants.inprogress);
+      setOnetasksection(constants.collectFurnitureRequest);
+      setTableHeader([
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+      ]);
+      setFlatListData(route?.params?.broken_items);
+      setLoader(false);
+    } else if (task == constants.Status_pendingRepair) {
+      setTotalFur(route?.params?.total_furniture);
+      setPlusSign(true);
+      setfooterSign(true);
+      setCollectFurItem(constants.success);
+      setRepairIcon(constants.inprogress);
+      setOnetasksection(constants.RepairReplnish);
+      setTableHeader((oldData) => [
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.collectedcount,
+      ]);
+      setTableKey((oldData) => [...oldData, "confirmed_count"]);
+      setFlatListData(route?.params?.broken_items);
+      setLoader(false);
+    } else if (task == constants.Status_RepairCompleted) {
+      setTotalFur(route?.params?.total_furniture);
+      setPlusSign(true);
+      setfooterSign(true);
+      setCollectFurItem(constants.success);
+      setRepairIcon(constants.success);
+      setOnetasksection(constants.DeliverFurItem);
+      setDilverFurIcon(constants.inprogress);
+      setTableHeader((oldData) => [
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.collectedcount,
+        constants.ReparableItem,
+        constants.ReplanishmentItems,
+      ]);
 
+      setTableKey((oldData) => [
+        ...oldData,
+        "confirmed_count",
+        "repaired_count",
+        "replenished_count",
+      ]);
+      setlenofContent("More");
+      setFlatListData(route?.params?.broken_items);
+      setLoader(false);
+    } else if (
+      task == constants.Status_pendingDilver ||
+      task == constants.Status_DeliveryConfirmed
+    ) {
+      setTotalFur(route?.params?.total_furniture);
+      setPlusSign(true);
+      setfooterSign(true);
+      setCollectFurItem(constants.success);
+      setRepairIcon(constants.success);
+      setOnetasksection(constants.DeliverFurItem);
+      task == constants.Status_DeliveryConfirmed
+        ? setDilverFurIcon(constants.success)
+        : setDilverFurIcon(constants.inprogress);
+      setTableHeader((oldData) => [
+        constants.FurCategory,
+        constants.furItem,
+        constants.collectioncount,
+        constants.collectedcount,
+        constants.ReparableItem,
+        constants.ReplanishmentItems,
+        constants.Dilvery_headerDil,
+      ]);
+
+      setTableKey((oldData) => [
+        ...oldData,
+        "confirmed_count",
+        "repaired_count",
+        "replenished_count",
+      ]);
+
+      setTableKey((oldData) => [...oldData, "delivered_count"]);
+
+      setlenofContent("More");
+      setFlatListData(route?.params?.broken_items);
+      setLoader(false);
+    } else {
+      setFlatListData(route?.params?.finalList);
+      setCreateRequestIcon(constants.inprogress);
+      setOnetasksection(constants.createRequest);
+      setPermissionId({
+        userCreate: true,
+        userDelete: true,
+        userEdit: true,
+      });
+      setPlusSign(false);
+      setfooterSign(false);
+    }
     setLoader(false);
   };
   const onrequestList = () => {
+    setPlusSign(true);
+    setfooterSign(false);
     setCollectFurItem(constants.inprogress);
-    setOnetasksection(constants.collectFurnitureRequest)
+    setOnetasksection(constants.collectFurnitureRequest);
     setTaskNameButtonValue(constants.Accept);
     setFlatListData(broken_items);
     setLoader(false);
   };
   const onCollectionAccepted = () => {
+    setPlusSign(true);
+    setfooterSign(false);
     setCollectFurItem(constants.inprogress);
     setTaskNameButtonValue(constants.Accepted);
-    setOnetasksection(constants.collectFurnitureRequest)
+    setOnetasksection(constants.collectFurnitureRequest);
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, "collectionCount"]);
@@ -151,9 +275,11 @@ export const FurnitureReplacmentProcess = () => {
     setLoader(false);
   };
   const onPendingRepair = () => {
+    setPlusSign(true);
+    setfooterSign(false);
     setCollectFurItem(constants.success);
     setRepairIcon(constants.inprogress);
-    setOnetasksection(constants.RepairReplnish)
+    setOnetasksection(constants.RepairReplnish);
     setTableHeader((oldData) => [
       ...oldData,
       constants.collectedcount,
@@ -176,9 +302,11 @@ export const FurnitureReplacmentProcess = () => {
     setLoader(false);
   };
   const onRepairCompleted = () => {
+    setPlusSign(true);
+    setfooterSign(false);
     setCollectFurItem(constants.success);
     setRepairIcon(constants.success);
-    setOnetasksection(constants.DeliverFurItem)
+    setOnetasksection(constants.DeliverFurItem);
     setDilverFurIcon(constants.inprogress);
     setTableHeader((oldData) => [
       ...oldData,
@@ -201,9 +329,11 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onpendingDeliver = () => {
+    setPlusSign(true);
+    setfooterSign(false);
     setCollectFurItem(constants.success);
     setRepairIcon(constants.success);
-    setOnetasksection(constants.Delivery_signedCopy)
+    setOnetasksection(constants.DeliverFurItem);
     setDilverFurIcon(constants.inprogress);
     setTableHeader((oldData) => [
       ...oldData,
@@ -221,15 +351,16 @@ export const FurnitureReplacmentProcess = () => {
     ]);
 
     setTableKey((oldData) => [...oldData, "delivered_count"]);
-
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
   };
   const ondeliverydone = () => {
+    setPlusSign(true);
+    setfooterSign(false);
     setCreateRequestIcon(constants.success);
     setCollectFurItem(constants.success);
-    setOnetasksection(constants.DeliverFurItem)
+    setOnetasksection(constants.DeliverFurItem);
     setRepairIcon(constants.success);
     setDilverFurIcon(constants.success);
     setTableHeader((oldData) => [
@@ -683,26 +814,40 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const ondisposalcertPress = () => {
-    // setLoader(true);
+    if (replenishment_status !== null) {
+      flatListData.map((ele) => {
+        ele.replenish_count = ele.replenished_count;
+      });
+    }
     let data = {
       ref_number: ref_number,
-      items: confirmCollectedCount,
+      items:
+        replenishment_status == null ? confirmCollectedCount : flatListData,
     };
     getpdfApi(endUrl?.annexureB, data);
     setEmailreplanishcertificateStatus(true);
   };
   const onreplanishemailcer = () => {
-    // setLoader(true);
+    console.log(replenishment_status)
+    if (replenishment_status !== null) {
+      flatListData.map((ele) => {
+        ele.replenish_count = ele.replenished_count;
+        ele.repair_count = ele.repaired_count;
+      });
+    }
     let data = {
       ref_number: ref_number,
-      items: confirmCollectedCount,
+      items:
+        replenishment_status == null ? confirmCollectedCount : flatListData,
     };
+    console.log( replenishment_status !== null ? flatListData : confirmCollectedCount)
+    console.log(data)
     getpdfApi(endUrl?.annexureC, data);
     setStatusOFEmailreplanishcertificateStatus(true);
   };
 
   const uploadSignedreplanishment = async (result) => {
-    // setLoader(true);
+    setLoader(true);
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
@@ -760,9 +905,18 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onPressDeliveryNote = () => {
+    if (taskofPage == constants.Status_pendingDilver){
+    flatListData.map((ele) => {
+      ele.deliver_count = ele.delivered_count;
+    });
+  }
+
     let data = {
       ref_number: ref_number,
-      items: confirmCollectedCount,
+      items:
+        taskofPage == constants.Status_pendingDilver
+          ? flatListData
+          : confirmCollectedCount,
     };
 
     getpdfApi(endUrl?.annexureD, data);
@@ -865,14 +1019,18 @@ export const FurnitureReplacmentProcess = () => {
                   ? schooldetails?.username
                   : emis
               }
-              org={schooldetails?.organization}
+              org={plusSign == true ? "" : schooldetails?.organization}
               stockcollectionName={constants.schoolFurCount}
-              stockcount={total_furniture}
+              stockcount={
+                schooldetails?.organization == constants.school
+                  ? totalFur
+                  : total_furniture
+              }
               onvalueEdit={(val) => onvalueEdit(val)}
               totalFur={totalFur}
               task={constants.ManageReqText}
             />
-            {schooldetails?.organization == constants.school ? (
+            {plusSign == false ? (
               <View style={styles.addplusView}>
                 <TouchableOpacity
                   onPress={() =>
@@ -989,6 +1147,9 @@ export const FurnitureReplacmentProcess = () => {
                   ? true
                   : checkoboxofDilveryitem
               }
+              onifSchool={
+                schooldetails?.organization == constants.school ? false : true
+              }
             />
           ) : null}
           <View style={{ height: 60 }} />
@@ -996,7 +1157,8 @@ export const FurnitureReplacmentProcess = () => {
       </ScrollView>
 
       <View style={styles.bottomView}>
-        {taskofPage == constants.Status_DeliveryConfirmed ? null : (
+        {
+        footerSign == false ? (
           <FooterFur
             saveButton={saveButton}
             submitButton={submitButton}
@@ -1004,7 +1166,7 @@ export const FurnitureReplacmentProcess = () => {
             onSave={onSave}
             onSubmit={onSubmit}
           />
-        )}
+        ) : null}
       </View>
 
       {alert ? (

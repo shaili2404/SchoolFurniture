@@ -13,7 +13,7 @@ import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
-import Styles from "./styles";
+import Styles from "./style";
 import {
   useIsFocused,
   useNavigation,
@@ -30,7 +30,7 @@ import AlertText from "../../Alert/AlertText";
 
 const PAGESIZE = 6;
 
-export const FurnitureReplacmentManfacturer = () => {
+export const ReplanishmentReports = () => {
   const isFocused = useIsFocused();
   const [pagination, setPagination] = useState({
     currentPage: 0,
@@ -101,18 +101,20 @@ export const FurnitureReplacmentManfacturer = () => {
       });
   };
   const onsuccessapi = (res) => {
+      console.log(res?.data?.data)
     setCollectionList(res?.data?.data?.records);
     setmaximunNumber(res?.data?.data?.total_page);
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    console.log(e)
     setLoader(false);
   };
 
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`) 
+      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
@@ -125,7 +127,7 @@ export const FurnitureReplacmentManfacturer = () => {
   };
 
   useLayoutEffect(() => {
-    const title = "Furniture Replacement";
+    const title = constants.Reports;
     navigation.setOptions({ title });
   }, []);
 
@@ -169,27 +171,21 @@ export const FurnitureReplacmentManfacturer = () => {
     }
   }, [refnumber]);
 
-  const tableHeader =
-    organization == constants.school
-      ? [
-          constants.dateCreated,
-          constants.refrenceNo,
-          constants.status,
-          constants.emisNumber,
-          constants.totalFurnitureCount,
-        ]
-      : [
+  const tableHeader = [
           constants.schoolName,
-          constants.dateCreated,
-          constants.refrenceNo,
-          constants.status,
-          constants.emis,
-          constants.totalFurnitureCount,
-        ];
+          constants.schoolEmisNumber,
+          constants.DistrictOffice,
+          constants.ReplanishmentReports_trancRefNo,
+          constants.ReplanishmentReports_tranRefDate,
+          constants.FurnitureCat,
+          constants.ReplanishmentReports_Replcount,
+          constants.ReplanishmentReports_replaStatus,
+          constants.ReplanishmentReports_TotalPerSchool
+ 
+        ]
+    
   const tableKey =
-    organization == constants.school
-      ? ["created_at", "ref_number", "status", "emis", "total_furniture"]
-      : [
+       [
           "school_name",
           "created_at",
           "ref_number",
@@ -199,19 +195,14 @@ export const FurnitureReplacmentManfacturer = () => {
         ];
   const rendercomponent = ({ item }) => {
     return (
-   
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("FurnitureReplacmentProcess", item)
-            }
-          >
+    
+          
             <DataDisplayList
               tableKey={tableKey}
               item={item}
               permissionId={permissionId}
             />
-      </TouchableOpacity>
-    );
+    )
   };
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
@@ -222,11 +213,17 @@ export const FurnitureReplacmentManfacturer = () => {
   ) : (
    
       <SafeAreaView style={Styles.mainView}>
-         <ScrollView showsHorizontalScrollIndicator={false}>
+                           {/* <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}> */}
+
+        <View>
+         <View style={Styles.changeView}>
+                <Text style={Styles.changeText}>{constants.selReports}</Text>
+            </View>
+        </View>
         <View style={Styles.halfView}>
           <View style={Styles.searchButtonView}>
             <Text style={Styles.transactionText}>
-              {constants.transactionSearch}
+              {constants.Filter}
             </Text>
             <TouchableOpacity
               style={Styles.searchButton}
@@ -240,24 +237,24 @@ export const FurnitureReplacmentManfacturer = () => {
           <View style={Styles.refView}>
             <TextInput
               style={Styles.refrenceStyle}
-              placeholder={constants.refrenceNumber}
+              placeholder={constants.schoolName}
               placeholderTextColor={COLORS.Black}
               opacity={0.5}
               value={refnumber}
               onChangeText={(val) => setrefNumber(val)}
             />
-            <TextInput
-              style={Styles.dropStyle}
-              placeholder={constants.emisNumber}
-              placeholderTextColor={COLORS.Black}
-              opacity={0.5}
-              value={emisNumber}
-              onChangeText={(val) => setEmisNumber(val)}
+             <View style={Styles.dropdownsecStyle}>
+            <Dropdown
+              label={constants.DistrictOffice}
+              data={dropData}
+              onSelect={setSelect}
+              task="name"
             />
+          </View>
           </View>
           <View style={Styles.container}>
             <Dropdown
-              label={constants.status}
+              label={constants.replanishment_status}
               data={dropData}
               onSelect={setSelect}
               task="name"
@@ -303,7 +300,7 @@ export const FurnitureReplacmentManfacturer = () => {
               </Text>
             </View>
             <TouchableOpacity
-              style={Styles.eyeStyle}
+              style={Styles.eyeStyles}
               onPress={() => setCLose(true)}
             >
               <Image source={Images.Calender} style={Styles.imgStyle} />
@@ -322,6 +319,14 @@ export const FurnitureReplacmentManfacturer = () => {
                 }}
               />
             </TouchableOpacity>
+          </View>
+          <View style={Styles.containerfurcat}>
+            <Dropdown
+              label={constants.FurnitureCat}
+              data={dropData}
+              onSelect={setSelect}
+              task="name"
+            />
           </View>
           {dateErrorMessage ? (
             <View style={Styles.dateerrorView}>
@@ -346,15 +351,7 @@ export const FurnitureReplacmentManfacturer = () => {
             </ScrollView>
           )}
         </View>
-        {organization == constants.school ? (
-          <View style={Styles.plusView}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
-            >
-              <Image source={Images.addCricleIcon} />
-            </TouchableOpacity>
-          </View>
-        ) : null}
+      
         <View style={Styles.lastView}>
           <TouchableOpacity
             onPress={onPrevious}
@@ -384,9 +381,10 @@ export const FurnitureReplacmentManfacturer = () => {
             )}
           </TouchableOpacity>
         </View>
-        <View style={{ height: 70 }} />
-        </ScrollView>
+         <View style={{ height: 100 }} />
+     {/* </ScrollView> */}
+      
       </SafeAreaView>
-   
+ 
   );
 };

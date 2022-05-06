@@ -106,5 +106,12 @@ const style = StyleSheet.create({
     backgroundColor: COLORS.White,
     width: 400,
   },
+  errorcol:{
+    color:COLORS.red,
+    fontSize:14,
+    position:'absolute',
+    bottom:8,
+    left:5
+  }
 });
 export default style;

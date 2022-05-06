@@ -46,6 +46,7 @@ const endUrl = {
     school_level :'user/list/school-level',
     searchBy_ReferenceNumber : 'user/collection-request/search/reference-number',
     searchBy_DateRange : 'user/collection-request/search/date-range',
+    reports_ReplanishmentReports:"user/reports/replenishment-report",
     
 }
 export default endUrl;

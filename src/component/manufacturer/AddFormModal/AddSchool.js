@@ -17,8 +17,13 @@ import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { emisNumber } from "../../../locales/regexp";
+import {
+  emisNumber,
+  numberStartWithZero,
+  streetCode,
+} from "../../../locales/regexp";
 import constants from "../../../locales/constants";
+import DropdownCR from "../../DropDown/dropDOwnCR";
 
 export const AddSchool = (props) => {
   const {
@@ -45,14 +50,30 @@ export const AddSchool = (props) => {
   const [subplaces_selected, setsubplaces_setSelected] = useState({});
   const [level_selected, level_setSelected] = useState({});
   const [snq_selected, snq_setSelected] = useState({});
+  const [tel_validate, setTel_validate] = useState(false);
+  const [streetCode_validate, setStreetCode_validate] = useState(false);
+  const [emis_validateer, setemis_validateer] = useState(false);
 
   const setValue = (key, value) => {
+    console.log(key, value);
     setInputValues((prevState) => {
       return {
         ...prevState,
         [key]: value,
       };
     });
+    if (key == "tel")
+      !numberStartWithZero.test(value)
+        ? setTel_validate(true)
+        : setTel_validate(false);
+    else if (key == "street_code")
+      !streetCode.test(value)
+        ? setStreetCode_validate(true)
+        : setStreetCode_validate(false);
+    else if (key == "emis")
+      !emisNumber.test(value)
+        ? setemis_validateer(true)
+        : setemis_validateer(false);
   };
 
   const getDistrictList = async () => {
@@ -145,6 +166,12 @@ export const AddSchool = (props) => {
     level_selected,
     snq_selected,
   ]);
+
+  // const telvalidate = () => {
+  //   !numberStartWithZero.test(inputValues.tel)
+  //     ? setTel_validate(true)
+  //     : setTel_validate(false);
+  // };
 
   useEffect(() => {
     const obj = {};
@@ -343,27 +370,61 @@ export const AddSchool = (props) => {
                       input.value == constants.subplacesname ? (
                         <>
                           <View style={style.container}>
-                            <Dropdown
-                              label={getnameadd(input.value, input.key)}
-                              data={getList(input.value)}
-                              onSelect={(item) =>
-                                onDropdownselect(input.value, item)
-                              }
-                              task={getTask(input.value)}
-                            />
+                            {input.value == constants.District ? (
+                              <DropdownCR
+                                label={getnameadd(input.value, input.key)}
+                                data={getList(input.value)}
+                                onSelect={(item) =>
+                                  onDropdownselect(input.value, item)
+                                }
+                                task={getTask(input.value)}
+                                urlval={endUrl.districtSearch}
+                                searchboxname={constants.District}
+                              />
+                            ) : (
+                              <Dropdown
+                                label={getnameadd(input.value, input.key)}
+                                data={getList(input.value)}
+                                onSelect={(item) =>
+                                  onDropdownselect(input.value, item)
+                                }
+                                task={getTask(input.value)}
+                              />
+                            )}
                           </View>
                         </>
                       ) : (
-                        <TextInput
-                          style={style.emailInputStyle}
-                          placeholder={defaultState === true ? "" : input.value}
-                          placeholderTextColor={COLORS.Black}
-                          onFocus={() => setDefaultState(true)}
-                          onBlur={() => setDefaultState(false)}
-                          opacity={defaultState === true ? 1 : 0.5}
-                          value={inputValues[input.key]}
-                          onChangeText={(value) => setValue(input.key, value)}
-                        />
+                        <>
+                          <TextInput
+                            style={style.emailInputStyle}
+                            placeholder={
+                              defaultState === true ? "" : input.value
+                            }
+                            placeholderTextColor={COLORS.Black}
+                            onFocus={() => setDefaultState(true)}
+                            onBlur={() => setDefaultState(false)}
+                            opacity={defaultState === true ? 1 : 0.5}
+                            value={inputValues[input.key]}
+                            onChangeText={(value) => setValue(input.key, value)}
+                          />
+                          {input.value == constants.SchoolTelno ? (
+                            <Text style={style.errorcol}>
+                              {tel_validate ? constants.telPhone_val : null}
+                            </Text>
+                          ) : null}
+                          {input.value == constants.streetCode ? (
+                            <Text style={style.errorcol}>
+                              {streetCode_validate
+                                ? constants.streetcode_val
+                                : null}
+                            </Text>
+                          ) : null}
+                          {input.value == constants.schoolEmisNumber ? (
+                            <Text style={style.errorcol}>
+                              {emis_validateer ? constants.Emis_val : null}
+                            </Text>
+                          ) : null}
+                        </>
                       )}
                     </View>
                   ))}
