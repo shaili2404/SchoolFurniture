@@ -43,7 +43,8 @@ const endUrl = {
     single_cmcrequest :'user/school-cmc',
     single_circuitrequest:'user/school-circuit',
     school_snq :'user/list/school-snq',
-    school_level :'user/list/school-level'
+    school_level :'user/list/school-level',
+    reports_ReplanishmentReports:"user/reports/replenishment-report"
     
 }
 export default endUrl;

@@ -166,7 +166,14 @@ const constants = {
   replanishment_status:'Replanishment Status',
   streetcode_val:'Street code must be of 4 digit',
   telPhone_val:"Telephone.no  must be of 10 digit Start With 0 ",
-  Emis_val:'Emis must be of 9 digit'
+  Emis_val:'Emis must be of 9 digit',
+
+  ReplanishmentReports_Replcount:"Replanishment Count",
+  ReplanishmentReports_trancRefNo:"Transaction Reference Number",
+  ReplanishmentReports_tranRefDate:"Transaction Reference Date",
+  ReplanishmentReports_replaStatus:"Replanishment Status",
+  ReplanishmentReports_TotalPerSchool:"Total Per School",
+
 
 
 
