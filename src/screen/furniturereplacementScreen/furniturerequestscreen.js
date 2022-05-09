@@ -88,6 +88,7 @@ export const FurnitureReplacmentManfacturer = () => {
     if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
     if (select?.id) str += `status_id=${select?.id}&`;
     setLoader(true);
+    console.log(str)
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
       .get(`${endUrl.searchfurRequest}?${str}`)

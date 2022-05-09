@@ -14,20 +14,14 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./style";
-import {
-  useIsFocused,
-  useNavigation,
-} from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
-
-const PAGESIZE = 6;
 
 export const ReplanishmentReports = () => {
   const isFocused = useIsFocused();
@@ -92,8 +86,8 @@ export const ReplanishmentReports = () => {
       });
   };
   const onsuccessapi = (res) => {
-    console.log(res?.data?.data);
-    setCollectionList(res?.data?.data?.records);
+    console.log(res?.data);
+    setCollectionList(res?.data?.records);
     setmaximunNumber(res?.data?.data?.total_page);
     setLoader(false);
   };
@@ -105,7 +99,9 @@ export const ReplanishmentReports = () => {
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.reports_ReplanishmentReports}?page=${count ? count : number}`)
+      .post(
+        `${endUrl.reports_ReplanishmentReports}?page=${count ? count : number}`
+      )
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
@@ -176,11 +172,14 @@ export const ReplanishmentReports = () => {
 
   const tableKey = [
     "school_name",
-    "created_at",
+    "school_emis",
+    "district_office",
     "ref_number",
-    "status",
-    "emis",
-    "total_furniture",
+    "transaction_date",
+    "furniture_category",
+    "replenished_count",
+    "replenishment_status",
+    "total_per_school",
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -192,14 +191,13 @@ export const ReplanishmentReports = () => {
     );
   };
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} lenofContent={'more'} />;
+    return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
 
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-
       <View>
         <View style={Styles.changeView}>
           <Text style={Styles.changeText}>{constants.selReports}</Text>

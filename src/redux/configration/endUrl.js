@@ -44,7 +44,15 @@ const endUrl = {
     single_circuitrequest:'user/school-circuit',
     school_snq :'user/list/school-snq',
     school_level :'user/list/school-level',
-    reports_ReplanishmentReports:"user/reports/replenishment-report"
+    reports_ReplanishmentReports:"user/reports/replenishment-report",
+    reports_DisposalReports:"user/reports/disposal-report",
+    reports_manufacturer_stock_management_report:"user/reports/manufacturer-stock-management-report",
+    reports_school_furniture_count_report:"user/reports/school-furniture-count-report",
+    reports_repairment_report:"user/reports/repairment-report",
+    reports_transaction_summary_report:"user/reports/transaction-summary-report",
+    reports_transaction_status_report:"user/reports/transaction-status-report",
+
+    
     
 }
 export default endUrl;

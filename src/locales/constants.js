@@ -103,7 +103,7 @@ const constants = {
   enterSearchData: "Please enter search data",
   FurCategory: "Furniture Category",
   furItem: "Furniture Items",
-  refrenceNo: "Reference No .",
+  refrenceNo: "Reference No.",
   totalFurnitureCount: "Total Furniture Count",
   inprogress: "In Progress",
   success: "Success",
