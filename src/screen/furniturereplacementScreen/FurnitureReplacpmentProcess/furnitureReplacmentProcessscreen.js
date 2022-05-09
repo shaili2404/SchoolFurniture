@@ -39,6 +39,7 @@ import FileViewer from "react-native-file-viewer";
 import { DisposalCertificateButton } from "./certificateButton/disposalcertificateButton";
 import { DisposalDIlveryButton } from "./certificateButton/disposalDilveryButton";
 import DocumentPicker from "react-native-document-picker";
+import ModalLoader from "../../../component/ModalLoader";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -105,7 +106,7 @@ export const FurnitureReplacmentProcess = () => {
   });
   const [plusSign, setPlusSign] = useState(false);
   const [footerSign, setfooterSign] = useState(false);
-  footerSign;
+ const [modalloader,setmodalloader] = useState(false)  
 
   const {
     school_name,
@@ -828,7 +829,6 @@ export const FurnitureReplacmentProcess = () => {
     setEmailreplanishcertificateStatus(true);
   };
   const onreplanishemailcer = () => {
-    console.log(replenishment_status)
     if (replenishment_status !== null) {
       flatListData.map((ele) => {
         ele.replenish_count = ele.replenished_count;
@@ -840,14 +840,12 @@ export const FurnitureReplacmentProcess = () => {
       items:
         replenishment_status == null ? confirmCollectedCount : flatListData,
     };
-    console.log( replenishment_status !== null ? flatListData : confirmCollectedCount)
-    console.log(data)
     getpdfApi(endUrl?.annexureC, data);
     setStatusOFEmailreplanishcertificateStatus(true);
   };
 
   const uploadSignedreplanishment = async (result) => {
-    setLoader(true);
+    setmodalloader(true)
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
@@ -879,12 +877,12 @@ export const FurnitureReplacmentProcess = () => {
         let res = await response.json();
         if (response.ok) {
           seterrorAlert(true);
-          setLoader(false);
+          setmodalloader(false)
           setMainMsg(res?.message);
           setcheckboxStatusreplanish(true);
         } else ErrorApi(res, "collection");
       } catch (err) {
-        setLoader(false);
+        setmodalloader(false)
       }
     };
 
@@ -1238,6 +1236,9 @@ export const FurnitureReplacmentProcess = () => {
           onBack={() => onBack()}
         />
       ) : null}
+      {modalloader?
+      <ModalLoader visible={modalloader}/>
+    : null}
     </SafeAreaView>
   );
 };
