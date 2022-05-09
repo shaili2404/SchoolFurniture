@@ -98,7 +98,7 @@ export const DataDisplayList = ({
               style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
               key={index}
             >
-              {val === "level_id" && page === constants.school ? (
+              {val === "level_id" && page === constants.School ? (
                 <Text style={Styles.textStyle} numberOfLines={1}>
                   {level}
                 </Text>

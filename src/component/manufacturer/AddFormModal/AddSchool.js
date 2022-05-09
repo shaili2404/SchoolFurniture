@@ -353,7 +353,7 @@ export const AddSchool = (props) => {
                         <View style={style.changeView}>
                           <Text
                             style={
-                              input.value === constants.school ||
+                              input.value === constants.School_Name ||
                               input.value === constants.schoolEmisNumber ||
                               input.value === constants.District ||
                               input.value == constants.Level ||
@@ -431,7 +431,7 @@ export const AddSchool = (props) => {
                               {emis_validateer ? constants.Emis_val : null}
                             </Text>
                           ) : null}
-                           {input.value == constants.school ? (
+                           {input.value == constants.School_Name ? (
                             <Text style={style.errorcol}>
                               {school_validater ? constants.School_message_name : null}
                             </Text>
