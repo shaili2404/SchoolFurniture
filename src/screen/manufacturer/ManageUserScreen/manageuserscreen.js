@@ -94,7 +94,7 @@ export const ManageUserScreen = () => {
         item={item}
         tableKey={tableKey}
         reloadList={() => reloadList()}
-        Url={endUrl.userList}
+        link={endUrl.userList}
         onEdit={(item, task) => onEdit(item, task)}
         mainMessage={AlertText.deleteUser}
         submessage={AlertText.canNotUndo}

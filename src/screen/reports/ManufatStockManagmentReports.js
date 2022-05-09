@@ -17,6 +17,7 @@ import Styles from "./style";
 import {
   useIsFocused,
   useNavigation,
+  useRoute,
 } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
@@ -29,9 +30,14 @@ import AlertText from "../../Alert/AlertText";
 
 const PAGESIZE = 6;
 
-export const ReplanishmentReports = () => {
+export const ManufactStockManageReports = () => {
   const isFocused = useIsFocused();
-
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPage: 0,
+    startIndex: 0,
+    endIndex: 0,
+  });
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -56,6 +62,9 @@ export const ReplanishmentReports = () => {
     userEdit: false,
     userDelete: false,
   });
+  const organization = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
@@ -163,24 +172,13 @@ export const ReplanishmentReports = () => {
   }, [refnumber]);
 
   const tableHeader = [
-    constants.schoolName,
-    constants.schoolEmisNumber,
-    constants.DistrictOffice,
-    constants.ReplanishmentReports_trancRefNo,
-    constants.ReplanishmentReports_tranRefDate,
-    constants.FurnitureCat,
-    constants.ReplanishmentReports_Replcount,
-    constants.ReplanishmentReports_replaStatus,
-    constants.ReplanishmentReports_TotalPerSchool,
+    constants.FurCategory,
+    constants.furItem,
   ];
 
   const tableKey = [
     "school_name",
     "created_at",
-    "ref_number",
-    "status",
-    "emis",
-    "total_furniture",
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -199,7 +197,6 @@ export const ReplanishmentReports = () => {
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-
       <View>
         <View style={Styles.changeView}>
           <Text style={Styles.changeText}>{constants.selReports}</Text>
@@ -217,105 +214,22 @@ export const ReplanishmentReports = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={Styles.refView}>
-          <TextInput
-            style={Styles.refrenceStyle}
-            placeholder={constants.schoolName}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={refnumber}
-            onChangeText={(val) => setrefNumber(val)}
-          />
-          <View style={Styles.dropdownsecStyle}>
-            <Dropdown
-              label={constants.DistrictOffice}
-              data={dropData}
-              onSelect={setSelect}
-              task="name"
-            />
-          </View>
-        </View>
-        <View style={Styles.container}>
+        <View style={Styles.containerManu}>
           <Dropdown
-            label={constants.replanishment_status}
+            label={constants.FurCategory}
             data={dropData}
             onSelect={setSelect}
             task="name"
           />
-        </View>
-        <View style={Styles.viewInputStyle}>
-          <View style={Styles.dropsssssStyle}>
-            <Text style={Styles.textStyle}>
-              {startDateStatus
-                ? "Start Date"
-                : `${startDate?.getDate()}/${
-                    startDate?.getMonth() + 1
-                  }/${startDate?.getFullYear()}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={Styles.eyeStyle}
-            onPress={() => setOpen(true)}
-          >
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-            <DatePicker
-              modal
-              open={open}
-              date={startDate}
-              mode="date"
-              onConfirm={(date) => {
-                setOpen(false);
-                setStartDate(date);
-                setStartDateStatus(false);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
-            />
-          </TouchableOpacity>
-          <View style={Styles.dropsssssStyle}>
-            <Text style={Styles.textStyle}>
-              {enddateStatus
-                ? "End Date"
-                : `${endDate?.getDate()}/${
-                    endDate?.getMonth() + 1
-                  }/${endDate?.getFullYear()}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={Styles.eyeStyles}
-            onPress={() => setCLose(true)}
-          >
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-            <DatePicker
-              modal
-              open={close}
-              date={endDate}
-              mode="date"
-              onConfirm={(date) => {
-                setCLose(false);
-                setEndDate(date);
-                setendDatestatus(false);
-              }}
-              onCancel={() => {
-                setCLose(false);
-              }}
-            />
-          </TouchableOpacity>
         </View>
         <View style={Styles.containerfurcat}>
           <Dropdown
-            label={constants.FurnitureCat}
+            label={constants.Furnitureitems}
             data={dropData}
             onSelect={setSelect}
             task="name"
           />
         </View>
-        {dateErrorMessage ? (
-          <View style={Styles.dateerrorView}>
-            <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
-          </View>
-        ) : null}
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>

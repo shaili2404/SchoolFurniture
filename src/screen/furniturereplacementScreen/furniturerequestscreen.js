@@ -160,6 +160,7 @@ export const FurnitureReplacmentManfacturer = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
+    setSelect({})
   };
 
   useEffect(() => {

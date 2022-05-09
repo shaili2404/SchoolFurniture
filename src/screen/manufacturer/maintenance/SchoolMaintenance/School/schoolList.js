@@ -208,9 +208,12 @@ export const SchoolList = () => {
   };
 
   const onsearch = () => {
+    setErrorMessage('')
     if (searchtask == "") {
       setErrorMessage(constants.enterSearchData);
     } else {
+      console.log(searchtask)
+      console.log(`${endUrl.searchSchool}${searchtask}`)
     setLoader(true);
     axios
       .get(`${endUrl.searchSchool}${searchtask}`)

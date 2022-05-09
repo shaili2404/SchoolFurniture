@@ -165,14 +165,33 @@ const constants = {
   selReports:'Select Reports',
   replanishment_status:'Replanishment Status',
   streetcode_val:'Street code must be of 4 digit',
-  telPhone_val:"Telephone.no  must be of 10 digit Start With 0 ",
+  telPhone_val:"Telephone number must be 10 digit and start with 0",
+  School_message_name:'It accepts only alphabets and numbers',
   Emis_val:'Emis must be of 9 digit',
+  Furnitureitems: "Furniture Items",
+
 
   ReplanishmentReports_Replcount:"Replanishment Count",
   ReplanishmentReports_trancRefNo:"Transaction Reference Number",
   ReplanishmentReports_tranRefDate:"Transaction Reference Date",
   ReplanishmentReports_replaStatus:"Replanishment Status",
   ReplanishmentReports_TotalPerSchool:"Total Per School",
+  DisposalReports_DisposalCount:"Disposal Count",
+  SchoolReports_collectRe:"Collection Requested Count",
+  SchoolReports_collectConfirm:  "Collection Confirmed Count",
+  SchoolReports_fullInvCount: "School Full Inventory Count",
+  RepairReports_Count: "Repair Count",
+  TransactionReports_confirmCollected:'Number of Confirmed Collections',
+  TransactionReports_Repair:'Number of Confirmed Collections',
+  TransactionReports_Disposal:'Number of Disposals',
+  Transaction_Status: 'Transaction Status',
+  Replenishment_Report:'Replenishment Report',
+  Disposal_Report:'Disposal Report',
+  Manufacturer_Stock :'Manufacturer Stock Management Report',
+  School_Furniture_Count_Report:'School Furniture Count Report',
+  Repairment_Report:'Repairment Report',
+  Transactions_Summary_Report:"Transactions Summary Report",
+  Transactions_Status_Report:'Transactions Status Report'
 
 
 

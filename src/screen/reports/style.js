@@ -4,9 +4,13 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default StyleSheet.create({
   mainView: {
-    height: height,
     position: "relative",
     backgroundColor: COLORS.White,
+  },
+  mainsecView: {
+    position: "relative",
+    backgroundColor: COLORS.White,
+    flex:1
   },
   mainViews: {
     position: "relative",
@@ -216,6 +220,19 @@ export default StyleSheet.create({
     justifyContent: "center",
     flexDirection: "column",
     marginTop: 20,
+  },
+  containerManu: {
+    borderRadius: 5,
+    backgroundColor: COLORS.White,
+    width: "90%",
+    height: 40,
+    paddingLeft: 20,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    marginTop: 20,
+    marginBottom: 20,
   },
   containerfurcat: {
     borderRadius: 5,

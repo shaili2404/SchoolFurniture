@@ -66,10 +66,8 @@ export const DataDisplayList = ({
       const response = await axios.delete(`${link}/${item.id}`);
       if (response.status === 200) 
          reloadList();
-      
       else
         reloadList();
-      
     } catch (e) {
       setMainMsg(e?.response?.data?.message);
       setSubMsg(e?.response?.data?.data);

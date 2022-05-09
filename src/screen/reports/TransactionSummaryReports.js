@@ -17,6 +17,7 @@ import Styles from "./style";
 import {
   useIsFocused,
   useNavigation,
+  useRoute,
 } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
@@ -29,9 +30,15 @@ import AlertText from "../../Alert/AlertText";
 
 const PAGESIZE = 6;
 
-export const ReplanishmentReports = () => {
+export const TransactionSummaryReports
+ = () => {
   const isFocused = useIsFocused();
-
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalPage: 0,
+    startIndex: 0,
+    endIndex: 0,
+  });
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -56,6 +63,9 @@ export const ReplanishmentReports = () => {
     userEdit: false,
     userDelete: false,
   });
+  const organization = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
@@ -166,12 +176,9 @@ export const ReplanishmentReports = () => {
     constants.schoolName,
     constants.schoolEmisNumber,
     constants.DistrictOffice,
-    constants.ReplanishmentReports_trancRefNo,
-    constants.ReplanishmentReports_tranRefDate,
-    constants.FurnitureCat,
-    constants.ReplanishmentReports_Replcount,
-    constants.ReplanishmentReports_replaStatus,
-    constants.ReplanishmentReports_TotalPerSchool,
+    constants.TransactionReports_confirmCollected,
+    constants.TransactionReports_Repair,
+    constants.TransactionReports_Disposal
   ];
 
   const tableKey = [
@@ -235,14 +242,7 @@ export const ReplanishmentReports = () => {
             />
           </View>
         </View>
-        <View style={Styles.container}>
-          <Dropdown
-            label={constants.replanishment_status}
-            data={dropData}
-            onSelect={setSelect}
-            task="name"
-          />
-        </View>
+       
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
@@ -303,14 +303,7 @@ export const ReplanishmentReports = () => {
             />
           </TouchableOpacity>
         </View>
-        <View style={Styles.containerfurcat}>
-          <Dropdown
-            label={constants.FurnitureCat}
-            data={dropData}
-            onSelect={setSelect}
-            task="name"
-          />
-        </View>
+      
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
@@ -361,6 +354,8 @@ export const ReplanishmentReports = () => {
           )}
         </TouchableOpacity>
       </View>
+      {/* <View style={{ height: 0 }} /> */}
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };

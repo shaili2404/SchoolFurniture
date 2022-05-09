@@ -176,6 +176,7 @@ export const CMC = () => {
   };
 
   const onsearch = () => {
+    setErrorMessage('')
     if (searchtask == "") {
       setErrorMessage(constants.enterSearchData);
     } else {
