@@ -14,13 +14,24 @@ import { SchoolFullFurReports } from "./SchoolFullFurCountReorts";
 import { RepairmentReports } from "./RepirmentReports";
 import { TransactionSummaryReports } from "./TransactionSummaryReports";
 import { TransactionStatusReports } from "./TransactionStatusReports";
-import axios from "axios";
-import endUrl from "../../redux/configration/endUrl";
+import { useSelector } from "react-redux";
+
 
 export const Reports = () => {
   const navigation = useNavigation();
+  const organization = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
 
-  const dropDownData = [
+  const dropDownData = 
+  // organization == constants.school?  [
+  //   {id:0,name:constants.Replenishment_Report},
+  //   {id:1,name:constants.Disposal_Report},
+  //   {id:2,name:constants.Manufacturer_Stock},
+  //   {id:3,name:constants.School_Furniture_Count_Report},
+  //   {id:4,name:constants.Repairment_Report},
+  // ] :
+  [
     {id:0,name:constants.Replenishment_Report},
     {id:1,name:constants.Disposal_Report},
     {id:2,name:constants.Manufacturer_Stock},
@@ -32,6 +43,7 @@ export const Reports = () => {
   const [select, setSelect] = useState([]);
   const [loader, setLoader] = useState(false);
   const [dropData, setDropData] = useState(dropDownData);
+  
 
  useEffect(()=>{
   ListShowaccDrop()

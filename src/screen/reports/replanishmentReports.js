@@ -22,6 +22,7 @@ import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
+import ModalLoader from "../../component/ModalLoader";
 
 export const ReplanishmentReports = () => {
   const isFocused = useIsFocused();
@@ -35,15 +36,20 @@ export const ReplanishmentReports = () => {
   const [loader, setLoader] = useState(true);
   const [dropData, setDropData] = useState([]);
   const [select, setSelect] = useState([]);
+  const [fur_select, setfur_Select] = useState([]);
   const [refnumber, setrefNumber] = useState("");
-  const [emisNumber, setEmisNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
-  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [distList, setDistList] = useState([]);
+  const [fur_cat, setFur_cat] = useState([]);
   const [number, setNumber] = useState(1);
+  const [replanishment_status, setreplanishment_status] = useState([]);
+  const [modalloader, setmodalloader] = useState(false);
+  const [prevpage,setprevpage] = useState('')
+  const [nextPage,setnextpage] = useState('')
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -58,41 +64,62 @@ export const ReplanishmentReports = () => {
       setDateErrorMessage(AlertText.DateError);
     else setDateErrorMessage("");
   }, [startDate, endDate]);
+
   const onsearch = () => {
     setSearchStatus(false);
-    let strtDte = `${startDate?.getFullYear()}-${
-      startDate?.getMonth() + 1
-    }-${startDate?.getDate()}`;
-    let endDte = `${endDate?.getFullYear()}-${
-      endDate?.getMonth() + 1
-    }-${endDate.getDate()}`;
-    let str = "";
-    if (!validation(refnumber)) str += `ref_number=${refnumber}&`;
-    if (startDateStatus == false) str += `start_date=${strtDte}&`;
-    if (enddateStatus == false) str += `end_date=${endDte}&`;
-    if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
-    if (select?.id) str += `status_id=${select?.id}&`;
-    setLoader(true);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
+    if (
+      select?.id == null &&
+      fur_select?.id == null &&
+      replanishment_status?.id == null &&
+      startDateStatus == true &&
+      enddateStatus == true &&
+      validation(refnumber)
+    )
+      setErrorMessage(constants.enterSearchData);
+    else {
+      let strtDte = `${startDate?.getFullYear()}-${
+        startDate?.getMonth() + 1
+      }-${startDate?.getDate()}`;
+      let endDte = `${endDate?.getFullYear()}-${
+        endDate?.getMonth() + 1
+      }-${endDate.getDate()}`;
+      let str = "";
+      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
+      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
+      if (enddateStatus == false) str += `end_date=${endDte}&&`;
+      if (select?.id) str += `district_office=${select?.id}&&`;
+      if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
+      if (replanishment_status?.id)
+        str += `replenishment_status=${replanishment_status?.id}&&`;
+      setmodalloader(true);
+      axios
+        .post(`${endUrl.reports_ReplanishmentReports}?${str}`)
+        .then((res) => {
+          setCollectionList(res?.data?.data?.records);
+          setmodalloader(false);
+        })
+        .catch((e) => {
+          setmodalloader(false);
+          setErrorMessage(e?.response?.data?.message);
+        });
+    }
+  };
+  const getDistrictList = async () => {
     axios
-      .get(`${endUrl.searchfurRequest}?${str}`)
+      .get(`${endUrl.schoolDistList}?all=true`)
       .then((res) => {
-        setCollectionList(res?.data?.data);
-        setLoader(false);
+        setDistList(res?.data?.data?.records);
+       
       })
-      .catch((e) => {
-        onerrorapi(e);
-        setErrorMessage(e?.response?.data?.message);
-      });
+      .catch((e) => {});
   };
   const onsuccessapi = (res) => {
-    console.log(res?.data);
-    setCollectionList(res?.data?.records);
-    setmaximunNumber(res?.data?.data?.total_page);
+    setprevpage(res?.data?.data?.previous_page)
+    setnextpage(res?.data?.data?.next_page)
+    setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
   const onerrorapi = (e) => {
-    console.log(e);
     setLoader(false);
   };
 
@@ -108,9 +135,16 @@ export const ReplanishmentReports = () => {
   const getstatusList = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.statusList}`)
+      .get(`${endUrl.replanishStatus}`)
       .then((res) => setDropData(res?.data?.data))
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
+  };
+  const getfurcat = () => {
+    setLoader(true);
+    axios
+      .get(`${endUrl.stockCategoryList}?all=true`)
+      .then((res) => setFur_cat(res?.data?.data?.records))
+      .catch((e) => {});
   };
 
   useLayoutEffect(() => {
@@ -121,6 +155,8 @@ export const ReplanishmentReports = () => {
   useEffect(() => {
     getCollectionRequest();
     getstatusList();
+    getDistrictList();
+    getfurcat();
   }, [isFocused]);
 
   const onNext = () => {
@@ -141,7 +177,6 @@ export const ReplanishmentReports = () => {
 
   const onReset = () => {
     setSearchStatus(true);
-    setEmisNumber("");
     setrefNumber("");
     setStartDateStatus(true);
     setendDatestatus(true);
@@ -149,14 +184,13 @@ export const ReplanishmentReports = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
+    getDistrictList();
+    getstatusList()
+    getfurcat();
+    setSelect({});
+    setfur_Select({});
+    setreplanishment_status({});
   };
-
-  useEffect(() => {
-    if (refnumber == "") {
-      getCollectionRequest();
-      getstatusList();
-    }
-  }, [refnumber]);
 
   const tableHeader = [
     constants.schoolName,
@@ -177,7 +211,7 @@ export const ReplanishmentReports = () => {
     "ref_number",
     "transaction_date",
     "furniture_category",
-    "replenished_count",
+    "replenishment_count",
     "replenishment_status",
     "total_per_school",
   ];
@@ -227,9 +261,9 @@ export const ReplanishmentReports = () => {
           <View style={Styles.dropdownsecStyle}>
             <Dropdown
               label={constants.DistrictOffice}
-              data={dropData}
+              data={distList}
               onSelect={setSelect}
-              task="name"
+              task="district_office"
             />
           </View>
         </View>
@@ -237,7 +271,7 @@ export const ReplanishmentReports = () => {
           <Dropdown
             label={constants.replanishment_status}
             data={dropData}
-            onSelect={setSelect}
+            onSelect={setreplanishment_status}
             task="name"
           />
         </View>
@@ -304,8 +338,8 @@ export const ReplanishmentReports = () => {
         <View style={Styles.containerfurcat}>
           <Dropdown
             label={constants.FurnitureCat}
-            data={dropData}
-            onSelect={setSelect}
+            data={fur_cat}
+            onSelect={setfur_Select}
             task="name"
           />
         </View>
@@ -329,36 +363,38 @@ export const ReplanishmentReports = () => {
           </ScrollView>
         )}
       </View>
+      {searchStatus ? (
+        <View style={Styles.lastView}>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={prevpage == null ? true : false}
+          >
+            {prevpage == null ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
 
-      <View style={Styles.lastView}>
-        <TouchableOpacity
-          onPress={onPrevious}
-          disabled={number == 1 ? true : false}
-        >
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={onNext}
-          disabled={number == maximumNumber ? true : false}
-        >
-          {number == maximumNumber ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={nextPage == null? true : false}
+          >
+            {nextPage == null ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );
 };

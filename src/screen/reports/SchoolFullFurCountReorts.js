@@ -17,27 +17,19 @@ import Styles from "./style";
 import {
   useIsFocused,
   useNavigation,
-  useRoute,
 } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
+import ModalLoader from "../../component/ModalLoader";
 
-const PAGESIZE = 6;
 
 export const SchoolFullFurReports = () => {
   const isFocused = useIsFocused();
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -48,7 +40,6 @@ export const SchoolFullFurReports = () => {
   const [dropData, setDropData] = useState([]);
   const [select, setSelect] = useState([]);
   const [refnumber, setrefNumber] = useState("");
-  const [emisNumber, setEmisNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [startDateStatus, setStartDateStatus] = useState(true);
@@ -56,15 +47,20 @@ export const SchoolFullFurReports = () => {
   const [searchStatus, setSearchStatus] = useState(true);
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
+  const [distList, setDistList] = useState([]);
+  const [stockItem, setStockItem] = useState([]);
+  const [fur_select, setfur_Select] = useState([]);
+  const [furItem_select, setfurItem_Select] = useState([]);
+  const [modalloader,setmodalloader] = useState(false)  
+  const [prevpage,setprevpage] = useState('')
+  const [nextPage,setnextpage] = useState('')
+
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
   });
-  const organization = useSelector(
-    (state) => state?.loginData?.user?.data?.data?.user?.organization
-  );
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
@@ -73,58 +69,90 @@ export const SchoolFullFurReports = () => {
       setDateErrorMessage(AlertText.DateError);
     else setDateErrorMessage("");
   }, [startDate, endDate]);
+
   const onsearch = () => {
     setSearchStatus(false);
-    let strtDte = `${startDate?.getFullYear()}-${
-      startDate?.getMonth() + 1
-    }-${startDate?.getDate()}`;
-    let endDte = `${endDate?.getFullYear()}-${
-      endDate?.getMonth() + 1
-    }-${endDate.getDate()}`;
-    let str = "";
-    if (!validation(refnumber)) str += `ref_number=${refnumber}&`;
-    if (startDateStatus == false) str += `start_date=${strtDte}&`;
-    if (enddateStatus == false) str += `end_date=${endDte}&`;
-    if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
-    if (select?.id) str += `status_id=${select?.id}&`;
-    setLoader(true);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios
-      .get(`${endUrl.searchfurRequest}?${str}`)
-      .then((res) => {
-        setCollectionList(res?.data?.data);
-        setLoader(false);
-      })
-      .catch((e) => {
-        onerrorapi(e);
-        setErrorMessage(e?.response?.data?.message);
-      });
+    if (
+      select?.id == null &&
+      fur_select?.id == null &&
+      furItem_select?.id == null &&
+      startDateStatus == true &&
+      enddateStatus == true &&
+      validation(refnumber)
+    )
+      setErrorMessage(constants.enterSearchData);
+    else {
+      let strtDte = `${startDate?.getFullYear()}-${
+        startDate?.getMonth() + 1
+      }-${startDate?.getDate()}`;
+      let endDte = `${endDate?.getFullYear()}-${
+        endDate?.getMonth() + 1
+      }-${endDate.getDate()}`;
+      let str = "";
+      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
+      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
+      if (enddateStatus == false) str += `end_date=${endDte}&&`;
+      if (select?.id) str += `district_office=${select?.id}&&`;
+      if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
+      if (furItem_select?.id)
+        str += `item_id=${furItem_select?.id}&&`;
+      setmodalloader(true);
+      axios
+        .post(`${endUrl.reports_school_furniture_count_report}?${str}`)
+        .then((res) => {
+          setCollectionList(res?.data?.data?.records);
+          setmodalloader(false);
+        })
+        .catch((e) => {
+          setmodalloader(false);
+          setErrorMessage(e?.response?.data?.message);
+        });
+    }
   };
   const onsuccessapi = (res) => {
-    console.log(res?.data?.data);
     setCollectionList(res?.data?.data?.records);
-    setmaximunNumber(res?.data?.data?.total_page);
+    setprevpage(res?.data?.data?.previous_page)
+    setnextpage(res?.data?.data?.next_page)
     setLoader(false);
   };
   const onerrorapi = (e) => {
-    console.log(e);
     setLoader(false);
   };
 
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.reports_ReplanishmentReports}?page=${count ? count : number}`)
+      .post(`${endUrl.reports_school_furniture_count_report}?page=${count ? count : number}`)
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
-  const getstatusList = () => {
+  const getDistrictList = async () => {
+    axios
+      .get(`${endUrl.schoolDistList}?all=true`)
+      .then((res) => {
+        setDistList(res?.data?.data?.records);
+      })
+      .catch((e) => {});
+  };
+  const getfurcategory = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.statusList}`)
-      .then((res) => setDropData(res?.data?.data))
-      .catch((e) => console.log("apicall", e));
+      .get(`${endUrl.stockCategoryList}?all=true`)
+      .then((res) => setDropData(res?.data?.data?.records))
+      .catch((e) => {});
   };
+
+  const getfuritem = (id) => {
+    axios
+      .get(`${endUrl.categoryWiseItem}/${id}/edit`)
+      .then((res) => {
+        setStockItem(res?.data?.data);
+      })
+      .catch((e) => {
+        setLoader(false);
+      });
+  };
+
 
   useLayoutEffect(() => {
     const title = constants.Reports;
@@ -133,7 +161,9 @@ export const SchoolFullFurReports = () => {
 
   useEffect(() => {
     getCollectionRequest();
-    getstatusList();
+    getfurcategory();
+    getfuritem();
+    getDistrictList()
   }, [isFocused]);
 
   const onNext = () => {
@@ -154,7 +184,6 @@ export const SchoolFullFurReports = () => {
 
   const onReset = () => {
     setSearchStatus(true);
-    setEmisNumber("");
     setrefNumber("");
     setStartDateStatus(true);
     setendDatestatus(true);
@@ -162,14 +191,14 @@ export const SchoolFullFurReports = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
+    getDistrictList()
+    getfurcategory();
+    getfuritem();
+    setSelect({})
+    setfur_Select({})
+    setfurItem_Select({})
   };
 
-  useEffect(() => {
-    if (refnumber == "") {
-      getCollectionRequest();
-      getstatusList();
-    }
-  }, [refnumber]);
 
   const tableHeader = [
     constants.schoolName,
@@ -187,11 +216,16 @@ export const SchoolFullFurReports = () => {
 
   const tableKey = [
     "school_name",
-    "created_at",
+    "school_emis",
+    "district_office",
     "ref_number",
-    "status",
-    "emis",
-    "total_furniture",
+    "transaction_date",
+    "school_inventory_count",
+    "furniture_category",
+    "furniture_item",
+    "collection_requested_count",
+    "collection_confirmed_count",
+    "total_per_school"
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -202,8 +236,13 @@ export const SchoolFullFurReports = () => {
       />
     );
   };
+
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={'more'} />;
+  };
+  const setCategoryValue = (item) => {
+    setfur_Select(item);
+    getfuritem(item?.id);
   };
 
   return loader ? (
@@ -240,9 +279,9 @@ export const SchoolFullFurReports = () => {
           <View style={Styles.dropdownsecStyle}>
             <Dropdown
               label={constants.DistrictOffice}
-              data={dropData}
+              data={distList}
               onSelect={setSelect}
-              task="name"
+              task="district_office"
             />
           </View>
         </View>
@@ -250,7 +289,7 @@ export const SchoolFullFurReports = () => {
           <Dropdown
             label={constants.FurnitureCat}
             data={dropData}
-            onSelect={setSelect}
+            onSelect={(item)=>setCategoryValue(item)}
             task="name"
           />
         </View>
@@ -318,8 +357,8 @@ export const SchoolFullFurReports = () => {
         <View style={Styles.containerfurcat}>
           <Dropdown
             label={constants.Furnitureitems}
-            data={dropData}
-            onSelect={setSelect}
+            data={stockItem}
+            onSelect={setfurItem_Select}
             task="name"
           />
         </View>
@@ -344,38 +383,40 @@ export const SchoolFullFurReports = () => {
           </ScrollView>
         )}
       </View>
+  {searchStatus?
+     <View style={Styles.lastView}>
+     <TouchableOpacity
+       onPress={onPrevious}
+       disabled={prevpage == null ? true : false}
+     >
+       {prevpage == null ? (
+         <Image source={Images.leftarrow} />
+       ) : (
+         <Image
+           source={Images.rightarrow}
+           style={{ transform: [{ rotate: "180deg" }] }}
+         />
+       )}
+     </TouchableOpacity>
 
-      <View style={Styles.lastView}>
-        <TouchableOpacity
-          onPress={onPrevious}
-          disabled={number == 1 ? true : false}
-        >
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={onNext}
-          disabled={number == maximumNumber ? true : false}
-        >
-          {number == maximumNumber ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
-      {/* <View style={{ height: 0 }} /> */}
-      {/* </ScrollView> */}
+     <TouchableOpacity
+       onPress={onNext}
+       disabled={nextPage == null? true : false}
+     >
+       {nextPage == null ? (
+         <Image
+           source={Images.leftarrow}
+           style={{ transform: [{ rotate: "180deg" }] }}
+         />
+       ) : (
+         <Image source={Images.rightarrow} />
+       )}
+     </TouchableOpacity>
+   </View>
+      :null}
+ {modalloader?
+      <ModalLoader visible={modalloader}/>
+    : null}
     </SafeAreaView>
   );
 };
