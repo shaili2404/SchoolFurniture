@@ -8,6 +8,8 @@ import {
   FlatList,
   ScrollView,
   Image,
+  PermissionsAndroid,
+  Platform
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -27,18 +29,14 @@ import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
+import ModalLoader from "../../component/ModalLoader";
+import RNFS from "react-native-fs";
+import XLSX from "xlsx";
+import FileViewer from "react-native-file-viewer";
 
-const PAGESIZE = 6;
 
-export const TransactionSummaryReports
- = () => {
+export const TransactionSummaryReports = () => {
   const isFocused = useIsFocused();
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -48,24 +46,26 @@ export const TransactionSummaryReports
   const [loader, setLoader] = useState(true);
   const [dropData, setDropData] = useState([]);
   const [select, setSelect] = useState([]);
+  const [dist_select, setdist_Select] = useState([]);
   const [refnumber, setrefNumber] = useState("");
-  const [emisNumber, setEmisNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
-  const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
+  const [distList, setDistList] = useState([]);
+  const [modalloader,setmodalloader] = useState(false)  
+  const [prevpage,setprevpage] = useState('')
+  const [nextPage,setnextpage] = useState('')
+  const [collection_List, setCollection_List] = useState([]);
+
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
   });
-  const organization = useSelector(
-    (state) => state?.loginData?.user?.data?.data?.user?.organization
-  );
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
@@ -74,37 +74,46 @@ export const TransactionSummaryReports
       setDateErrorMessage(AlertText.DateError);
     else setDateErrorMessage("");
   }, [startDate, endDate]);
+
   const onsearch = () => {
     setSearchStatus(false);
-    let strtDte = `${startDate?.getFullYear()}-${
-      startDate?.getMonth() + 1
-    }-${startDate?.getDate()}`;
-    let endDte = `${endDate?.getFullYear()}-${
-      endDate?.getMonth() + 1
-    }-${endDate.getDate()}`;
-    let str = "";
-    if (!validation(refnumber)) str += `ref_number=${refnumber}&`;
-    if (startDateStatus == false) str += `start_date=${strtDte}&`;
-    if (enddateStatus == false) str += `end_date=${endDte}&`;
-    if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
-    if (select?.id) str += `status_id=${select?.id}&`;
-    setLoader(true);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios
-      .get(`${endUrl.searchfurRequest}?${str}`)
-      .then((res) => {
-        setCollectionList(res?.data?.data);
-        setLoader(false);
-      })
-      .catch((e) => {
-        onerrorapi(e);
-        setErrorMessage(e?.response?.data?.message);
-      });
+    if (
+      dist_select?.id == null &&
+      startDateStatus == true &&
+      enddateStatus == true &&
+      validation(refnumber)
+    )
+      setErrorMessage(constants.enterSearchData);
+    else {
+      let strtDte = `${startDate?.getFullYear()}-${
+        startDate?.getMonth() + 1
+      }-${startDate?.getDate()}`;
+      let endDte = `${endDate?.getFullYear()}-${
+        endDate?.getMonth() + 1
+      }-${endDate.getDate()}`;
+      let str = "";
+      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
+      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
+      if (enddateStatus == false) str += `end_date=${endDte}&&`;
+      if (dist_select?.id) str += `district_office =${dist_select?.id}&&`;
+
+      setmodalloader(true);
+      axios
+        .post(`${endUrl.reports_transaction_summary_report}?${str}`)
+        .then((res) => {
+          setCollectionList(res?.data?.data?.records);
+          setmodalloader(false);
+        })
+        .catch((e) => {
+          setmodalloader(false);
+          setErrorMessage(e?.response?.data?.message);
+        });
+    }
   };
   const onsuccessapi = (res) => {
-    console.log(res?.data?.data);
-    setCollectionList(res?.data?.data?.records);
-    setmaximunNumber(res?.data?.data?.total_page);
+    setprevpage(res?.data?.data?.previous_page)
+    setnextpage(res?.data?.data?.next_page)
+        setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
   const onerrorapi = (e) => {
@@ -115,9 +124,29 @@ export const TransactionSummaryReports
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.reports_ReplanishmentReports}?page=${count ? count : number}`)
+      .post(
+        `${endUrl.reports_transaction_summary_report}?page=${count ? count : number}`
+      )
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
+  };
+  const getallData = () => {
+    setLoader(true);
+    axios
+      .post(`${endUrl.reports_transaction_summary_report}?all=true`)
+      .then((res) =>{
+        setCollection_List(res?.data?.data?.records);
+        setLoader(false);
+      })
+      .catch((e) => onerrorapi(e));
+  };
+  const getDistrictList = async () => {
+    axios
+      .get(`${endUrl.schoolDistList}?all=true`)
+      .then((res) => {
+        setDistList(res?.data?.data?.records);
+      })
+      .catch((e) => {});
   };
   const getstatusList = () => {
     setLoader(true);
@@ -135,6 +164,8 @@ export const TransactionSummaryReports
   useEffect(() => {
     getCollectionRequest();
     getstatusList();
+    getDistrictList()
+    getallData()
   }, [isFocused]);
 
   const onNext = () => {
@@ -143,6 +174,7 @@ export const TransactionSummaryReports
     setNumber(number + 1);
     getCollectionRequest(count);
     setLoader(false);
+    getallData()
   };
 
   const onPrevious = () => {
@@ -151,11 +183,11 @@ export const TransactionSummaryReports
     setNumber(number - 1);
     getCollectionRequest(count);
     setLoader(false);
+    getallData()
   };
 
   const onReset = () => {
     setSearchStatus(true);
-    setEmisNumber("");
     setrefNumber("");
     setStartDateStatus(true);
     setendDatestatus(true);
@@ -163,32 +195,32 @@ export const TransactionSummaryReports
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
+    getstatusList()
+    getDistrictList()
+    setSelect({})
+    setdist_Select({})
+    getallData()
   };
 
-  useEffect(() => {
-    if (refnumber == "") {
-      getCollectionRequest();
-      getstatusList();
-    }
-  }, [refnumber]);
-
+  
   const tableHeader = [
     constants.schoolName,
     constants.schoolEmisNumber,
     constants.DistrictOffice,
     constants.TransactionReports_confirmCollected,
     constants.TransactionReports_Repair,
-    constants.TransactionReports_Disposal
+    constants.TransactionReports_Disposal,
   ];
 
   const tableKey = [
     "school_name",
-    "created_at",
-    "ref_number",
-    "status",
-    "emis",
-    "total_furniture",
+    "school_emis",
+    "district_office",
+    "confirmed_collections",
+    "repairs",
+    "disposals",
   ];
+
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -199,14 +231,105 @@ export const TransactionSummaryReports
     );
   };
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} lenofContent={'more'} />;
+    return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
+  };
+
+  const exportDataToExcel = async () => {
+   
+    let wb = XLSX.utils.book_new();
+    let ws = XLSX.utils.json_to_sheet(searchStatus ? collectionList : collection_List);
+    ws["!cols"] = [
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+    ];
+
+    ws["!rows"] = [
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+    ];
+    XLSX.utils.book_append_sheet(wb, ws, "Users");
+    const wbout = await XLSX.write(wb, {
+      type: "binary",
+      bookType: "xlsx",
+      compression: false,
+    });
+    const d = new Date();
+   
+
+    var path = RNFS.DocumentDirectoryPath + `/Transaction_summary_reports.xlsx`  ;
+    RNFS.writeFile(path,wbout, 'ascii')
+      .then((res) => {})
+      .catch((e) => {
+        console.log("Error", e);
+      });
+      openfile(path)
+  };
+
+  const openfile = async (path) => {
+    await FileViewer.open(path)
+      .then((r) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClick = async () => {
+    try {
+      // Check for Permission (check if permission is already given or not)
+      let isPermitedExternalStorage = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+
+      if (!isPermitedExternalStorage) {
+        // Ask for permission
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: "Storage permission needed",
+            buttonNeutral: "Ask Me Later",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK",
+          }
+        );
+
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // Permission Granted (calling our exportDataToExcel function)
+          exportDataToExcel();
+          console.log("Permission granted");
+        } else {
+          // Permission denied
+          console.log("Permission denied");
+        }
+      } else {
+        // Already have Permission (calling our exportDataToExcel function)
+        exportDataToExcel();
+      }
+    } catch (e) {
+      console.log("Error while checking permission");
+      console.log(e);
+      return;
+    }
   };
 
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-
       <View>
         <View style={Styles.changeView}>
           <Text style={Styles.changeText}>{constants.selReports}</Text>
@@ -236,13 +359,13 @@ export const TransactionSummaryReports
           <View style={Styles.dropdownsecStyle}>
             <Dropdown
               label={constants.DistrictOffice}
-              data={dropData}
-              onSelect={setSelect}
-              task="name"
+              data={distList}
+              onSelect={setdist_Select}
+              task="district_office"
             />
           </View>
         </View>
-       
+      
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
@@ -303,7 +426,18 @@ export const TransactionSummaryReports
             />
           </TouchableOpacity>
         </View>
-      
+        <View style={Styles.downloadButtonView}>
+          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
+          <TouchableOpacity
+            style={Styles.downloadButton}
+            onPress={() => Platform.OS == 'android'? handleClick() :exportDataToExcel() }
+          >
+            <Text style={Styles.searchText}>
+              {constants.download}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
@@ -325,37 +459,40 @@ export const TransactionSummaryReports
         )}
       </View>
 
-      <View style={Styles.lastView}>
-        <TouchableOpacity
-          onPress={onPrevious}
-          disabled={number == 1 ? true : false}
-        >
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          )}
-        </TouchableOpacity>
+      {searchStatus?
+     <View style={Styles.lastView}>
+     <TouchableOpacity
+       onPress={onPrevious}
+       disabled={prevpage == null ? true : false}
+     >
+       {prevpage == null ? (
+         <Image source={Images.leftarrow} />
+       ) : (
+         <Image
+           source={Images.rightarrow}
+           style={{ transform: [{ rotate: "180deg" }] }}
+         />
+       )}
+     </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={onNext}
-          disabled={number == maximumNumber ? true : false}
-        >
-          {number == maximumNumber ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
-      {/* <View style={{ height: 0 }} /> */}
-      {/* </ScrollView> */}
+     <TouchableOpacity
+       onPress={onNext}
+       disabled={nextPage == null? true : false}
+     >
+       {nextPage == null ? (
+         <Image
+           source={Images.leftarrow}
+           style={{ transform: [{ rotate: "180deg" }] }}
+         />
+       ) : (
+         <Image source={Images.rightarrow} />
+       )}
+     </TouchableOpacity>
+   </View>
+      :null}
+      {modalloader?
+      <ModalLoader visible={modalloader}/>
+    : null}
     </SafeAreaView>
   );
 };

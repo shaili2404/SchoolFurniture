@@ -27,6 +27,14 @@ export default StyleSheet.create({
     width: "90%",
     paddingEnd: 20,
   },
+  downloadButtonView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    width: "90%",
+    paddingEnd: 20,
+    marginBottom:20
+  },
   refView: {
     width: "90%",
     flexDirection: "row",
@@ -43,6 +51,15 @@ export default StyleSheet.create({
     backgroundColor: COLORS.GreenBox,
     borderRadius: 5,
     width: 70,
+    height: 30,
+    alignSelf: "flex-end",
+    paddingTop: 5,
+    marginTop: 15,
+  },
+  downloadButton: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: 90,
     height: 30,
     alignSelf: "flex-end",
     paddingTop: 5,
@@ -244,7 +261,7 @@ export default StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     flexDirection: "column",
-    marginBottom: 20,
+    marginBottom: 5,
   },
   containersup: {
     borderRadius: 5,

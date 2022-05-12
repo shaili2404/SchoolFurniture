@@ -8,6 +8,8 @@ import {
   FlatList,
   ScrollView,
   Image,
+  Platform,
+  PermissionsAndroid,
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -23,6 +25,10 @@ import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
+
+ import RNFS from "react-native-fs";
+import XLSX from "xlsx";
+import FileViewer from "react-native-file-viewer";
 
 export const ReplanishmentReports = () => {
   const isFocused = useIsFocused();
@@ -50,6 +56,8 @@ export const ReplanishmentReports = () => {
   const [modalloader, setmodalloader] = useState(false);
   const [prevpage,setprevpage] = useState('')
   const [nextPage,setnextpage] = useState('')
+  const [collection_List, setCollection_List] = useState([]);
+
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -132,6 +140,17 @@ export const ReplanishmentReports = () => {
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
+  const getallData = () => {
+    setLoader(true);
+    axios
+      .post(`${endUrl.reports_DisposalReports}?all=true`)
+      .then((res) =>{
+        setCollection_List(res?.data?.data?.records);
+        setLoader(false);
+      })
+      .catch((e) => onerrorapi(e));
+  };
+
   const getstatusList = () => {
     setLoader(true);
     axios
@@ -157,6 +176,7 @@ export const ReplanishmentReports = () => {
     getstatusList();
     getDistrictList();
     getfurcat();
+    getallData()
   }, [isFocused]);
 
   const onNext = () => {
@@ -165,6 +185,7 @@ export const ReplanishmentReports = () => {
     setNumber(number + 1);
     getCollectionRequest(count);
     setLoader(false);
+    getallData()
   };
 
   const onPrevious = () => {
@@ -173,6 +194,7 @@ export const ReplanishmentReports = () => {
     setNumber(number - 1);
     getCollectionRequest(count);
     setLoader(false);
+    getallData()
   };
 
   const onReset = () => {
@@ -190,7 +212,8 @@ export const ReplanishmentReports = () => {
     setSelect({});
     setfur_Select({});
     setreplanishment_status({});
-  };
+    getallData()
+  }
 
   const tableHeader = [
     constants.schoolName,
@@ -228,6 +251,98 @@ export const ReplanishmentReports = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
 
+  const exportDataToExcel = async () => {
+   
+    let wb = XLSX.utils.book_new();
+    let ws = XLSX.utils.json_to_sheet(searchStatus ? collectionList : collection_List);
+    ws["!cols"] = [
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+      { width: 30 },
+    ];
+
+    ws["!rows"] = [
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+      { hpt: 50 },
+    ];
+    XLSX.utils.book_append_sheet(wb, ws, "Users");
+    const wbout = await XLSX.write(wb, {
+      type: "binary",
+      bookType: "xlsx",
+      compression: false,
+    });
+    const d = new Date();
+   
+
+    var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`  ;
+    RNFS.writeFile(path,wbout, 'ascii')
+      .then((res) => {})
+      .catch((e) => {
+        console.log("Error", e);
+      });
+      openfile(path)
+  };
+
+  const openfile = async (path) => {
+    await FileViewer.open(path)
+      .then((r) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClick = async () => {
+    try {
+      // Check for Permission (check if permission is already given or not)
+      let isPermitedExternalStorage = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+
+      if (!isPermitedExternalStorage) {
+        // Ask for permission
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: "Storage permission needed",
+            buttonNeutral: "Ask Me Later",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK",
+          }
+        );
+
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // Permission Granted (calling our exportDataToExcel function)
+          exportDataToExcel();
+          console.log("Permission granted");
+        } else {
+          // Permission denied
+          console.log("Permission denied");
+        }
+      } else {
+        // Already have Permission (calling our exportDataToExcel function)
+        exportDataToExcel();
+      }
+    } catch (e) {
+      console.log("Error while checking permission");
+      console.log(e);
+      return;
+    }
+  };
+
   return loader ? (
     <Loader />
   ) : (
@@ -248,7 +363,9 @@ export const ReplanishmentReports = () => {
               {searchStatus ? constants.search : constants.Reset}
             </Text>
           </TouchableOpacity>
+          
         </View>
+        
         <View style={Styles.refView}>
           <TextInput
             style={Styles.refrenceStyle}
@@ -343,6 +460,18 @@ export const ReplanishmentReports = () => {
             task="name"
           />
         </View>
+        <View style={Styles.downloadButtonView}>
+          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
+          <TouchableOpacity
+            style={Styles.downloadButton}
+            onPress={() => Platform.OS == 'android'? handleClick() :exportDataToExcel() }
+          >
+            <Text style={Styles.searchText}>
+              {constants.download}
+            </Text>
+          </TouchableOpacity>
+        </View>
+       
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
