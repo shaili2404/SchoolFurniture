@@ -113,7 +113,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
+      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`) 
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };

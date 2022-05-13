@@ -15,7 +15,7 @@ const endUrl = {
     stockCategoryList : 'user/stock-category',
     stockitemList:'user/stock-item',
     stockItemSearch:'user/search/stock-item?query=',
-    collectionreqList:'user/furniture-collection-request',
+    collectionreqList:'user/furniture-collection-request', 
     categoryWiseItem : 'user/stock-category',
     addFurRequest :"user/furniture-collection-request",
     getManageRequest: "user/furniture-manage-collection/list",
@@ -44,6 +44,8 @@ const endUrl = {
     single_circuitrequest:'user/school-circuit',
     school_snq :'user/list/school-snq',
     school_level :'user/list/school-level',
+    searchBy_ReferenceNumber : 'user/collection-request/search/reference-number',
+    searchBy_DateRange : 'user/collection-request/search/date-range',
     reports_ReplanishmentReports:"user/reports/replenishment-report",
     reports_DisposalReports:"user/reports/disposal-report",
     reports_manufacturer_stock_management_report:"user/reports/manufacturer-stock-management-report",
@@ -55,4 +57,4 @@ const endUrl = {
     
     
 }
-export default endUrl;
+export default endUrl; 
