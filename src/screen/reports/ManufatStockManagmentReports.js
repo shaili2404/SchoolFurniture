@@ -197,6 +197,7 @@ export const ManufactStockManageReports = () => {
       { width: 30 },
       { width: 30 },
     ];
+    
 
     // ws["!rows"] = [
     //   { hpt: 50 },
