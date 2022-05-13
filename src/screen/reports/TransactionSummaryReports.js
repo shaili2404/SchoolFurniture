@@ -9,7 +9,8 @@ import {
   ScrollView,
   Image,
   PermissionsAndroid,
-  Platform
+  Platform,
+  Alert
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -237,7 +238,7 @@ export const TransactionSummaryReports = () => {
   const exportDataToExcel = async () => {
    
     let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collectionList : collection_List);
+    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
     ws["!cols"] = [
       { width: 30 },
       { width: 30 },
@@ -271,13 +272,32 @@ export const TransactionSummaryReports = () => {
     const d = new Date();
    
 
-    var path = RNFS.DocumentDirectoryPath + `/Transaction_summary_reports.xlsx`  ;
+    var path = RNFS.DocumentDirectoryPath + `/Transactionreports.xlsx`  ;
+    RNFS.unlink(path, wbout, "ascii")
+    .then(() => {
+      console.log("FILE DELETED");
+    })
+    // `unlink` will throw an error, if the item to unlink does not exist
+    .catch((err) => {
+      console.log(err.message);
+    });
+
     RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {})
+      .then((res) => {
+        Alert.alert(
+          "Successfully Exported",
+          "Path:" + path,
+          [
+            { text: "Cancel", style: "cancel" },
+            { text: "Open", onPress: () => openfile(path) },
+          ],
+          { cancelable: true }
+        );
+      })
       .catch((e) => {
         console.log("Error", e);
       });
-      openfile(path)
+    
   };
 
   const openfile = async (path) => {

@@ -8,7 +8,8 @@ import {
   ScrollView,
   Image,
   PermissionsAndroid,
-  Platform
+  Platform,
+  Alert
 } from "react-native";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
@@ -97,7 +98,7 @@ export const ManufactStockManageReports = () => {
   const getallData = () => {
     setLoader(true);
     axios
-      .post(`${endUrl.reports_DisposalReports}?all=true`)
+      .post(`${endUrl.reports_manufacturer_stock_management_report}?all=true`)
       .then((res) =>{
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
@@ -181,9 +182,10 @@ export const ManufactStockManageReports = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
   const exportDataToExcel = async () => {
+ console.log('185',collection_List)
    
     let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collectionList : collection_List);
+    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
     ws["!cols"] = [
       { width: 30 },
       { width: 30 },
@@ -217,13 +219,31 @@ export const ManufactStockManageReports = () => {
     const d = new Date();
    
 
-    var path = RNFS.DocumentDirectoryPath + `/Manufacture_stock_managamentReports.xlsx`  ;
+    var path = RNFS.DocumentDirectoryPath + `/stockreports.xlsx`;
+
+    RNFS.unlink(path, wbout, "ascii")
+    .then(() => {
+      console.log("FILE DELETED");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+
     RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {})
+      .then((res) => {
+        Alert.alert(
+          "Successfully Exported",
+          "Path:" + path,
+          [
+            { text: "Cancel", style: "cancel" },
+            { text: "Open", onPress: () => openfile(path) },
+          ],
+          { cancelable: true }
+        );
+      })
       .catch((e) => {
         console.log("Error", e);
       });
-      openfile(path)
   };
 
   const openfile = async (path) => {
@@ -236,13 +256,11 @@ export const ManufactStockManageReports = () => {
 
   const handleClick = async () => {
     try {
-      // Check for Permission (check if permission is already given or not)
       let isPermitedExternalStorage = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
       );
 
       if (!isPermitedExternalStorage) {
-        // Ask for permission
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
           {
@@ -254,7 +272,6 @@ export const ManufactStockManageReports = () => {
         );
 
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission Granted (calling our exportDataToExcel function)
           exportDataToExcel();
           console.log("Permission granted");
         } else {
@@ -262,7 +279,6 @@ export const ManufactStockManageReports = () => {
           console.log("Permission denied");
         }
       } else {
-        // Already have Permission (calling our exportDataToExcel function)
         exportDataToExcel();
       }
     } catch (e) {

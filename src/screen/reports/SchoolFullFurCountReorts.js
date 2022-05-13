@@ -9,7 +9,8 @@ import {
   ScrollView,
   Image,
   PermissionsAndroid,
-  Platform
+  Platform,
+  Alert
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -137,7 +138,7 @@ export const SchoolFullFurReports = () => {
   const getallData = () => {
     setLoader(true);
     axios
-      .post(`${endUrl.reports_DisposalReports}?all=true`)
+      .post(`${endUrl.reports_school_furniture_count_report}?all=true`)
       .then((res) =>{
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
@@ -269,7 +270,7 @@ export const SchoolFullFurReports = () => {
   const exportDataToExcel = async () => {
    
     let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collectionList : collection_List);
+    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
     ws["!cols"] = [
       { width: 30 },
       { width: 30 },
@@ -304,12 +305,30 @@ export const SchoolFullFurReports = () => {
    
 
     var path = RNFS.DocumentDirectoryPath + `/School_full_fur_count.xlsx`  ;
+    RNFS.unlink(path, wbout, "ascii")
+    .then(() => {
+      console.log("FILE DELETED");
+    })
+    // `unlink` will throw an error, if the item to unlink does not exist
+    .catch((err) => {
+      console.log(err.message);
+    });
+
     RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {})
+      .then((res) => {
+        Alert.alert(
+          "Successfully Exported",
+          "Path:" + path,
+          [
+            { text: "Cancel", style: "cancel" },
+            { text: "Open", onPress: () => openfile(path) },
+          ],
+          { cancelable: true }
+        );
+      })
       .catch((e) => {
         console.log("Error", e);
       });
-      openfile(path)
   };
 
   const openfile = async (path) => {

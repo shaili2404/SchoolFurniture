@@ -10,6 +10,7 @@ import {
   Image,
   Platform,
   PermissionsAndroid,
+  Alert
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -143,7 +144,7 @@ export const ReplanishmentReports = () => {
   const getallData = () => {
     setLoader(true);
     axios
-      .post(`${endUrl.reports_DisposalReports}?all=true`)
+      .post(`${endUrl.reports_ReplanishmentReports}?all=true`)
       .then((res) =>{
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
@@ -254,7 +255,7 @@ export const ReplanishmentReports = () => {
   const exportDataToExcel = async () => {
    
     let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collectionList : collection_List);
+    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
     ws["!cols"] = [
       { width: 30 },
       { width: 30 },
@@ -289,12 +290,28 @@ export const ReplanishmentReports = () => {
    
 
     var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`  ;
+    RNFS.unlink(path, wbout, "ascii")
+    .then(() => {
+      console.log("FILE DELETED");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
     RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {})
+      .then((res) => {
+        Alert.alert(
+          "Successfully Exported",
+          "Path:" + path,
+          [
+            { text: "Cancel", style: "cancel" },
+            { text: "Open", onPress: () => openfile(path) },
+          ],
+          { cancelable: true }
+        );
+      })
       .catch((e) => {
         console.log("Error", e);
       });
-      openfile(path)
   };
 
   const openfile = async (path) => {

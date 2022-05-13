@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect, cloneElement } from "react";
 import {
   SafeAreaView,
   View,
@@ -10,6 +10,7 @@ import {
   Image,
   PermissionsAndroid,
   Platform,
+  Alert,
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -232,10 +233,11 @@ export const DisposalReports = () => {
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
+
   const exportDataToExcel = async () => {
     let wb = XLSX.utils.book_new();
     let ws = XLSX.utils.json_to_sheet(
-      searchStatus ? collectionList : collection_List
+      searchStatus ? collection_List : collectionList
     );
 
     ws["!cols"] = [
@@ -271,16 +273,36 @@ export const DisposalReports = () => {
     });
 
     var timestamp = new Date().toISOString().replace(/[-:.]/g, "");
-    var random_name = "ReplanishmentReports"+timestamp ;
-    console.log( String(timestamp));
+    var random_name = "ReplanishmentReports" + timestamp;
+    console.log(timestamp);
 
     var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`;
+    RNFS.unlink(path, wbout, "ascii")
+      .then(() => {
+        console.log("FILE DELETED");
+      })
+      // `unlink` will throw an error, if the item to unlink does not exist
+      .catch((err) => {
+        console.log(err.message);
+      });
     RNFS.writeFile(path, wbout, "ascii")
-      .then((res) => {})
+      .then((res) => {
+        console.log("success");
+        Alert.alert(
+          "Successfully Exported",
+          "Path:" + path,
+          [
+            { text: "Cancel", style: "cancel" },
+            { text: "Open", onPress: () => openfile(path) },
+          ],
+          { cancelable: true }
+        );
+      })
       .catch((e) => {
         console.log("Error", e);
       });
-    openfile(path);
+
+    // openfile(path);
   };
 
   const openfile = async (path) => {
