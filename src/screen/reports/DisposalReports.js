@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect, cloneElement } from "react";
 import {
   SafeAreaView,
   View,
@@ -8,9 +8,9 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Platform,
   PermissionsAndroid,
-  Alert
+  Platform,
+  Alert,
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -20,54 +20,60 @@ import Styles from "./style";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-
- import RNFS from "react-native-fs";
+import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
 
-export const ReplanishmentReports = () => {
+export const DisposalReports = () => {
   const isFocused = useIsFocused();
-
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [close, setCLose] = useState(false);
   const [open, setOpen] = useState(false);
   const [collectionList, setCollectionList] = useState([]);
+  const [collection_List, setCollection_List] = useState([]);
   const [loader, setLoader] = useState(true);
   const [dropData, setDropData] = useState([]);
   const [select, setSelect] = useState([]);
-  const [fur_select, setfur_Select] = useState([]);
+  const [selectdist, setSelectdist] = useState([]);
   const [refnumber, setrefNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
-  const [distList, setDistList] = useState([]);
-  const [fur_cat, setFur_cat] = useState([]);
   const [number, setNumber] = useState(1);
-  const [replanishment_status, setreplanishment_status] = useState([]);
+  const [distList, setDistList] = useState([]);
   const [modalloader, setmodalloader] = useState(false);
-  const [prevpage,setprevpage] = useState('')
-  const [nextPage,setnextpage] = useState('')
-  const [collection_List, setCollection_List] = useState([]);
-
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
   });
+
+  const getDistrictList = async () => {
+    axios
+      .get(`${endUrl.schoolDistList}?all=true`)
+      .then((res) => {
+        setDistList(res?.data?.data?.records);
+      })
+      .catch((e) => {});
+  };
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
+
   useEffect(() => {
     if (startDate.getTime() > endDate.getTime())
       setDateErrorMessage(AlertText.DateError);
@@ -78,8 +84,7 @@ export const ReplanishmentReports = () => {
     setSearchStatus(false);
     if (
       select?.id == null &&
-      fur_select?.id == null &&
-      replanishment_status?.id == null &&
+      selectdist?.id == null &&
       startDateStatus == true &&
       enddateStatus == true &&
       validation(refnumber)
@@ -96,13 +101,11 @@ export const ReplanishmentReports = () => {
       if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
       if (startDateStatus == false) str += `start_date=${strtDte}&&`;
       if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (select?.id) str += `district_office=${select?.id}&&`;
-      if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
-      if (replanishment_status?.id)
-        str += `replenishment_status=${replanishment_status?.id}&&`;
+      if (select?.id) str += `category_id=${select?.id}&&`;
+      if (selectdist?.id) str += `district_office=${selectdist?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_ReplanishmentReports}?${str}`)
+        .post(`${endUrl.reports_DisposalReports}?${str}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setmodalloader(false);
@@ -113,21 +116,14 @@ export const ReplanishmentReports = () => {
         });
     }
   };
-  const getDistrictList = async () => {
-    axios
-      .get(`${endUrl.schoolDistList}?all=true`)
-      .then((res) => {
-        setDistList(res?.data?.data?.records);
-       
-      })
-      .catch((e) => {});
-  };
+
   const onsuccessapi = (res) => {
-    setprevpage(res?.data?.data?.previous_page)
-    setnextpage(res?.data?.data?.next_page)
+    setprevpage(res?.data?.data?.previous_page);
+    setnextpage(res?.data?.data?.next_page);
     setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
+
   const onerrorapi = (e) => {
     setLoader(false);
   };
@@ -135,35 +131,26 @@ export const ReplanishmentReports = () => {
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .post(
-        `${endUrl.reports_ReplanishmentReports}?page=${count ? count : number}`
-      )
+      .post(`${endUrl.reports_DisposalReports}?page=${count ? count : number}`)
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
   const getallData = () => {
     setLoader(true);
     axios
-      .post(`${endUrl.reports_ReplanishmentReports}?all=true`)
-      .then((res) =>{
+      .post(`${endUrl.reports_DisposalReports}?all=true`)
+      .then((res) => {
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
       })
       .catch((e) => onerrorapi(e));
   };
 
-  const getstatusList = () => {
-    setLoader(true);
-    axios
-      .get(`${endUrl.replanishStatus}`)
-      .then((res) => setDropData(res?.data?.data))
-      .catch((e) => {});
-  };
-  const getfurcat = () => {
+  const getfurcategory = () => {
     setLoader(true);
     axios
       .get(`${endUrl.stockCategoryList}?all=true`)
-      .then((res) => setFur_cat(res?.data?.data?.records))
+      .then((res) => setDropData(res?.data?.data?.records))
       .catch((e) => {});
   };
 
@@ -174,10 +161,9 @@ export const ReplanishmentReports = () => {
 
   useEffect(() => {
     getCollectionRequest();
-    getstatusList();
+    getfurcategory();
     getDistrictList();
-    getfurcat();
-    getallData()
+    getallData();
   }, [isFocused]);
 
   const onNext = () => {
@@ -186,7 +172,7 @@ export const ReplanishmentReports = () => {
     setNumber(number + 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onPrevious = () => {
@@ -195,7 +181,7 @@ export const ReplanishmentReports = () => {
     setNumber(number - 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onReset = () => {
@@ -207,14 +193,12 @@ export const ReplanishmentReports = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
-    getDistrictList();
-    getstatusList()
-    getfurcat();
     setSelect({});
-    setfur_Select({});
-    setreplanishment_status({});
-    getallData()
-  }
+    setDistList({});
+    getDistrictList();
+    getfurcategory();
+    getallData();
+  };
 
   const tableHeader = [
     constants.schoolName,
@@ -223,8 +207,7 @@ export const ReplanishmentReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
-    constants.ReplanishmentReports_Replcount,
-    constants.ReplanishmentReports_replaStatus,
+    constants.DisposalReports_DisposalCount,
     constants.ReplanishmentReports_TotalPerSchool,
   ];
 
@@ -236,7 +219,6 @@ export const ReplanishmentReports = () => {
     "transaction_date",
     "furniture_category",
     "replenishment_count",
-    "replenishment_status",
     "total_per_school",
   ];
   const rendercomponent = ({ item }) => {
@@ -253,9 +235,11 @@ export const ReplanishmentReports = () => {
   };
 
   const exportDataToExcel = async () => {
-   
     let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
+    let ws = XLSX.utils.json_to_sheet(
+      searchStatus ? collection_List : collectionList
+    );
+
     ws["!cols"] = [
       { width: 30 },
       { width: 30 },
@@ -280,25 +264,30 @@ export const ReplanishmentReports = () => {
       { hpt: 50 },
       { hpt: 50 },
     ];
+
     XLSX.utils.book_append_sheet(wb, ws, "Users");
     const wbout = await XLSX.write(wb, {
       type: "binary",
       bookType: "xlsx",
       compression: false,
     });
-    const d = new Date();
-   
 
-    var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`  ;
+    var timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+    var random_name = "ReplanishmentReports" + timestamp;
+    console.log(timestamp);
+
+    var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`;
     RNFS.unlink(path, wbout, "ascii")
-    .then(() => {
-      console.log("FILE DELETED");
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-    RNFS.writeFile(path,wbout, 'ascii')
+      .then(() => {
+        console.log("FILE DELETED");
+      })
+      // `unlink` will throw an error, if the item to unlink does not exist
+      .catch((err) => {
+        console.log(err.message);
+      });
+    RNFS.writeFile(path, wbout, "ascii")
       .then((res) => {
+        console.log("success");
         Alert.alert(
           "Successfully Exported",
           "Path:" + path,
@@ -312,6 +301,8 @@ export const ReplanishmentReports = () => {
       .catch((e) => {
         console.log("Error", e);
       });
+
+    // openfile(path);
   };
 
   const openfile = async (path) => {
@@ -380,9 +371,7 @@ export const ReplanishmentReports = () => {
               {searchStatus ? constants.search : constants.Reset}
             </Text>
           </TouchableOpacity>
-          
         </View>
-        
         <View style={Styles.refView}>
           <TextInput
             style={Styles.refrenceStyle}
@@ -396,16 +385,16 @@ export const ReplanishmentReports = () => {
             <Dropdown
               label={constants.DistrictOffice}
               data={distList}
-              onSelect={setSelect}
+              onSelect={setSelectdist}
               task="district_office"
             />
           </View>
         </View>
         <View style={Styles.container}>
           <Dropdown
-            label={constants.replanishment_status}
+            label={constants.FurnitureCat}
             data={dropData}
-            onSelect={setreplanishment_status}
+            onSelect={setSelect}
             task="name"
           />
         </View>
@@ -469,26 +458,18 @@ export const ReplanishmentReports = () => {
             />
           </TouchableOpacity>
         </View>
-        <View style={Styles.containerfurcat}>
-          <Dropdown
-            label={constants.FurnitureCat}
-            data={fur_cat}
-            onSelect={setfur_Select}
-            task="name"
-          />
-        </View>
         <View style={Styles.downloadButtonView}>
           <Text style={Styles.transactionText}>{constants.exportreports}</Text>
           <TouchableOpacity
             style={Styles.downloadButton}
-            onPress={() => Platform.OS == 'android'? handleClick() :exportDataToExcel() }
+            onPress={() =>
+              Platform.OS == "android" ? handleClick() : exportDataToExcel()
+            }
           >
-            <Text style={Styles.searchText}>
-              {constants.download}
-            </Text>
+            <Text style={Styles.searchText}>{constants.download}</Text>
           </TouchableOpacity>
         </View>
-       
+
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
@@ -527,7 +508,7 @@ export const ReplanishmentReports = () => {
 
           <TouchableOpacity
             onPress={onNext}
-            disabled={nextPage == null? true : false}
+            disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
               <Image

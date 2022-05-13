@@ -177,6 +177,7 @@ export const SubPlacesList = () => {
   };
 
   const onsearch = () => {
+    setErrorMessage('')
     if (searchtask == "") {
       setErrorMessage(constants.enterSearchData);
     } else {

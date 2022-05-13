@@ -66,10 +66,8 @@ export const DataDisplayList = ({
       const response = await axios.delete(`${link}/${item.id}`);
       if (response.status === 200) 
          reloadList();
-      
       else
         reloadList();
-      
     } catch (e) {
       setMainMsg(e?.response?.data?.message);
       setSubMsg(e?.response?.data?.data);
@@ -100,7 +98,7 @@ export const DataDisplayList = ({
               style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
               key={index}
             >
-              {val === "level_id" && page === constants.school ? (
+              {val === "level_id" && page === constants.School ? (
                 <Text style={Styles.textStyle} numberOfLines={1}>
                   {level}
                 </Text>

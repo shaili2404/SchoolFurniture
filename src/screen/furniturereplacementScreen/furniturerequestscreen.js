@@ -88,6 +88,7 @@ export const FurnitureReplacmentManfacturer = () => {
     if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
     if (select?.id) str += `status_id=${select?.id}&`;
     setLoader(true);
+    console.log(str)
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
       .get(`${endUrl.searchfurRequest}?${str}`)
@@ -160,6 +161,7 @@ export const FurnitureReplacmentManfacturer = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
+    setSelect({})
   };
 
   useEffect(() => {
@@ -355,7 +357,8 @@ export const FurnitureReplacmentManfacturer = () => {
             </TouchableOpacity>
           </View>
         ) : null}
-        <View style={Styles.lastView}>
+        {searchStatus?
+            <View style={Styles.lastView}>
           <TouchableOpacity
             onPress={onPrevious}
             disabled={number == 1 ? true : false}
@@ -384,6 +387,7 @@ export const FurnitureReplacmentManfacturer = () => {
             )}
           </TouchableOpacity>
         </View>
+        :null}
         <View style={{ height: 70 }} />
         </ScrollView>
       </SafeAreaView>

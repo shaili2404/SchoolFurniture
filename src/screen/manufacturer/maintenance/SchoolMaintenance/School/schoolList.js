@@ -65,7 +65,7 @@ export const SchoolList = () => {
     "tel",
   ];
   const tableHeader = [
-    constants.School,
+    constants.School_Name,
     constants.schoolEmisNumber,
     constants.SchoolDistrict,
     constants.Cmc,
@@ -79,7 +79,7 @@ export const SchoolList = () => {
   ];
 
   const addArray = [
-    { key: "name", value: constants.School },
+    { key: "name", value: constants.School_Name },
     { key: "emis", value: constants.schoolEmisNumber },
     { key: "school_principal", value: constants.SchoolPrinciple },
     { key: "tel", value: constants.SchoolTelno },
@@ -208,9 +208,12 @@ export const SchoolList = () => {
   };
 
   const onsearch = () => {
+    setErrorMessage('')
     if (searchtask == "") {
       setErrorMessage(constants.enterSearchData);
     } else {
+      console.log(searchtask)
+      console.log(`${endUrl.searchSchool}${searchtask}`)
     setLoader(true);
     axios
       .get(`${endUrl.searchSchool}${searchtask}`)

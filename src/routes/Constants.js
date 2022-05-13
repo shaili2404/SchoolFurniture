@@ -18,13 +18,13 @@ const USER_ROLE = {
         name: 'Home',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/home-icon.png'),
-        screenName: NavigationRouteNames.DASHBOARDUSER
+        screenName: NavigationRouteNames.HOME
       },
       {
         name: 'Dashboard',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
-        screenName: NavigationRouteNames.DASHBOARDUSER
+        screenName: NavigationRouteNames.FIRST
       },
       {
         name: 'Search',
@@ -54,7 +54,7 @@ const USER_ROLE = {
         name: 'Reports',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
-        screenName: NavigationRouteNames.FIRST
+        screenName: NavigationRouteNames.REPORTS
       },
       {
         name: 'Manage Users',

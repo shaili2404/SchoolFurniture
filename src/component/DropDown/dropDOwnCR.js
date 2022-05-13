@@ -169,7 +169,9 @@ const DropdownCR = ({
 
   return (
     <>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} ref={DropdownButton}
+        onPress={toggleDropdown}
+        disabled={isDisable}>
         {renderDropdown()}
         <Text style={styles.buttonText}>
           {(selected && selected[task]) || label}

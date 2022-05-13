@@ -70,6 +70,17 @@ const DashboardStack = () => {
     </Drawer.Navigator>
   );
 };
+const homestack = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+      <Drawer.Screen
+        component={DashboardUser}
+        name={NavigationRouteNames.HOME}
+        options={CommonHeaderStyle}
+      />
+    </Drawer.Navigator>
+  );
+};
 
 const ManageUserDrawerStack = () => {
   return (
@@ -378,6 +389,11 @@ const AppStack = (props) => {
          <Stack.Screen
           name={NavigationRouteNames.REPORTS}
           component={ReportsDrawerStack}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.HOME}
+          component={homestack}
           options={{ headerShown: false }}
         />
       {/* ) : (
