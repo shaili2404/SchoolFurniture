@@ -41,10 +41,6 @@ export const DataDisplayList = ({
   const [errorMsg, setErrorMsg] = useState(false)
   const [mainMsg, setMainMsg] = useState('')
   const [subMsg, setSubMsg] = useState('')
-  const [repItem, setRepItem] = useState('')
-  const [confirmCount, setConfirmCount] = useState('')
-  const [deliverCount, setDeliverCount] = useState('')
-  const [brokenItems, setBrokenItems] = useState(false)
 
   const getContent = (val) => {
     if (val && Array.isArray(val)) {
@@ -60,44 +56,13 @@ export const DataDisplayList = ({
     <SafeAreaView style={Styles.firstView}>
       <View style={Styles.mainView}>
         {tableKey.map((val, index) => (
-          <TouchableOpacity
-            // onPress={() => schoolDataList(item, constants.Edit)}
-            key={index}
-          >
             <View key={val} style={Styles.viewStyle}>
               {getContent(item[val])}
             </View>
-          </TouchableOpacity>
         ))}
       </View>
-      {userModal ? (
-        <AddUserModal
-          visible={userModal}
-          setmodalVisible={(val) => setUserModal(val)}
-          data={item}
-          name={`Edit ${constants.School} `}
-          buttonVal={constants.update}
-        />
-      ) : null}
 
-      {alert ? (
-        <AlertMessage
-          visible={alert}
-          setmodalVisible={(val) => setAlert(val)}
-          mainMessage={mainMessage ? mainMessage : ''}
-          subMessage={submessage ? submessage : ''}
-          type={constants.dropdown_Type}
-          onConfirm={() => onPressYes()}
-        />
-      ) : null}
-      {errorMsg ? (
-        <AlertMessage
-          visible={errorMsg}
-          setmodalVisible={(val) => setErrorMsg(val)}
-          mainMessage={mainMsg}
-          subMessage={subMsg}
-        />
-      ) : null}
+      
     </SafeAreaView>
   )
 }
