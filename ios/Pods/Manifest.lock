@@ -276,6 +276,10 @@ PODS:
     - glog
   - react-native-date-picker (4.2.0):
     - React-Core
+  - react-native-document-picker (8.1.0):
+    - React-Core
+  - react-native-html-to-pdf (0.12.0):
+    - React-Core
   - react-native-network-info (5.2.1):
     - React
   - react-native-safe-area-context (3.4.1):
@@ -351,8 +355,19 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.16.3):
     - React-Core
+  - RNFileViewer (2.1.5):
+    - React-Core
   - RNGestureHandler (2.3.2):
     - React-Core
+  - RNImageCropPicker (0.37.3):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.37.3)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.37.3):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNReanimated (2.4.1):
     - DoubleConversion
     - FBLazyVector
@@ -384,6 +399,7 @@ PODS:
   - RNScreens (3.13.1):
     - React-Core
     - React-RCTImage
+  - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -432,6 +448,8 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
+  - react-native-html-to-pdf (from `../node_modules/react-native-html-to-pdf`)
   - react-native-network-info (from `../node_modules/react-native-network-info`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -449,7 +467,9 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNFileViewer (from `../node_modules/react-native-file-viewer`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -469,6 +489,7 @@ SPEC REPOS:
     - fmt
     - libevent
     - OpenSSL-Universal
+    - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -510,6 +531,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
+  react-native-html-to-pdf:
+    :path: "../node_modules/react-native-html-to-pdf"
   react-native-network-info:
     :path: "../node_modules/react-native-network-info"
   react-native-safe-area-context:
@@ -544,8 +569,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNFileViewer:
+    :path: "../node_modules/react-native-file-viewer"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -586,6 +615,8 @@ SPEC CHECKSUMS:
   React-jsinspector: ab80bcdb02f28cdfc0dbbaea6db1241565d59002
   React-logger: b08f354e4c928ff794ca477347fea0922aaf11c3
   react-native-date-picker: d83ab9cccbc497642a93fdca783ae76ecd6b17b6
+  react-native-document-picker: 5663fe4bcdb646200683a41790464d2793307ac8
+  react-native-html-to-pdf: 4c5c6e26819fe202971061594058877aa9b25265
   react-native-network-info: d1290ffc0bd0709e11436f5b8d7f605dcc5c4530
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
@@ -603,9 +634,12 @@ SPEC CHECKSUMS:
   ReactCommon: 2e816fad39f65f2a94a5999d5be463a6b620dcf6
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: 13d3b40c7fae0796d10b23fbec382e7a76807a0f
+  RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
   RNGestureHandler: 6e757e487a4834e7280e98e9bac66d2d9c575e9c
+  RNImageCropPicker: 44e2807bc410741f35d4c45b6586aedfe3da39d2
   RNReanimated: 32c91e28f5780937b8efc07ddde1bab8d373fe0b
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 5cbf25add73edb290e1067017690f7ebf56c5468
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

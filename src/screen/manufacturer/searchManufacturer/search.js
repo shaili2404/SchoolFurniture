@@ -23,11 +23,7 @@ import { ListHeaderComman } from '../../../component/manufacturer/ListHeaderComm
 import Loader from '../../../component/loader'
 import AlertText from '../../../Alert/AlertText'
 import { useNavigation } from '@react-navigation/native'
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button'
+import RadioForm from 'react-native-simple-radio-button'
 import DatePicker from 'react-native-date-picker'
 
 const PAGESIZE = 10
@@ -72,8 +68,8 @@ export const Search = () => {
     'emis',
     'ref_number',
     'created_at',
-    'broken_items',
-    'total_broken_items',
+    'category_name',
+    'count',
     'status',
   ]
 
@@ -129,6 +125,27 @@ export const Search = () => {
   }, [listData])
 
   const rendercomponent = ({ item }) => {
+    const brokenItem = item.broken_items
+    if (brokenItem && Array.isArray(brokenItem) && brokenItem.length > 0) {
+      return brokenItem.map((brItem) =>
+        renderRow({
+          ...item,
+          category_name: brItem.category_name,
+          rowId: `${item.id}-${brItem.id}`,
+          count: brItem.count,
+        })
+      )
+    } else {
+      return renderRow({
+        ...item,
+        category_name: '',
+        rowId: item.id,
+        count: brItem.total_broken_items,
+      })
+    }
+  }
+
+  const renderRow = (item) => {
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate('FurnitureReplacmentProcess', item)}
@@ -212,7 +229,7 @@ export const Search = () => {
       )
       .then((res) => {
         console.log('res', res?.data?.data)
-        setListData(res?.data?.data)
+        setListData(res?.data?.data?.records)
         setLoader(false)
       })
       .catch((e) => {
