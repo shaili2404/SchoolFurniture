@@ -18,7 +18,7 @@ import constants from '../../../locales/constants'
 import axios from 'axios'
 import endUrl from '../../../redux/configration/endUrl'
 import { useSelector } from 'react-redux'
-import { DataDisplayList } from './searchDisplayListComman'
+import { DataDisplayList } from '../../../component/manufacturer/displayListComman'
 import { ListHeaderComman } from '../../../component/manufacturer/ListHeaderComman'
 import Loader from '../../../component/loader'
 import AlertText from '../../../Alert/AlertText'
@@ -30,7 +30,6 @@ import RadioForm, {
 } from 'react-native-simple-radio-button'
 import DatePicker from 'react-native-date-picker'
 
-const PAGESIZE = 10
 
 export const Search = () => {
   const [listData, setListData] = useState([])
@@ -72,7 +71,7 @@ export const Search = () => {
     'emis',
     'ref_number',
     'created_at',
-    'broken_items',
+    'category_name',
     'total_broken_items',
     'status',
   ]
@@ -130,9 +129,9 @@ export const Search = () => {
 
   const rendercomponent = ({ item }) => {
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('FurnitureReplacmentProcess', item)}
-      >
+      // <TouchableOpacity
+      //   onPress={() => navigation.navigate('FurnitureReplacmentProcess', item)}
+      // >
         <DataDisplayList
           item={item}
           tableKey={tableKey}
@@ -143,7 +142,7 @@ export const Search = () => {
           permissionId={permissionId}
           data={'0'}
         />
-      </TouchableOpacity>
+      // </TouchableOpacity>
     )
   }
 
@@ -158,7 +157,7 @@ export const Search = () => {
   const apicall = (count) => {
     setLoader(true)
     axios
-      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
+      .get(`${endUrl.get_search_list}?page=${count ? count : number}`)
       .then((res) => {
         setListData(res?.data?.data?.records)
         setmaximunNumber(res?.data?.data?.total_page)
@@ -212,7 +211,7 @@ export const Search = () => {
       )
       .then((res) => {
         console.log('res', res?.data?.data)
-        setListData(res?.data?.data)
+        setListData(res?.data?.data?.records)
         setLoader(false)
       })
       .catch((e) => {

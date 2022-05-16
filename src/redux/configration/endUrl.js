@@ -53,6 +53,7 @@ const endUrl = {
     reports_repairment_report:"user/reports/repairment-report",
     reports_transaction_summary_report:"user/reports/transaction-summary-report",
     reports_transaction_status_report:"user/reports/transaction-status-report",
+    get_search_list: "user/collection-request/search/get-search-list",
 
     
     
