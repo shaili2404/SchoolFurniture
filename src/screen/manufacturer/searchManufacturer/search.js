@@ -65,6 +65,7 @@ export const Search = () => {
   })
   const [errorMessage, setErrorMessage] = useState('')
   const [permissionArr, setpermissionArr] = useState([])
+  const [searchStatus, setSearchStatus] = useState(true);
 
   const tableKey = [
     'school_name',
@@ -183,7 +184,7 @@ export const Search = () => {
   }
 
   const onsearch = async () => {
-    console.log('hi', searchValue)
+    setSearchStatus(false);
     // setLoader(true);
     let strtDte = `${startDate?.getFullYear()}-${
       startDate?.getMonth() + 1
@@ -225,6 +226,14 @@ export const Search = () => {
   useEffect(() => {
     apicall()
   }, [])
+  const onReset = () => {
+    setSearchStatus(true);
+    apicall()
+    setErrorMessage('')
+    setSearchTask('')
+    setendDatestatus(true)
+    setStartDateStatus(true)
+  };
 
   useEffect(() => {
     if (listData) setLoader(false)
@@ -343,12 +352,17 @@ export const Search = () => {
         <View style={styles.buttonView}>
           <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={() => onsearch()}
+            onPress={searchStatus ? onsearch : onReset}
           >
-            <Text style={styles.buttonText}>{constants.search}</Text>
+            <Text style={styles.buttonText}>{searchStatus ? constants.search : constants.Reset}</Text>
           </TouchableOpacity>
         </View>
       </View>
+      {errorMessage ? (
+            <View style={Styles.errorView}>
+              <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+            </View>
+          ) : (
       <ScrollView
         style={styles.radView}
         horizontal={true}
@@ -362,6 +376,7 @@ export const Search = () => {
           renderItem={rendercomponent}
         />
       </ScrollView>
+          )}
 
       <View style={Styles.lastView}>
         <TouchableOpacity

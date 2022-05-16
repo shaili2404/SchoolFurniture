@@ -197,19 +197,20 @@ export const ManufactStockManageReports = () => {
       { width: 30 },
       { width: 30 },
     ];
+    
 
-    ws["!rows"] = [
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-      { hpt: 50 },
-    ];
+    // ws["!rows"] = [
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    // ];
     XLSX.utils.book_append_sheet(wb, ws, "Users");
     const wbout = await XLSX.write(wb, {
       type: "binary",
