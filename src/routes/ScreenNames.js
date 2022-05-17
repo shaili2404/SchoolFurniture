@@ -22,7 +22,8 @@ const NavigationRouteNames = {
     CIRCUIT:"Circuit",
     CMC:"Cmc",
     SUBPLACES:"Sub Places",
-    REPORTS:'Reports'
+    REPORTS:'Reports',
+    HOME:'home',
 
 };
 

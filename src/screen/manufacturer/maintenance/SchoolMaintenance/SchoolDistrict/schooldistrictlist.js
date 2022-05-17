@@ -169,6 +169,7 @@ export const SchoolDistrictList = () => {
   };
 
   const onsearch = async () => {
+    setErrorMessage('')
     if (searchtask == "") {
       setErrorMessage(constants.enterSearchData);
     } else {

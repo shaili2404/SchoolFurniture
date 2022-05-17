@@ -4,18 +4,49 @@ import COLORS from '../../../asset/color'
 import Fonts from '../../../asset/Fonts'
 import { RfW } from '../../../utils/helpers'
 
-export const DataDisplayList = ({ item, tableKey }) => {
-  const getRecord = (record) => {
-    return tableKey.map((e) => (
-      <View style={Styles.viewStyle} key={record.rowId}>
-        <Text style={Styles.textStyle}>{record[e]}</Text>
-      </View>
-    ))
+export const DataDisplayList = ({
+  item,
+  tableKey,
+  onEdit,
+  mainMessage,
+  submessage,
+  permissionId,
+  organization,
+  onDeleteFurItem,
+  flatListData,
+  onSubmitDetails,
+  pageStatus,
+  data,
+  onSubmitreparableDetails,
+  onsubmitDilverdetails,
+}) => {
+  const [userModal, setUserModal] = useState(false)
+  const [alert, setAlert] = useState(false)
+  const [errorMsg, setErrorMsg] = useState(false)
+  const [mainMsg, setMainMsg] = useState('')
+  const [subMsg, setSubMsg] = useState('')
+
+  const getContent = (val) => {
+    if (val && Array.isArray(val)) {
+      return val.map((brItem) => (
+        <Text style={Styles.textStyle}>{brItem?.category_name}</Text>
+      ))
+    } else {
+      return <Text style={Styles.textStyle}>{val}</Text>
+    }
   }
 
   return (
     <SafeAreaView style={Styles.firstView}>
-      <View style={Styles.mainView}>{getRecord(item)}</View>
+      <View style={Styles.mainView}>
+        {tableKey.map((val, index) => (
+            <View key={val} style={Styles.viewStyle}>
+              {getContent(item[val])}
+            </View>
+        ))}
+      </View>
+
+      
     </SafeAreaView>
   )
 }

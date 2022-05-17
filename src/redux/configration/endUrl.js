@@ -47,6 +47,15 @@ const endUrl = {
     searchBy_ReferenceNumber : 'user/collection-request/search/reference-number',
     searchBy_DateRange : 'user/collection-request/search/date-range',
     reports_ReplanishmentReports:"user/reports/replenishment-report",
+    reports_DisposalReports:"user/reports/disposal-report",
+    reports_manufacturer_stock_management_report:"user/reports/manufacturer-stock-management-report",
+    reports_school_furniture_count_report:"user/reports/school-furniture-count-report",
+    reports_repairment_report:"user/reports/repairment-report",
+    reports_transaction_summary_report:"user/reports/transaction-summary-report",
+    reports_transaction_status_report:"user/reports/transaction-status-report",
+    get_search_list: "user/collection-request/search/get-search-list",
+
+    
     
 }
 export default endUrl; 

@@ -4,9 +4,13 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default StyleSheet.create({
   mainView: {
-    height: height,
     position: "relative",
     backgroundColor: COLORS.White,
+  },
+  mainsecView: {
+    position: "relative",
+    backgroundColor: COLORS.White,
+    flex:1
   },
   mainViews: {
     position: "relative",
@@ -22,6 +26,14 @@ export default StyleSheet.create({
     marginHorizontal: 20,
     width: "90%",
     paddingEnd: 20,
+  },
+  downloadButtonView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    width: "90%",
+    paddingEnd: 20,
+    marginBottom:20
   },
   refView: {
     width: "90%",
@@ -39,6 +51,15 @@ export default StyleSheet.create({
     backgroundColor: COLORS.GreenBox,
     borderRadius: 5,
     width: 70,
+    height: 30,
+    alignSelf: "flex-end",
+    paddingTop: 5,
+    marginTop: 15,
+  },
+  downloadButton: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: 90,
     height: 30,
     alignSelf: "flex-end",
     paddingTop: 5,
@@ -217,6 +238,19 @@ export default StyleSheet.create({
     flexDirection: "column",
     marginTop: 20,
   },
+  containerManu: {
+    borderRadius: 5,
+    backgroundColor: COLORS.White,
+    width: "90%",
+    height: 40,
+    paddingLeft: 20,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    marginTop: 20,
+    marginBottom: 20,
+  },
   containerfurcat: {
     borderRadius: 5,
     backgroundColor: COLORS.White,
@@ -227,7 +261,7 @@ export default StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     flexDirection: "column",
-    marginBottom: 20,
+    marginBottom: 5,
   },
   containersup: {
     borderRadius: 5,

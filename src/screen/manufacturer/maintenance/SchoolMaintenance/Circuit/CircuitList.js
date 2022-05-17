@@ -168,6 +168,7 @@ export const CircuitList = () => {
   };
 
   const onsearch = () => {
+    setErrorMessage('')
     if (searchtask == "") {
       setErrorMessage(constants.enterSearchData);
     } else {

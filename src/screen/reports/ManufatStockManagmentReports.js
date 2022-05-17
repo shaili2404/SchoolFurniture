@@ -4,105 +4,66 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
   FlatList,
   ScrollView,
   Image,
-  Platform,
   PermissionsAndroid,
+  Platform,
   Alert
 } from "react-native";
-import COLORS from "../../asset/color";
-import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./style";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-
- import RNFS from "react-native-fs";
+import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
 
-export const ReplanishmentReports = () => {
+export const ManufactStockManageReports = () => {
   const isFocused = useIsFocused();
 
   const navigation = useNavigation();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [close, setCLose] = useState(false);
-  const [open, setOpen] = useState(false);
+
   const [collectionList, setCollectionList] = useState([]);
   const [loader, setLoader] = useState(true);
   const [dropData, setDropData] = useState([]);
+  const [stockItem, setStockItem] = useState([]);
   const [select, setSelect] = useState([]);
-  const [fur_select, setfur_Select] = useState([]);
-  const [refnumber, setrefNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [dateErrorMessage, setDateErrorMessage] = useState("");
-  const [startDateStatus, setStartDateStatus] = useState(true);
-  const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
-  const [distList, setDistList] = useState([]);
-  const [fur_cat, setFur_cat] = useState([]);
   const [number, setNumber] = useState(1);
-  const [replanishment_status, setreplanishment_status] = useState([]);
   const [modalloader, setmodalloader] = useState(false);
-  const [prevpage,setprevpage] = useState('')
-  const [nextPage,setnextpage] = useState('')
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
   const [collection_List, setCollection_List] = useState([]);
-
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
   });
-  const validation = (value) => {
-    return value == "" || value == undefined || value == null;
-  };
-  useEffect(() => {
-    if (startDate.getTime() > endDate.getTime())
-      setDateErrorMessage(AlertText.DateError);
-    else setDateErrorMessage("");
-  }, [startDate, endDate]);
 
   const onsearch = () => {
     setSearchStatus(false);
-    if (
-      select?.id == null &&
-      fur_select?.id == null &&
-      replanishment_status?.id == null &&
-      startDateStatus == true &&
-      enddateStatus == true &&
-      validation(refnumber)
-    )
+    if (select?.id == null && stockItem?.id == null)
       setErrorMessage(constants.enterSearchData);
     else {
-      let strtDte = `${startDate?.getFullYear()}-${
-        startDate?.getMonth() + 1
-      }-${startDate?.getDate()}`;
-      let endDte = `${endDate?.getFullYear()}-${
-        endDate?.getMonth() + 1
-      }-${endDate.getDate()}`;
       let str = "";
-      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
-      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
-      if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (select?.id) str += `district_office=${select?.id}&&`;
-      if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
-      if (replanishment_status?.id)
-        str += `replenishment_status=${replanishment_status?.id}&&`;
+      if (select?.id) str += `category=${select?.id}&&`;
+      if (stockItem?.id) str += `item=${stockItem?.id}&&`;
       setmodalloader(true);
+
       axios
-        .post(`${endUrl.reports_ReplanishmentReports}?${str}`)
+        .post(`${endUrl.reports_manufacturer_stock_management_report}?${str}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setmodalloader(false);
@@ -113,18 +74,9 @@ export const ReplanishmentReports = () => {
         });
     }
   };
-  const getDistrictList = async () => {
-    axios
-      .get(`${endUrl.schoolDistList}?all=true`)
-      .then((res) => {
-        setDistList(res?.data?.data?.records);
-       
-      })
-      .catch((e) => {});
-  };
   const onsuccessapi = (res) => {
-    setprevpage(res?.data?.data?.previous_page)
-    setnextpage(res?.data?.data?.next_page)
+    setprevpage(res?.data?.data?.previous_page);
+    setnextpage(res?.data?.data?.next_page);
     setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
@@ -136,7 +88,9 @@ export const ReplanishmentReports = () => {
     setLoader(true);
     axios
       .post(
-        `${endUrl.reports_ReplanishmentReports}?page=${count ? count : number}`
+        `${endUrl.reports_manufacturer_stock_management_report}?page=${
+          count ? count : number
+        }`
       )
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
@@ -144,27 +98,30 @@ export const ReplanishmentReports = () => {
   const getallData = () => {
     setLoader(true);
     axios
-      .post(`${endUrl.reports_ReplanishmentReports}?all=true`)
+      .post(`${endUrl.reports_manufacturer_stock_management_report}?all=true`)
       .then((res) =>{
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
       })
       .catch((e) => onerrorapi(e));
   };
-
-  const getstatusList = () => {
-    setLoader(true);
-    axios
-      .get(`${endUrl.replanishStatus}`)
-      .then((res) => setDropData(res?.data?.data))
-      .catch((e) => {});
-  };
-  const getfurcat = () => {
+  const getfurcategory = () => {
     setLoader(true);
     axios
       .get(`${endUrl.stockCategoryList}?all=true`)
-      .then((res) => setFur_cat(res?.data?.data?.records))
+      .then((res) => setDropData(res?.data?.data?.records))
       .catch((e) => {});
+  };
+
+  const getfuritem = (id) => {
+    axios
+      .get(`${endUrl.categoryWiseItem}/${id}/edit`)
+      .then((res) => {
+        setStockItem(res?.data?.data);
+      })
+      .catch((e) => {
+        setLoader(false);
+      });
   };
 
   useLayoutEffect(() => {
@@ -174,9 +131,8 @@ export const ReplanishmentReports = () => {
 
   useEffect(() => {
     getCollectionRequest();
-    getstatusList();
-    getDistrictList();
-    getfurcat();
+    getfurcategory();
+    getfuritem();
     getallData()
   }, [isFocused]);
 
@@ -200,45 +156,19 @@ export const ReplanishmentReports = () => {
 
   const onReset = () => {
     setSearchStatus(true);
-    setrefNumber("");
-    setStartDateStatus(true);
-    setendDatestatus(true);
     setErrorMessage("");
-    setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
-    getDistrictList();
-    getstatusList()
-    getfurcat();
     setSelect({});
-    setfur_Select({});
-    setreplanishment_status({});
+    setStockItem({});
+    getfurcategory();
+    getfuritem();
     getallData()
-  }
+  };
 
-  const tableHeader = [
-    constants.schoolName,
-    constants.schoolEmisNumber,
-    constants.DistrictOffice,
-    constants.ReplanishmentReports_trancRefNo,
-    constants.ReplanishmentReports_tranRefDate,
-    constants.FurnitureCat,
-    constants.ReplanishmentReports_Replcount,
-    constants.ReplanishmentReports_replaStatus,
-    constants.ReplanishmentReports_TotalPerSchool,
-  ];
+  const tableHeader = [constants.FurCategory, constants.furItem];
 
-  const tableKey = [
-    "school_name",
-    "school_emis",
-    "district_office",
-    "ref_number",
-    "transaction_date",
-    "furniture_category",
-    "replenishment_count",
-    "replenishment_status",
-    "total_per_school",
-  ];
+  const tableKey = ["furniture_category", "furniture_item"];
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -251,8 +181,8 @@ export const ReplanishmentReports = () => {
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
-
   const exportDataToExcel = async () => {
+ console.log('185',collection_List)
    
     let wb = XLSX.utils.book_new();
     let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
@@ -267,8 +197,20 @@ export const ReplanishmentReports = () => {
       { width: 30 },
       { width: 30 },
     ];
+    
 
-  
+    // ws["!rows"] = [
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    //   { hpt: 50 },
+    // ];
     XLSX.utils.book_append_sheet(wb, ws, "Users");
     const wbout = await XLSX.write(wb, {
       type: "binary",
@@ -278,7 +220,8 @@ export const ReplanishmentReports = () => {
     const d = new Date();
    
 
-    var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`  ;
+    var path = RNFS.DocumentDirectoryPath + `/stockreports.xlsx`;
+
     RNFS.unlink(path, wbout, "ascii")
     .then(() => {
       console.log("FILE DELETED");
@@ -286,6 +229,7 @@ export const ReplanishmentReports = () => {
     .catch((err) => {
       console.log(err.message);
     });
+
     RNFS.writeFile(path,wbout, 'ascii')
       .then((res) => {
         Alert.alert(
@@ -313,13 +257,11 @@ export const ReplanishmentReports = () => {
 
   const handleClick = async () => {
     try {
-      // Check for Permission (check if permission is already given or not)
       let isPermitedExternalStorage = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
       );
 
       if (!isPermitedExternalStorage) {
-        // Ask for permission
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
           {
@@ -331,7 +273,6 @@ export const ReplanishmentReports = () => {
         );
 
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission Granted (calling our exportDataToExcel function)
           exportDataToExcel();
           console.log("Permission granted");
         } else {
@@ -339,7 +280,6 @@ export const ReplanishmentReports = () => {
           console.log("Permission denied");
         }
       } else {
-        // Already have Permission (calling our exportDataToExcel function)
         exportDataToExcel();
       }
     } catch (e) {
@@ -347,6 +287,11 @@ export const ReplanishmentReports = () => {
       console.log(e);
       return;
     }
+  };
+
+  const setCategoryValue = (item) => {
+    setSelect(item);
+    getfuritem(item?.id);
   };
 
   return loader ? (
@@ -369,100 +314,20 @@ export const ReplanishmentReports = () => {
               {searchStatus ? constants.search : constants.Reset}
             </Text>
           </TouchableOpacity>
-          
         </View>
-        
-        <View style={Styles.refView}>
-          <TextInput
-            style={Styles.refrenceStyle}
-            placeholder={constants.schoolName}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={refnumber}
-            onChangeText={(val) => setrefNumber(val)}
-          />
-          <View style={Styles.dropdownsecStyle}>
-            <Dropdown
-              label={constants.DistrictOffice}
-              data={distList}
-              onSelect={setSelect}
-              task="district_office"
-            />
-          </View>
-        </View>
-        <View style={Styles.container}>
+        <View style={Styles.containerManu}>
           <Dropdown
-            label={constants.replanishment_status}
+            label={constants.FurCategory}
             data={dropData}
-            onSelect={setreplanishment_status}
+            onSelect={(item) => setCategoryValue(item)}
             task="name"
           />
         </View>
-        <View style={Styles.viewInputStyle}>
-          <View style={Styles.dropsssssStyle}>
-            <Text style={Styles.textStyle}>
-              {startDateStatus
-                ? "Start Date"
-                : `${startDate?.getDate()}/${
-                    startDate?.getMonth() + 1
-                  }/${startDate?.getFullYear()}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={Styles.eyeStyle}
-            onPress={() => setOpen(true)}
-          >
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-            <DatePicker
-              modal
-              open={open}
-              date={startDate}
-              mode="date"
-              onConfirm={(date) => {
-                setOpen(false);
-                setStartDate(date);
-                setStartDateStatus(false);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
-            />
-          </TouchableOpacity>
-          <View style={Styles.dropsssssStyle}>
-            <Text style={Styles.textStyle}>
-              {enddateStatus
-                ? "End Date"
-                : `${endDate?.getDate()}/${
-                    endDate?.getMonth() + 1
-                  }/${endDate?.getFullYear()}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={Styles.eyeStyles}
-            onPress={() => setCLose(true)}
-          >
-            <Image source={Images.Calender} style={Styles.imgStyle} />
-            <DatePicker
-              modal
-              open={close}
-              date={endDate}
-              mode="date"
-              onConfirm={(date) => {
-                setCLose(false);
-                setEndDate(date);
-                setendDatestatus(false);
-              }}
-              onCancel={() => {
-                setCLose(false);
-              }}
-            />
-          </TouchableOpacity>
-        </View>
         <View style={Styles.containerfurcat}>
           <Dropdown
-            label={constants.FurnitureCat}
-            data={fur_cat}
-            onSelect={setfur_Select}
+            label={constants.Furnitureitems}
+            data={stockItem}
+            onSelect={setStockItem}
             task="name"
           />
         </View>
@@ -478,11 +343,6 @@ export const ReplanishmentReports = () => {
           </TouchableOpacity>
         </View>
        
-        {dateErrorMessage ? (
-          <View style={Styles.dateerrorView}>
-            <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
-          </View>
-        ) : null}
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
@@ -516,7 +376,7 @@ export const ReplanishmentReports = () => {
 
           <TouchableOpacity
             onPress={onNext}
-            disabled={nextPage == null? true : false}
+            disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
               <Image

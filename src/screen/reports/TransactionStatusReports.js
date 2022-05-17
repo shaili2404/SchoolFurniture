@@ -8,8 +8,8 @@ import {
   FlatList,
   ScrollView,
   Image,
-  Platform,
   PermissionsAndroid,
+  Platform,
   Alert
 } from "react-native";
 import COLORS from "../../asset/color";
@@ -17,23 +17,27 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./style";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-
- import RNFS from "react-native-fs";
+import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
 
-export const ReplanishmentReports = () => {
-  const isFocused = useIsFocused();
 
+export const TransactionStatusReports = () => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -43,18 +47,16 @@ export const ReplanishmentReports = () => {
   const [loader, setLoader] = useState(true);
   const [dropData, setDropData] = useState([]);
   const [select, setSelect] = useState([]);
-  const [fur_select, setfur_Select] = useState([]);
+  const [dist_select, setdist_Select] = useState([]);
   const [refnumber, setrefNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
-  const [distList, setDistList] = useState([]);
-  const [fur_cat, setFur_cat] = useState([]);
   const [number, setNumber] = useState(1);
-  const [replanishment_status, setreplanishment_status] = useState([]);
-  const [modalloader, setmodalloader] = useState(false);
+  const [distList, setDistList] = useState([]);
+  const [modalloader,setmodalloader] = useState(false)  
   const [prevpage,setprevpage] = useState('')
   const [nextPage,setnextpage] = useState('')
   const [collection_List, setCollection_List] = useState([]);
@@ -65,6 +67,9 @@ export const ReplanishmentReports = () => {
     userEdit: false,
     userDelete: false,
   });
+  const organization = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
@@ -78,8 +83,7 @@ export const ReplanishmentReports = () => {
     setSearchStatus(false);
     if (
       select?.id == null &&
-      fur_select?.id == null &&
-      replanishment_status?.id == null &&
+      dist_select?.id == null &&
       startDateStatus == true &&
       enddateStatus == true &&
       validation(refnumber)
@@ -96,13 +100,12 @@ export const ReplanishmentReports = () => {
       if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
       if (startDateStatus == false) str += `start_date=${strtDte}&&`;
       if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (select?.id) str += `district_office=${select?.id}&&`;
-      if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
-      if (replanishment_status?.id)
-        str += `replenishment_status=${replanishment_status?.id}&&`;
+      if (select?.id) str += `status_id=${select?.id}&&`;
+      if (dist_select?.id) str += `district_office =${dist_select?.id}&&`;
+
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_ReplanishmentReports}?${str}`)
+        .post(`${endUrl.reports_transaction_status_report}?${str}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setmodalloader(false);
@@ -113,22 +116,14 @@ export const ReplanishmentReports = () => {
         });
     }
   };
-  const getDistrictList = async () => {
-    axios
-      .get(`${endUrl.schoolDistList}?all=true`)
-      .then((res) => {
-        setDistList(res?.data?.data?.records);
-       
-      })
-      .catch((e) => {});
-  };
   const onsuccessapi = (res) => {
     setprevpage(res?.data?.data?.previous_page)
     setnextpage(res?.data?.data?.next_page)
-    setCollectionList(res?.data?.data?.records);
+        setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    console.log(e);
     setLoader(false);
   };
 
@@ -136,7 +131,7 @@ export const ReplanishmentReports = () => {
     setLoader(true);
     axios
       .post(
-        `${endUrl.reports_ReplanishmentReports}?page=${count ? count : number}`
+        `${endUrl.reports_transaction_status_report}?page=${count ? count : number}`
       )
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
@@ -144,27 +139,27 @@ export const ReplanishmentReports = () => {
   const getallData = () => {
     setLoader(true);
     axios
-      .post(`${endUrl.reports_ReplanishmentReports}?all=true`)
+      .post(`${endUrl.reports_transaction_status_report}?all=true`)
       .then((res) =>{
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
       })
       .catch((e) => onerrorapi(e));
   };
-
+  const getDistrictList = async () => {
+    axios
+      .get(`${endUrl.schoolDistList}?all=true`)
+      .then((res) => {
+        setDistList(res?.data?.data?.records);
+      })
+      .catch((e) => {});
+  };
   const getstatusList = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.replanishStatus}`)
+      .get(`${endUrl.statusList}`)
       .then((res) => setDropData(res?.data?.data))
-      .catch((e) => {});
-  };
-  const getfurcat = () => {
-    setLoader(true);
-    axios
-      .get(`${endUrl.stockCategoryList}?all=true`)
-      .then((res) => setFur_cat(res?.data?.data?.records))
-      .catch((e) => {});
+      .catch((e) => console.log("apicall", e));
   };
 
   useLayoutEffect(() => {
@@ -175,8 +170,7 @@ export const ReplanishmentReports = () => {
   useEffect(() => {
     getCollectionRequest();
     getstatusList();
-    getDistrictList();
-    getfurcat();
+    getDistrictList()
     getallData()
   }, [isFocused]);
 
@@ -207,14 +201,14 @@ export const ReplanishmentReports = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
-    getDistrictList();
     getstatusList()
-    getfurcat();
-    setSelect({});
-    setfur_Select({});
-    setreplanishment_status({});
+    getDistrictList()
+    setSelect({})
+    setdist_Select({})
     getallData()
-  }
+  };
+
+  
 
   const tableHeader = [
     constants.schoolName,
@@ -222,10 +216,7 @@ export const ReplanishmentReports = () => {
     constants.DistrictOffice,
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
-    constants.FurnitureCat,
-    constants.ReplanishmentReports_Replcount,
-    constants.ReplanishmentReports_replaStatus,
-    constants.ReplanishmentReports_TotalPerSchool,
+    constants.Transaction_Status,
   ];
 
   const tableKey = [
@@ -234,10 +225,7 @@ export const ReplanishmentReports = () => {
     "district_office",
     "ref_number",
     "transaction_date",
-    "furniture_category",
-    "replenishment_count",
-    "replenishment_status",
-    "total_per_school",
+    "transaction_status",
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -278,14 +266,16 @@ export const ReplanishmentReports = () => {
     const d = new Date();
    
 
-    var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`  ;
+    var path = RNFS.DocumentDirectoryPath + `/transaction_status_report.xlsx`  ;
     RNFS.unlink(path, wbout, "ascii")
     .then(() => {
       console.log("FILE DELETED");
     })
+    // `unlink` will throw an error, if the item to unlink does not exist
     .catch((err) => {
       console.log(err.message);
     });
+
     RNFS.writeFile(path,wbout, 'ascii')
       .then((res) => {
         Alert.alert(
@@ -369,9 +359,7 @@ export const ReplanishmentReports = () => {
               {searchStatus ? constants.search : constants.Reset}
             </Text>
           </TouchableOpacity>
-          
         </View>
-        
         <View style={Styles.refView}>
           <TextInput
             style={Styles.refrenceStyle}
@@ -385,7 +373,7 @@ export const ReplanishmentReports = () => {
             <Dropdown
               label={constants.DistrictOffice}
               data={distList}
-              onSelect={setSelect}
+              onSelect={setdist_Select}
               task="district_office"
             />
           </View>
@@ -394,7 +382,7 @@ export const ReplanishmentReports = () => {
           <Dropdown
             label={constants.replanishment_status}
             data={dropData}
-            onSelect={setreplanishment_status}
+            onSelect={setSelect}
             task="name"
           />
         </View>
@@ -458,14 +446,6 @@ export const ReplanishmentReports = () => {
             />
           </TouchableOpacity>
         </View>
-        <View style={Styles.containerfurcat}>
-          <Dropdown
-            label={constants.FurnitureCat}
-            data={fur_cat}
-            onSelect={setfur_Select}
-            task="name"
-          />
-        </View>
         <View style={Styles.downloadButtonView}>
           <Text style={Styles.transactionText}>{constants.exportreports}</Text>
           <TouchableOpacity
@@ -477,7 +457,7 @@ export const ReplanishmentReports = () => {
             </Text>
           </TouchableOpacity>
         </View>
-       
+
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
@@ -498,38 +478,41 @@ export const ReplanishmentReports = () => {
           </ScrollView>
         )}
       </View>
-      {searchStatus ? (
-        <View style={Styles.lastView}>
-          <TouchableOpacity
-            onPress={onPrevious}
-            disabled={prevpage == null ? true : false}
-          >
-            {prevpage == null ? (
-              <Image source={Images.leftarrow} />
-            ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
-            )}
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={onNext}
-            disabled={nextPage == null? true : false}
-          >
-            {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
-            ) : (
-              <Image source={Images.rightarrow} />
-            )}
-          </TouchableOpacity>
-        </View>
-      ) : null}
-      {modalloader ? <ModalLoader visible={modalloader} /> : null}
+      {searchStatus?
+     <View style={Styles.lastView}>
+     <TouchableOpacity
+       onPress={onPrevious}
+       disabled={prevpage == null ? true : false}
+     >
+       {prevpage == null ? (
+         <Image source={Images.leftarrow} />
+       ) : (
+         <Image
+           source={Images.rightarrow}
+           style={{ transform: [{ rotate: "180deg" }] }}
+         />
+       )}
+     </TouchableOpacity>
+
+     <TouchableOpacity
+       onPress={onNext}
+       disabled={nextPage == null? true : false}
+     >
+       {nextPage == null ? (
+         <Image
+           source={Images.leftarrow}
+           style={{ transform: [{ rotate: "180deg" }] }}
+         />
+       ) : (
+         <Image source={Images.rightarrow} />
+       )}
+     </TouchableOpacity>
+   </View>
+      :null}
+      {modalloader?
+      <ModalLoader visible={modalloader}/>
+    : null}
     </SafeAreaView>
   );
 };

@@ -18,6 +18,7 @@ import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import {
+  alphabetNum,
   emisNumber,
   numberStartWithZero,
   streetCode,
@@ -53,6 +54,7 @@ export const AddSchool = (props) => {
   const [tel_validate, setTel_validate] = useState(false);
   const [streetCode_validate, setStreetCode_validate] = useState(false);
   const [emis_validateer, setemis_validateer] = useState(false);
+  const [school_validater, setSchool_Validater] = useState(false);
 
   const setValue = (key, value) => {
     console.log(key, value);
@@ -74,6 +76,10 @@ export const AddSchool = (props) => {
       !emisNumber.test(value)
         ? setemis_validateer(true)
         : setemis_validateer(false);
+        else if (key == "name")
+        !alphabetNum.test(inputValues.name)
+          ? setSchool_Validater(true)
+          : setSchool_Validater(false);
   };
 
   const getDistrictList = async () => {
@@ -146,6 +152,7 @@ export const AddSchool = (props) => {
         : setDisable(false);
     } else {
       !validation(inputValues.name) ||
+      !alphabetNum.test(inputValues.name) ||
       !validation(inputValues.emis) ||
       !emisNumber.test(inputValues.emis) ||
       !validation(dist_selected?.id) ||
@@ -346,7 +353,7 @@ export const AddSchool = (props) => {
                         <View style={style.changeView}>
                           <Text
                             style={
-                              input.value === constants.school ||
+                              input.value === constants.School_Name ||
                               input.value === constants.schoolEmisNumber ||
                               input.value === constants.District ||
                               input.value == constants.Level ||
@@ -422,6 +429,11 @@ export const AddSchool = (props) => {
                           {input.value == constants.schoolEmisNumber ? (
                             <Text style={style.errorcol}>
                               {emis_validateer ? constants.Emis_val : null}
+                            </Text>
+                          ) : null}
+                           {input.value == constants.School_Name ? (
+                            <Text style={style.errorcol}>
+                              {school_validater ? constants.School_message_name : null}
                             </Text>
                           ) : null}
                         </>
