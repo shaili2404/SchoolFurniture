@@ -51,7 +51,7 @@ const constants = {
   searchuser: "Search User",
   transactionSearch: "Transaction Search",
   search: "Search",
-  refrenceNumber: "Refrence Number",
+  refrenceNumber: "Reference Number",
   startDate: "Start Date",
   emisNumber: "EMIS",
   endDate: "End Date",
