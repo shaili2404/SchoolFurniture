@@ -195,5 +195,8 @@ const constants = {
   Transactions_Status_Report: "Transactions Status Report",
   exportreports: "Export Reports",
   download: "Download",
+  Pending_Replenishment_Approval:'Pending Replenishment Approval',
+  Replenishment_Rejected:'Replenishment Rejected',
+  Replenishment_Approved:'Replenishment Approved'
 };
 export default constants;
