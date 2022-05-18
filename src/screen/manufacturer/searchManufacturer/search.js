@@ -18,7 +18,7 @@ import constants from '../../../locales/constants'
 import axios from 'axios'
 import endUrl from '../../../redux/configration/endUrl'
 import { useSelector } from 'react-redux'
-import { DataDisplayList } from './searchDisplayListComman'
+import { DataDisplayList } from '../../../component/manufacturer/displayListComman'
 import { ListHeaderComman } from '../../../component/manufacturer/ListHeaderComman'
 import Loader from '../../../component/loader'
 import AlertText from '../../../Alert/AlertText'
@@ -30,7 +30,6 @@ import RadioForm, {
 } from 'react-native-simple-radio-button'
 import DatePicker from 'react-native-date-picker'
 
-const PAGESIZE = 10
 
 export const Search = () => {
   const [listData, setListData] = useState([])
@@ -52,6 +51,8 @@ export const Search = () => {
   const [maximumNumber, setmaximunNumber] = useState(0)
   const [number, setNumber] = useState(1)
   const navigation = useNavigation()
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
@@ -73,8 +74,8 @@ export const Search = () => {
     'emis',
     'ref_number',
     'created_at',
-    'broken_items',
-    'total_broken_items',
+    'category_name',
+    'count',
     'status',
   ]
 
@@ -99,41 +100,41 @@ export const Search = () => {
     { key: 'street_code', value: constants.streetCode },
   ]
 
-  useEffect(() => {
-    setpermissionArr(loginData?.user?.data?.data?.permissions)
-    let userList = false,
-      userCreate = false,
-      userEdit = false,
-      userDlt = false
-    permissionArr.forEach((input) => {
-      if (input.id === 5) {
-        // setErrorMessage("");
-        userList = true
-      }
-      if (input.id === 6) {
-        userCreate = true
-      }
-      if (input.id === 7) {
-        userEdit = true
-      }
-      if (input.id === 8) {
-        userDlt = true
-      } else if (!userList) {
-      }
-    })
-    setPermissionId({
-      userList: userList,
-      userCreate: userCreate,
-      userEdit: userEdit,
-      userDelete: userDlt,
-    })
-  }, [listData])
+  // useEffect(() => {
+  //   setpermissionArr(loginData?.user?.data?.data?.permissions)
+  //   let userList = false,
+  //     userCreate = false,
+  //     userEdit = false,
+  //     userDlt = false
+  //   permissionArr.forEach((input) => {
+  //     if (input.id === 5) {
+  //       // setErrorMessage("");
+  //       userList = true
+  //     }
+  //     if (input.id === 6) {
+  //       userCreate = true
+  //     }
+  //     if (input.id === 7) {
+  //       userEdit = true
+  //     }
+  //     if (input.id === 8) {
+  //       userDlt = true
+  //     } else if (!userList) {
+  //     }
+  //   })
+  //   setPermissionId({
+  //     userList: userList,
+  //     userCreate: userCreate,
+  //     userEdit: userEdit,
+  //     userDelete: userDlt,
+  //   })
+  // }, [listData])
 
   const rendercomponent = ({ item }) => {
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('FurnitureReplacmentProcess', item)}
-      >
+      // <TouchableOpacity
+      //   onPress={() => navigation.navigate('FurnitureReplacmentProcess', item)}
+      // >
         <DataDisplayList
           item={item}
           tableKey={tableKey}
@@ -142,9 +143,9 @@ export const Search = () => {
           mainMessage={AlertText.deletedistrict}
           submessage={AlertText.UndoMessgae}
           permissionId={permissionId}
-          data={'0'}
+          // data={'0'}
         />
-      </TouchableOpacity>
+      // </TouchableOpacity>
     )
   }
 
@@ -159,14 +160,26 @@ export const Search = () => {
   const apicall = (count) => {
     setLoader(true)
     axios
-      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
+      .get(`${endUrl.get_search_list}?page=${count ? count : number}`)
       .then((res) => {
+        setprevpage(res?.data?.data?.previous_page);
+        setnextpage(res?.data?.data?.next_page);
         setListData(res?.data?.data?.records)
-        setmaximunNumber(res?.data?.data?.total_page)
         setLoader(false)
       })
       .catch((e) => setLoader(false))
   }
+
+  const getallData = () => {
+    setLoader(true);
+    axios
+      .get(`${endUrl.get_search_list}?all=true`)
+      .then((res) => {
+        setListData(res?.data?.data?.records)
+        setLoader(false);
+      })
+      .catch((e) => setLoader(false))
+  };
 
   const onNext = () => {
     let count = number + 1
@@ -174,6 +187,7 @@ export const Search = () => {
     setNumber(number + 1)
     apicall(count)
     setLoader(false)
+    getallData();
   }
 
   const onPrevious = () => {
@@ -182,6 +196,7 @@ export const Search = () => {
     setNumber(number - 1)
     apicall(count)
     setLoader(false)
+    getallData();
   }
 
   const onsearch = async () => {
@@ -379,35 +394,35 @@ export const Search = () => {
       </ScrollView>
           )}
 
-      <View style={Styles.lastView}>
-        <TouchableOpacity
-          onPress={onPrevious}
-          disabled={number == 1 ? true : false}
-        >
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={{ transform: [{ rotate: '180deg' }] }}
-            />
-          )}
-        </TouchableOpacity>
+<View style={Styles.lastView}>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={prevpage == null ? true : false}
+          >
+            {prevpage == null ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={onNext}
-          disabled={number == maximumNumber ? true : false}
-        >
-          {number == maximumNumber ? (
-            <Image
-              source={Images.leftarrow}
-              style={{ transform: [{ rotate: '180deg' }] }}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={nextPage == null ? true : false}
+          >
+            {nextPage == null ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
+          </TouchableOpacity>
+        </View>
       <View style={{ height: 70 }} />
     </SafeAreaView>
   )
