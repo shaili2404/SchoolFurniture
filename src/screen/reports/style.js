@@ -102,7 +102,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.White,
     width: "45%",
     height: 40,
-    paddingLeft: 5,
+    paddingLeft: 2,
     marginTop: 15,
     paddingTop:10
   },
