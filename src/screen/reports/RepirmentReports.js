@@ -243,7 +243,7 @@ export const RepairmentReports = () => {
     "transaction_date",
     "furniture_category",
     "furniture_item",
-    "rapaired_count",
+    "repaired_count",
     "total_per_school"
   ];
 

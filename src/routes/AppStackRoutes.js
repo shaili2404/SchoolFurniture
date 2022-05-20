@@ -31,6 +31,7 @@ import { CircuitList } from "../screen/manufacturer/maintenance/SchoolMaintenanc
 import { CMC } from "../screen/manufacturer/maintenance/SchoolMaintenance/cmc/CmcList";
 import { SubPlacesList } from "../screen/manufacturer/maintenance/SchoolMaintenance/SubPlacesName/Subplaces";
 import { Reports } from "../screen/reports/reports";
+import { DashboardManu } from "../screen/dashboard/DashboardManufact/Dashboardmanu";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -76,6 +77,17 @@ const homestack = () => {
       <Drawer.Screen
         component={DashboardUser}
         name={NavigationRouteNames.HOME}
+        options={CommonHeaderStyle}
+      />
+    </Drawer.Navigator>
+  );
+};
+const DashboardManufacturer = () => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
+      <Drawer.Screen
+        component={DashboardManu}
+        name={NavigationRouteNames.DASHBOARDMANUFACTURER}
         options={CommonHeaderStyle}
       />
     </Drawer.Navigator>
@@ -394,6 +406,11 @@ const AppStack = (props) => {
          <Stack.Screen
           name={NavigationRouteNames.HOME}
           component={homestack}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name={NavigationRouteNames.DASHBOARDMANUFACTURER}
+          component={DashboardManufacturer}
           options={{ headerShown: false }}
         />
       {/* ) : (

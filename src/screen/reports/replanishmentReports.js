@@ -155,8 +155,12 @@ export const ReplanishmentReports = () => {
   const getstatusList = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.replanishStatus}`)
-      .then((res) => setDropData(res?.data?.data))
+      .get(`${endUrl.replanishStatus}?all=true`)
+      .then((res) =>{
+        console.log(`${endUrl.replanishStatus}?all=true`)
+      console.log(res?.data?.data)
+      setDropData(res?.data?.data)
+  })
       .catch((e) => {});
   };
   const getfurcat = () => {

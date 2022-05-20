@@ -3,7 +3,8 @@ import {
   VictoryChart,
   VictoryArea,
 } from "victory-native";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View,Text } from "react-native";
+import style from "./style";
 
 export const GraphChart = () => {
   const data1 = [
@@ -133,6 +134,10 @@ export const GraphChart = () => {
     { x: "dec", y: 0 },
   ];
   return (
+    <View>
+    <TouchableOpacity onPress={()=>onbarclick()}>
+    <Text style={style.textchart}>Previous Year Statuses</Text>
+    </TouchableOpacity>
     <VictoryChart width={400} height={400}>
       <VictoryArea
         data={data1}
@@ -206,5 +211,6 @@ export const GraphChart = () => {
         interpolation={"natural"}
       />
     </VictoryChart>
+    </View>
   );
 };

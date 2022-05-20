@@ -24,6 +24,7 @@ const NavigationRouteNames = {
     SUBPLACES:"Sub Places",
     REPORTS:'Reports',
     HOME:'home',
+    DASHBOARDMANUFACTURER:'Dashboard'
 
 };
 
