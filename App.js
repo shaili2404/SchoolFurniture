@@ -8,6 +8,7 @@ import AppStack from './src/routes';
 import { navigationRef } from './src/routes/rootNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import { setBasseUrl } from './src/redux/configration';
+import { DashboardManu } from './src/screen/dashboard/DashboardManufact/Dashboardmanu';
 
 const App = () => {
 
@@ -28,6 +29,7 @@ const App = () => {
     <NavigationContainer ref={navigationRef}>
       <Provider store={store}>
         <AppStack />
+        {/* <DashboardManu/> */}
         {/* <Search /> */}
       </Provider>
     </NavigationContainer>

@@ -33,7 +33,7 @@ export const Search = () => {
   const [loader, setLoader] = useState(true)
   const [searchtask, setSearchTask] = useState('')
   const [radioParam, setRadioParam] = useState([
-    { label: 'Data Range', value: 0 },
+    { label: 'Date Range', value: 0 },
     { label: 'Reference Number', value: 1 },
   ])
   const [searchValue, setSearchValue] = useState(0)

@@ -115,6 +115,7 @@ export const TransactionSummaryReports = () => {
     setprevpage(res?.data?.data?.previous_page)
     setnextpage(res?.data?.data?.next_page)
         setCollectionList(res?.data?.data?.records);
+        console.log(res?.data?.data?.records)
     setLoader(false);
   };
   const onerrorapi = (e) => {
@@ -208,6 +209,7 @@ export const TransactionSummaryReports = () => {
     constants.schoolName,
     constants.schoolEmisNumber,
     constants.DistrictOffice,
+    constants.ReplanishmentReports_trancRefNo,
     constants.TransactionReports_confirmCollected,
     constants.TransactionReports_Repair,
     constants.TransactionReports_Disposal,
@@ -217,6 +219,7 @@ export const TransactionSummaryReports = () => {
     "school_name",
     "school_emis",
     "district_office",
+    "ref_number",
     "confirmed_collections",
     "repairs",
     "disposals",

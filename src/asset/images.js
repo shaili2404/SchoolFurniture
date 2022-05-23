@@ -47,6 +47,8 @@ const Images = {
   printIconWhite: require("./images/printIconWhite.png"),
   dashboardlogo: require("./images/DashboardLogo.png"),
   dilverysuccess: require("./images/dilverysuccess.png"),
+  dashboardline: require("./images/Dashboard3line.png"),
+  dashboardGroup: require('./images/DashboardGroup.png')
 
 };
 export default Images;
