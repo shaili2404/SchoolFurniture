@@ -24,6 +24,7 @@ import { ListHeaderComman } from "../../../../../component/manufacturer/ListHead
 import { AlertMessage } from "../../../../../Alert/alert";
 import { AddEditCMC } from "../../../../../component/manufacturer/AddFormModal/AddEdItCMC";
 import { useIsFocused } from "@react-navigation/native";
+import CommonService from "../../../../../locales/service";
 
 export const CMC = () => {
   const [listData, setListData] = useState([]);
@@ -63,20 +64,7 @@ export const CMC = () => {
   useEffect(() => {
     setLoader(true);
     const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false,
-      userEdit = false,
-      userDlt = false;
-    arr.forEach((input) => {
-      if (input.id === 10) {
-        userCreate = true;
-      }
-      if (input.id === 11) {
-        userEdit = true;
-      }
-      if (input.id === 12) {
-        userDlt = true;
-      }
-    });
+    const [userCreate, userEdit,userDlt] = CommonService.getPermission(arr, [35,36,27])
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,

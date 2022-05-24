@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import {
   View,
   Text,
@@ -7,73 +7,64 @@ import {
   FlatList,
   Image,
   ScrollView,
-} from "react-native";
-import { useSelector } from "react-redux";
-import Styles from "./Styles";
-import Loader from "../../../../component/loader";
-import Constants from "../../../../locales/constants";
-import { ListHeaderComman } from "../../../../component/manufacturer/ListHeaderComman";
-import { useNavigation } from "@react-navigation/core";
-import { DataDisplayList } from "../../../../component/manufacturer/displayListComman";
-import axios from "axios";
-import endUrl from "../../../../redux/configration/endUrl";
-import COLORS from "../../../../asset/color";
-import Images from "../../../../asset/images";
-import AlertText from "../../../../Alert/AlertText";
-import { AlertMessage } from "../../../../Alert/alert";
-import constants from "../../../../locales/constants";
+} from 'react-native'
+import { useSelector } from 'react-redux'
+import Styles from './Styles'
+import Loader from '../../../../component/loader'
+import Constants from '../../../../locales/constants'
+import { ListHeaderComman } from '../../../../component/manufacturer/ListHeaderComman'
+import { useNavigation } from '@react-navigation/core'
+import { DataDisplayList } from '../../../../component/manufacturer/displayListComman'
+import axios from 'axios'
+import endUrl from '../../../../redux/configration/endUrl'
+import COLORS from '../../../../asset/color'
+import Images from '../../../../asset/images'
+import AlertText from '../../../../Alert/AlertText'
+import { AlertMessage } from '../../../../Alert/alert'
+import constants from '../../../../locales/constants'
+import CommonService from '../../../../locales/service'
 
 const StockCategory = () => {
-  const [stockCategory, setStockCategory] = useState("");
-  const [categoryListData, setCategoryListData] = useState([]);
-  const [loader, setLoader] = useState(true);
-  const [defaultState, setDefaultState] = useState(false);
-  const [editState, setEditState] = useState(false);
-  const [defaultStockCategory, setDefaultStockCategory] = useState("");
-  const [updateItem, setUpdateItem] = useState("");
-  const [searchtask, setSearchTask] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const tableKey = ["name"];
-  const navigation = useNavigation();
-  const loginData = useSelector((state) => state?.loginData);
-  const [maximumNumber, setmaximunNumber] = useState(0);
-  const [number, setNumber] = useState(1);
+  const [stockCategory, setStockCategory] = useState('')
+  const [categoryListData, setCategoryListData] = useState([])
+  const [loader, setLoader] = useState(true)
+  const [defaultState, setDefaultState] = useState(false)
+  const [editState, setEditState] = useState(false)
+  const [defaultStockCategory, setDefaultStockCategory] = useState('')
+  const [updateItem, setUpdateItem] = useState('')
+  const [searchtask, setSearchTask] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const tableKey = ['name']
+  const navigation = useNavigation()
+  const loginData = useSelector((state) => state?.loginData)
+  const [maximumNumber, setmaximunNumber] = useState(0)
+  const [number, setNumber] = useState(1)
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
-  });
+  })
 
-  const tableHeader = [Constants.categories, Constants.manage];
-  const [alert, setAlert] = useState(false);
+  const tableHeader = [Constants.categories, Constants.manage]
+  const [alert, setAlert] = useState(false)
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false,
-      userEdit = false,
-      userDlt = false;
-    arr.forEach((input) => {
-      if (input.id === 18) {
-        userCreate = true;
-      }
-      if (input.id === 19) {
-        userEdit = true;
-      }
-      if (input.id === 20) {
-        userDlt = true;
-      }
-    });
+    const arr = loginData?.user?.data?.data?.permissions
+    const [userCreate, userEdit, userDlt] = CommonService.getPermission(
+      arr,
+      [14, 15, 16]
+    )
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    });
-  }, []);
+    })
+  }, [])
 
   const HeaderComponent = () => {
-    return <ListHeaderComman tableHeader={tableHeader} />;
-  };
+    return <ListHeaderComman tableHeader={tableHeader} />
+  }
 
   const rendercomponent = ({ item }) => {
     return (
@@ -87,147 +78,150 @@ const StockCategory = () => {
         link={endUrl.stockCategoryList}
         permissionId={permissionId}
       />
-    );
-  };
+    )
+  }
 
   const reloadList = () => {
-    categorylistapi();
-  };
+    categorylistapi()
+  }
 
   // Edit Functionality
   const onEdit = (item, task) => {
     if (task == constants.Edit) {
-      setEditState(true);
-      setDefaultStockCategory(item.name);
-      setUpdateItem(item);
+      setEditState(true)
+      setDefaultStockCategory(item.name)
+      setUpdateItem(item)
     }
-  };
+  }
 
   // List api call
   const categorylistapi = (count) => {
-    setLoader(true);
+    setLoader(true)
     axios
       .get(`${endUrl.stockCategoryList}?page=${count ? count : number}`)
       .then((res) => {
-        setCategoryListData(res?.data?.data?.records);
-        setmaximunNumber(res?.data?.data?.total_page);
-        setLoader(false);
+        setCategoryListData(res?.data?.data?.records)
+        setmaximunNumber(res?.data?.data?.total_page)
+        setLoader(false)
       })
       .catch((e) => {
-        setLoader(false);
-        console.log("apicall", e);
-      });
-  };
+        setLoader(false)
+        console.log('apicall', e)
+      })
+  }
 
   useEffect(() => {
-    categorylistapi();
-  }, []);
+    categorylistapi()
+  }, [])
 
   // Page Title
   useLayoutEffect(() => {
-    const title = "Stock Maintenance";
-    navigation.setOptions({ title });
-  }, []);
+    const title = 'Stock Maintenance'
+    navigation.setOptions({ title })
+  }, [])
 
   // Add and edit api call
   const onSubmitDetails = async () => {
-    setLoader(true);
-    let obj = {};
-    editState ? (obj.name = defaultStockCategory) : (obj.name = stockCategory);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
+    setLoader(true)
+    let obj = {}
+    editState ? (obj.name = defaultStockCategory) : (obj.name = stockCategory)
+    axios.defaults.headers.common['Content-Type'] = 'application/json'
     const service = editState
       ? axios.put(`${endUrl.stockCategoryList}/${updateItem.id}`, obj)
-      : axios.post(`${endUrl.stockCategoryList}`, obj);
+      : axios.post(`${endUrl.stockCategoryList}`, obj)
     service
       .then((res) => {
-        setStockCategory("");
-        setDefaultStockCategory("");
-        categorylistapi();
-        setAlert(true);
-        setSuccessMessage(res?.data?.message);
-        setLoader(false);
+        setStockCategory('')
+        setDefaultStockCategory('')
+        categorylistapi()
+        setAlert(true)
+        setSuccessMessage(res?.data?.message)
+        setLoader(false)
       })
       .catch((e) => {
-        let { message, data, status } = e?.response?.data || {};
-        setLoader(false);
-        setAlert(true);
+        let { message, data, status } = e?.response?.data || {}
+        setLoader(false)
+        setAlert(true)
         {
-          let str = "";
+          let str = ''
           status == 422
             ? Object.values(data).forEach((value) => {
-                str += `  ${value}`;
-                setSuccessMessage(str);
+                str += `  ${value}`
+                setSuccessMessage(str)
               })
-            : setSuccessMessage(message);
+            : setSuccessMessage(message)
         }
-      });
-  };
+      })
+  }
 
   // Add Button Functionality
   const onAdd = () => {
-    onSubmitDetails();
-  };
+    onSubmitDetails()
+  }
 
   // Edit Button Functionality
   const onUpdate = () => {
-    setEditState(false);
-    onSubmitDetails();
-  };
+    setEditState(false)
+    onSubmitDetails()
+  }
 
   // search api call for list
   const onsearch = () => {
-    setLoader(true);
+    setLoader(true)
     axios
       .get(`${endUrl.stockCategorySearch}${searchtask}`)
       .then((res) => {
-        setCategoryListData(res?.data?.data);
-        setLoader(false);
+        setCategoryListData(res?.data?.data)
+        setLoader(false)
       })
       .catch((e) => {
         {
-          let { message, data, status } = e?.response?.data || {};
-          setLoader(false);
+          let { message, data, status } = e?.response?.data || {}
+          setLoader(false)
           {
-            let str = "";
+            let str = ''
             status == 422
               ? Object.values(data).forEach((value) => {
-                  str += `  ${value}`;
-                  setErrorMessage(str);
+                  str += `  ${value}`
+                  setErrorMessage(str)
                 })
-              : setErrorMessage(message);
+              : setErrorMessage(message)
           }
         }
-      });
-  };
+      })
+  }
 
   useEffect(() => {
-    if (searchtask == "") {
-      categorylistapi();
-      setErrorMessage("");
-      setLoader(false);
+    if (searchtask == '') {
+      categorylistapi()
+      setErrorMessage('')
+      setLoader(false)
     }
-  }, [searchtask]);
+  }, [searchtask])
 
   const onNext = () => {
-    let count = number + 1;
-    setLoader(true);
-    setNumber(number + 1);
-    categorylistapi(count);
-    setLoader(false);
-  };
+    let count = number + 1
+    setLoader(true)
+    setNumber(number + 1)
+    categorylistapi(count)
+    setLoader(false)
+  }
 
   const onPrevious = () => {
-    let count = number - 1;
-    setLoader(true);
-    setNumber(number - 1);
-    categorylistapi(count);
-    setLoader(false);
-  };
+    let count = number - 1
+    setLoader(true)
+    setNumber(number - 1)
+    categorylistapi(count)
+    setLoader(false)
+  }
 
   return loader ? (
     <Loader />
   ) : (
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={Styles.mainView}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={Styles.mainView}
+    >
       <View style={Styles.mainView}>
         <TextInput
           placeholder={Constants.StockCategories}
@@ -262,7 +256,7 @@ const StockCategory = () => {
             <TextInput
               style={Styles.searchInputStyle}
               placeholder={
-                defaultState === true ? " " : Constants.searchCategory
+                defaultState === true ? ' ' : Constants.searchCategory
               }
               placeholderTextColor={COLORS.Black}
               value={searchtask}
@@ -305,7 +299,7 @@ const StockCategory = () => {
             ) : (
               <Image
                 source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
+                style={{ transform: [{ rotate: '180deg' }] }}
               />
             )}
           </TouchableOpacity>
@@ -317,7 +311,7 @@ const StockCategory = () => {
             {number == maximumNumber ? (
               <Image
                 source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
+                style={{ transform: [{ rotate: '180deg' }] }}
               />
             ) : (
               <Image source={Images.rightarrow} />
@@ -334,7 +328,7 @@ const StockCategory = () => {
       </View>
       <View style={{ height: 20 }} />
     </ScrollView>
-  );
-};
+  )
+}
 
-export default StockCategory;
+export default StockCategory

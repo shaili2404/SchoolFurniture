@@ -13,6 +13,7 @@ import constants from '../../../../locales/constants'
 import style from './style'
 import LinearGradient from 'react-native-linear-gradient'
 import COLORS from '../../../../asset/color'
+import CommonService from '../../../../locales/service'
 
 export const Schoolmaintenancescreen = () => {
   const loginData = useSelector((state) => state?.loginData)
@@ -27,29 +28,8 @@ export const Schoolmaintenancescreen = () => {
 
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions
-    let disList = false,
-      sclList = false
-      cmcList = false
-      crtList = false
-      subList = false
-
-    arr.forEach((input) => {
-      if (input.id === 5) {
-        disList = true
-      }
-      if (input.id === 9) {
-        sclList = true
-      }
-      if (input.id === 34) {
-        cmcList = true
-      }
-      if (input.id === 38) {
-        crtList = true
-      }
-      if (input.id === 42) {
-        subList = true
-      }
-    })
+    const [disList, sclList, cmcList, crtList, subList] =
+      CommonService.getPermission(arr, [5, 9, 34, 38, 42])
     setPermissionId({
       districtList: disList,
       schoolList: sclList,
