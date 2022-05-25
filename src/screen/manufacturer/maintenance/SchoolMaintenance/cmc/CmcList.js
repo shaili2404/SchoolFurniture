@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import Styles from "./style";
 import {
   SafeAreaView,
@@ -23,7 +23,7 @@ import { DataDisplayList } from "../../../../../component/manufacturer/displayLi
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AlertMessage } from "../../../../../Alert/alert";
 import { AddEditCMC } from "../../../../../component/manufacturer/AddFormModal/AddEdItCMC";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 export const CMC = () => {
   const [listData, setListData] = useState([]);
@@ -44,6 +44,7 @@ export const CMC = () => {
     userEdit: false,
     userDelete: false,
   });
+  const navigation = useNavigation()
 
   const isFocused = useIsFocused();
 
@@ -166,6 +167,11 @@ export const CMC = () => {
     apicall(count);
     setLoader(false);
   };
+
+  useLayoutEffect(() => {
+    const title = constants.Cmc;
+    navigation.setOptions({ title });
+  }, []);
 
   const onPrevious = () => {
     let count = number - 1;

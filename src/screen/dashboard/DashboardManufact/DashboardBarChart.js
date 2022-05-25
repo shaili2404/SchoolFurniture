@@ -191,13 +191,13 @@ export const BarChart = () => {
           {constants.YTD_Report_Status}
         </Text>
       </TouchableOpacity>
-      <VictoryChart domainPadding={{ x: 50 }} width={380} height={400}>
+      <VictoryChart domainPadding={{ x: 50 }} width={380} height={500}>
         <VictoryBar
           style={{ data: { fill: "#7DB4EA" } }}
           data={sampleData}
           horizontal
           labels={({ datum }) => `${datum.label}`}
-          labelComponent={<VictoryLabel textAnchor={"start"} dy={-14} x={50} />}
+          labelComponent={<VictoryLabel textAnchor={"start"} dy={-17} x={50} />}
         />
       </VictoryChart>
     </View>

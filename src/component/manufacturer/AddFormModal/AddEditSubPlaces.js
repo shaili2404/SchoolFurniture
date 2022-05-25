@@ -17,7 +17,7 @@ import Images from "../../../asset/images";
 import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { emisNumber } from "../../../locales/regexp";
+import { alphabetNum, emisNumber } from "../../../locales/regexp";
 import constants from "../../../locales/constants";
 import DropdownCR from "../../DropDown/dropDOwnCR";
 
@@ -36,6 +36,7 @@ export const AddEditSubplaces = (props) => {
   const [disable, setDisable] = useState(false);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
+  const [subplace_validate, setsub_validate] = useState(false);
 
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -44,6 +45,8 @@ export const AddEditSubplaces = (props) => {
         [key]: value,
       };
     });
+    if (key == "subplace_name")
+      !alphabetNum.test(value) ? setsub_validate(true) : setsub_validate(false);
   };
 
   const getDistrictList = async () => {
@@ -63,19 +66,17 @@ export const AddEditSubplaces = (props) => {
   };
 
   useEffect(() => {
-    if (operation == constants.Edit){ 
-      !validation(inputValues.subplace_name) 
-        ? setDisable(true)
-        : setDisable(false);
-    }
-     else {
+    if (operation == constants.Edit) {
       !validation(inputValues.subplace_name) ||
-      !validation(selected?.id)
-      
+      !alphabetNum.test(inputValues.subplace_name)
         ? setDisable(true)
         : setDisable(false);
-     }
-  }, [inputValues,selected]);
+    } else {
+      !validation(inputValues.subplace_name) ||
+        !alphabetNum.test(inputValues.subplace_name)||
+      !validation(selected?.id) ? setDisable(true) : setDisable(false);
+    }
+  }, [inputValues, selected]);
 
   useEffect(() => {
     const obj = {};
@@ -92,7 +93,6 @@ export const AddEditSubplaces = (props) => {
   }, []);
 
   const onNext = () => {
-   
     if (operation == constants.Edit) {
       if (selected?.id) {
         inputValues.circuit_id = selected?.id;
@@ -102,7 +102,7 @@ export const AddEditSubplaces = (props) => {
     } else {
       inputValues.circuit_id = selected?.id;
     }
-  
+
     onSubmitDetails(inputValues, operation);
   };
 
@@ -178,6 +178,11 @@ export const AddEditSubplaces = (props) => {
                           onChangeText={(value) => setValue(input.key, value)}
                         />
                       )}
+                      {input.value == constants.subplacesname ? (
+                        <Text style={style.errorcol}>
+                          {subplace_validate ? constants.subplace_val : null}
+                        </Text>
+                      ) : null}
                     </View>
                   ))}
                 </ScrollView>

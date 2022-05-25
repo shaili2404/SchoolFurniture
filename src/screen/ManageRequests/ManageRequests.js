@@ -260,6 +260,7 @@ export const ManageRequests = () => {
               modal
               open={open}
               date={startDate}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setOpen(false);
@@ -287,6 +288,7 @@ export const ManageRequests = () => {
               modal
               open={close}
               date={endData}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setCLose(false);

@@ -10,7 +10,7 @@ export default StyleSheet.create({
   mainsecView: {
     position: "relative",
     backgroundColor: COLORS.White,
-    flex:1
+    flex: 1,
   },
   mainViews: {
     position: "relative",
@@ -33,7 +33,7 @@ export default StyleSheet.create({
     marginHorizontal: 20,
     width: "90%",
     paddingEnd: 20,
-    marginBottom:20
+    marginBottom: 20,
   },
   refView: {
     width: "90%",
@@ -58,6 +58,16 @@ export default StyleSheet.create({
   },
   downloadButton: {
     backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: 90,
+    height: 30,
+    alignSelf: "flex-end",
+    paddingTop: 5,
+    marginTop: 15,
+  },
+  downloadButtonopac: {
+    backgroundColor: COLORS.GreenBox,
+    opacity:0.5,
     borderRadius: 5,
     width: 90,
     height: 30,
@@ -104,7 +114,7 @@ export default StyleSheet.create({
     height: 40,
     paddingLeft: 2,
     marginTop: 15,
-    paddingTop:10
+    paddingTop: 10,
   },
   dropsssssStyle: {
     backgroundColor: COLORS.White,
@@ -162,14 +172,13 @@ export default StyleSheet.create({
   eyeStyle: {
     position: "absolute",
     top: 10,
-    left:130
+    left: 130,
   },
   eyeStyles: {
     position: "absolute",
     top: 10,
-     right: 15,
+    right: 15,
   },
-
 
   errormessStyle: {
     textAlign: "center",
@@ -268,13 +277,13 @@ export default StyleSheet.create({
     backgroundColor: COLORS.LightGreen,
     width: "90%",
     height: 50,
-    paddingLeft:20,
+    paddingLeft: 20,
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
     flexDirection: "column",
     marginTop: 10,
-    marginBottom:10
+    marginBottom: 10,
   },
   changeText: {
     fontSize: 10,

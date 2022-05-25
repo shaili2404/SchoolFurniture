@@ -4,5 +4,6 @@ export const numberonly = /^[0-9]{10}$/
 export const emisNumber = /^[0-9]{9}$/
 export const streetCode = /^[0-9]{4}$/
 export const alphabetNum = /^[a-zA-z0-9]{1,}$/
+export const alphabetNumWithSpace = /^[a-zA-z0-9 ]{1,}$/
 export const numberStartWithZero = /^[0][0-9]{9}$/
 

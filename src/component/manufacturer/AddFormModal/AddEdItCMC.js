@@ -17,7 +17,7 @@ import Images from "../../../asset/images";
 import DropdownCR from "../../DropDown/dropDOwnCR";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { emisNumber } from "../../../locales/regexp";
+import { alphabetNum, emisNumber } from "../../../locales/regexp";
 import constants from "../../../locales/constants";
 
 export const AddEditCMC = (props) => {
@@ -35,6 +35,7 @@ export const AddEditCMC = (props) => {
   const [disable, setDisable] = useState(false);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
+  const [cmc_validate, setCMC_validate] = useState(false);
 
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -43,6 +44,10 @@ export const AddEditCMC = (props) => {
         [key]: value,
       };
     });
+    if (key == "cmc_name")
+      !alphabetNum.test(value)
+        ? setCMC_validate(true)
+        : setCMC_validate(false);
   };
 
   const getDistrictList = async () => {
@@ -63,12 +68,14 @@ export const AddEditCMC = (props) => {
 
     useEffect(() => {
       if (operation == constants.Edit){ 
-        !validation(inputValues.cmc_name) 
+        !validation(inputValues.cmc_name) ||
+        !alphabetNum.test(inputValues.cmc_name)
           ? setDisable(true)
           : setDisable(false);
       }
        else {
         !validation(inputValues.cmc_name) ||
+        !alphabetNum.test(inputValues.cmc_name)||
         !validation(selected?.id)
         
           ? setDisable(true)
@@ -175,6 +182,11 @@ export const AddEditCMC = (props) => {
                           onChangeText={(value) => setValue(input.key, value)}
                         />
                       )}
+                      {input.value == "CMC" ? (
+                            <Text style={style.errorcol}>
+                              {cmc_validate ? constants.cmc_val : null}
+                            </Text>
+                          ) : null}
                     </View>
                   ))}
                 </ScrollView>

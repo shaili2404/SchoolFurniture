@@ -16,56 +16,48 @@ import { TransactionSummaryReports } from "./TransactionSummaryReports";
 import { TransactionStatusReports } from "./TransactionStatusReports";
 import { useSelector } from "react-redux";
 
-
 export const Reports = () => {
   const navigation = useNavigation();
-  const organization = useSelector(
-    (state) => state?.loginData?.user?.data?.data?.user?.organization
-  );
 
-  const dropDownData = 
-  // organization == constants.school?  [
-  //   {id:0,name:constants.Replenishment_Report},
-  //   {id:1,name:constants.Disposal_Report},
-  //   {id:2,name:constants.Manufacturer_Stock},
-  //   {id:3,name:constants.School_Furniture_Count_Report},
-  //   {id:4,name:constants.Repairment_Report},
-  // ] :
-  [
-    {id:0,name:constants.Replenishment_Report},
-    {id:1,name:constants.Disposal_Report},
-    {id:2,name:constants.Manufacturer_Stock},
-    {id:3,name:constants.School_Furniture_Count_Report},
-    {id:4,name:constants.Repairment_Report},
-    {id:5,name:constants.Transactions_Summary_Report},
-    {id:6,name:constants.Transactions_Status_Report},
-  ]
+  const dropDownData =
+    // organization == constants.school?  [
+    //   {id:0,name:constants.Replenishment_Report},
+    //   {id:1,name:constants.Disposal_Report},
+    //   {id:2,name:constants.Manufacturer_Stock},
+    //   {id:3,name:constants.School_Furniture_Count_Report},
+    //   {id:4,name:constants.Repairment_Report},
+    // ] :
+    [
+      { id: 0, name: constants.Replenishment_Report },
+      { id: 1, name: constants.Disposal_Report },
+      { id: 2, name: constants.Manufacturer_Stock },
+      { id: 3, name: constants.School_Furniture_Count_Report },
+      { id: 4, name: constants.Repairment_Report },
+      { id: 5, name: constants.Transactions_Summary_Report },
+      { id: 6, name: constants.Transactions_Status_Report },
+    ];
   const [select, setSelect] = useState([]);
   const [loader, setLoader] = useState(false);
   const [dropData, setDropData] = useState(dropDownData);
-  
 
- useEffect(()=>{
-  ListShowaccDrop()
- },[select?.id])
+  useEffect(() => {
+    ListShowaccDrop();
+  }, [select?.id]);
 
-const ListShowaccDrop =()=>{
-  if (select?.id == 0) return <ReplanishmentReports/>
-  else if (select?.id == 1) return <DisposalReports/>
-  else if (select?.id == 2) return <ManufactStockManageReports/>
-  else if (select?.id == 3) return <SchoolFullFurReports/>
-  else if (select?.id == 4) return <RepairmentReports/>
-  else if (select?.id == 5) return <TransactionSummaryReports/>
-  else if (select?.id == 6) return <TransactionStatusReports/>
-  else return <ReplanishmentReports/>
-
-}
+  const ListShowaccDrop = () => {
+    if (select?.id == 0) return <ReplanishmentReports />;
+    else if (select?.id == 1) return <DisposalReports />;
+    else if (select?.id == 2) return <ManufactStockManageReports />;
+    else if (select?.id == 3) return <SchoolFullFurReports />;
+    else if (select?.id == 4) return <RepairmentReports />;
+    else if (select?.id == 5) return <TransactionSummaryReports />;
+    else if (select?.id == 6) return <TransactionStatusReports />;
+    else return <ReplanishmentReports />;
+  };
   useLayoutEffect(() => {
     const title = constants.Reports;
     navigation.setOptions({ title });
   }, []);
-
-
 
   return loader ? (
     <Loader />
@@ -88,7 +80,7 @@ const ListShowaccDrop =()=>{
             />
           </View>
         </View>
-      <ListShowaccDrop/>
+        <ListShowaccDrop />
       </ScrollView>
     </SafeAreaView>
   );

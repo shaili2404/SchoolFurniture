@@ -14,10 +14,9 @@ import {
 import style from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
-import Dropdown from "../../DropDown/dropdown";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
-import { emisNumber } from "../../../locales/regexp";
+import { alphabetNum, emisNumber } from "../../../locales/regexp";
 import constants from "../../../locales/constants";
 import DropdownCR from "../../DropDown/dropDOwnCR";
 
@@ -36,6 +35,8 @@ export const AddEditCircuit = (props) => {
   const [disable, setDisable] = useState(false);
   const [distList, setDistList] = useState([]);
   const [selected, setSelected] = useState({});
+  const [circuit_validate, setCircuit_validate] = useState(false);
+
 
   const setValue = (key, value) => {
     setInputValues((prevState) => {
@@ -44,6 +45,10 @@ export const AddEditCircuit = (props) => {
         [key]: value,
       };
     });
+    if (key == "circuit_name")
+      !alphabetNum.test(value)
+        ? setCircuit_validate(true)
+        : setCircuit_validate(false);
   };
 
   const getDistrictList = async () => {
@@ -64,12 +69,14 @@ export const AddEditCircuit = (props) => {
 
   useEffect(() => {
     if (operation == constants.Edit){ 
-      !validation(inputValues.circuit_name) 
+      !validation(inputValues.circuit_name) ||
+      !alphabetNum.test(inputValues.circuit_name)
         ? setDisable(true)
         : setDisable(false);
     }
      else {
       !validation(inputValues.circuit_name) ||
+      !alphabetNum.test(inputValues.circuit_name) ||
       !validation(selected?.id)
       
         ? setDisable(true)
@@ -176,6 +183,11 @@ export const AddEditCircuit = (props) => {
                           onChangeText={(value) => setValue(input.key, value)}
                         />
                       )}
+                       {input.value == constants.Circuit ? (
+                            <Text style={style.errorcol}>
+                              {circuit_validate ? constants.Circuit_val : null}
+                            </Text>
+                          ) : null}
                     </View>
                   ))}
                 </ScrollView>

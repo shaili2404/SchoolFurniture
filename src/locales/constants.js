@@ -131,7 +131,7 @@ const constants = {
   subplacesname: "Sub Places Name",
   Welcome: "Welcome",
   SearchCircuit: "Search Circuit",
-  SearchCmc: "Search Cmc",
+  SearchCmc: "Search CMC",
   SearchSubplace: "Search Sub Places",
   School_Name: "School Name",
 
@@ -200,6 +200,9 @@ const constants = {
   Replenishment_Approved:'Replenishment Approved',
   dateinWaiting: "Days In Waiting",
   YTD_Report_Status:" YTD Report Status",
-  Progress_from_Collections:'Progress % from Collections'
+  Progress_from_Collections:'Progress % from Collections',
+  cmc_val: "CMC Name Should Be AlphaNumeric",
+  Circuit_val: "Circuit Name Should Be AlphaNumeric",
+  subplace_val: "Subplace Name Should Be AlphaNumeric",
 };
 export default constants;

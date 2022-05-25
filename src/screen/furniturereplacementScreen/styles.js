@@ -188,7 +188,7 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     width: "100%",
     position: "absolute",
-    bottom: Platform.OS === 'android'? 25 : 65,
+    bottom: Platform.OS === 'android'? 25 : 25,
   },
   container: {
     borderRadius: 5,
