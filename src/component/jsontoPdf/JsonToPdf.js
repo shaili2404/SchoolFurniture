@@ -10,6 +10,11 @@ export const exportDataToExcel = async (
   collectionList,
   name
 ) => {
+  console.log(searchStatus,
+    collection_List,
+    collectionList,
+    name)
+    console.log( searchStatus ? collection_List : collectionList)
   let wb = XLSX.utils.book_new();
   let ws = XLSX.utils.json_to_sheet(
     searchStatus ? collection_List : collectionList

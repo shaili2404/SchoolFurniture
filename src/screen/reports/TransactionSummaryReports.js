@@ -93,7 +93,6 @@ export const TransactionSummaryReports = () => {
       if (enddateStatus == false) str += `end_date=${endDte}&&`;
       if (dist_select?.id) str += `district_office=${dist_select?.id}&&`;
 
-      console.log(`${endUrl.reports_transaction_summary_report}?${str}`)
       setmodalloader(true);
       axios
         .post(`${endUrl.reports_transaction_summary_report}?${str}`)
@@ -111,11 +110,9 @@ export const TransactionSummaryReports = () => {
     setprevpage(res?.data?.data?.previous_page)
     setnextpage(res?.data?.data?.next_page)
         setCollectionList(res?.data?.data?.records);
-        console.log(res?.data?.data?.records)
     setLoader(false);
   };
   const onerrorapi = (e) => {
-    console.log(e);
     setLoader(false);
   };
 
@@ -215,7 +212,7 @@ export const TransactionSummaryReports = () => {
     "school_name",
     "school_emis",
     "district_office",
-    "ref_number",
+    "reference_number",
     "confirmed_collections",
     "repairs",
     "disposals",
