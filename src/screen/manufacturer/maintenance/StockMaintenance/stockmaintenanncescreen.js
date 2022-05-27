@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, TouchableOpacity, Text, View } from 'react-native'
+import { SafeAreaView, TouchableOpacity, Text, View, Image } from 'react-native'
 import constants from '../../../../locales/constants'
 import { useSelector } from 'react-redux'
+import Images from "../../../../asset/images";
 
 import style from './style'
 import CommonService from '../../../../locales/service'
@@ -41,6 +42,13 @@ export const StockMaintenanceScreen = () => {
             <Text style={style.stockitems}>{constants.stockitems}</Text>
           </TouchableOpacity>
         )}
+        {permissionId.stockCat ||
+          permissionId.stockItem ? null : (
+            <View style={style.errorMsgView}>
+            <Image source={Images.error} style={style.errIconStyle} />
+            <Text style={style.errorMsg}>{constants.Error_Permission_Msg}</Text>
+            </View>
+          )}
       </View>
     </SafeAreaView>
   )

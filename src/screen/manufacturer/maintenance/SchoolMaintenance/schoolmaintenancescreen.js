@@ -8,12 +8,14 @@ import {
   Text,
   View,
   ScrollView,
+  Image
 } from 'react-native'
 import constants from '../../../../locales/constants'
 import style from './style'
 import LinearGradient from 'react-native-linear-gradient'
 import COLORS from '../../../../asset/color'
 import CommonService from '../../../../locales/service'
+import Images from "../../../../asset/images"
 
 export const Schoolmaintenancescreen = () => {
   const loginData = useSelector((state) => state?.loginData)
@@ -71,9 +73,19 @@ export const Schoolmaintenancescreen = () => {
                     <Text style={style.schooldistrict}>{ele}</Text>
                   </LinearGradient>
                 </TouchableOpacity>
-              ) : null}
+              ) : null }
             </>
           ))}
+            {permissionId.districtList ||
+          permissionId.cmcList ||
+          permissionId.circuitList ||
+          permissionId.subplaceList ||
+          permissionId.schoolList ? null : (
+            <View style={style.errorMsgView}>
+            <Image source={Images.error} style={style.errIconStyle} />
+            <Text style={style.errorMsg}>{constants.Error_Permission_Msg}</Text>
+            </View>
+          )}
         </View>
       </SafeAreaView>
     </ScrollView>

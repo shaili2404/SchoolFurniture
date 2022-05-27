@@ -200,6 +200,7 @@ const constants = {
   Replenishment_Approved:'Replenishment Approved',
   dateinWaiting: "Days In Waiting",
   YTD_Report_Status:" YTD Report Status",
-  Progress_from_Collections:'Progress % from Collections'
+  Progress_from_Collections:'Progress % from Collections',
+  Error_Permission_Msg: 'User does not have the right permissions.',
 };
 export default constants;
