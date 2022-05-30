@@ -19,6 +19,7 @@ import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import {
   alphabetNum,
+  alphabetNumWithSpace,
   emisNumber,
   numberStartWithZero,
   streetCode,
@@ -77,7 +78,7 @@ export const AddSchool = (props) => {
         ? setemis_validateer(true)
         : setemis_validateer(false);
         else if (key == "name")
-        !alphabetNum.test(inputValues.name)
+        !alphabetNumWithSpace.test(inputValues.name)
           ? setSchool_Validater(true)
           : setSchool_Validater(false);
   };
@@ -146,13 +147,14 @@ export const AddSchool = (props) => {
   useEffect(() => {
     if (operation == constants.Edit) {
       !validation(inputValues.name) ||
+      !alphabetNumWithSpace.test(inputValues.name) ||
       !validation(inputValues.emis) ||
       !emisNumber.test(inputValues.emis)
         ? setDisable(true)
         : setDisable(false);
     } else {
       !validation(inputValues.name) ||
-      !alphabetNum.test(inputValues.name) ||
+      !alphabetNumWithSpace.test(inputValues.name) ||
       !validation(inputValues.emis) ||
       !emisNumber.test(inputValues.emis) ||
       !validation(dist_selected?.id) ||

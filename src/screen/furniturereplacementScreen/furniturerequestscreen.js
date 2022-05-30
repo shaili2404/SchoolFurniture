@@ -224,7 +224,7 @@ export const FurnitureReplacmentManfacturer = () => {
   ) : (
    
       <SafeAreaView style={Styles.mainView}>
-         <ScrollView showsHorizontalScrollIndicator={false}>
+         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={Styles.halfView}>
           <View style={Styles.searchButtonView}>
             <Text style={Styles.transactionText}>
@@ -284,6 +284,7 @@ export const FurnitureReplacmentManfacturer = () => {
                 modal
                 open={open}
                 date={startDate}
+                maximumDate={new Date()}
                 mode="date"
                 onConfirm={(date) => {
                   setOpen(false);
@@ -313,6 +314,7 @@ export const FurnitureReplacmentManfacturer = () => {
                 modal
                 open={close}
                 date={endDate}
+                maximumDate={new Date()}
                 mode="date"
                 onConfirm={(date) => {
                   setCLose(false);
@@ -343,6 +345,7 @@ export const FurnitureReplacmentManfacturer = () => {
                 ListHeaderComponent={HeaderComponet}
                 keyExtractor={(item) => item.id}
                 data={collectionList}
+                scrollEnabled={false}
                 renderItem={rendercomponent}
               />
             </ScrollView>

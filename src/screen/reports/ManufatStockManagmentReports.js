@@ -7,9 +7,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  PermissionsAndroid,
   Platform,
-  Alert
 } from "react-native";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
@@ -17,16 +15,16 @@ import Styles from "./style";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
-import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-import RNFS from "react-native-fs";
-import XLSX from "xlsx";
-import FileViewer from "react-native-file-viewer";
+
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../component/jsontoPdf/JsonToPdf";
 
 export const ManufactStockManageReports = () => {
   const isFocused = useIsFocused();
@@ -99,7 +97,7 @@ export const ManufactStockManageReports = () => {
     setLoader(true);
     axios
       .post(`${endUrl.reports_manufacturer_stock_management_report}?all=true`)
-      .then((res) =>{
+      .then((res) => {
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
       })
@@ -133,7 +131,7 @@ export const ManufactStockManageReports = () => {
     getCollectionRequest();
     getfurcategory();
     getfuritem();
-    getallData()
+    getallData();
   }, [isFocused]);
 
   const onNext = () => {
@@ -142,7 +140,7 @@ export const ManufactStockManageReports = () => {
     setNumber(number + 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onPrevious = () => {
@@ -151,7 +149,7 @@ export const ManufactStockManageReports = () => {
     setNumber(number - 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onReset = () => {
@@ -163,7 +161,7 @@ export const ManufactStockManageReports = () => {
     setStockItem({});
     getfurcategory();
     getfuritem();
-    getallData()
+    getallData();
   };
 
   const tableHeader = [constants.FurCategory, constants.furItem];
@@ -180,113 +178,6 @@ export const ManufactStockManageReports = () => {
   };
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
-  };
-  const exportDataToExcel = async () => {
- console.log('185',collection_List)
-   
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
-    ws["!cols"] = [
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-    ];
-    
-
-    // ws["!rows"] = [
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    //   { hpt: 50 },
-    // ];
-    XLSX.utils.book_append_sheet(wb, ws, "Users");
-    const wbout = await XLSX.write(wb, {
-      type: "binary",
-      bookType: "xlsx",
-      compression: false,
-    });
-    const d = new Date();
-   
-
-    var path = RNFS.DocumentDirectoryPath + `/stockreports.xlsx`;
-
-    RNFS.unlink(path, wbout, "ascii")
-    .then(() => {
-      console.log("FILE DELETED");
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-
-    RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {
-        Alert.alert(
-          "Successfully Exported",
-          "Path:" + path,
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Open", onPress: () => openfile(path) },
-          ],
-          { cancelable: true }
-        );
-      })
-      .catch((e) => {
-        console.log("Error", e);
-      });
-  };
-
-  const openfile = async (path) => {
-    await FileViewer.open(path)
-      .then((r) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleClick = async () => {
-    try {
-      let isPermitedExternalStorage = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      if (!isPermitedExternalStorage) {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: "Storage permission needed",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          exportDataToExcel();
-          console.log("Permission granted");
-        } else {
-          // Permission denied
-          console.log("Permission denied");
-        }
-      } else {
-        exportDataToExcel();
-      }
-    } catch (e) {
-      console.log("Error while checking permission");
-      console.log(e);
-      return;
-    }
   };
 
   const setCategoryValue = (item) => {
@@ -334,15 +225,28 @@ export const ManufactStockManageReports = () => {
         <View style={Styles.downloadButtonView}>
           <Text style={Styles.transactionText}>{constants.exportreports}</Text>
           <TouchableOpacity
-            style={Styles.downloadButton}
-            onPress={() => Platform.OS == 'android'? handleClick() :exportDataToExcel() }
+             style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
+             disabled={errorMessage? true:false}
+            onPress={() =>
+              Platform.OS == "android"
+                ? handleClick(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "stockreports"
+                  )
+                : exportDataToExcel(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "stockreports"
+                  )
+            }
           >
-            <Text style={Styles.searchText}>
-              {constants.download}
-            </Text>
+            <Text style={Styles.searchText}>{constants.download}</Text>
           </TouchableOpacity>
         </View>
-       
+
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
@@ -354,6 +258,7 @@ export const ManufactStockManageReports = () => {
               keyExtractor={(item) => item.id}
               data={collectionList}
               renderItem={rendercomponent}
+              scrollEnabled={false}
             />
           </ScrollView>
         )}

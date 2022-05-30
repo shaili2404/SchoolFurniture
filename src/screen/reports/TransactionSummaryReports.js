@@ -8,9 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  PermissionsAndroid,
   Platform,
-  Alert
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -20,7 +18,6 @@ import Styles from "./style";
 import {
   useIsFocused,
   useNavigation,
-  useRoute,
 } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
@@ -31,9 +28,7 @@ import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-import RNFS from "react-native-fs";
-import XLSX from "xlsx";
-import FileViewer from "react-native-file-viewer";
+import { exportDataToExcel, handleClick } from "../../component/jsontoPdf/JsonToPdf";
 
 
 export const TransactionSummaryReports = () => {
@@ -96,7 +91,7 @@ export const TransactionSummaryReports = () => {
       if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
       if (startDateStatus == false) str += `start_date=${strtDte}&&`;
       if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (dist_select?.id) str += `district_office =${dist_select?.id}&&`;
+      if (dist_select?.id) str += `district_office=${dist_select?.id}&&`;
 
       setmodalloader(true);
       axios
@@ -115,11 +110,9 @@ export const TransactionSummaryReports = () => {
     setprevpage(res?.data?.data?.previous_page)
     setnextpage(res?.data?.data?.next_page)
         setCollectionList(res?.data?.data?.records);
-        console.log(res?.data?.data?.records)
     setLoader(false);
   };
   const onerrorapi = (e) => {
-    console.log(e);
     setLoader(false);
   };
 
@@ -219,7 +212,7 @@ export const TransactionSummaryReports = () => {
     "school_name",
     "school_emis",
     "district_office",
-    "ref_number",
+    "reference_number",
     "confirmed_collections",
     "repairs",
     "disposals",
@@ -238,104 +231,7 @@ export const TransactionSummaryReports = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
 
-  const exportDataToExcel = async () => {
-   
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
-    ws["!cols"] = [
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-    ];
-
-    XLSX.utils.book_append_sheet(wb, ws, "Users");
-    const wbout = await XLSX.write(wb, {
-      type: "binary",
-      bookType: "xlsx",
-      compression: false,
-    });
-    const d = new Date();
-   
-
-    var path = RNFS.DocumentDirectoryPath + `/Transactionreports.xlsx`  ;
-    RNFS.unlink(path, wbout, "ascii")
-    .then(() => {
-      console.log("FILE DELETED");
-    })
-    // `unlink` will throw an error, if the item to unlink does not exist
-    .catch((err) => {
-      console.log(err.message);
-    });
-
-    RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {
-        Alert.alert(
-          "Successfully Exported",
-          "Path:" + path,
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Open", onPress: () => openfile(path) },
-          ],
-          { cancelable: true }
-        );
-      })
-      .catch((e) => {
-        console.log("Error", e);
-      });
-    
-  };
-
-  const openfile = async (path) => {
-    await FileViewer.open(path)
-      .then((r) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleClick = async () => {
-    try {
-      // Check for Permission (check if permission is already given or not)
-      let isPermitedExternalStorage = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      if (!isPermitedExternalStorage) {
-        // Ask for permission
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: "Storage permission needed",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission Granted (calling our exportDataToExcel function)
-          exportDataToExcel();
-          console.log("Permission granted");
-        } else {
-          // Permission denied
-          console.log("Permission denied");
-        }
-      } else {
-        // Already have Permission (calling our exportDataToExcel function)
-        exportDataToExcel();
-      }
-    } catch (e) {
-      console.log("Error while checking permission");
-      console.log(e);
-      return;
-    }
-  };
+ 
 
   return loader ? (
     <Loader />
@@ -396,6 +292,7 @@ export const TransactionSummaryReports = () => {
               modal
               open={open}
               date={startDate}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setOpen(false);
@@ -426,6 +323,7 @@ export const TransactionSummaryReports = () => {
               open={close}
               date={endDate}
               mode="date"
+              maximumDate={new Date()}
               onConfirm={(date) => {
                 setCLose(false);
                 setEndDate(date);
@@ -440,8 +338,24 @@ export const TransactionSummaryReports = () => {
         <View style={Styles.downloadButtonView}>
           <Text style={Styles.transactionText}>{constants.exportreports}</Text>
           <TouchableOpacity
-            style={Styles.downloadButton}
-            onPress={() => Platform.OS == 'android'? handleClick() :exportDataToExcel() }
+             style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
+             disabled={errorMessage? true:false}
+            onPress={() =>
+              Platform.OS == "android"
+                ? handleClick(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "Transactionreports"
+                  )
+                : exportDataToExcel(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "Transactionreports"
+                  )
+            }
+
           >
             <Text style={Styles.searchText}>
               {constants.download}
@@ -465,6 +379,7 @@ export const TransactionSummaryReports = () => {
               keyExtractor={(item) => item.id}
               data={collectionList}
               renderItem={rendercomponent}
+              scrollEnabled={false}
             />
           </ScrollView>
         )}

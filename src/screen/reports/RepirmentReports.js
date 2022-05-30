@@ -8,19 +8,14 @@ import {
   FlatList,
   ScrollView,
   Image,
-  PermissionsAndroid,
   Platform,
-  Alert
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./style";
-import {
-  useIsFocused,
-  useNavigation,
-} from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import axios from "axios";
@@ -29,10 +24,10 @@ import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-import RNFS from "react-native-fs";
-import XLSX from "xlsx";
-import FileViewer from "react-native-file-viewer";
-
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../component/jsontoPdf/JsonToPdf";
 
 export const RepairmentReports = () => {
   const isFocused = useIsFocused();
@@ -56,12 +51,10 @@ export const RepairmentReports = () => {
   const [stockItem, setStockItem] = useState([]);
   const [fur_select, setfur_Select] = useState([]);
   const [furItem_select, setfurItem_Select] = useState([]);
-  const [modalloader,setmodalloader] = useState(false)  
-  const [prevpage,setprevpage] = useState('')
-  const [nextPage,setnextpage] = useState('')
+  const [modalloader, setmodalloader] = useState(false);
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
   const [collection_List, setCollection_List] = useState([]);
-
-
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -101,8 +94,7 @@ export const RepairmentReports = () => {
       if (enddateStatus == false) str += `end_date=${endDte}&&`;
       if (select?.id) str += `district_office=${select?.id}&&`;
       if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
-      if (furItem_select?.id)
-        str += `item_id=${furItem_select?.id}&&`;
+      if (furItem_select?.id) str += `item_id=${furItem_select?.id}&&`;
       setmodalloader(true);
       axios
         .post(`${endUrl.reports_repairment_report}?${str}`)
@@ -118,8 +110,8 @@ export const RepairmentReports = () => {
   };
   const onsuccessapi = (res) => {
     setCollectionList(res?.data?.data?.records);
-    setprevpage(res?.data?.data?.previous_page)
-    setnextpage(res?.data?.data?.next_page)
+    setprevpage(res?.data?.data?.previous_page);
+    setnextpage(res?.data?.data?.next_page);
     setLoader(false);
   };
   const onerrorapi = (e) => {
@@ -129,7 +121,9 @@ export const RepairmentReports = () => {
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .post(`${endUrl.reports_repairment_report}?page=${count ? count : number}`)
+      .post(
+        `${endUrl.reports_repairment_report}?page=${count ? count : number}`
+      )
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
@@ -138,7 +132,7 @@ export const RepairmentReports = () => {
     setLoader(true);
     axios
       .post(`${endUrl.reports_repairment_report}?all=true`)
-      .then((res) =>{
+      .then((res) => {
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
       })
@@ -164,14 +158,13 @@ export const RepairmentReports = () => {
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
       .then((res) => {
-        console.log(res?.data?.data)
+        console.log(res?.data?.data);
         setStockItem(res?.data?.data);
       })
       .catch((e) => {
         setLoader(false);
       });
   };
-
 
   useLayoutEffect(() => {
     const title = constants.Reports;
@@ -182,8 +175,8 @@ export const RepairmentReports = () => {
     getCollectionRequest();
     getfurcategory();
     getfuritem();
-    getDistrictList()
-    getallData()
+    getDistrictList();
+    getallData();
   }, [isFocused]);
 
   const onNext = () => {
@@ -192,7 +185,7 @@ export const RepairmentReports = () => {
     setNumber(number + 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onPrevious = () => {
@@ -201,7 +194,7 @@ export const RepairmentReports = () => {
     setNumber(number - 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onReset = () => {
@@ -213,15 +206,14 @@ export const RepairmentReports = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
-    getDistrictList()
+    getDistrictList();
     getfurcategory();
     getfuritem();
-    setSelect({})
-    setfur_Select({})
-    setfurItem_Select({})
-    getallData()
+    setSelect({});
+    setfur_Select({});
+    setfurItem_Select({});
+    getallData();
   };
-
 
   const tableHeader = [
     constants.schoolName,
@@ -244,7 +236,7 @@ export const RepairmentReports = () => {
     "furniture_category",
     "furniture_item",
     "repaired_count",
-    "total_per_school"
+    "total_per_school",
   ];
 
   const rendercomponent = ({ item }) => {
@@ -258,115 +250,17 @@ export const RepairmentReports = () => {
   };
 
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} lenofContent={'more'} />;
+    return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
   const setCategoryValue = (item) => {
     setfur_Select(item);
     getfuritem(item?.id);
-  };
-  const exportDataToExcel = async () => {
-   
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
-    ws["!cols"] = [
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-    ];
-
-   
-    XLSX.utils.book_append_sheet(wb, ws, "Users");
-    const wbout = await XLSX.write(wb, {
-      type: "binary",
-      bookType: "xlsx",
-      compression: false,
-    });
-    const d = new Date();
-   
-
-    var path = RNFS.DocumentDirectoryPath + `/RepairmentReports.xlsx`  ;
-    RNFS.unlink(path, wbout, "ascii")
-    .then(() => {
-      console.log("FILE DELETED");
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-    RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {
-        Alert.alert(
-          "Successfully Exported",
-          "Path:" + path,
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Open", onPress: () => openfile(path) },
-          ],
-          { cancelable: true }
-        );
-      })
-      .catch((e) => {
-        console.log("Error", e);
-      });
-    
-  };
-
-  const openfile = async (path) => {
-    await FileViewer.open(path)
-      .then((r) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleClick = async () => {
-    try {
-      // Check for Permission (check if permission is already given or not)
-      let isPermitedExternalStorage = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      if (!isPermitedExternalStorage) {
-        // Ask for permission
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: "Storage permission needed",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission Granted (calling our exportDataToExcel function)
-          exportDataToExcel();
-          console.log("Permission granted");
-        } else {
-          // Permission denied
-          console.log("Permission denied");
-        }
-      } else {
-        // Already have Permission (calling our exportDataToExcel function)
-        exportDataToExcel();
-      }
-    } catch (e) {
-      console.log("Error while checking permission");
-      console.log(e);
-      return;
-    }
   };
 
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-
       <View>
         <View style={Styles.changeView}>
           <Text style={Styles.changeText}>{constants.selReports}</Text>
@@ -406,11 +300,11 @@ export const RepairmentReports = () => {
           <Dropdown
             label={constants.FurnitureCat}
             data={dropData}
-            onSelect={(item)=>setCategoryValue(item)}
+            onSelect={(item) => setCategoryValue(item)}
             task="name"
           />
         </View>
-        
+
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
@@ -430,6 +324,7 @@ export const RepairmentReports = () => {
               modal
               open={open}
               date={startDate}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setOpen(false);
@@ -459,6 +354,7 @@ export const RepairmentReports = () => {
               modal
               open={close}
               date={endDate}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setCLose(false);
@@ -482,15 +378,28 @@ export const RepairmentReports = () => {
         <View style={Styles.downloadButtonView}>
           <Text style={Styles.transactionText}>{constants.exportreports}</Text>
           <TouchableOpacity
-            style={Styles.downloadButton}
-            onPress={() => Platform.OS == 'android'? handleClick() :exportDataToExcel() }
+           style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
+           disabled={errorMessage? true:false}
+            onPress={() =>
+              Platform.OS == "android"
+                ? handleClick(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "RepairmentReports"
+                  )
+                : exportDataToExcel(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "RepairmentReports"
+                  )
+            }
           >
-            <Text style={Styles.searchText}>
-              {constants.download}
-            </Text>
+            <Text style={Styles.searchText}>{constants.download}</Text>
           </TouchableOpacity>
         </View>
-      
+
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
@@ -507,44 +416,43 @@ export const RepairmentReports = () => {
               keyExtractor={(item) => item.id}
               data={collectionList}
               renderItem={rendercomponent}
+              scrollEnabled={false}
             />
           </ScrollView>
         )}
       </View>
-  {searchStatus?
-     <View style={Styles.lastView}>
-     <TouchableOpacity
-       onPress={onPrevious}
-       disabled={prevpage == null ? true : false}
-     >
-       {prevpage == null ? (
-         <Image source={Images.leftarrow} />
-       ) : (
-         <Image
-           source={Images.rightarrow}
-           style={{ transform: [{ rotate: "180deg" }] }}
-         />
-       )}
-     </TouchableOpacity>
+      {searchStatus ? (
+        <View style={Styles.lastView}>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={prevpage == null ? true : false}
+          >
+            {prevpage == null ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image
+                source={Images.rightarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            )}
+          </TouchableOpacity>
 
-     <TouchableOpacity
-       onPress={onNext}
-       disabled={nextPage == null? true : false}
-     >
-       {nextPage == null ? (
-         <Image
-           source={Images.leftarrow}
-           style={{ transform: [{ rotate: "180deg" }] }}
-         />
-       ) : (
-         <Image source={Images.rightarrow} />
-       )}
-     </TouchableOpacity>
-   </View>
-      :null}
- {modalloader?
-      <ModalLoader visible={modalloader}/>
-    : null}
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={nextPage == null ? true : false}
+          >
+            {nextPage == null ? (
+              <Image
+                source={Images.leftarrow}
+                style={{ transform: [{ rotate: "180deg" }] }}
+              />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );
 };

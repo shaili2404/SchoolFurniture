@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { VictoryChart, VictoryBar, VictoryLabel } from "victory-native";
-import { View, Text, Alert, TouchableOpacity,Platform } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import Loader from "../../../component/loader";
 import constants from "../../../locales/constants";
-import RNFS from "react-native-fs";
-import XLSX from "xlsx";
-import FileViewer from "react-native-file-viewer";
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../../component/jsontoPdf/JsonToPdf";
+import style from "./style";
 
 export const BarChart = () => {
   const [loader, setLoader] = useState(false);
   const [sampleData, setsampleData] = useState([]);
-  const [exportData,setExportData] = useState([])
   const getData = () => {
-    axios.get(`${endUrl.get_ytd_status}`)
+    axios
+      .get(`${endUrl.get_ytd_status}`)
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
@@ -27,7 +29,7 @@ export const BarChart = () => {
           {
             x: 2,
             y: data?.delivery_confirmed,
-            label: "Delivery collection",
+            label: "Delivery Confirmed",
           },
           {
             x: 3,
@@ -66,9 +68,7 @@ export const BarChart = () => {
           },
         ]);
       })
-      .catch((e) => {
-        console.log(e);
-      });
+      .catch((e) => {});
   };
 
   useEffect(() => {
@@ -77,109 +77,14 @@ export const BarChart = () => {
   }, []);
 
   const onbarclick = () => {
-    axios.get(endUrl.ytd_status_report).then((res)=>{
-     setExportData(res?.data?.data)
-     Platform.OS == 'android'? handleClick() :exportDataToExcel() 
-    }).catch((e)=>{
-     console.log(e)
-    })
-  };
-
-  const exportDataToExcel = async () => {
-   
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(exportData);
-    ws["!cols"] = [
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-    ];
-
-  
-    XLSX.utils.book_append_sheet(wb, ws, "Users");
-    const wbout = await XLSX.write(wb, {
-      type: "binary",
-      bookType: "xlsx",
-      compression: false,
-    });
-    const d = new Date();
-   
-
-    var path = RNFS.DocumentDirectoryPath + `/YtdStatusReport.xlsx`  ;
-    RNFS.unlink(path, wbout, "ascii")
-    .then(() => {
-      console.log("FILE DELETED");
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-    RNFS.writeFile(path,wbout, 'ascii')
+    axios
+      .get(endUrl.ytd_status_report)
       .then((res) => {
-        Alert.alert(
-          "Successfully Exported",
-          "Path:" + path,
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Open", onPress: () => openfile(path) },
-          ],
-          { cancelable: true }
-        );
+        Platform.OS == "android"
+          ? handleClick("", {}, res?.data?.data, "YTD_Status_Report")
+          : exportDataToExcel("", {}, res?.data?.data, "YTD_Status_Report");
       })
-      .catch((e) => {
-        console.log("Error", e);
-      });
-  };
-
-  const openfile = async (path) => {
-    await FileViewer.open(path)
-      .then((r) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleClick = async () => {
-    try {
-      // Check for Permission (check if permission is already given or not)
-      let isPermitedExternalStorage = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      if (!isPermitedExternalStorage) {
-        // Ask for permission
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: "Storage permission needed",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission Granted (calling our exportDataToExcel function)
-          exportDataToExcel();
-          console.log("Permission granted");
-        } else {
-          // Permission denied
-          console.log("Permission denied");
-        }
-      } else {
-        // Already have Permission (calling our exportDataToExcel function)
-        exportDataToExcel();
-      }
-    } catch (e) {
-      console.log("Error while checking permission");
-      console.log(e);
-      return;
-    }
+      .catch((e) => {});
   };
 
   return loader ? (
@@ -187,17 +92,15 @@ export const BarChart = () => {
   ) : (
     <View>
       <TouchableOpacity onPress={() => onbarclick()}>
-        <Text style={{ marginLeft: 20, marginTop: 40, fontWeight: "bold" }}>
-          {constants.YTD_Report_Status}
-        </Text>
+        <Text style={style.dashbarchart}>{constants.YTD_Report_Status}</Text>
       </TouchableOpacity>
-      <VictoryChart domainPadding={{ x: 50 }} width={380} height={400}>
+      <VictoryChart domainPadding={{ x: 50 }} width={380} height={500}>
         <VictoryBar
           style={{ data: { fill: "#7DB4EA" } }}
           data={sampleData}
           horizontal
           labels={({ datum }) => `${datum.label}`}
-          labelComponent={<VictoryLabel textAnchor={"start"} dy={-14} x={50} />}
+          labelComponent={<VictoryLabel textAnchor={"start"} dy={-17} x={50} />}
         />
       </VictoryChart>
     </View>

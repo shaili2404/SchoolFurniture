@@ -9,8 +9,6 @@ import {
   ScrollView,
   Image,
   Platform,
-  PermissionsAndroid,
-  Alert
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -26,10 +24,10 @@ import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-
- import RNFS from "react-native-fs";
-import XLSX from "xlsx";
-import FileViewer from "react-native-file-viewer";
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../component/jsontoPdf/JsonToPdf";
 
 export const ReplanishmentReports = () => {
   const isFocused = useIsFocused();
@@ -55,10 +53,9 @@ export const ReplanishmentReports = () => {
   const [number, setNumber] = useState(1);
   const [replanishment_status, setreplanishment_status] = useState([]);
   const [modalloader, setmodalloader] = useState(false);
-  const [prevpage,setprevpage] = useState('')
-  const [nextPage,setnextpage] = useState('')
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
   const [collection_List, setCollection_List] = useState([]);
-
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -118,13 +115,12 @@ export const ReplanishmentReports = () => {
       .get(`${endUrl.schoolDistList}?all=true`)
       .then((res) => {
         setDistList(res?.data?.data?.records);
-       
       })
       .catch((e) => {});
   };
   const onsuccessapi = (res) => {
-    setprevpage(res?.data?.data?.previous_page)
-    setnextpage(res?.data?.data?.next_page)
+    setprevpage(res?.data?.data?.previous_page);
+    setnextpage(res?.data?.data?.next_page);
     setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
@@ -145,7 +141,7 @@ export const ReplanishmentReports = () => {
     setLoader(true);
     axios
       .post(`${endUrl.reports_ReplanishmentReports}?all=true`)
-      .then((res) =>{
+      .then((res) => {
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
       })
@@ -156,11 +152,9 @@ export const ReplanishmentReports = () => {
     setLoader(true);
     axios
       .get(`${endUrl.replanishStatus}?all=true`)
-      .then((res) =>{
-        console.log(`${endUrl.replanishStatus}?all=true`)
-      console.log(res?.data?.data)
-      setDropData(res?.data?.data)
-  })
+      .then((res) => {
+        setDropData(res?.data?.data);
+      })
       .catch((e) => {});
   };
   const getfurcat = () => {
@@ -181,7 +175,7 @@ export const ReplanishmentReports = () => {
     getstatusList();
     getDistrictList();
     getfurcat();
-    getallData()
+    getallData();
   }, [isFocused]);
 
   const onNext = () => {
@@ -190,7 +184,7 @@ export const ReplanishmentReports = () => {
     setNumber(number + 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onPrevious = () => {
@@ -199,7 +193,7 @@ export const ReplanishmentReports = () => {
     setNumber(number - 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onReset = () => {
@@ -212,13 +206,13 @@ export const ReplanishmentReports = () => {
     getCollectionRequest();
     setNumber(1);
     getDistrictList();
-    getstatusList()
+    getstatusList();
     getfurcat();
     setSelect({});
     setfur_Select({});
     setreplanishment_status({});
-    getallData()
-  }
+    getallData();
+  };
 
   const tableHeader = [
     constants.schoolName,
@@ -256,103 +250,6 @@ export const ReplanishmentReports = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
 
-  const exportDataToExcel = async () => {
-   
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(searchStatus ? collection_List : collectionList);
-    ws["!cols"] = [
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-    ];
-
-  
-    XLSX.utils.book_append_sheet(wb, ws, "Users");
-    const wbout = await XLSX.write(wb, {
-      type: "binary",
-      bookType: "xlsx",
-      compression: false,
-    });
-    const d = new Date();
-   
-
-    var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`  ;
-    RNFS.unlink(path, wbout, "ascii")
-    .then(() => {
-      console.log("FILE DELETED");
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-    RNFS.writeFile(path,wbout, 'ascii')
-      .then((res) => {
-        Alert.alert(
-          "Successfully Exported",
-          "Path:" + path,
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Open", onPress: () => openfile(path) },
-          ],
-          { cancelable: true }
-        );
-      })
-      .catch((e) => {
-        console.log("Error", e);
-      });
-  };
-
-  const openfile = async (path) => {
-    await FileViewer.open(path)
-      .then((r) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleClick = async () => {
-    try {
-      // Check for Permission (check if permission is already given or not)
-      let isPermitedExternalStorage = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      if (!isPermitedExternalStorage) {
-        // Ask for permission
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: "Storage permission needed",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission Granted (calling our exportDataToExcel function)
-          exportDataToExcel();
-          console.log("Permission granted");
-        } else {
-          // Permission denied
-          console.log("Permission denied");
-        }
-      } else {
-        // Already have Permission (calling our exportDataToExcel function)
-        exportDataToExcel();
-      }
-    } catch (e) {
-      console.log("Error while checking permission");
-      console.log(e);
-      return;
-    }
-  };
-
   return loader ? (
     <Loader />
   ) : (
@@ -373,9 +270,8 @@ export const ReplanishmentReports = () => {
               {searchStatus ? constants.search : constants.Reset}
             </Text>
           </TouchableOpacity>
-          
         </View>
-        
+
         <View style={Styles.refView}>
           <TextInput
             style={Styles.refrenceStyle}
@@ -421,6 +317,7 @@ export const ReplanishmentReports = () => {
               modal
               open={open}
               date={startDate}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setOpen(false);
@@ -450,6 +347,7 @@ export const ReplanishmentReports = () => {
               modal
               open={close}
               date={endDate}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setCLose(false);
@@ -473,15 +371,28 @@ export const ReplanishmentReports = () => {
         <View style={Styles.downloadButtonView}>
           <Text style={Styles.transactionText}>{constants.exportreports}</Text>
           <TouchableOpacity
-            style={Styles.downloadButton}
-            onPress={() => Platform.OS == 'android'? handleClick() :exportDataToExcel() }
+            style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
+            disabled={errorMessage? true:false}
+            onPress={() =>
+              Platform.OS == "android"
+                ? handleClick(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "ReplanishmentReports"
+                  )
+                : exportDataToExcel(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "ReplanishmentReports"
+                  )
+            }
           >
-            <Text style={Styles.searchText}>
-              {constants.download}
-            </Text>
+            <Text style={Styles.searchText}>{constants.download}</Text>
           </TouchableOpacity>
         </View>
-       
+
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
             <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
@@ -498,6 +409,7 @@ export const ReplanishmentReports = () => {
               keyExtractor={(item) => item.id}
               data={collectionList}
               renderItem={rendercomponent}
+              scrollEnabled={false}
             />
           </ScrollView>
         )}
@@ -520,7 +432,7 @@ export const ReplanishmentReports = () => {
 
           <TouchableOpacity
             onPress={onNext}
-            disabled={nextPage == null? true : false}
+            disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
               <Image

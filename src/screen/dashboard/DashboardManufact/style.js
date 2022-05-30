@@ -41,4 +41,9 @@ export default StyleSheet.create({
     width: "95%",
     borderRadius: 20,
   },
+  dashbarchart: { 
+    marginLeft: 20, 
+    marginTop: 40, 
+    fontWeight: "bold" 
+  },
 });

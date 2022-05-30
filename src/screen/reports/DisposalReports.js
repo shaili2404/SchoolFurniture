@@ -1,4 +1,8 @@
-import React, { useEffect, useState, useLayoutEffect, cloneElement } from "react";
+import React, {
+  useEffect,
+  useState,
+  useLayoutEffect,
+} from "react";
 import {
   SafeAreaView,
   View,
@@ -8,9 +12,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  PermissionsAndroid,
   Platform,
-  Alert,
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -20,16 +22,16 @@ import Styles from "./style";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-import RNFS from "react-native-fs";
-import XLSX from "xlsx";
-import FileViewer from "react-native-file-viewer";
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../component/jsontoPdf/JsonToPdf";
 
 export const DisposalReports = () => {
   const isFocused = useIsFocused();
@@ -234,111 +236,6 @@ export const DisposalReports = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
 
-  const exportDataToExcel = async () => {
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(
-      searchStatus ? collection_List : collectionList
-    );
-
-    ws["!cols"] = [
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-    ];
-
-   
-
-    XLSX.utils.book_append_sheet(wb, ws, "Users");
-    const wbout = await XLSX.write(wb, {
-      type: "binary",
-      bookType: "xlsx",
-      compression: false,
-    });
-
-    var timestamp = new Date().toISOString().replace(/[-:.]/g, "");
-    var random_name = "ReplanishmentReports" + timestamp;
-    console.log(timestamp);
-
-    var path = RNFS.DocumentDirectoryPath + `/ReplanishmentReports.xlsx`;
-    RNFS.unlink(path, wbout, "ascii")
-      .then(() => {
-        console.log("FILE DELETED");
-      })
-      // `unlink` will throw an error, if the item to unlink does not exist
-      .catch((err) => {
-        console.log(err.message);
-      });
-    RNFS.writeFile(path, wbout, "ascii")
-      .then((res) => {
-        console.log("success");
-        Alert.alert(
-          "Successfully Exported",
-          "Path:" + path,
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Open", onPress: () => openfile(path) },
-          ],
-          { cancelable: true }
-        );
-      })
-      .catch((e) => {
-        console.log("Error", e);
-      });
-
-    // openfile(path);
-  };
-
-  const openfile = async (path) => {
-    await FileViewer.open(path)
-      .then((r) => {})
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleClick = async () => {
-    try {
-      // Check for Permission (check if permission is already given or not)
-      let isPermitedExternalStorage = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      if (!isPermitedExternalStorage) {
-        // Ask for permission
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: "Storage permission needed",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission Granted (calling our exportDataToExcel function)
-          exportDataToExcel();
-          console.log("Permission granted");
-        } else {
-          // Permission denied
-          console.log("Permission denied");
-        }
-      } else {
-        // Already have Permission (calling our exportDataToExcel function)
-        exportDataToExcel();
-      }
-    } catch (e) {
-      console.log("Error while checking permission");
-      console.log(e);
-      return;
-    }
-  };
 
   return loader ? (
     <Loader />
@@ -406,6 +303,7 @@ export const DisposalReports = () => {
               modal
               open={open}
               date={startDate}
+              maximumDate={new Date()}
               mode="date"
               onConfirm={(date) => {
                 setOpen(false);
@@ -435,7 +333,9 @@ export const DisposalReports = () => {
               modal
               open={close}
               date={endDate}
+              
               mode="date"
+              maximumDate={new Date()}
               onConfirm={(date) => {
                 setCLose(false);
                 setEndDate(date);
@@ -450,9 +350,22 @@ export const DisposalReports = () => {
         <View style={Styles.downloadButtonView}>
           <Text style={Styles.transactionText}>{constants.exportreports}</Text>
           <TouchableOpacity
-            style={Styles.downloadButton}
+            style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
+            disabled={errorMessage? true:false}
             onPress={() =>
-              Platform.OS == "android" ? handleClick() : exportDataToExcel()
+              Platform.OS == "android"
+                ? handleClick(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "DisposalReport"
+                  )
+                : exportDataToExcel(
+                    searchStatus,
+                    collection_List,
+                    collectionList,
+                    "DisposalReport"
+                  )
             }
           >
             <Text style={Styles.searchText}>{constants.download}</Text>
@@ -475,6 +388,7 @@ export const DisposalReports = () => {
               keyExtractor={(item) => item.id}
               data={collectionList}
               renderItem={rendercomponent}
+              scrollEnabled={false}
             />
           </ScrollView>
         )}

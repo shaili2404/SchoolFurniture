@@ -126,12 +126,17 @@ export const ManageUserScreen = () => {
   }
 
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number + 1)
-    apicall(count)
-    setLoader(false)
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
+  };
+  const onReset = ()=>{
+    setErrorMessage('')
+    setSearchTask('')
   }
+
 
   const onPrevious = () => {
     let count = number - 1
@@ -202,6 +207,14 @@ export const ManageUserScreen = () => {
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+            <TouchableOpacity
+              style={Styles.searchButton}
+              onPress={onReset}
+            >
+              <Text style={Styles.searchText}>
+                {constants.Reset}
+              </Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

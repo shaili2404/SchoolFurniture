@@ -14,10 +14,13 @@ export const Piechart = () => {
   const [sampleData, setsampleData] = useState([]);
 
   const getData = () => {
-    axios.get(endUrl.get_percentagecollection)
+    
+    axios
+      .get(endUrl.get_percentagecollection)
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
+        console.log(data)
         setsampleData([
           data?.pending_repairs == 0
             ? { x: 0, y: 0 }
@@ -25,7 +28,7 @@ export const Piechart = () => {
           data?.pending_delivery == 0
             ? { x: 0, y: 0 }
             : { x: 2, y: Math.trunc(data?.pending_delivery) },
-          data?.pending_replenishment_approval == 0
+          data?.pending_replenishment_approvel == 0
             ? { x: 0, y: 0 }
             : { x: 3, y: Math.trunc(data?.pending_replenishment_approval) },
           data?.replenishment_rejected == 0
@@ -52,21 +55,13 @@ export const Piechart = () => {
     getData();
   }, []);
 
-  const onbarclick = () => {
-    Alert.alert("hey");
-  };
-
-  return ( loader ?
-    <Loader/>
-    :
+  return loader ? (
+    <Loader />
+  ) : (
     <View style={style.pieViewss}>
-      <TouchableOpacity onPress={() => onbarclick()}>
-        <Text style={style.textchart}>{constants.Progress_from_Collections}</Text>
-      </TouchableOpacity>
+      <Text style={style.textchart}>{constants.Progress_from_Collections}</Text>
       <View style={style.pieView}>
         <VictoryPie
-         minDomain={{ y: '0%' }}
-        maxDomain={{ y: '100%' }}
           colorScale={[
             "#AEF182",
             "#FFC000",

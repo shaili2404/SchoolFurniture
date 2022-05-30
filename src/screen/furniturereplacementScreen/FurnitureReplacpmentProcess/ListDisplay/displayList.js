@@ -30,7 +30,7 @@ export const DisplayList = ({
   onSubmitDetails,
   pageStatus,
   onSubmitreparableDetails,
-  onsubmitDilverdetails
+  onsubmitDilverdetails,
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -38,8 +38,9 @@ export const DisplayList = ({
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const [repItem, setRepItem] = useState("");
+  const [reparable, setReparableItem] = useState("");
   const [confirmCount, setConfirmCount] = useState("");
-  const [deliverCount,setDeliverCount] = useState('')
+  const [deliverCount, setDeliverCount] = useState("");
   const onchangeInp = (val) => {
     let Confirm_cnt;
     if (val > item.count) Confirm_cnt = item.count;
@@ -53,28 +54,46 @@ export const DisplayList = ({
 
   const onchangereparableval = (val) => {
     let value = item?.confirmed_count - val;
-    if (val > item?.confirmed_count || val == "") setRepItem("");
-    else if (val <= item?.confirmed_count) setRepItem(value);
+    if (val == "") {
+      setRepItem("");
+      setReparableItem("");
+    } else if (val < 0) {
+      setReparableItem("");
+      setRepItem("");
+    } else if (val > item?.confirmed_count) {
+      setReparableItem(item?.confirmed_count);
+      setRepItem(0);
+    } else if (val <= item?.confirmed_count) {
+      setRepItem(value);
+      setReparableItem(val);
+    }
+
     flatListData.map((element) => {
       if (element.id === item.id) {
         if (val == "") element.replenish_count = "";
-        else element.replenish_count = element?.confirmed_count - val;
-        element.repair_count = val;
+        else
+          element.replenish_count =
+            value < 0 ? 0 : element?.confirmed_count - val;
+        element.repair_count =
+          val > element.confirmed_count
+            ? element?.confirmed_count
+            : val < 0
+            ? 0
+            : val;
       }
     });
     onSubmitreparableDetails(flatListData);
   };
-  const onchangedeliver =(val)=>{
- 
+  const onchangedeliver = (val) => {
     let Confirm_cnt;
-    if (val > item.confirmed_count ) Confirm_cnt = item.confirmed_count ;
+    if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
     else Confirm_cnt = val;
     setDeliverCount(Confirm_cnt);
     flatListData.map((element) => {
       if (element.id === item.id) element.deliver_count = Confirm_cnt;
     });
     onsubmitDilverdetails(flatListData);
-  }
+  };
   const onDelete = (item) => {
     if (organization == constants.school) onDeleteFurItem(item);
     else setAlert(true);
@@ -104,7 +123,9 @@ export const DisplayList = ({
                       }
                       onChangeText={(val) => onchangereparableval(val)}
                       value={
-                        val == "replanishitem" ? String(repItem) : item[val]
+                        val == "replanishitem"
+                          ? String(repItem)
+                          : String(reparable)
                       }
                       editable={val == "replanishitem" ? false : true}
                       keyboardType="numeric"
@@ -122,7 +143,7 @@ export const DisplayList = ({
                           placeholder={constants.Enterval}
                           placeholderTextColor={COLORS.Black}
                           style={Styles.inputStyles}
-                           onChangeText={(val) => onchangedeliver(val)}
+                          onChangeText={(val) => onchangedeliver(val)}
                           keyboardType="numeric"
                           value={String(deliverCount)}
                         />

@@ -185,6 +185,10 @@ export const SchoolDistrictList = () => {
           }
         })
     }
+  };
+  const onReset = ()=>{
+    setErrorMessage('')
+    setSearchTask('')
   }
 
   const onAddPress = (task) => {
@@ -212,28 +216,33 @@ export const SchoolDistrictList = () => {
     <Loader />
   ) : (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <SafeAreaView style={Styles.mainView}>
-        <View style={Styles.halfView}>
-          <View>
-            <TextInput
-              style={Styles.refrenceStyle}
-              placeholder={constants.SearchDistrict}
-              placeholderTextColor={COLORS.Black}
-              opacity={0.5}
-              value={searchtask}
-              onChangeText={(val) => setSearchTask(val)}
-            />
+    <SafeAreaView style={Styles.mainView}>
+      <View style={Styles.halfView}>
+        <View>
+          <TextInput
+            style={Styles.refrenceStyle}
+            placeholder={constants.SearchDistrict}
+            placeholderTextColor={COLORS.Black}
+            opacity={0.5}
+            value={searchtask}
+            onChangeText={(val) => setSearchTask(val)}
+          />
+          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}>
+            <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
+          </TouchableOpacity>
+        </View>
+        {errorMessage ? (
+          <View style={Styles.errorView}>
+            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
             <TouchableOpacity
-              style={Styles.eyeStyle}
-              onPress={() => onsearch()}
+              style={Styles.searchButton}
+              onPress={onReset}
             >
-              <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
+              <Text style={Styles.searchText}>
+                {constants.Reset}
+              </Text>
             </TouchableOpacity>
           </View>
-          {errorMessage ? (
-            <View style={Styles.errorView}>
-              <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-            </View>
           ) : (
             <ScrollView
               horizontal={true}
