@@ -63,6 +63,6 @@ const endUrl = {
   ytd_status_report: "user/dashboard/ytd-status-count/report-download",
   Previous_year_status: "user/dashboard/get-previous-year-status",
   DownloadPreviousYearStatus:
-    " user/dashboard/previous-year-status/report-download",
+    "user/dashboard/previous-year-status/report-download",
 };
 export default endUrl;

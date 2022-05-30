@@ -176,6 +176,10 @@ export const SubPlacesList = () => {
     setLoader(false);
   };
 
+  const onReset = ()=>{
+    setErrorMessage('')
+    setSearchTask('')
+  }
   const onsearch = () => {
     setErrorMessage('')
     if (searchtask == "") {
@@ -246,6 +250,14 @@ export const SubPlacesList = () => {
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+            <TouchableOpacity
+              style={Styles.searchButton}
+              onPress={onReset}
+            >
+              <Text style={Styles.searchText}>
+                {constants.Reset}
+              </Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

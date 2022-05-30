@@ -106,7 +106,7 @@ export const FurnitureReplacmentProcess = () => {
   });
   const [plusSign, setPlusSign] = useState(false);
   const [footerSign, setfooterSign] = useState(false);
- const [modalloader,setmodalloader] = useState(false)  
+  const [modalloader, setmodalloader] = useState(false);
 
   const {
     school_name,
@@ -438,30 +438,24 @@ export const FurnitureReplacmentProcess = () => {
 
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
-      data?.filter((ele) => {
-        if (ele?.confirm_count == "" || ele?.confirm_count == 0)
-          setSaveButton(true);
-        else setSaveButton(false);
-      });
+      const isGreaterThanZero = data?.every((ele) => ele?.confirm_count > 0);
+      isGreaterThanZero ? setSaveButton(false) : setSaveButton(true);
     } else setSaveButton(true);
 
     setConfirmCollectedCount(data);
   };
 
   const setreparableCollection = (data) => {
-    data?.filter((ele) => {
-      if (
-        ele?.replenish_count == "" ||
-        ele?.replenish_count == 0 ||
-        ele?.replenish_count < 0
-      ) {
-        setreplanishcertificateStatus(false);
-        setcheckboxStatusreplanish(true);
-      } else {
-        setreplanishcertificateStatus(true);
-        setcheckboxStatusreplanish(false);
-      }
-    });
+    const isGreaterThanZero = data?.every((ele) => ele?.replenish_count == 0);
+
+    if (isGreaterThanZero) {
+      setreplanishcertificateStatus(false);
+      setcheckboxStatusreplanish(true);
+    } else {
+      setreplanishcertificateStatus(true);
+      setcheckboxStatusreplanish(false);
+    }
+
     setConfirmCollectedCount(data);
   };
   const onsubmitDilverdetails = (data) => {
@@ -845,7 +839,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
-    setmodalloader(true)
+    setmodalloader(true);
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
@@ -877,12 +871,12 @@ export const FurnitureReplacmentProcess = () => {
         let res = await response.json();
         if (response.ok) {
           seterrorAlert(true);
-          setmodalloader(false)
+          setmodalloader(false);
           setMainMsg(res?.message);
           setcheckboxStatusreplanish(true);
         } else ErrorApi(res, "collection");
       } catch (err) {
-        setmodalloader(false)
+        setmodalloader(false);
       }
     };
 
@@ -903,11 +897,11 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onPressDeliveryNote = () => {
-    if (taskofPage == constants.Status_pendingDilver){
-    flatListData.map((ele) => {
-      ele.deliver_count = ele.delivered_count;
-    });
-  }
+    if (taskofPage == constants.Status_pendingDilver) {
+      flatListData.map((ele) => {
+        ele.deliver_count = ele.delivered_count;
+      });
+    }
 
     let data = {
       ref_number: ref_number,
@@ -1155,8 +1149,7 @@ export const FurnitureReplacmentProcess = () => {
       </ScrollView>
 
       <View style={styles.bottomView}>
-        {
-        footerSign == false ? (
+        {footerSign == false ? (
           <FooterFur
             saveButton={saveButton}
             submitButton={submitButton}
@@ -1236,9 +1229,7 @@ export const FurnitureReplacmentProcess = () => {
           onBack={() => onBack()}
         />
       ) : null}
-      {modalloader?
-      <ModalLoader visible={modalloader}/>
-    : null}
+      {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );
 };

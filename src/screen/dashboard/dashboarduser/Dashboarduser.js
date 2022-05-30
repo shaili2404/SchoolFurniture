@@ -13,7 +13,7 @@ export const DashboardUser = () => {
     (state) => state?.loginData?.user?.data?.data?.user?.name
   );
   useLayoutEffect(() => {
-    const title = constants.dashboard;
+    const title = "Home";
     navigation.setOptions({ title });
   }, []);
 

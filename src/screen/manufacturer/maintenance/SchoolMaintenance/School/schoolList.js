@@ -237,6 +237,10 @@ export const SchoolList = () => {
   useEffect(() => {
     apicall();
   }, []);
+  const onReset = ()=>{
+    setErrorMessage('')
+    setSearchTask('')
+  }
 
   useEffect(() => {
     if (listData) setLoader(false);
@@ -272,6 +276,14 @@ export const SchoolList = () => {
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+            <TouchableOpacity
+              style={Styles.searchButton}
+              onPress={onReset}
+            >
+              <Text style={Styles.searchText}>
+                {constants.Reset}
+              </Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

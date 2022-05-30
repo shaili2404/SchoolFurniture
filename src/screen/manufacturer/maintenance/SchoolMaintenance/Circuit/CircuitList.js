@@ -196,6 +196,10 @@ export const CircuitList = () => {
       });
     }
   };
+  const onReset = ()=>{
+    setErrorMessage('')
+    setSearchTask('')
+  }
 
   const onAddPress = (task) => {
     setOperation(task);
@@ -240,6 +244,14 @@ export const CircuitList = () => {
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+            <TouchableOpacity
+              style={Styles.searchButton}
+              onPress={onReset}
+            >
+              <Text style={Styles.searchText}>
+                {constants.Reset}
+              </Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

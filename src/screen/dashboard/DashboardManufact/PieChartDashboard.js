@@ -14,11 +14,13 @@ export const Piechart = () => {
   const [sampleData, setsampleData] = useState([]);
 
   const getData = () => {
+    
     axios
       .get(endUrl.get_percentagecollection)
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
+        console.log(data)
         setsampleData([
           data?.pending_repairs == 0
             ? { x: 0, y: 0 }
@@ -28,7 +30,7 @@ export const Piechart = () => {
             : { x: 2, y: Math.trunc(data?.pending_delivery) },
           data?.pending_replenishment_approvel == 0
             ? { x: 0, y: 0 }
-            : { x: 3, y: Math.trunc(data?.pending_replenishment_approvel) },
+            : { x: 3, y: Math.trunc(data?.pending_replenishment_approval) },
           data?.replenishment_rejected == 0
             ? { x: 0, y: 0 }
             : { x: 4, y: Math.trunc(data?.replenishment_rejected) },

@@ -80,4 +80,20 @@ export default StyleSheet.create({
   listView80: {
     height: Platform.OS === "android" ? "80%" : "100%",
   },
+  searchButton: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: 70,
+    height: 30,
+    alignSelf: "center",
+    paddingTop: 5,
+    marginTop: 15,
+  },
+  searchText: {
+    color: COLORS.White,
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontWeight: "normal",
+    fontSize: 16,
+  },
 });
