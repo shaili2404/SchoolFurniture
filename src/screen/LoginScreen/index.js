@@ -206,7 +206,7 @@ export const LoginScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        {/* </KeyboardAvoidingView> */}
 
         <View
           style={
@@ -233,6 +233,7 @@ export const LoginScreen = () => {
         ) : (
           false
         )}
+          </KeyboardAvoidingView>
       </View>
     </SafeAreaView>
   );
