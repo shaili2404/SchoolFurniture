@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Styles from "./Styles";
+import React, { useState, useEffect } from 'react'
+import Styles from './Styles'
 import {
   SafeAreaView,
   View,
@@ -9,48 +9,49 @@ import {
   FlatList,
   ScrollView,
   Image,
-} from "react-native";
-import COLORS from "../../../asset/color";
-import Images from "../../../asset/images";
+} from 'react-native'
+import COLORS from '../../../asset/color'
+import Images from '../../../asset/images'
 
-import constants from "../../../locales/constants";
-import axios from "axios";
-import endUrl from "../../../redux/configration/endUrl";
-import { useSelector } from "react-redux";
-import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
-import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
-import { AddUserModal } from "../../../component/manufacturer/AddFormModal/AddFormModal";
-import Loader from "../../../component/loader";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
-import AlertText from "../../../Alert/AlertText";
+import constants from '../../../locales/constants'
+import axios from 'axios'
+import endUrl from '../../../redux/configration/endUrl'
+import { useSelector } from 'react-redux'
+import { DataDisplayList } from '../../../component/manufacturer/displayListComman'
+import { ListHeaderComman } from '../../../component/manufacturer/ListHeaderComman'
+import { AddUserModal } from '../../../component/manufacturer/AddFormModal/AddFormModal'
+import Loader from '../../../component/loader'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import AlertText from '../../../Alert/AlertText'
+import CommonService from '../../../locales/service'
 
-const PAGESIZE = 10;
+const PAGESIZE = 10
 
 export const ManageUserScreen = () => {
-  const [listData, setListData] = useState([]);
-  const loginData = useSelector((state) => state?.loginData);
-  const [addUserModal, setAdduserModal] = useState(false);
-  const [loader, setLoader] = useState(true);
-  const [searchtask, setSearchTask] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigation = useNavigation();
-  const [maximumNumber, setmaximunNumber] = useState(0);
-  const [number, setNumber] = useState(1);
+  const [listData, setListData] = useState([])
+  const loginData = useSelector((state) => state?.loginData)
+  const [addUserModal, setAdduserModal] = useState(false)
+  const [loader, setLoader] = useState(true)
+  const [searchtask, setSearchTask] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const navigation = useNavigation()
+  const [maximumNumber, setmaximunNumber] = useState(0)
+  const [number, setNumber] = useState(1)
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalPage: 0,
     startIndex: 0,
     endIndex: 0,
-  });
+  })
   const isFocused = useIsFocused()
   const [permissionId, setPermissionId] = useState({
     userList: false,
     userCreate: false,
     userEdit: false,
     userDelete: false,
-  });
+  })
 
-  const tableKey = ["name", "surname", "username", "email", "organization"];
+  const tableKey = ['name', 'surname', 'username', 'email', 'organization']
   const tableHeader = [
     constants.name,
     constants.surname,
@@ -58,35 +59,19 @@ export const ManageUserScreen = () => {
     constants.emailId,
     constants.organisation,
     constants.manage,
-  ];
+  ]
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions;
-    let userList = false,
-      userCreate = false,
-      userEdit = false,
-      userDlt = false;
-    arr.forEach((input) => {
-      if (input.id === 1) {
-        userList = true;
-      }
-      if (input.id === 2) {
-        userCreate = true;
-      }
-      if (input.id === 3) {
-        userEdit = true;
-      }
-      if (input.id === 4) {
-        userDlt = true;
-      }
-    });
+    const arr = loginData?.user?.data?.data?.permissions
+    const [userList, userCreate, userEdit, userDlt] =
+      CommonService.getPermission(arr, [1, 2, 3, 4])
     setPermissionId({
       userList: userList,
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    });
-  }, []);
+    })
+  }, [])
 
   const rendercomponent = ({ item }) => {
     return (
@@ -100,45 +85,45 @@ export const ManageUserScreen = () => {
         submessage={AlertText.canNotUndo}
         permissionId={permissionId}
       />
-    );
-  };
+    )
+  }
 
   const onEdit = (item, task) => {
-    let btnStatus;
+    let btnStatus
     if (task == constants.Edit) {
-      btnStatus = "0";
+      btnStatus = '0'
     }
-    navigation.navigate("AddNewUsers", { Item: item, btnStatus: btnStatus });
-  };
+    navigation.navigate('AddNewUsers', { Item: item, btnStatus: btnStatus })
+  }
 
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} />;
-  };
+    return <ListHeaderComman tableHeader={tableHeader} />
+  }
 
   const reloadList = () => {
-    apicall();
-  };
+    apicall()
+  }
 
   const onSubmitDetails = async (value) => {
     try {
-      const response = await axios.post(`${endUrl.schoolList}`, value);
+      const response = await axios.post(`${endUrl.schoolList}`, value)
     } catch (e) {}
-  };
+  }
 
   const apicall = (count) => {
-    setLoader(true);
+    setLoader(true)
     axios
       .get(`${endUrl.userList}?page=${count ? count : number}`)
       .then((res) => {
-        setListData(res?.data?.data?.records);
-        setmaximunNumber(res?.data?.data?.total_page);
-        setLoader(false);
+        setListData(res?.data?.data?.records)
+        setmaximunNumber(res?.data?.data?.total_page)
+        setLoader(false)
       })
       .catch((e) => {
-        setLoader(false);
-        console.log("apicall", e);
-      });
-  };
+        setLoader(false)
+        console.log('apicall', e)
+      })
+  }
 
   const onNext = () => {
     let count = number + 1;
@@ -154,52 +139,52 @@ export const ManageUserScreen = () => {
 
 
   const onPrevious = () => {
-    let count = number - 1;
-    setLoader(true);
-    setNumber(number - 1);
-    apicall(count);
-    setLoader(false);
-  };
+    let count = number - 1
+    setLoader(true)
+    setNumber(number - 1)
+    apicall(count)
+    setLoader(false)
+  }
   const onsearch = () => {
-    setLoader(true);
+    setLoader(true)
     axios
       .get(`${endUrl.usersearch}${searchtask}`)
       .then((res) => {
-        setListData(res?.data?.data);
-        setLoader(false);
+        setListData(res?.data?.data)
+        setLoader(false)
       })
       .catch((e) => {
         {
-          let { message, data, status } = e?.response?.data || {};
-          setLoader(false);
+          let { message, data, status } = e?.response?.data || {}
+          setLoader(false)
           {
-            let str = "";
+            let str = ''
             status == 422
               ? Object.values(data).forEach((value) => {
-                  str += `  ${value}`;
-                  setErrorMessage(str);
+                  str += `  ${value}`
+                  setErrorMessage(str)
                 })
-              : setErrorMessage(message);
+              : setErrorMessage(message)
           }
         }
-      });
-  };
+      })
+  }
 
   useEffect(() => {
-    apicall();
-  }, [isFocused]);
+    apicall()
+  }, [isFocused])
 
   useEffect(() => {
-    if (listData) setLoader(false);
-  }, [listData]);
+    if (listData) setLoader(false)
+  }, [listData])
 
   useEffect(() => {
-    if (searchtask == "") {
-      apicall();
-      setErrorMessage("");
-      setLoader(false);
+    if (searchtask == '') {
+      apicall()
+      setErrorMessage('')
+      setLoader(false)
     }
-  }, [searchtask]);
+  }, [searchtask])
 
   return loader ? (
     <Loader />
@@ -261,7 +246,7 @@ export const ManageUserScreen = () => {
           ) : (
             <Image
               source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
+              style={{ transform: [{ rotate: '180deg' }] }}
             />
           )}
         </TouchableOpacity>
@@ -273,7 +258,7 @@ export const ManageUserScreen = () => {
           {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
+              style={{ transform: [{ rotate: '180deg' }] }}
             />
           ) : (
             <Image source={Images.rightarrow} />
@@ -284,7 +269,7 @@ export const ManageUserScreen = () => {
         <View style={Styles.plusView}>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("AddNewUsers", { btnStatus: "1" })
+              navigation.navigate('AddNewUsers', { btnStatus: '1' })
             }
           >
             <Image source={Images.addCricleIcon} />
@@ -302,5 +287,5 @@ export const ManageUserScreen = () => {
         />
       ) : null}
     </SafeAreaView>
-  );
-};
+  )
+}

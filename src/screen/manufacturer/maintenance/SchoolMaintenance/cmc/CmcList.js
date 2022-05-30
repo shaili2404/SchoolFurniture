@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Styles from "./style";
 import {
   SafeAreaView,
@@ -23,7 +23,8 @@ import { DataDisplayList } from "../../../../../component/manufacturer/displayLi
 import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
 import { AlertMessage } from "../../../../../Alert/alert";
 import { AddEditCMC } from "../../../../../component/manufacturer/AddFormModal/AddEdItCMC";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
+import CommonService from "../../../../../locales/service";
 
 export const CMC = () => {
   const [listData, setListData] = useState([]);
@@ -44,7 +45,6 @@ export const CMC = () => {
     userEdit: false,
     userDelete: false,
   });
-  const navigation = useNavigation()
 
   const isFocused = useIsFocused();
 
@@ -64,20 +64,7 @@ export const CMC = () => {
   useEffect(() => {
     setLoader(true);
     const arr = loginData?.user?.data?.data?.permissions;
-    let userCreate = false,
-      userEdit = false,
-      userDlt = false;
-    arr.forEach((input) => {
-      if (input.id === 10) {
-        userCreate = true;
-      }
-      if (input.id === 11) {
-        userEdit = true;
-      }
-      if (input.id === 12) {
-        userDlt = true;
-      }
-    });
+    const [userCreate, userEdit,userDlt] = CommonService.getPermission(arr, [35,36,27])
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
@@ -168,11 +155,6 @@ export const CMC = () => {
     setLoader(false);
   };
 
-  useLayoutEffect(() => {
-    const title = constants.Cmc;
-    navigation.setOptions({ title });
-  }, []);
-
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -216,11 +198,6 @@ export const CMC = () => {
     setAdduserModal(true);
   };
 
-  const onReset = ()=>{
-    setErrorMessage('')
-    setSearchTask('')
-  }
-
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
@@ -255,14 +232,6 @@ export const CMC = () => {
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-            <TouchableOpacity
-              style={Styles.searchButton}
-              onPress={onReset}
-            >
-              <Text style={Styles.searchText}>
-                {constants.Reset}
-              </Text>
-            </TouchableOpacity>
           </View>
         ) : (
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

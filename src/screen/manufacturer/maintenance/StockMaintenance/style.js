@@ -42,4 +42,17 @@ export default StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
+  errorMsg: {
+    textAlign: 'center', 
+    color: COLORS.ThemeGreen, 
+    fontSize: 22,
+    marginTop: 10
+  },
+  errIconStyle: {
+    width: 50,
+    height: 50,
+  },
+  errorMsgView: {
+    alignItems: 'center',
+  }
 });

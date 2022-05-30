@@ -436,6 +436,7 @@ export const FurnitureReplacmentProcess = () => {
     );
   };
 
+
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
       const isGreaterThanZero = data?.every((ele) => ele?.confirm_count > 0);
@@ -780,13 +781,14 @@ export const FurnitureReplacmentProcess = () => {
     } else return true;
   };
 
-  const createPDF = async (data) => {
+  const createPDF = async (data, buttonname) => {
     if (await isPermitted()) {
       const test = data;
+      const annexurename = `${ref_number}`;
       let options = {
         html: test,
 
-        fileName: "test",
+        fileName: annexurename+'-'+buttonname,
         directory: "docs",
       };
       let file = await reactNativeHtmlToPdf.convert(options);
@@ -819,7 +821,7 @@ export const FurnitureReplacmentProcess = () => {
       items:
         replenishment_status == null ? confirmCollectedCount : flatListData,
     };
-    getpdfApi(endUrl?.annexureB, data);
+    getpdfApi(endUrl?.annexureB, data, "Disposal Certificate");
     setEmailreplanishcertificateStatus(true);
   };
   const onreplanishemailcer = () => {
@@ -834,7 +836,7 @@ export const FurnitureReplacmentProcess = () => {
       items:
         replenishment_status == null ? confirmCollectedCount : flatListData,
     };
-    getpdfApi(endUrl?.annexureC, data);
+    getpdfApi(endUrl?.annexureC, data, "Replenishment Request Form");
     setStatusOFEmailreplanishcertificateStatus(true);
   };
 
@@ -911,7 +913,7 @@ export const FurnitureReplacmentProcess = () => {
           : confirmCollectedCount,
     };
 
-    getpdfApi(endUrl?.annexureD, data);
+    getpdfApi(endUrl?.annexureD, data, "Delivery Note");
     setuploadPrintDilveryStatus(true);
   };
 
@@ -921,9 +923,9 @@ export const FurnitureReplacmentProcess = () => {
     let data = {
       ref_number: ref_number,
     };
-    getpdfApi(endUrl?.annexure, data);
+    getpdfApi(endUrl?.annexure, data, "Pickup Slip");
   };
-  const askPermission = (data) => {
+  const askPermission = (data, buttonname) => {
     async function requestExternalWritePermission() {
       try {
         const granted = await PermissionsAndroid.request(
@@ -933,21 +935,21 @@ export const FurnitureReplacmentProcess = () => {
             message: "Pdf creator needs access to Storage data in your SD Card",
           }
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) createPDF(data);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) createPDF(data, buttonname);
         else alert("WRITE_EXTERNAL_STORAGE permission denied");
       } catch (err) {
         alert("Write permission err", err);
       }
     }
     if (Platform.OS === "android") requestExternalWritePermission();
-    else createPDF(data);
+    else createPDF(data, buttonname);
   };
 
-  const getpdfApi = (annexure, data) => {
+  const getpdfApi = (annexure, data, buttonname) => {
     axios
       .post(annexure, data)
       .then((res) => {
-        askPermission(res?.data);
+        askPermission(res?.data, buttonname);
         setLoader(false);
       })
       .catch((e) => {

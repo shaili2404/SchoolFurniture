@@ -200,6 +200,7 @@ const constants = {
   Replenishment_Approved:'Replenishment Approved',
   dateinWaiting: "Days In Waiting",
   YTD_Report_Status:" YTD Report Status",
+  Error_Permission_Msg: 'User does not have the right permissions.',
   Previous_year_status:" Previous Year Status",
   Progress_from_Collections:'Progress % from Collections',
   cmc_val: "CMC Name Should Be AlphaNumeric",
