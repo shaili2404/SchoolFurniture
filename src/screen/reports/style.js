@@ -295,4 +295,19 @@ export default StyleSheet.create({
     backgroundColor: COLORS.White,
     width: 90,
   },
+  errIconStyle: {
+    width: 50,
+    height: 50,
+  },
+  errorMsgView: {
+    alignItems: 'center',
+    justifyContent:'center',
+    height:height
+  },
+  errorMsg: {
+    textAlign: 'center', 
+    color: COLORS.ThemeGreen, 
+    fontSize: 22,
+    marginTop: 10
+  },
 });

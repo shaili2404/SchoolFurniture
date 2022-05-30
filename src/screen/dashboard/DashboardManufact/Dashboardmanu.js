@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -7,8 +7,12 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  Text
 } from "react-native";
+import { useSelector } from "react-redux";
 import Images from "../../../asset/images";
+import constants from "../../../locales/constants";
+import CommonService from "../../../locales/service";
 import { BarChart } from "./DashboardBarChart";
 import { DashboardButton } from "./DashboardButton";
 import { GraphChart } from "./DashboardGraph";
@@ -18,7 +22,19 @@ import style from "./style";
 
 export const DashboardManu = () => {
   const [dashboard_status, setDashboard_status] = useState(true);
-  const width = Dimensions.get("window").width;
+  const loginData = useSelector((state) => state?.loginData);
+
+  const [permissionId, setPermissionId] = useState({
+    Dashboard_permission: false,
+  });
+
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions;
+    const [dashList] = CommonService.getPermission(arr, [46]);
+    setPermissionId({
+      Dashboard_permission: dashList,
+    });
+  }, []);
   const headerComponent = () => {
     return <Piechart />;
   };
@@ -26,6 +42,8 @@ export const DashboardManu = () => {
     return <DashboardButton />;
   };
   return (
+    <>
+    {permissionId.Dashboard_permission?
     <SafeAreaView>
       {dashboard_status ? (
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -63,5 +81,14 @@ export const DashboardManu = () => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
+    :
+    <SafeAreaView style={style.mainsecView}>
+    <View style={style.errorMsgView}>
+      <Image source={Images.error} style={style.errIconStyle} />
+      <Text style={style.errorMsg}>{constants.Error_Permission_Msg}</Text>
+    </View>
+    </SafeAreaView>
+}
+    </>
   );
 };

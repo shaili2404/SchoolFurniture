@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import COLORS from "../../../asset/color";
+const height = Dimensions.get('window').height
 
 export default StyleSheet.create({
   bottomIcon: {
@@ -45,5 +46,25 @@ export default StyleSheet.create({
     marginLeft: 20, 
     marginTop: 40, 
     fontWeight: "bold" 
+  },
+  mainsecView: {
+    position: "relative",
+    backgroundColor: COLORS.White,
+    flex: 1,
+  },
+  errIconStyle: {
+    width: 50,
+    height: 50,
+  },
+  errorMsgView: {
+    alignItems: 'center',
+    justifyContent:'center',
+    height:height
+  },
+  errorMsg: {
+    textAlign: 'center', 
+    color: COLORS.ThemeGreen, 
+    fontSize: 22,
+    marginTop: 10
   },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import { SafeAreaView, View, Text, ScrollView } from "react-native";
+import { SafeAreaView, View, Text, ScrollView,Image } from "react-native";
 
 import constants from "../../locales/constants";
 import Styles from "./style";
@@ -15,34 +15,41 @@ import { RepairmentReports } from "./RepirmentReports";
 import { TransactionSummaryReports } from "./TransactionSummaryReports";
 import { TransactionStatusReports } from "./TransactionStatusReports";
 import { useSelector } from "react-redux";
+import CommonService from "../../locales/service";
+import Images from "../../asset/images";
 
 export const Reports = () => {
   const navigation = useNavigation();
+  const [permissionId, setPermissionId] = useState({
+    reports_permission: false,
+  });
 
-  const dropDownData =
-    // organization == constants.school?  [
-    //   {id:0,name:constants.Replenishment_Report},
-    //   {id:1,name:constants.Disposal_Report},
-    //   {id:2,name:constants.Manufacturer_Stock},
-    //   {id:3,name:constants.School_Furniture_Count_Report},
-    //   {id:4,name:constants.Repairment_Report},
-    // ] :
-    [
-      { id: 0, name: constants.Replenishment_Report },
-      { id: 1, name: constants.Disposal_Report },
-      { id: 2, name: constants.Manufacturer_Stock },
-      { id: 3, name: constants.School_Furniture_Count_Report },
-      { id: 4, name: constants.Repairment_Report },
-      { id: 5, name: constants.Transactions_Summary_Report },
-      { id: 6, name: constants.Transactions_Status_Report },
-    ];
+  const dropDownData = [
+    { id: 0, name: constants.Replenishment_Report },
+    { id: 1, name: constants.Disposal_Report },
+    { id: 2, name: constants.Manufacturer_Stock },
+    { id: 3, name: constants.School_Furniture_Count_Report },
+    { id: 4, name: constants.Repairment_Report },
+    { id: 5, name: constants.Transactions_Summary_Report },
+    { id: 6, name: constants.Transactions_Status_Report },
+  ];
   const [select, setSelect] = useState([]);
   const [loader, setLoader] = useState(false);
   const [dropData, setDropData] = useState(dropDownData);
+  const loginData = useSelector((state) => state?.loginData);
 
   useEffect(() => {
     ListShowaccDrop();
   }, [select?.id]);
+
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions;
+    const [repList] = CommonService.getPermission(arr, [33]);
+    setPermissionId({
+      reports_permission: repList,
+    });
+    setLoader(false)
+  }, []);
 
   const ListShowaccDrop = () => {
     if (select?.id == 0) return <ReplanishmentReports />;
@@ -62,26 +69,37 @@ export const Reports = () => {
   return loader ? (
     <Loader />
   ) : (
-    <SafeAreaView style={Styles.mainsecView}>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      >
-        <View>
-          <View style={Styles.changeView}>
-            <Text style={Styles.changeText}>{constants.selReports}</Text>
-          </View>
-          <View style={Styles.containersup}>
-            <Dropdown
-              label={constants.Reports}
-              data={dropData}
-              onSelect={setSelect}
-              task="name"
-            />
-          </View>
+    <>
+      {permissionId.reports_permission ? (
+        <SafeAreaView style={Styles.mainsecView}>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          >
+            <View>
+              <View style={Styles.changeView}>
+                <Text style={Styles.changeText}>{constants.selReports}</Text>
+              </View>
+              <View style={Styles.containersup}>
+                <Dropdown
+                  label={constants.Reports}
+                  data={dropData}
+                  onSelect={setSelect}
+                  task="name"
+                />
+              </View>
+            </View>
+            <ListShowaccDrop />
+          </ScrollView>
+        </SafeAreaView>
+      ) : (
+        <SafeAreaView style={Styles.mainsecView}>
+        <View style={Styles.errorMsgView}>
+          <Image source={Images.error} style={Styles.errIconStyle} />
+          <Text style={Styles.errorMsg}>{constants.Error_Permission_Msg}</Text>
         </View>
-        <ListShowaccDrop />
-      </ScrollView>
-    </SafeAreaView>
+        </SafeAreaView>
+      )}
+    </>
   );
 };
