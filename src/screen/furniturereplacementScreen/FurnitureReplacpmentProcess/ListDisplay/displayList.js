@@ -107,7 +107,7 @@ export const DisplayList = ({
       >
         <View style={Styles.mainView}>
           {tableKey.map((val, index) => (
-            <View key={val} style={Styles.viewStyle} key={index}>
+            <View key={val} style={Styles.viewStyle}>
               {pageStatus == constants.Status_pendingRepair ? (
                 <>
                   {val == "reparableitem" || val == "replanishitem" ? (

@@ -206,5 +206,7 @@ const constants = {
   cmc_val: "CMC Name Should Be AlphaNumeric",
   Circuit_val: "Circuit Name Should Be AlphaNumeric",
   subplace_val: "Subplace Name Should Be AlphaNumeric",
+  Broken_Item_Not_Added :'Broken Item Not Added',
+  furniture_full_count:" full count",
 };
 export default constants;

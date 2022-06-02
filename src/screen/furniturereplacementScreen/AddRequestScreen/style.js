@@ -11,8 +11,8 @@ export default StyleSheet.create({
     width: "90%",
     height: 70,
     paddingLeft: 20,
-    marginTop: "10%",
-    marginBottom: "10%",
+    marginTop: "5%",
+    marginBottom:"5%",
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
@@ -43,12 +43,13 @@ export default StyleSheet.create({
   NewStyle: {
     fontSize: 14,
     color: COLORS.Black,
-    marginTop: 10,
+    marginTop: 20,
+    marginEnd:10
   },
   listView: {
     marginVertical: "1%",
     flexDirection: "row",
-    marginHorizontal: "10%",
+    marginHorizontal: "5%",
     justifyContent: "space-between",
   },
   qutView: {
@@ -58,6 +59,7 @@ export default StyleSheet.create({
     height: 40,
     justifyContent: "space-around",
     borderRadius: 39,
+    marginTop:15
   },
   plusButton: {
     backgroundColor: COLORS.plusMinusColor,
@@ -114,5 +116,22 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderBottomWidth: 0.2,
+  },
+  emailInputStyle: {
+    borderRadius: 5,
+    backgroundColor: COLORS.LightGreen,
+    width: 100,
+    height: 40,
+    alignSelf:'center'
+  },
+  changeText: {
+    fontSize: 10,
+  },
+  changeView: {
+    position: "relative",
+    left: 5,
+    top: 2,
+    backgroundColor: COLORS.White,
+    width: 90,
   },
 });

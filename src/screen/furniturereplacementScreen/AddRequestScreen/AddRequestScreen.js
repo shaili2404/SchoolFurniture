@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
@@ -29,6 +30,7 @@ export const AddFurRequestScreen = () => {
   const [way, setWay] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
   const [prevData, setPrevData] = useState([]);
+  const [count,setCount] = useState('')
 
   const getCategoriesList = () => {
     setLoader(true);
@@ -80,6 +82,7 @@ export const AddFurRequestScreen = () => {
     obj.item_name = item.item_name;
     obj.item_id = item.item_id;
     obj.count = item.count;
+    obj.item_full_count = item.item_full_count;
     setFinalList([obj]);
   };
 
@@ -93,9 +96,7 @@ export const AddFurRequestScreen = () => {
 
     if (way == constants.Edit) {
       finalList.find(function (post, index) {
-        if (post.category_id == obj.category_id) 
-          setFinalList([obj]);
-        
+        if (post.category_id == obj.category_id) setFinalList([obj]);
       });
     }
 
@@ -103,9 +104,9 @@ export const AddFurRequestScreen = () => {
       if (post.item_id == obj.item_id) return true;
     });
 
-    if (found == undefined && way !== constants.Edit) 
+    if (found == undefined && way !== constants.Edit)
       setFinalList((prevState) => [...prevState, obj]);
-     else if (found !== undefined && way !== constants.Edit) {
+    else if (found !== undefined && way !== constants.Edit) {
       found.count += 1;
       setFinalList((prevState) => [...prevState]);
     }
@@ -123,11 +124,53 @@ export const AddFurRequestScreen = () => {
     });
     setFinalList(arr);
   };
+  const onchangefurcount = (val, item) => {
+    setCount(val)
+    if (way == constants.Edit) {
+      finalList.filter((element) => {
+        if (element.item_id == item) {
+          element.item_full_count = val;
+        }
+      });
+     
+    } else {
+      finalList.filter((element) => {
+        if (element.item_id == item) {
+          element.item_full_count = val;
+        }
+      });
+    }
+  };
 
   const rendercomponent = ({ item }) => {
+       setCount(item.item_full_count)
     return (
       <View style={style.listView}>
-        <Text style={style.NewStyle}>{item.item_name}</Text>
+        <View style={{ width: 90 }}>
+          <Text style={style.NewStyle}>{item.item_name}</Text>
+        </View>
+        <View>
+          <View style={style.changeView}>
+            <Text style={style.changeText}>
+              {constants.furniture_full_count}
+            </Text>
+          </View>
+          {way == constants.Edit ? (
+            <TextInput
+              style={style.emailInputStyle}
+              placeholderTextColor={COLORS.Black}
+              value={count}
+              onChangeText={(count) => onchangefurcount(count, item.item_id)}
+            />
+          ) : (
+            <TextInput
+              style={style.emailInputStyle}
+              placeholderTextColor={COLORS.Black}
+              onChangeText={(count) => onchangefurcount(count, item.item_id)}
+            />
+          )}
+        </View>
+
         <View style={style.qutView}>
           <TouchableOpacity
             disabled={item.count == 1 ? true : false}
@@ -186,6 +229,7 @@ export const AddFurRequestScreen = () => {
           post.item_name = finalList[0].item_name;
           post.item_id = finalList[0].item_id;
           post.count = finalList[0].count;
+          post.item_full_count = finalList[0].item_full_count;
         }
       });
 
@@ -209,7 +253,7 @@ export const AddFurRequestScreen = () => {
           style={style.crossImg}
           onPress={() => {
             way == constants.Edit
-              ? navigation.navigate("FurnitureReplacmentProcess", prevData)
+              ? navigation.navigate("FurnitureReplacmentProcess", finalList)
               : navigation.navigate("FurnitureReplacmentProcess");
           }}
         >
@@ -224,7 +268,9 @@ export const AddFurRequestScreen = () => {
                 ? finalList[0]?.category_name
                 : constants.FurCategory
             }
-            data={way == constants.Edit ? finalList[0]?.category_name : dataList}
+            data={
+              way == constants.Edit ? finalList[0]?.category_name : dataList
+            }
             onSelect={setCategoryValue}
             task="name"
             way={way}
@@ -233,7 +279,11 @@ export const AddFurRequestScreen = () => {
         </View>
         <View style={style.container}>
           <Dropdown
-            label={way == constants.Edit ? finalList[0]?.item_name : constants.furItem}
+            label={
+              way == constants.Edit
+                ? finalList[0]?.item_name
+                : constants.furItem
+            }
             data={categoryItemList}
             onSelect={setItemValue}
             task="name"

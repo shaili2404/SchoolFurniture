@@ -401,7 +401,9 @@ export const FurnitureReplacmentProcess = () => {
   const [tableKey, setTableKey] = useState([
     "category_name",
     "item_name",
+    "item_full_count",
     "count",
+
   ]);
 
   const [tableHeader, setTableHeader] =
@@ -409,12 +411,14 @@ export const FurnitureReplacmentProcess = () => {
       ? useState([
           constants.FurCategory,
           constants.furItem,
+          constants.totalFurnitureCount,
           constants.collectioncount,
           constants.manage,
         ])
       : useState([
           constants.FurCategory,
           constants.furItem,
+          constants.totalFurnitureCount,
           constants.collectioncount,
         ]);
 
@@ -435,7 +439,6 @@ export const FurnitureReplacmentProcess = () => {
       />
     );
   };
-
 
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
@@ -788,7 +791,7 @@ export const FurnitureReplacmentProcess = () => {
       let options = {
         html: test,
 
-        fileName: annexurename+'-'+buttonname,
+        fileName: annexurename + "-" + buttonname,
         directory: "docs",
       };
       let file = await reactNativeHtmlToPdf.convert(options);
@@ -935,7 +938,8 @@ export const FurnitureReplacmentProcess = () => {
             message: "Pdf creator needs access to Storage data in your SD Card",
           }
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) createPDF(data, buttonname);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED)
+          createPDF(data, buttonname);
         else alert("WRITE_EXTERNAL_STORAGE permission denied");
       } catch (err) {
         alert("Write permission err", err);
@@ -1077,15 +1081,37 @@ export const FurnitureReplacmentProcess = () => {
             taskNamePrintButoonValue={taskListButtonValue}
             printPickupPress={() => printPickupbutpress()}
           />
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponent}
-              data={flatListData}
-              keyExtractor={(item) => item?.id}
-              renderItem={renderComponent}
-              showsVerticalScrollIndicator={false}
-            />
-          </ScrollView>
+
+          {/* {flatListData == undefined ? (
+            <>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <ListHeaderComman
+                  tableHeader={tableHeader}
+                  lenofContent={lenofContent}
+                />
+              </ScrollView>
+              <View style={styles.noDataView}>
+                <Text style={styles.noDataText}>
+                  {constants.Broken_Item_Not_Added}
+                </Text>
+                <Text style={styles.noDataText}>
+                 {flatListData}
+                </Text>
+              </View>
+            </>
+          ) : ( */}
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <FlatList
+                ListHeaderComponent={HeaderComponent}
+                data={flatListData}
+                keyExtractor={(item) => item?.id}
+                renderItem={renderComponent}
+                showsVerticalScrollIndicator={false}
+              />
+            </ScrollView>
           {taskofPage == constants.Status_pendingRepair ? (
             <DisposalCertificateButton
               ondisposalcertPress={() => ondisposalcertPress()}
