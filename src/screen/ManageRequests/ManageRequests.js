@@ -299,50 +299,6 @@ export const ManageRequests = () => {
               {' '}
               {searchStatus ? constants.search : constants.Reset}
             </Text>
-            <Image source={Images.Calendar} style={styles.imgStyle} />
-            <DatePicker
-              modal
-              open={open}
-              date={startDate}
-              maximumDate={new Date()}
-              mode="date"
-              onConfirm={(date) => {
-                setOpen(false);
-                setStartDate(date);
-                setStartDateStatus(false);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
-            />
-          </TouchableOpacity>
-          <View style={styles.dropStyle}>
-            <Text style={styles.textStyle}>
-            {enddateStatus
-                ? "End Date"
-                : `${endData?.getDate()}/${endData?.getMonth()+1}/${endData?.getFullYear()}`}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={styles.eyeStylee}
-            onPress={() => setCLose(true)}
-          >
-            <Image source={Images.Calendar} style={styles.imgStylee} />
-            <DatePicker
-              modal
-              open={close}
-              date={endData}
-              maximumDate={new Date()}
-              mode="date"
-              onConfirm={(date) => {
-                setCLose(false);
-                setEndDate(date);
-                setendDatestatus(false);
-              }}
-              onCancel={() => {
-                setCLose(false);
-              }}
-            />
           </TouchableOpacity>
         </View>
       </View>
