@@ -30,7 +30,8 @@ export const AddFurRequestScreen = () => {
   const [way, setWay] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
   const [prevData, setPrevData] = useState([]);
-  const [count,setCount] = useState('')
+  const [count, setCount] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const getCategoriesList = () => {
     setLoader(true);
@@ -125,14 +126,13 @@ export const AddFurRequestScreen = () => {
     setFinalList(arr);
   };
   const onchangefurcount = (val, item) => {
-    setCount(val)
+    setCount(val);
     if (way == constants.Edit) {
       finalList.filter((element) => {
         if (element.item_id == item) {
           element.item_full_count = val;
         }
       });
-     
     } else {
       finalList.filter((element) => {
         if (element.item_id == item) {
@@ -143,7 +143,7 @@ export const AddFurRequestScreen = () => {
   };
 
   const rendercomponent = ({ item }) => {
-       setCount(item.item_full_count)
+    setCount(item.item_full_count);
     return (
       <View style={style.listView}>
         <View style={{ width: 90 }}>
@@ -159,7 +159,7 @@ export const AddFurRequestScreen = () => {
             <TextInput
               style={style.emailInputStyle}
               placeholderTextColor={COLORS.Black}
-              value={count}
+              value={String(count)}
               onChangeText={(count) => onchangefurcount(count, item.item_id)}
             />
           ) : (
@@ -192,52 +192,67 @@ export const AddFurRequestScreen = () => {
   };
 
   const onPressNext = () => {
-    if (way !== constants.Edit) {
-      if (prevData && prevData.length > 0) {
-        const newArr = [...prevData, ...finalList];
-        let map = new Map();
-        newArr.forEach((eachObj) => map.set(eachObj.item_id, eachObj));
-        const uniqueArr = Array.from(map.values());
+    const isGreaterThanZero = finalList?.every(
+      (ele) => ele?.item_full_count > 0 && ele?.item_full_count >= ele.count
+    );
+    if (isGreaterThanZero) {
+      setErrorMessage("");
+      if (way !== constants.Edit) {
+        if (prevData && prevData.length > 0) {
+          const newArr = [...prevData, ...finalList];
+          let map = new Map();
+          newArr.forEach((eachObj) => map.set(eachObj.item_id, eachObj));
+          const uniqueArr = Array.from(map.values());
 
-        if (route?.params?.screen) {
-          uniqueArr.forEach((item) => {
-            item.collection_req_id = prevData[0].collection_req_id;
-            if (item.id) {
-            } else {
-              item.id = "new-item";
-            }
+          if (route?.params?.screen) {
+            uniqueArr.forEach((item) => {
+              item.collection_req_id = prevData[0].collection_req_id;
+              if (item.id) {
+              } else {
+                item.id = "new-item";
+              }
+            });
+          }
+
+          navigation.navigate("FurnitureReplacmentProcess", {
+            finalList: uniqueArr,
+            screen: route?.params?.screen,
+            id: route?.params?.id,
+          });
+        } else {
+          navigation.navigate("FurnitureReplacmentProcess", {
+            finalList: finalList,
+            screen: route?.params?.screen,
+            id: route?.params?.id,
           });
         }
+      } else {
+        prevData.find(function (post, index) {
+          if (post?.item_id == selectedItem?.item_id) {
+            post.category_id = finalList[0].category_id;
+            post.category_name = finalList[0].category_name;
+            post.item_name = finalList[0].item_name;
+            post.item_id = finalList[0].item_id;
+            post.count = finalList[0].count;
+            post.item_full_count = finalList[0].item_full_count;
+          }
+        });
 
         navigation.navigate("FurnitureReplacmentProcess", {
-          finalList: uniqueArr,
-          screen: route?.params?.screen,
-          id: route?.params?.id,
-        });
-      } else {
-        navigation.navigate("FurnitureReplacmentProcess", {
-          finalList: finalList,
+          finalList: prevData,
           screen: route?.params?.screen,
           id: route?.params?.id,
         });
       }
     } else {
-      prevData.find(function (post, index) {
-        if (post?.item_id == selectedItem?.item_id) {
-          post.category_id = finalList[0].category_id;
-          post.category_name = finalList[0].category_name;
-          post.item_name = finalList[0].item_name;
-          post.item_id = finalList[0].item_id;
-          post.count = finalList[0].count;
-          post.item_full_count = finalList[0].item_full_count;
-        }
-      });
-
-      navigation.navigate("FurnitureReplacmentProcess", {
-        finalList: prevData,
-        screen: route?.params?.screen,
-        id: route?.params?.id,
-      });
+      const greaterNumber = finalList?.every(
+        (ele) => ele?.item_full_count >= ele.count
+      );
+      const isZero = finalList?.every((ele) => ele?.item_full_count > 0);
+      let str = "";
+      greaterNumber ? "" : (str += `${constants.Greater_full_count},`);
+      isZero ? "" : (str += `${constants.enter_full_count},`);
+      setErrorMessage(str);
     }
   };
 
@@ -253,7 +268,9 @@ export const AddFurRequestScreen = () => {
           style={style.crossImg}
           onPress={() => {
             way == constants.Edit
-              ? navigation.navigate("FurnitureReplacmentProcess", finalList)
+              ? navigation.navigate("FurnitureReplacmentProcess", {
+                  finalList: finalList,
+                })
               : navigation.navigate("FurnitureReplacmentProcess");
           }}
         >
@@ -297,6 +314,7 @@ export const AddFurRequestScreen = () => {
           data={finalList}
           renderItem={rendercomponent}
         />
+        <Text style={style.errorStyle}>{errorMessage ? errorMessage : ""}</Text>
         <View style={{ height: 70 }} />
       </ScrollView>
 

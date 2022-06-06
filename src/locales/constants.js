@@ -207,6 +207,8 @@ const constants = {
   Circuit_val: "Circuit Name Should Be AlphaNumeric",
   subplace_val: "Subplace Name Should Be AlphaNumeric",
   Broken_Item_Not_Added :'Broken Item Not Added',
-  furniture_full_count:" full count",
+  furniture_full_count:"Item Full Count",
+  enter_full_count:'Item full Count Is Required',
+  Greater_full_count:'Furniture Count Should not Greater than Item Full Count'
 };
 export default constants;

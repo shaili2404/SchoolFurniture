@@ -134,4 +134,10 @@ export default StyleSheet.create({
     backgroundColor: COLORS.White,
     width: 90,
   },
+  errorStyle:{
+  textAlign:'center',
+  marginTop:2,
+  fontSize:16,
+  color:COLORS.red
+  },
 });

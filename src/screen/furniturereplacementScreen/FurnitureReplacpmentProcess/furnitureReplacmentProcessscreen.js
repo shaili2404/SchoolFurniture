@@ -241,6 +241,7 @@ export const FurnitureReplacmentProcess = () => {
       setFlatListData(route?.params?.broken_items);
       setLoader(false);
     } else {
+      console.log('244',route?.params)
       setFlatListData(route?.params?.finalList);
       setCreateRequestIcon(constants.inprogress);
       setOnetasksection(constants.createRequest);
@@ -387,6 +388,7 @@ export const FurnitureReplacmentProcess = () => {
 
   useEffect(() => {
     const task = route?.params?.status;
+    console.log('390',route?.params)
     settaskOfPage(task);
     if (schooldetails?.organization == constants.school) onSchool();
     else if (task == constants.Status_PendingCollection) onrequestList();
@@ -411,14 +413,14 @@ export const FurnitureReplacmentProcess = () => {
       ? useState([
           constants.FurCategory,
           constants.furItem,
-          constants.totalFurnitureCount,
+          constants.furniture_full_count,
           constants.collectioncount,
           constants.manage,
         ])
       : useState([
           constants.FurCategory,
           constants.furItem,
-          constants.totalFurnitureCount,
+          constants.furniture_full_count,
           constants.collectioncount,
         ]);
 
