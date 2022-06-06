@@ -209,6 +209,8 @@ const constants = {
   Broken_Item_Not_Added :'Broken Item Not Added',
   furniture_full_count:"Item Full Count",
   enter_full_count:'Item full Count Is Required',
-  Greater_full_count:'Furniture Count Should not Greater than Item Full Count'
+  Greater_full_count:'Furniture Count Should not Greater than Item Full Count',
+  Replenishment_Approved_item:'Number Of Replenishment Approved Furniture Item',
+  Replenishment_Reject_item:'Number Of Replenishment Rejected Furniture Item',
 };
 export default constants;

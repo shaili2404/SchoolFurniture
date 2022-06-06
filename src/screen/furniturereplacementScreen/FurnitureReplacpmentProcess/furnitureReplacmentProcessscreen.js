@@ -241,7 +241,6 @@ export const FurnitureReplacmentProcess = () => {
       setFlatListData(route?.params?.broken_items);
       setLoader(false);
     } else {
-      console.log('244',route?.params)
       setFlatListData(route?.params?.finalList);
       setCreateRequestIcon(constants.inprogress);
       setOnetasksection(constants.createRequest);
@@ -299,6 +298,18 @@ export const FurnitureReplacmentProcess = () => {
         ? [...oldData, "replanishitem"]
         : [...oldData, "replenished_count"]
     );
+    if (replenishment_status !== null) {
+      setTableKey((oldData) => [
+        ...oldData,
+        "Approved_Items",
+        "Rejected_Items",
+      ]);
+      setTableHeader((oldData) => [
+        ...oldData,
+        constants.Replenishment_Approved_item,
+        constants.Replenishment_Reject_item,
+      ]);
+    }
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -388,7 +399,6 @@ export const FurnitureReplacmentProcess = () => {
 
   useEffect(() => {
     const task = route?.params?.status;
-    console.log('390',route?.params)
     settaskOfPage(task);
     if (schooldetails?.organization == constants.school) onSchool();
     else if (task == constants.Status_PendingCollection) onrequestList();
@@ -405,7 +415,6 @@ export const FurnitureReplacmentProcess = () => {
     "item_name",
     "item_full_count",
     "count",
-
   ]);
 
   const [tableHeader, setTableHeader] =
@@ -438,9 +447,15 @@ export const FurnitureReplacmentProcess = () => {
         pageStatus={taskofPage}
         onSubmitreparableDetails={(data) => setreparableCollection(data)}
         onsubmitDilverdetails={(data) => onsubmitDilverdetails(data)}
+        replenishment_status={replenishment_status}
+        onsubmitApproved={(data)=>onsubmitApproved(data)}
       />
     );
   };
+
+  const onsubmitApproved = ()=>{
+   console.log('data on sumbmit approved')
+  }
 
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
@@ -830,6 +845,13 @@ export const FurnitureReplacmentProcess = () => {
     setEmailreplanishcertificateStatus(true);
   };
   const onreplanishemailcer = () => {
+    setTableHeader((oldData) => [
+      ...oldData,
+      constants.Replenishment_Approved_item,
+      constants.Replenishment_Reject_item,
+    ]);
+
+    setTableKey((oldData) => [...oldData, "Approved_Items", "Rejected_Items"]);
     if (replenishment_status !== null) {
       flatListData.map((ele) => {
         ele.replenish_count = ele.replenished_count;
@@ -1102,18 +1124,15 @@ export const FurnitureReplacmentProcess = () => {
               </View>
             </>
           ) : ( */}
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              <FlatList
-                ListHeaderComponent={HeaderComponent}
-                data={flatListData}
-                keyExtractor={(item) => item?.id}
-                renderItem={renderComponent}
-                showsVerticalScrollIndicator={false}
-              />
-            </ScrollView>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <FlatList
+              ListHeaderComponent={HeaderComponent}
+              data={flatListData}
+              keyExtractor={(item) => item?.id}
+              renderItem={renderComponent}
+              showsVerticalScrollIndicator={false}
+            />
+          </ScrollView>
           {taskofPage == constants.Status_pendingRepair ? (
             <DisposalCertificateButton
               ondisposalcertPress={() => ondisposalcertPress()}

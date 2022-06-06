@@ -31,6 +31,7 @@ export const DisplayList = ({
   pageStatus,
   onSubmitreparableDetails,
   onsubmitDilverdetails,
+  onsubmitApproved
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -39,6 +40,8 @@ export const DisplayList = ({
   const [subMsg, setSubMsg] = useState("");
   const [repItem, setRepItem] = useState("");
   const [reparable, setReparableItem] = useState("");
+  const [reparable_Aprroved, setreparable_Aprroved] = useState("");
+  const [reparable_Reject, setreparable_Reject] = useState("");
   const [confirmCount, setConfirmCount] = useState("");
   const [deliverCount, setDeliverCount] = useState("");
   const onchangeInp = (val) => {
@@ -84,6 +87,43 @@ export const DisplayList = ({
     });
     onSubmitreparableDetails(flatListData);
   };
+
+  const onApprovedRejectQty = (value) => {
+    const val = item?.replenish_count
+      ? item.replenish_count
+      : item?.replenished_count;
+    const reject_count = val - value;
+    if (value == "") {
+      setreparable_Aprroved("");
+      setreparable_Reject("");
+    } else if (value < 0) {
+      setreparable_Aprroved("");
+      setreparable_Reject("");
+    } else if (value > val) {
+      setreparable_Aprroved(val);
+      setreparable_Reject(0);
+    } else if (value <= val) {
+      setreparable_Aprroved(value);
+      setreparable_Reject(reject_count);
+    }
+
+    // flatListData.map((element) => {
+    //   if (element.id === item.id) {
+    //     if (val == "") element.replenish_count = "";
+    //     else
+    //       element.replenish_count =
+    //         value < 0 ? 0 : element?.confirmed_count - val;
+    //     element.repair_count =
+    //       val > element.confirmed_count
+    //         ? element?.confirmed_count
+    //         : val < 0
+    //         ? 0
+    //         : val;
+    //   }
+    // });
+    onsubmitApproved(flatListData);
+
+  };
   const onchangedeliver = (val) => {
     let Confirm_cnt;
     if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
@@ -121,7 +161,7 @@ export const DisplayList = ({
                           ? Styles.grayinputStyles
                           : Styles.inputStyles
                       }
-                      onChangeText={(val) => onchangereparableval(val)}
+                      onChangeText={(value) => onchangereparableval(value)}
                       value={
                         val == "replanishitem"
                           ? String(repItem)
@@ -131,7 +171,31 @@ export const DisplayList = ({
                       keyboardType="numeric"
                     />
                   ) : (
-                    <Text style={Styles.textStyle}>{item[val]}</Text>
+                    <>
+                      {val == "Approved_Items" || val == "Rejected_Items" ? (
+                        <TextInput
+                          placeholder={
+                            val == "replanishitem" ? "" : constants.Enterval
+                          }
+                          placeholderTextColor={COLORS.Black}
+                          style={
+                            val == "Rejected_Items"
+                              ? Styles.grayinputStyles
+                              : Styles.inputStyles
+                          }
+                          onChangeText={(value) => onApprovedRejectQty(value)}
+                          value={
+                            val == "Rejected_Items"
+                              ? String(reparable_Reject)
+                              : String(reparable_Aprroved)
+                          }
+                          editable={val == "Rejected_Items" ? false : true}
+                          keyboardType="numeric"
+                        />
+                      ) : (
+                        <Text style={Styles.textStyle}>{item[val]}</Text>
+                      )}
+                    </>
                   )}
                 </>
               ) : (
