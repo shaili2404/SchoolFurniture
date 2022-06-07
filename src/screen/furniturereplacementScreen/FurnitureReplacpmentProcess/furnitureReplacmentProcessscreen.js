@@ -118,6 +118,7 @@ export const FurnitureReplacmentProcess = () => {
     replenishment_status,
   } = schooldetails?.organization == constants.school ? "" : route?.params;
 
+  console.log(replenishment_status, broken_items);
   schooldetails?.organization == constants.school
     ? constants.createRequest
     : constants.collectFurnitureRequest;
@@ -298,11 +299,22 @@ export const FurnitureReplacmentProcess = () => {
         ? [...oldData, "replanishitem"]
         : [...oldData, "replenished_count"]
     );
-    if (replenishment_status !== null) {
+    if (replenishment_status == 1) {
       setTableKey((oldData) => [
         ...oldData,
         "Approved_Items",
         "Rejected_Items",
+      ]);
+      setTableHeader((oldData) => [
+        ...oldData,
+        constants.Replenishment_Approved_item,
+        constants.Replenishment_Reject_item,
+      ]);
+    } else if (replenishment_status == 2 || replenishment_status == 3) {
+      setTableKey((oldData) => [
+        ...oldData,
+        "approved_replenished_count",
+        "rejected_replenished_count",
       ]);
       setTableHeader((oldData) => [
         ...oldData,
@@ -326,6 +338,8 @@ export const FurnitureReplacmentProcess = () => {
       constants.collectedcount,
       constants.ReparableItem,
       constants.ReplanishmentItems,
+      constants.Replenishment_Approved_item,
+      constants.Replenishment_Reject_item,
       constants.Dilvery_headerDil,
     ]);
 
@@ -334,6 +348,8 @@ export const FurnitureReplacmentProcess = () => {
       "confirmed_count",
       "repaired_count",
       "replenished_count",
+      "approved_replenished_count",
+      "rejected_replenished_count",
     ]);
     setTableKey((oldData) => [...oldData, "deliveritem"]);
     setlenofContent("More");
@@ -353,6 +369,8 @@ export const FurnitureReplacmentProcess = () => {
       constants.collectedcount,
       constants.ReparableItem,
       constants.ReplanishmentItems,
+      constants.Replenishment_Approved_item,
+      constants.Replenishment_Reject_item,
       constants.Dilvery_headerDil,
     ]);
 
@@ -361,6 +379,8 @@ export const FurnitureReplacmentProcess = () => {
       "confirmed_count",
       "repaired_count",
       "replenished_count",
+      "approved_replenished_count",
+      "rejected_replenished_count",
     ]);
 
     setTableKey((oldData) => [...oldData, "delivered_count"]);
@@ -381,6 +401,8 @@ export const FurnitureReplacmentProcess = () => {
       constants.collectedcount,
       constants.ReparableItem,
       constants.ReplanishmentItems,
+      constants.Replenishment_Approved_item,
+      constants.Replenishment_Reject_item,
       constants.Dilvery_headerDil,
     ]);
 
@@ -389,6 +411,8 @@ export const FurnitureReplacmentProcess = () => {
       "confirmed_count",
       "repaired_count",
       "replenished_count",
+      "approved_replenished_count",
+      "rejected_replenished_count",
       "delivered_count",
     ]);
     setlenofContent("More");
@@ -448,14 +472,15 @@ export const FurnitureReplacmentProcess = () => {
         onSubmitreparableDetails={(data) => setreparableCollection(data)}
         onsubmitDilverdetails={(data) => onsubmitDilverdetails(data)}
         replenishment_status={replenishment_status}
-        onsubmitApproved={(data)=>onsubmitApproved(data)}
+        onsubmitApproved={(data) => onsubmitApproved(data)}
       />
     );
   };
 
-  const onsubmitApproved = ()=>{
-   console.log('data on sumbmit approved')
-  }
+  const onsubmitApproved = (data) => {
+    setConfirmCollectedCount(data);
+    console.log(data);
+  };
 
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
@@ -868,6 +893,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
+    console.log(result);
     setmodalloader(true);
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
@@ -886,7 +912,11 @@ export const FurnitureReplacmentProcess = () => {
       });
     });
     body.append("ref_number", ref_number);
-    body.append("replenishment_status", selected?.id);
+    // body.append("replenishment_status", selected?.id);
+
+    body.append("accept_array", JSON.stringify(confirmCollectedCount));
+
+    console.log("accept_array", JSON.stringify(confirmCollectedCount));
     const uploadImg = async () => {
       try {
         let response = await fetch(url, {
@@ -898,14 +928,18 @@ export const FurnitureReplacmentProcess = () => {
           body: body,
         });
         let res = await response.json();
+        console.log("902", res);
         if (response.ok) {
           seterrorAlert(true);
           setmodalloader(false);
           setMainMsg(res?.message);
           setcheckboxStatusreplanish(true);
-        } else ErrorApi(res, "collection");
+        } else {
+          setmodalloader(false);
+          ErrorApi(res, "collection");
+        }
       } catch (err) {
-        setmodalloader(false);
+        console.log(e);
       }
     };
 
@@ -913,6 +947,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onUploadreplanisNote = async () => {
+    console.log("hey");
     try {
       const result = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
@@ -1106,7 +1141,7 @@ export const FurnitureReplacmentProcess = () => {
             printPickupPress={() => printPickupbutpress()}
           />
 
-          {/* {flatListData == undefined ? (
+          {flatListData == undefined ? (
             <>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <ListHeaderComman
@@ -1118,21 +1153,23 @@ export const FurnitureReplacmentProcess = () => {
                 <Text style={styles.noDataText}>
                   {constants.Broken_Item_Not_Added}
                 </Text>
-                <Text style={styles.noDataText}>
-                 {flatListData}
-                </Text>
+                <Text style={styles.noDataText}>{flatListData}</Text>
               </View>
             </>
-          ) : ( */}
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponent}
-              data={flatListData}
-              keyExtractor={(item) => item?.id}
-              renderItem={renderComponent}
-              showsVerticalScrollIndicator={false}
-            />
-          </ScrollView>
+          ) : (
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <FlatList
+                ListHeaderComponent={HeaderComponent}
+                data={flatListData}
+                keyExtractor={(item) => item?.id}
+                renderItem={renderComponent}
+                showsVerticalScrollIndicator={false}
+              />
+            </ScrollView>
+          )}
           {taskofPage == constants.Status_pendingRepair ? (
             <DisposalCertificateButton
               ondisposalcertPress={() => ondisposalcertPress()}

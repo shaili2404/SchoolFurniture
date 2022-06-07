@@ -107,20 +107,21 @@ export const DisplayList = ({
       setreparable_Reject(reject_count);
     }
 
-    // flatListData.map((element) => {
-    //   if (element.id === item.id) {
-    //     if (val == "") element.replenish_count = "";
-    //     else
-    //       element.replenish_count =
-    //         value < 0 ? 0 : element?.confirmed_count - val;
-    //     element.repair_count =
-    //       val > element.confirmed_count
-    //         ? element?.confirmed_count
-    //         : val < 0
-    //         ? 0
-    //         : val;
-    //   }
-    // });
+    flatListData.map((element) => {
+      if (element.id === item.id) {
+        if (value == "") element.reject_count = "";
+        else
+          element.reject_count =
+            value < 0 ? 0 : reject_count;
+        element.accept_count =
+          value > val
+            ? val
+            : value < 0
+            ? 0
+            : val;
+      }
+    });
+    console.log(flatListData)
     onsubmitApproved(flatListData);
 
   };
