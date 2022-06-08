@@ -118,7 +118,6 @@ export const FurnitureReplacmentProcess = () => {
     replenishment_status,
   } = schooldetails?.organization == constants.school ? "" : route?.params;
 
-  console.log(replenishment_status, broken_items);
   schooldetails?.organization == constants.school
     ? constants.createRequest
     : constants.collectFurnitureRequest;
@@ -479,7 +478,6 @@ export const FurnitureReplacmentProcess = () => {
 
   const onsubmitApproved = (data) => {
     setConfirmCollectedCount(data);
-    console.log(data);
   };
 
   const setConfirmCollection = (data) => {
@@ -893,7 +891,6 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
-    console.log(result);
     setmodalloader(true);
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
@@ -916,7 +913,6 @@ export const FurnitureReplacmentProcess = () => {
 
     body.append("accept_array", JSON.stringify(confirmCollectedCount));
 
-    console.log("accept_array", JSON.stringify(confirmCollectedCount));
     const uploadImg = async () => {
       try {
         let response = await fetch(url, {
@@ -928,7 +924,6 @@ export const FurnitureReplacmentProcess = () => {
           body: body,
         });
         let res = await response.json();
-        console.log("902", res);
         if (response.ok) {
           seterrorAlert(true);
           setmodalloader(false);

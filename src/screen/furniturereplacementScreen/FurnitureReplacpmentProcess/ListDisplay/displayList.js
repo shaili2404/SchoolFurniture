@@ -31,7 +31,7 @@ export const DisplayList = ({
   pageStatus,
   onSubmitreparableDetails,
   onsubmitDilverdetails,
-  onsubmitApproved
+  onsubmitApproved,
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -92,7 +92,9 @@ export const DisplayList = ({
     const val = item?.replenish_count
       ? item.replenish_count
       : item?.replenished_count;
+    console.log(val);
     const reject_count = val - value;
+    console.log(reject_count);
     if (value == "") {
       setreparable_Aprroved("");
       setreparable_Reject("");
@@ -110,24 +112,18 @@ export const DisplayList = ({
     flatListData.map((element) => {
       if (element.id === item.id) {
         if (value == "") element.reject_count = "";
-        else
-          element.reject_count =
-            value < 0 ? 0 : reject_count;
-        element.accept_count =
-          value > val
-            ? val
-            : value < 0
-            ? 0
-            : val;
+        else element.reject_count = reject_count > 0 ? reject_count : 0;
+        element.accept_count = value > val ? val : value > 0 ? value : 0;
       }
     });
-    console.log(flatListData)
+    console.log(flatListData);
     onsubmitApproved(flatListData);
-
   };
   const onchangedeliver = (val) => {
+    console.log(item)
     let Confirm_cnt;
-    if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
+    if (val > item.confirmed_count ) Confirm_cnt = item.confirmed_count;
+    // else if (val < item.repaired_count + item.rejected_replenished_count) Confirm_cnt = item.repaired_count + item.rejected_replenished_count
     else Confirm_cnt = val;
     setDeliverCount(Confirm_cnt);
     flatListData.map((element) => {
