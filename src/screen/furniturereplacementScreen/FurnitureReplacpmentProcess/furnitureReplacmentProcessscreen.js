@@ -147,6 +147,7 @@ export const FurnitureReplacmentProcess = () => {
       setTableHeader([
         constants.FurCategory,
         constants.furItem,
+        constants.furniture_full_count,
         constants.collectioncount,
       ]);
       setLoader(false);
@@ -159,6 +160,7 @@ export const FurnitureReplacmentProcess = () => {
       setTableHeader([
         constants.FurCategory,
         constants.furItem,
+        constants.furniture_full_count,
         constants.collectioncount,
       ]);
       setFlatListData(route?.params?.broken_items);
@@ -173,6 +175,7 @@ export const FurnitureReplacmentProcess = () => {
       setTableHeader((oldData) => [
         constants.FurCategory,
         constants.furItem,
+        constants.furniture_full_count,
         constants.collectioncount,
         constants.collectedcount,
       ]);
@@ -190,10 +193,13 @@ export const FurnitureReplacmentProcess = () => {
       setTableHeader((oldData) => [
         constants.FurCategory,
         constants.furItem,
+        constants.furniture_full_count,
         constants.collectioncount,
         constants.collectedcount,
         constants.ReparableItem,
         constants.ReplanishmentItems,
+        constants.Replenishment_Approved_item,
+        constants.Replenishment_Reject_item,
       ]);
 
       setTableKey((oldData) => [
@@ -201,6 +207,8 @@ export const FurnitureReplacmentProcess = () => {
         "confirmed_count",
         "repaired_count",
         "replenished_count",
+        "approved_replenished_count",
+        "rejected_replenished_count",
       ]);
       setlenofContent("More");
       setFlatListData(route?.params?.broken_items);
@@ -221,10 +229,13 @@ export const FurnitureReplacmentProcess = () => {
       setTableHeader((oldData) => [
         constants.FurCategory,
         constants.furItem,
+        constants.furniture_full_count,
         constants.collectioncount,
         constants.collectedcount,
         constants.ReparableItem,
         constants.ReplanishmentItems,
+        constants.Replenishment_Approved_item,
+        constants.Replenishment_Reject_item,
         constants.Dilvery_headerDil,
       ]);
 
@@ -233,6 +244,8 @@ export const FurnitureReplacmentProcess = () => {
         "confirmed_count",
         "repaired_count",
         "replenished_count",
+        "approved_replenished_count",
+        "rejected_replenished_count",
       ]);
 
       setTableKey((oldData) => [...oldData, "delivered_count"]);
