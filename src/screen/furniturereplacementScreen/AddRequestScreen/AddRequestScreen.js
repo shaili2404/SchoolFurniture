@@ -32,6 +32,7 @@ export const AddFurRequestScreen = () => {
   const [prevData, setPrevData] = useState([]);
   const [count, setCount] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  console.log("35", finalList);
 
   const getCategoriesList = () => {
     setLoader(true);
@@ -150,11 +151,6 @@ export const AddFurRequestScreen = () => {
           <Text style={style.NewStyle}>{item.item_name}</Text>
         </View>
         <View>
-          <View style={style.changeView}>
-            <Text style={style.changeText}>
-              {constants.furniture_full_count}
-            </Text>
-          </View>
           {way == constants.Edit ? (
             <TextInput
               style={style.emailInputStyle}
@@ -309,6 +305,21 @@ export const AddFurRequestScreen = () => {
             selectedItem={selectedItem?.item_id}
           />
         </View>
+
+        <View style={style.headerView}>
+          <View style={style.subHeaderView}>
+            <Text style={style.headerText}>{constants.Furnitureitems}</Text>
+          </View>
+          <View style={style.subHeaderView}>
+            <Text style={style.headerText}>
+              {constants.furniture_full_count}
+            </Text>
+          </View>
+          <View style={style.subHeaderView}>
+            <Text style={style.headerText}>{constants.Count}</Text>
+          </View>
+        </View>
+
         <FlatList
           keyExtractor={(item) => item.id}
           data={finalList}

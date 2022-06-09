@@ -122,7 +122,8 @@ export default StyleSheet.create({
     backgroundColor: COLORS.LightGreen,
     width: 100,
     height: 40,
-    alignSelf:'center'
+    alignSelf:'center',
+    marginTop:15
   },
   changeText: {
     fontSize: 10,
@@ -140,4 +141,18 @@ export default StyleSheet.create({
   fontSize:16,
   color:COLORS.red
   },
+  headerView:{
+    width:'90%',
+    alignSelf:'center',
+    flexDirection:'row',
+    justifyContent:'space-around'
+  },
+  headerText:{
+    fontSize:16,
+    color:COLORS.ThemeGreen,
+   
+  },
+  subHeaderView:{
+    width:100,
+  }
 });

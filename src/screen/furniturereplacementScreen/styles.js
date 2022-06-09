@@ -60,7 +60,8 @@ export default StyleSheet.create({
   },
   viewInputStyle: {
     flexDirection: "row",
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom:10,
     justifyContent: "space-between",
     width: "90%",
     alignSelf: "center",
@@ -186,9 +187,9 @@ export default StyleSheet.create({
   plusView: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    width: "100%",
-    position: "absolute",
-    bottom: Platform.OS === 'android'? 25 : 25,
+    width: "95%",
+    // position: "absolute",
+    // bottom: Platform.OS === 'android'? 25 : 25,
   },
   container: {
     borderRadius: 5,
@@ -201,5 +202,19 @@ export default StyleSheet.create({
     justifyContent: "center",
     flexDirection: "column",
     marginTop: 20,
+  },
+   buttonStyle: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: "60%",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    margin:10
+  },
+  buttonText: {
+    color: COLORS.White,
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

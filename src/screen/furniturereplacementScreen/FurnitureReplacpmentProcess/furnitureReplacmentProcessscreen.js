@@ -1111,9 +1111,11 @@ export const FurnitureReplacmentProcess = () => {
                           ? route?.params?.id
                           : route?.params?.items?.id,
                     })
+                    
                   }
+                  style={styles.buttonStyle}
                 >
-                  <Image source={Images.addCricleIcon} />
+                  <Text style={styles.buttonText}>{constants.addbrokenfuritem}</Text>
                 </TouchableOpacity>
               </View>
             ) : (
