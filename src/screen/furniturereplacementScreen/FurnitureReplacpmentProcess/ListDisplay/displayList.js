@@ -31,6 +31,7 @@ export const DisplayList = ({
   pageStatus,
   onSubmitreparableDetails,
   onsubmitDilverdetails,
+  onsubmitApproved,
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -39,6 +40,8 @@ export const DisplayList = ({
   const [subMsg, setSubMsg] = useState("");
   const [repItem, setRepItem] = useState("");
   const [reparable, setReparableItem] = useState("");
+  const [reparable_Aprroved, setreparable_Aprroved] = useState("");
+  const [reparable_Reject, setreparable_Reject] = useState("");
   const [confirmCount, setConfirmCount] = useState("");
   const [deliverCount, setDeliverCount] = useState("");
   const onchangeInp = (val) => {
@@ -84,9 +87,39 @@ export const DisplayList = ({
     });
     onSubmitreparableDetails(flatListData);
   };
+
+  const onApprovedRejectQty = (value) => {
+    const val = item?.replenish_count
+      ? item.replenish_count
+      : item?.replenished_count;
+    const reject_count = val - value;
+    if (value == "") {
+      setreparable_Aprroved("");
+      setreparable_Reject("");
+    } else if (value < 0) {
+      setreparable_Aprroved("");
+      setreparable_Reject("");
+    } else if (value > val) {
+      setreparable_Aprroved(val);
+      setreparable_Reject(0);
+    } else if (value <= val) {
+      setreparable_Aprroved(value);
+      setreparable_Reject(reject_count);
+    }
+
+    flatListData.map((element) => {
+      if (element.id === item.id) {
+        if (value == "") element.reject_count = "";
+        else element.reject_count = reject_count > 0 ? reject_count : 0;
+        element.accept_count = value > val ? val : value > 0 ? value : 0;
+      }
+    });
+    onsubmitApproved(flatListData);
+  };
   const onchangedeliver = (val) => {
     let Confirm_cnt;
-    if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
+    if (val > item.confirmed_count ) Confirm_cnt = item.confirmed_count;
+    // else if (val < item.repaired_count + item.rejected_replenished_count) Confirm_cnt = item.repaired_count + item.rejected_replenished_count
     else Confirm_cnt = val;
     setDeliverCount(Confirm_cnt);
     flatListData.map((element) => {
@@ -107,7 +140,7 @@ export const DisplayList = ({
       >
         <View style={Styles.mainView}>
           {tableKey.map((val, index) => (
-            <View key={val} style={Styles.viewStyle} key={index}>
+            <View key={val} style={Styles.viewStyle}>
               {pageStatus == constants.Status_pendingRepair ? (
                 <>
                   {val == "reparableitem" || val == "replanishitem" ? (
@@ -121,7 +154,7 @@ export const DisplayList = ({
                           ? Styles.grayinputStyles
                           : Styles.inputStyles
                       }
-                      onChangeText={(val) => onchangereparableval(val)}
+                      onChangeText={(value) => onchangereparableval(value)}
                       value={
                         val == "replanishitem"
                           ? String(repItem)
@@ -131,7 +164,31 @@ export const DisplayList = ({
                       keyboardType="numeric"
                     />
                   ) : (
-                    <Text style={Styles.textStyle}>{item[val]}</Text>
+                    <>
+                      {val == "Approved_Items" || val == "Rejected_Items" ? (
+                        <TextInput
+                          placeholder={
+                            val == "replanishitem" ? "" : constants.Enterval
+                          }
+                          placeholderTextColor={COLORS.Black}
+                          style={
+                            val == "Rejected_Items"
+                              ? Styles.grayinputStyles
+                              : Styles.inputStyles
+                          }
+                          onChangeText={(value) => onApprovedRejectQty(value)}
+                          value={
+                            val == "Rejected_Items"
+                              ? String(reparable_Reject)
+                              : String(reparable_Aprroved)
+                          }
+                          editable={val == "Rejected_Items" ? false : true}
+                          keyboardType="numeric"
+                        />
+                      ) : (
+                        <Text style={Styles.textStyle}>{item[val]}</Text>
+                      )}
+                    </>
                   )}
                 </>
               ) : (

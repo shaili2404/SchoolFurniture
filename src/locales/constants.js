@@ -206,5 +206,14 @@ const constants = {
   cmc_val: "CMC Name Should Be AlphaNumeric",
   Circuit_val: "Circuit Name Should Be AlphaNumeric",
   subplace_val: "Subplace Name Should Be AlphaNumeric",
+  Broken_Item_Not_Added :'Broken Item Not Added',
+  furniture_full_count:"Item Full Count",
+  enter_full_count:'Item full Count Is Required',
+  Greater_full_count:'Furniture Count Should not Greater than Item Full Count',
+  Replenishment_Approved_item:'Number Of Replenishment Approved Furniture Item',
+  Replenishment_Reject_item:'Number Of Replenishment Rejected Furniture Item',
+  addbrokenfuritem: "+ Add Broken Furniture Item",
+  Count :"Count",
+  BrokenFurnitureCount: "Broken Furniture Count",
 };
 export default constants;

@@ -58,7 +58,6 @@ export const AddSchool = (props) => {
   const [school_validater, setSchool_Validater] = useState(false);
 
   const setValue = (key, value) => {
-    console.log(key, value);
     setInputValues((prevState) => {
       return {
         ...prevState,

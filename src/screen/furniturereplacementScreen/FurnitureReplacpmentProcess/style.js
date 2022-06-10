@@ -76,9 +76,9 @@ export default StyleSheet.create({
     alignSelf: "flex-end",
     position: "absolute",
     bottom: 2,
-    right: RfW(20),
-    width: RfW(124),
-    height: RfH(54),
+    right: RfW(0),
+    width: RfW(164),
+    height: RfH(75),
     justifyContent: "center",
   },
   photoText: {
@@ -120,5 +120,32 @@ export default StyleSheet.create({
     padding: 10,
     color: COLORS.ThemeGreen,
     textAlign: "center",
+  },
+  noDataView:{
+    backgroundColor:COLORS.LightGreen,
+    height: 56,
+    borderBottomColor: COLORS.Black,
+    borderBottomWidth: 0.4,
+    width:width,
+    justifyContent:'center'
+  },
+  noDataText:{
+    fontSize:16,
+    textAlignVertical:'center',
+    textAlign:'center'
+  },
+  buttonStyle: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: "60%",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft:30
+  },
+  buttonText: {
+    color: COLORS.White,
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });

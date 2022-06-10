@@ -301,6 +301,14 @@ export const ManageRequests = () => {
             </Text>
           </TouchableOpacity>
         </View>
+
+
+
+
+
+
+
+        
       </View>
       {errorMessage ? (
         <View style={styles.errorView}>

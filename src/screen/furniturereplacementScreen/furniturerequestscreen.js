@@ -327,11 +327,22 @@ export const FurnitureReplacmentManfacturer = () => {
               />
             </TouchableOpacity>
           </View>
+          
           {dateErrorMessage ? (
             <View style={Styles.dateerrorView}>
               <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
             </View>
           ) : null}
+         {organization == constants.school ? (
+          <View style={Styles.plusView}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
+              style={Styles.buttonStyle}
+            >
+             <Text style={Styles.buttonText}>{constants.createNewReq}</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
           {errorMessage ? (
             <View style={Styles.errorView}>
               <Text style={Styles.errormessStyle}>{errorMessage}</Text>
@@ -351,15 +362,7 @@ export const FurnitureReplacmentManfacturer = () => {
             </ScrollView>
           )}
         </View>
-        {organization == constants.school ? (
-          <View style={Styles.plusView}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
-            >
-              <Image source={Images.addCricleIcon} />
-            </TouchableOpacity>
-          </View>
-        ) : null}
+       
         {searchStatus?
             <View style={Styles.lastView}>
           <TouchableOpacity

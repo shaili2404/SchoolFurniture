@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import COLORS from "../../../../asset/color";
 import Images from "../../../../asset/images";
-import Dropdown from "../../../../component/DropDown/dropdown";
 import constants from "../../../../locales/constants";
 import endUrl from "../../../../redux/configration/endUrl";
 import style from "./style";
@@ -20,11 +19,9 @@ export const DisposalCertificateButton = ({
   replanishCertificateStatus,
   EmailreplanishCertificateStatus,
   statusOFreplanishCertificateStatus,
-  setSelected,
   onUploadreplanisNote,
   checkboxStatusreplanish,
   oncheckboxvalue,
-  replenishment_status,
 }) => {
   const [checkBoxStatus, setCheckBoxStatus] = useState(false);
   const [distList, setDistList] = useState([]);
@@ -83,32 +80,16 @@ export const DisposalCertificateButton = ({
             </TouchableOpacity>
           ) : null}
           {statusOFreplanishCertificateStatus ? (
-            <>
-              <View style={style.container}>
-                <Dropdown
-                  label={
-                    replenishment_status == 2
-                      ? "Replanishment Approved"
-                      : replenishment_status == 3
-                      ? "Replanishment Reject"
-                      : constants.status
-                  }
-                  data={distList}
-                  onSelect={setSelected}
-                  task="name"
-                />
+            <TouchableOpacity
+              style={style.buttonCol}
+              onPress={() => onUploadreplanisNote()}
+            >
+              <View>
+                <Text style={style.textCOl}>
+                  {constants.Replanish_proofreplanish}
+                </Text>
               </View>
-              <TouchableOpacity
-                style={style.buttonCol}
-                onPress={() => onUploadreplanisNote()}
-              >
-                <View>
-                  <Text style={style.textCOl}>
-                    {constants.Replanish_proofreplanish}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </>
+            </TouchableOpacity>
           ) : null}
           {checkboxStatusreplanish ? (
             <View style={style.bottonView}>

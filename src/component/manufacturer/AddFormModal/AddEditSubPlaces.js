@@ -55,7 +55,7 @@ export const AddEditSubplaces = (props) => {
       .then((res) => {
         setDistList(res?.data?.data?.records);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
   useEffect(() => {
     getDistrictList();
