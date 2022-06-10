@@ -228,7 +228,6 @@ export const Search = () => {
       searchValue != 0
         ? { ref_number: searchtask }
         : { start_date: strtDte, end_date: endDte };
-    console.log("obbbj", obj);
     axios
       .post(
         `${
@@ -239,7 +238,6 @@ export const Search = () => {
         obj
       )
       .then((res) => {
-        console.log("res", res?.data?.data);
         setListData(res?.data?.data?.records);
         setLoader(false);
       })

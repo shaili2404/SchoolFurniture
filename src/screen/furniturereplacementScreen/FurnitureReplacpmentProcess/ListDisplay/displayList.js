@@ -92,9 +92,7 @@ export const DisplayList = ({
     const val = item?.replenish_count
       ? item.replenish_count
       : item?.replenished_count;
-    console.log(val);
     const reject_count = val - value;
-    console.log(reject_count);
     if (value == "") {
       setreparable_Aprroved("");
       setreparable_Reject("");
@@ -116,11 +114,9 @@ export const DisplayList = ({
         element.accept_count = value > val ? val : value > 0 ? value : 0;
       }
     });
-    console.log(flatListData);
     onsubmitApproved(flatListData);
   };
   const onchangedeliver = (val) => {
-    console.log(item)
     let Confirm_cnt;
     if (val > item.confirmed_count ) Confirm_cnt = item.confirmed_count;
     // else if (val < item.repaired_count + item.rejected_replenished_count) Confirm_cnt = item.repaired_count + item.rejected_replenished_count

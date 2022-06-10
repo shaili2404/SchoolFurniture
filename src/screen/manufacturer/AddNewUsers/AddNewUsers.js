@@ -86,7 +86,6 @@ const AddNewUsers = () => {
   const addSchoolSearch = async () => {
     try {
       const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
-      console.log(response?.data?.data)
       setSchoolData(response?.data?.data);
     } catch (e) {
       console.log(e);

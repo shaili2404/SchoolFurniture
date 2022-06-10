@@ -31,8 +31,8 @@ export const AddFurRequestScreen = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const [prevData, setPrevData] = useState([]);
   const [count, setCount] = useState("");
+  const [item_fullCount, setitem_fullCount] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log("35", finalList);
 
   const getCategoriesList = () => {
     setLoader(true);
@@ -126,21 +126,49 @@ export const AddFurRequestScreen = () => {
     });
     setFinalList(arr);
   };
-  const onchangefurcount = (val, item) => {
-    setCount(val);
+  const onchangefurcount = (val, item, task) => {
+    const value = item.item_full_count;
     if (way == constants.Edit) {
       finalList.filter((element) => {
-        if (element.item_id == item) {
+        if (element.item_id == item?.item_id) {
           element.item_full_count = val;
         }
       });
     } else {
-      finalList.filter((element) => {
-        if (element.item_id == item) {
-          element.item_full_count = val;
-        }
-      });
+      if (task == constants.nextText) {
+        finalList.filter((element) => {
+          if (element.item_id == item?.item_id) {
+            element.item_full_count = val;
+          }
+        });
+        setCount(val);
+      } else if (task == constants.add) {
+        item.item_full_count = item.item_full_count += 1;
+        setCount(item.item_full_count);
+      } else if (task == "Sub") {
+        item.item_full_count = item.item_full_count -= 1;
+        setCount(item.item_full_count);
+      }
     }
+  };
+
+  const practiceFunction = (val, task, item) => {
+    if (task == constants.add) {
+      const plusValue = (val += 1);
+
+      setitem_fullCount(parseInt(plusValue));
+    } else if (task == constants.nextText) {
+      setitem_fullCount(parseInt(val));
+    } else if (task == "Sub") {
+      const minusValue = (val -= 1);
+      setitem_fullCount(minusValue);
+    }
+
+    finalList.filter((element) => {
+      if (element.item_id == item?.item_id) {
+        element.item_full_count = item_fullCount;
+      }
+    });
   };
 
   const rendercomponent = ({ item }) => {
@@ -155,15 +183,62 @@ export const AddFurRequestScreen = () => {
             <TextInput
               style={style.emailInputStyle}
               placeholderTextColor={COLORS.Black}
-              value={String(count)}
-              onChangeText={(count) => onchangefurcount(count, item.item_id)}
+              value={count}
+              onChangeText={(count) => onchangefurcount(count, item)}
             />
           ) : (
-            <TextInput
-              style={style.emailInputStyle}
-              placeholderTextColor={COLORS.Black}
-              onChangeText={(count) => onchangefurcount(count, item.item_id)}
-            />
+            //     <View style={style.qutView}>
+            //       <TouchableOpacity
+            //         disabled={count == 1 ? true : false}
+            //         style={style.minusButton}
+            //         onPress={() => onchangefurcount(count, item, "Sub")}
+            //       >
+            //         <Image source={Images.MinusIcon} />
+            //       </TouchableOpacity>
+            //       <TextInput
+            //         style={style.emailInputStyle}
+            //         placeholderTextColor={COLORS.Black}
+            //         value={count}
+            //         onChangeText={(count) =>
+            //           onchangefurcount(count, item, constants.nextText)
+            //         }
+            //       />
+            //       <TouchableOpacity
+            //         style={style.plusButton}
+            //         onPress={() => onchangefurcount(count, item, constants.add)}
+            //       >
+            //         <Image source={Images.PlusIcon} />
+            //       </TouchableOpacity>
+            //     </View>
+            //   )}
+            // </View>
+            <View style={style.qutView}>
+              <TouchableOpacity
+                disabled={item_fullCount == 1 ? true : false}
+                style={style.minusButton}
+                onPress={() => practiceFunction(item_fullCount, "Sub", item)}
+              >
+                <Image source={Images.MinusIcon} />
+              </TouchableOpacity>
+              <TextInput
+                style={style.emailInputStyle}
+                placeholderTextColor={COLORS.Black}
+                // value={String(item_fullCount)}
+                value={item.item_fullCount}
+                onChangeText={(val) =>
+                  practiceFunction(val, constants.nextText, item)
+                }
+                keyboardType={"numeric"}
+              />
+              <TouchableOpacity
+                style={style.plusButton}
+                onPress={() =>
+                  practiceFunction(item_fullCount, constants.add, item)
+                }
+              >
+                <Image source={Images.PlusIcon} />
+              </TouchableOpacity>
+            </View>
           )}
         </View>
 
@@ -316,7 +391,9 @@ export const AddFurRequestScreen = () => {
             </Text>
           </View>
           <View style={style.subHeaderView}>
-            <Text style={style.headerText}>{constants.Count}</Text>
+            <Text style={style.headerText}>
+              {constants.BrokenFurnitureCount}
+            </Text>
           </View>
         </View>
 

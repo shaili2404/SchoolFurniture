@@ -214,5 +214,6 @@ const constants = {
   Replenishment_Reject_item:'Number Of Replenishment Rejected Furniture Item',
   addbrokenfuritem: "+ Add Broken Furniture Item",
   Count :"Count",
+  BrokenFurnitureCount: "Broken Furniture Count",
 };
 export default constants;

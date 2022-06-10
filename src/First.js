@@ -40,11 +40,6 @@ const First = () => {
   useEffect(()=> {
      apicall()
   },[])
-
-  {
-    console.log("hii",buttonStatus);
-  }
-
   return (
   //   <View style={{ height: '100%', justifyContent: 'center', backgroundColor: '#fff', 
   // }}>

@@ -118,12 +118,13 @@ export default StyleSheet.create({
     borderBottomWidth: 0.2,
   },
   emailInputStyle: {
-    borderRadius: 5,
-    backgroundColor: COLORS.LightGreen,
-    width: 100,
-    height: 40,
-    alignSelf:'center',
-    marginTop:15
+    // borderRadius: 5,
+    // backgroundColor: COLORS.LightGreen,
+    // width: 50,
+    // height: 40,
+    // alignSelf:'center',
+    // margi:15
+    paddingLeft:2
   },
   changeText: {
     fontSize: 10,

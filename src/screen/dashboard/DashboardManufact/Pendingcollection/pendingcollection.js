@@ -158,7 +158,6 @@ export const DashPendingCollection = () => {
     await FileViewer.open(path)
       .then((r) => {})
       .catch((error) => {
-        console.log(error);
       });
   };
 
