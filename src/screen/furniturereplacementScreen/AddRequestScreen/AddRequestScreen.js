@@ -95,6 +95,7 @@ export const AddFurRequestScreen = () => {
     obj.item_name = task == constants.Edit ? item.item_name : item.name;
     obj.item_id = task == constants.Edit ? item.item_id : item.id;
     obj.count = task == constants.Edit ? item.count : 1;
+    obj.item_full_count = task == constants.Edit ? item.item_full_count : 1;
 
     if (way == constants.Edit) {
       finalList.find(function (post, index) {
@@ -114,61 +115,70 @@ export const AddFurRequestScreen = () => {
     }
   };
 
-  const setQuantity = (item, value) => {
-    let arr = [...finalList];
-    let count;
-    count = value == "Sub" ? (item.count -= 1) : (item.count += 1);
-    arr.map((obj) => {
-      return {
-        ...obj,
-        count: count,
-      };
-    });
-    setFinalList(arr);
-  };
-  const onchangefurcount = (val, item, task) => {
-    const value = item.item_full_count;
-    if (way == constants.Edit) {
+  const setQuantity = (val, task, item) => {
+    if (val < 1) {
       finalList.filter((element) => {
         if (element.item_id == item?.item_id) {
-          element.item_full_count = val;
+          element.count = 1;
         }
       });
-    } else {
-      if (task == constants.nextText) {
-        finalList.filter((element) => {
-          if (element.item_id == item?.item_id) {
-            element.item_full_count = val;
-          }
-        });
-        setCount(val);
-      } else if (task == constants.add) {
-        item.item_full_count = item.item_full_count += 1;
-        setCount(item.item_full_count);
-      } else if (task == "Sub") {
-        item.item_full_count = item.item_full_count -= 1;
-        setCount(item.item_full_count);
-      }
-    }
-  };
-
-  const practiceFunction = (val, task, item) => {
-    if (task == constants.add) {
+    } else if (task == constants.add) {
       const plusValue = (val += 1);
-
       setitem_fullCount(parseInt(plusValue));
+      finalList.filter((element) => {
+        if (element.item_id == item?.item_id) {
+          element.count = plusValue;
+        }
+      });
     } else if (task == constants.nextText) {
       setitem_fullCount(parseInt(val));
+      finalList.filter((element) => {
+        if (element.item_id == item?.item_id) {
+          element.count = parseInt(val);
+        }
+      });
     } else if (task == "Sub") {
       const minusValue = (val -= 1);
       setitem_fullCount(minusValue);
+      finalList.filter((element) => {
+        if (element.item_id == item?.item_id) {
+          element.count = minusValue;
+        }
+      });
     }
+  };
 
-    finalList.filter((element) => {
-      if (element.item_id == item?.item_id) {
-        element.item_full_count = item_fullCount;
-      }
-    });
+  const onchangefurcount = (val, task, item) => {
+    if (val < 1) {
+      finalList.filter((element) => {
+        if (element.item_id == item?.item_id) {
+          element.item_full_count = 1;
+        }
+      });
+    } else if (task == constants.add) {
+      const plusValue = (val += 1);
+      setitem_fullCount(parseInt(plusValue));
+      finalList.filter((element) => {
+        if (element.item_id == item?.item_id) {
+          element.item_full_count = plusValue;
+        }
+      });
+    } else if (task == constants.nextText) {
+      setitem_fullCount(parseInt(val));
+      finalList.filter((element) => {
+        if (element.item_id == item?.item_id) {
+          element.item_full_count = parseInt(val);
+        }
+      });
+    } else if (task == "Sub") {
+      const minusValue = (val -= 1);
+      setitem_fullCount(minusValue);
+      finalList.filter((element) => {
+        if (element.item_id == item?.item_id) {
+          element.item_full_count = minusValue;
+        }
+      });
+    }
   };
 
   const rendercomponent = ({ item }) => {
@@ -179,81 +189,53 @@ export const AddFurRequestScreen = () => {
           <Text style={style.NewStyle}>{item.item_name}</Text>
         </View>
         <View>
-          {way == constants.Edit ? (
+          <View style={style.qutView}>
+            <TouchableOpacity
+              disabled={item.item_full_count == 1 ? true : false}
+              style={style.minusButton}
+              onPress={() =>
+                onchangefurcount(item.item_full_count, "Sub", item)
+              }
+            >
+              <Image source={Images.MinusIcon} />
+            </TouchableOpacity>
             <TextInput
               style={style.emailInputStyle}
               placeholderTextColor={COLORS.Black}
-              value={count}
-              onChangeText={(count) => onchangefurcount(count, item)}
+              value={String(item.item_full_count)}
+              onChangeText={(val) =>
+                onchangefurcount(val, constants.nextText, item)
+              }
+              keyboardType={"numeric"}
             />
-          ) : (
-            //     <View style={style.qutView}>
-            //       <TouchableOpacity
-            //         disabled={count == 1 ? true : false}
-            //         style={style.minusButton}
-            //         onPress={() => onchangefurcount(count, item, "Sub")}
-            //       >
-            //         <Image source={Images.MinusIcon} />
-            //       </TouchableOpacity>
-            //       <TextInput
-            //         style={style.emailInputStyle}
-            //         placeholderTextColor={COLORS.Black}
-            //         value={count}
-            //         onChangeText={(count) =>
-            //           onchangefurcount(count, item, constants.nextText)
-            //         }
-            //       />
-            //       <TouchableOpacity
-            //         style={style.plusButton}
-            //         onPress={() => onchangefurcount(count, item, constants.add)}
-            //       >
-            //         <Image source={Images.PlusIcon} />
-            //       </TouchableOpacity>
-            //     </View>
-            //   )}
-            // </View>
-            <View style={style.qutView}>
-              <TouchableOpacity
-                disabled={item_fullCount == 1 ? true : false}
-                style={style.minusButton}
-                onPress={() => practiceFunction(item_fullCount, "Sub", item)}
-              >
-                <Image source={Images.MinusIcon} />
-              </TouchableOpacity>
-              <TextInput
-                style={style.emailInputStyle}
-                placeholderTextColor={COLORS.Black}
-                // value={String(item_fullCount)}
-                value={item.item_fullCount}
-                onChangeText={(val) =>
-                  practiceFunction(val, constants.nextText, item)
-                }
-                keyboardType={"numeric"}
-              />
-              <TouchableOpacity
-                style={style.plusButton}
-                onPress={() =>
-                  practiceFunction(item_fullCount, constants.add, item)
-                }
-              >
-                <Image source={Images.PlusIcon} />
-              </TouchableOpacity>
-            </View>
-          )}
+            <TouchableOpacity
+              style={style.plusButton}
+              onPress={() =>
+                onchangefurcount(item.item_full_count, constants.add, item)
+              }
+            >
+              <Image source={Images.PlusIcon} />
+            </TouchableOpacity>
+          </View>
         </View>
-
         <View style={style.qutView}>
           <TouchableOpacity
             disabled={item.count == 1 ? true : false}
             style={style.minusButton}
-            onPress={() => setQuantity(item, "Sub")}
+            onPress={() => setQuantity(item.count, "Sub", item)}
           >
             <Image source={Images.MinusIcon} />
           </TouchableOpacity>
-          <Text style={style.qutStyle}>{item.count}</Text>
+          <TextInput
+            style={style.emailInputStyle}
+            placeholderTextColor={COLORS.Black}
+            value={String(item.count)}
+            onChangeText={(val) => setQuantity(val, constants.nextText, item)}
+            keyboardType={"numeric"}
+          />
           <TouchableOpacity
             style={style.plusButton}
-            onPress={() => setQuantity(item, constants.add)}
+            onPress={() => setQuantity(item.count, constants.add, item)}
           >
             <Image source={Images.PlusIcon} />
           </TouchableOpacity>
@@ -261,6 +243,10 @@ export const AddFurRequestScreen = () => {
       </View>
     );
   };
+
+  useEffect(() => {
+    console.log(finalList);
+  }, [finalList]);
 
   const onPressNext = () => {
     const isGreaterThanZero = finalList?.every(
