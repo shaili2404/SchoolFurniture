@@ -148,4 +148,10 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
   },
+  errorStyle:{
+    textAlign:'center',
+    marginTop:2,
+    fontSize:16,
+    color:COLORS.red
+    },
 });

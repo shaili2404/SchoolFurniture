@@ -75,6 +75,7 @@ export const FurnitureReplacmentProcess = () => {
   const [printdilverystatus, setprintdilverystatus] = useState(false);
   const [dileveryNote, setdileveryNote] = useState([]);
   const [totalFur, setTotalFur] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [uploadPrintDilveryStatus, setuploadPrintDilveryStatus] =
     useState(false);
   const [checkoboxofDilveryitem, setcheckoboxofDilveryitem] = useState(false);
@@ -516,8 +517,15 @@ export const FurnitureReplacmentProcess = () => {
     setConfirmCollectedCount(data);
   };
   const onsubmitDilverdetails = (data) => {
+    const isGreaterThanZero = data?.every((ele) => ele?.deliver_count == 0);
+    isGreaterThanZero ? setcheckoboxofDilveryitem(false) : setcheckoboxofDilveryitem(true);
+    const ismore = data?.every(
+      (ele) =>
+        ele?.repaired_count + ele?.rejected_replenished_count >
+        ele.deliver_count
+    );
+    ismore ? setErrorMessage("Deliver Count Is Invalid") : setErrorMessage("");
     setConfirmCollectedCount(data);
-    setcheckoboxofDilveryitem(true);
   };
 
   const onEdit = (item, task) => {
@@ -1111,11 +1119,12 @@ export const FurnitureReplacmentProcess = () => {
                           ? route?.params?.id
                           : route?.params?.items?.id,
                     })
-                    
                   }
                   style={styles.buttonStyle}
                 >
-                  <Text style={styles.buttonText}>{constants.addbrokenfuritem}</Text>
+                  <Text style={styles.buttonText}>
+                    {constants.addbrokenfuritem}
+                  </Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -1208,38 +1217,47 @@ export const FurnitureReplacmentProcess = () => {
               replenishment_status={replenishment_status}
             />
           ) : null}
-
-          {taskofPage == constants.Status_RepairCompleted ||
-          taskofPage == constants.Status_pendingDilver ? (
-            <DisposalDIlveryButton
-              onPressDeliveryNote={() => onPressDeliveryNote()}
-              ondilverycheckboxone={(value) =>
-                setprintdilverystatus(value == true ? false : true)
-              }
-              printdilverystatus={
-                taskofPage == constants.Status_pendingDilver
-                  ? true
-                  : printdilverystatus
-              }
-              uploadPrintDilveryStatus={
-                taskofPage == constants.Status_pendingDilver
-                  ? true
-                  : uploadPrintDilveryStatus
-              }
-              uploadDilveryNote={() => onUploadreplanisNote()}
-              checkboxStatusreplanish={checkboxStatusreplanish}
-              oncheckboxvalue={(value) => setvaluesavebutton(value)}
-              taskofPage={taskofPage}
-              checkoboxofDilveryitem={
-                taskofPage == constants.Status_pendingDilver
-                  ? true
-                  : checkoboxofDilveryitem
-              }
-              onifSchool={
-                schooldetails?.organization == constants.school ? false : true
-              }
-            />
-          ) : null}
+          {errorMessage ? (
+            <Text style={styles.errorStyle}>
+              {errorMessage ? errorMessage : ""}
+            </Text>
+          ) : (
+            <>
+              {taskofPage == constants.Status_RepairCompleted ||
+              taskofPage == constants.Status_pendingDilver ? (
+                <DisposalDIlveryButton
+                  onPressDeliveryNote={() => onPressDeliveryNote()}
+                  ondilverycheckboxone={(value) =>
+                    setprintdilverystatus(value == true ? false : true)
+                  }
+                  printdilverystatus={
+                    taskofPage == constants.Status_pendingDilver
+                      ? true
+                      : printdilverystatus
+                  }
+                  uploadPrintDilveryStatus={
+                    taskofPage == constants.Status_pendingDilver
+                      ? true
+                      : uploadPrintDilveryStatus
+                  }
+                  uploadDilveryNote={() => onUploadreplanisNote()}
+                  checkboxStatusreplanish={checkboxStatusreplanish}
+                  oncheckboxvalue={(value) => setvaluesavebutton(value)}
+                  taskofPage={taskofPage}
+                  checkoboxofDilveryitem={
+                    taskofPage == constants.Status_pendingDilver
+                      ? true
+                      : checkoboxofDilveryitem
+                  }
+                  onifSchool={
+                    schooldetails?.organization == constants.school
+                      ? false
+                      : true
+                  }
+                />
+              ) : null}
+            </>
+          )}
           <View style={{ height: 60 }} />
         </KeyboardAvoidingView>
       </ScrollView>

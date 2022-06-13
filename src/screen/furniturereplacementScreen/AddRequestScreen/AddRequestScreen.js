@@ -57,7 +57,6 @@ export const AddFurRequestScreen = () => {
       });
   };
 
-  
   useEffect(() => {
     if (route?.params?.task) {
       const { task, item, flatListData } = route?.params;
@@ -117,10 +116,11 @@ export const AddFurRequestScreen = () => {
   };
 
   const setQuantity = (val, task, item) => {
-    if (val < 1) {
+    if (val == "") {
       finalList.filter((element) => {
         if (element.item_id == item?.item_id) {
-          element.count = 1;
+          setitem_fullCount("");
+          element.count = "";
         }
       });
     } else if (task == constants.add) {
@@ -153,7 +153,8 @@ export const AddFurRequestScreen = () => {
     if (val < 1) {
       finalList.filter((element) => {
         if (element.item_id == item?.item_id) {
-          element.item_full_count = 1;
+          setitem_fullCount("");
+          element.item_full_count = '';
         }
       });
     } else if (task == constants.add) {
@@ -183,7 +184,6 @@ export const AddFurRequestScreen = () => {
   };
 
   const rendercomponent = ({ item }) => {
-    setCount(item.item_full_count);
     return (
       <View style={style.listView}>
         <View style={{ width: 90 }}>

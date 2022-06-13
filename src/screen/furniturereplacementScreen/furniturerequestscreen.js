@@ -88,7 +88,7 @@ export const FurnitureReplacmentManfacturer = () => {
     if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
     if (select?.id) str += `status_id=${select?.id}&`;
     setLoader(true);
-    console.log(str)
+    console.log(str);
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios
       .get(`${endUrl.searchfurRequest}?${str}`)
@@ -113,7 +113,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
-      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`) 
+      .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
@@ -161,7 +161,7 @@ export const FurnitureReplacmentManfacturer = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
-    setSelect({})
+    setSelect({});
   };
 
   useEffect(() => {
@@ -171,47 +171,32 @@ export const FurnitureReplacmentManfacturer = () => {
     }
   }, [refnumber]);
 
-  const tableHeader =
-    organization == constants.school
-      ? [
-          constants.dateCreated,
-          constants.refrenceNo,
-          constants.status,
-          constants.emisNumber,
-          constants.totalFurnitureCount,
-        ]
-      : [
-          constants.schoolName,
-          constants.dateCreated,
-          constants.refrenceNo,
-          constants.status,
-          constants.emis,
-          constants.totalFurnitureCount,
-        ];
-  const tableKey =
-    organization == constants.school
-      ? ["created_at", "ref_number", "status", "emis", "total_furniture"]
-      : [
-          "school_name",
-          "created_at",
-          "ref_number",
-          "status",
-          "emis",
-          "total_furniture",
-        ];
+  const tableHeader = [
+    constants.schoolName,
+    constants.dateCreated,
+    constants.refrenceNo,
+    constants.status,
+    constants.emis,
+    constants.totalFurnitureCount,
+  ];
+  const tableKey = [
+    "school_name",
+    "created_at",
+    "ref_number",
+    "status",
+    "emis",
+    "total_furniture",
+  ];
   const rendercomponent = ({ item }) => {
     return (
-   
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("FurnitureReplacmentProcess", item)
-            }
-          >
-            <DataDisplayList
-              tableKey={tableKey}
-              item={item}
-              permissionId={permissionId}
-            />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("FurnitureReplacmentProcess", item)}
+      >
+        <DataDisplayList
+          tableKey={tableKey}
+          item={item}
+          permissionId={permissionId}
+        />
       </TouchableOpacity>
     );
   };
@@ -222,9 +207,8 @@ export const FurnitureReplacmentManfacturer = () => {
   return loader ? (
     <Loader />
   ) : (
-   
-      <SafeAreaView style={Styles.mainView}>
-         <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={Styles.mainView}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={Styles.halfView}>
           <View style={Styles.searchButtonView}>
             <Text style={Styles.transactionText}>
@@ -327,22 +311,24 @@ export const FurnitureReplacmentManfacturer = () => {
               />
             </TouchableOpacity>
           </View>
-          
+
           {dateErrorMessage ? (
             <View style={Styles.dateerrorView}>
               <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
             </View>
           ) : null}
-         {organization == constants.school ? (
-          <View style={Styles.plusView}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FurnitureReplacmentProcess")}
-              style={Styles.buttonStyle}
-            >
-             <Text style={Styles.buttonText}>{constants.createNewReq}</Text>
-            </TouchableOpacity>
-          </View>
-        ) : null}
+          {organization == constants.school ? (
+            <View style={Styles.plusView}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("FurnitureReplacmentProcess")
+                }
+                style={Styles.buttonStyle}
+              >
+                <Text style={Styles.buttonText}>{constants.createNewReq}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
           {errorMessage ? (
             <View style={Styles.errorView}>
               <Text style={Styles.errormessStyle}>{errorMessage}</Text>
@@ -362,41 +348,40 @@ export const FurnitureReplacmentManfacturer = () => {
             </ScrollView>
           )}
         </View>
-       
-        {searchStatus?
-            <View style={Styles.lastView}>
-          <TouchableOpacity
-            onPress={onPrevious}
-            disabled={number == 1 ? true : false}
-          >
-            {number == 1 ? (
-              <Image source={Images.leftarrow} />
-            ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
-            )}
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={onNext}
-            disabled={number == maximumNumber ? true : false}
-          >
-            {number == maximumNumber ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
-            ) : (
-              <Image source={Images.rightarrow} />
-            )}
-          </TouchableOpacity>
-        </View>
-        :null}
+        {searchStatus ? (
+          <View style={Styles.lastView}>
+            <TouchableOpacity
+              onPress={onPrevious}
+              disabled={number == 1 ? true : false}
+            >
+              {number == 1 ? (
+                <Image source={Images.leftarrow} />
+              ) : (
+                <Image
+                  source={Images.rightarrow}
+                  style={{ transform: [{ rotate: "180deg" }] }}
+                />
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={onNext}
+              disabled={number == maximumNumber ? true : false}
+            >
+              {number == maximumNumber ? (
+                <Image
+                  source={Images.leftarrow}
+                  style={{ transform: [{ rotate: "180deg" }] }}
+                />
+              ) : (
+                <Image source={Images.rightarrow} />
+              )}
+            </TouchableOpacity>
+          </View>
+        ) : null}
         <View style={{ height: 70 }} />
-        </ScrollView>
-      </SafeAreaView>
-   
+      </ScrollView>
+    </SafeAreaView>
   );
 };
