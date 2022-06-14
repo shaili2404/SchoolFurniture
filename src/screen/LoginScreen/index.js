@@ -22,6 +22,7 @@ import Loader from "../../component/loader";
 import Styles from "./styles";
 import { NetworkInfo } from "react-native-network-info";
 import { useNavigation } from "@react-navigation/native";
+import Screen from "../../locales/navigationConst";
 
 export const LoginScreen = () => {
   const [defaultState, setDefaultState] = useState(false);
@@ -124,7 +125,6 @@ export const LoginScreen = () => {
                 placeholderTextColor={COLORS.Black}
                 value={username}
                 onFocus={() => setDefaultState(true)}
-                // onBlur={() => setDefaultState(false)}
                 onChangeText={(username) => onChangeEmail(username)}
                 opacity={defaultState === true ? 1 : 0.5}
               />
@@ -152,7 +152,6 @@ export const LoginScreen = () => {
                 placeholderTextColor={COLORS.Black}
                 value={password}
                 onFocus={() => setDefaultState(true)}
-                //onBlur={() => setDefaultState(false)}
                 onChangeText={(password) => onChangePass(password)}
                 secureTextEntry={textEntery}
                 opacity={defaultState === true ? 1 : 0.5}
@@ -200,40 +199,39 @@ export const LoginScreen = () => {
             ) : null}
             <View>
               <TouchableOpacity
-                onPress={() => navigation.navigate("PasswordReset")}
+                onPress={() => navigation.navigate(Screen.Password_Reset)}
               >
                 <Text style={Styles.ResetStyle}>{constants.ResetPassword}</Text>
               </TouchableOpacity>
             </View>
           </View>
-        {/* </KeyboardAvoidingView> */}
 
-        <View
-          style={
-            defaultState === true ? Styles.inputStyless : Styles.inputStyles
-          }
-        >
-          <TouchableOpacity
+          <View
             style={
-              emptyUserName || emptyPass
-                ? [Styles.buttonStyle, { opacity: 0.5 }]
-                : Styles.buttonStyle
+              defaultState === true ? Styles.inputStyless : Styles.inputStyles
             }
-            onPress={onLogin}
-            disabled={emptyUserName || emptyPass}
           >
-            <Text style={Styles.buttonText}>{constants.Login}</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={
+                emptyUserName || emptyPass
+                  ? [Styles.buttonStyle, { opacity: 0.5 }]
+                  : Styles.buttonStyle
+              }
+              onPress={onLogin}
+              disabled={emptyUserName || emptyPass}
+            >
+              <Text style={Styles.buttonText}>{constants.Login}</Text>
+            </TouchableOpacity>
+          </View>
 
-        {defaultState === true ? (
-          <TouchableOpacity onPress={onClear}>
-            <Text style={Styles.clearStyle}>{constants.Clear}</Text>
-          </TouchableOpacity>
-        ) : (
-          false
-        )}
-          </KeyboardAvoidingView>
+          {defaultState === true ? (
+            <TouchableOpacity onPress={onClear}>
+              <Text style={Styles.clearStyle}>{constants.Clear}</Text>
+            </TouchableOpacity>
+          ) : (
+            false
+          )}
+        </KeyboardAvoidingView>
       </View>
     </SafeAreaView>
   );

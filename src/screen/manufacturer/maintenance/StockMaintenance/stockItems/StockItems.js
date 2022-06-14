@@ -24,10 +24,10 @@ import endUrl from '../../../../../redux/configration/endUrl'
 import style from './style'
 import { useSelector } from 'react-redux'
 import CommonService from '../../../../../locales/service'
+import ConstKey from '../../../../../locales/ApikeyConst'
 
 const tableHeader = [constants.categories, constants.Items, constants.manage]
 
-const PAGESIZE = 4
 export const StockItems = () => {
   const [categoryList, setcategoryList] = useState([])
   const [dataList, setDataList] = useState([])
@@ -37,7 +37,7 @@ export const StockItems = () => {
   const [stockCategoryName, setStockCategoryName] = useState('')
   const [defaultStockCategory, setDefaultStockCategory] = useState('')
   const [loader, setLoader] = useState(true)
-  const tableKey = ['category_name', 'name']
+  const tableKey = [ConstKey.category_name, ConstKey.name]
   const [errorMessage, setErrorMessage] = useState('')
   const [searchtask, setSearchTask] = useState('')
   const [alert, setAlert] = useState(false)
@@ -351,7 +351,7 @@ export const StockItems = () => {
             ) : (
               <Image
                 source={Images.rightarrow}
-                style={{ transform: [{ rotate: '180deg' }] }}
+                style={style.transformStyle}
               />
             )}
           </TouchableOpacity>
@@ -363,7 +363,7 @@ export const StockItems = () => {
             {number == maximumNumber ? (
               <Image
                 source={Images.leftarrow}
-                style={{ transform: [{ rotate: '180deg' }] }}
+                style={style.transformStyle}
               />
             ) : (
               <Image source={Images.rightarrow} />

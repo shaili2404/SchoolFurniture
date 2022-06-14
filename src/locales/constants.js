@@ -216,6 +216,8 @@ const constants = {
   Count :"Count",
   BrokenFurnitureCount: "Broken Furniture Count",
   Sub:'Sub',
-  Deliver_Count_Is_Invalid:'Deliver Count Is Invalid'
+  Deliver_Count_Is_Invalid:'Deliver Count Is Invalid',
+  Furniture_Depot:'Furniture Depot',
+  Department_of_Education:'Department of Education'
 };
 export default constants;

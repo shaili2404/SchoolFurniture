@@ -25,7 +25,19 @@ const ConstKey = {
     category_name:'category_name',
     item_name:'item_name',
     item_full_count:'item_full_count',
-    count:'count'
+    count:'count',
+    name:'name',
+    circuit_name:'circuit_name',
+    cmc_name:'cmc_name',
+    district_name:'district_name',
+    cmc_name:"cmc_name",
+    district_office:'district_office',
+    subplace_name:'subplace_name',
+    level_id:'level_id',
+    snq_id:'snq_id',
+    school_principal:'school_principal',
+    tel:'tel',
+    street_code:'street_code'
 
   };
   export default ConstKey;

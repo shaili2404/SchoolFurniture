@@ -108,4 +108,5 @@ export default StyleSheet.create({
     bottom: 0,
     alignSelf: "center",
   },
+  transformStyle:{ transform: [{ rotate: '180deg' }] }
 });

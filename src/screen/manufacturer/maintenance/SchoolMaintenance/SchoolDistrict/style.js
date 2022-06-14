@@ -89,4 +89,5 @@ export default StyleSheet.create({
     fontWeight: "normal",
     fontSize: 16,
   },
+  tramsformStyle:{ transform: [{ rotate: '180deg' }] }
 });

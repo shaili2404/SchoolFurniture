@@ -7,7 +7,7 @@ export default StyleSheet.create({
     height: height,
     width: width,
     alignItems: "center",
-    backgroundColor: COLORS.White
+    backgroundColor: COLORS.White,
   },
   subContainer: {
     width: "90%",
@@ -15,7 +15,7 @@ export default StyleSheet.create({
     position: "relative",
   },
   loginView: {
-    marginTop: '10%',
+    marginTop: "10%",
   },
   loginText: {
     color: COLORS.ThemeGreen,
@@ -53,13 +53,13 @@ export default StyleSheet.create({
     paddingLeft: 30,
   },
   inputStyles: {
-    marginTop: '15%',
+    marginTop: "15%",
   },
   inputStyless: {
-    marginTop: '6%',
+    marginTop: "6%",
   },
   inputSty: {
-    marginTop: '8%',
+    marginTop: "8%",
   },
   buttonStyle: {
     backgroundColor: COLORS.GreenBox,
@@ -104,9 +104,9 @@ export default StyleSheet.create({
     textAlign: "center",
     color: COLORS.blue,
     textDecorationLine: "underline",
-    position: 'relative',
-    bottom: '5%',
-    marginTop: '2%'
+    position: "relative",
+    bottom: "5%",
+    marginTop: "2%",
   },
   errorStyle: {
     color: COLORS.red,

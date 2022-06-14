@@ -44,16 +44,16 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
   errorMsg: {
-    textAlign: 'center', 
-    color: COLORS.ThemeGreen, 
+    textAlign: "center",
+    color: COLORS.ThemeGreen,
     fontSize: 22,
-    marginTop: 10
+    marginTop: 10,
   },
   errIconStyle: {
     width: 50,
     height: 50,
   },
   errorMsgView: {
-    alignItems: 'center',
-  }
+    alignItems: "center",
+  },
 });

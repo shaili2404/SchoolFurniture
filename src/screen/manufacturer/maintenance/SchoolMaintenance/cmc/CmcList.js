@@ -25,6 +25,7 @@ import { AlertMessage } from "../../../../../Alert/alert";
 import { AddEditCMC } from "../../../../../component/manufacturer/AddFormModal/AddEdItCMC";
 import { useIsFocused } from "@react-navigation/native";
 import CommonService from "../../../../../locales/service";
+import ConstKey from "../../../../../locales/ApikeyConst";
 
 export const CMC = () => {
   const [listData, setListData] = useState([]);
@@ -48,12 +49,12 @@ export const CMC = () => {
 
   const isFocused = useIsFocused();
 
-  const tableKey = ["cmc_name", "district_office"];
+  const tableKey = [ConstKey.cmc_name, ConstKey.district_office];
   const tableHeader = [constants.Cmc, constants.District, constants.manage];
 
   const addArray = [
-    { key: "cmc_name", value: constants.Cmc },
-    { key: "district_office", value: constants.District },
+    { key:ConstKey.cmc_name, value: constants.Cmc },
+    { key:ConstKey.district_office, value: constants.District },
   ];
 
   useEffect(() => {
@@ -106,7 +107,7 @@ export const CMC = () => {
     setLoader(true);
     let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value != null && value != "" && key != "district_name")
+      if (value != null && value != "" && key != ConstKey.district_name)
         obj[key] = value;
     });
     axios.defaults.headers.common["Content-Type"] = "application/json";
@@ -268,7 +269,7 @@ export const CMC = () => {
           ) : (
             <Image
               source={Images.rightarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
+              style={Styles.transformStyle}
             />
           )}
         </TouchableOpacity>
@@ -280,7 +281,7 @@ export const CMC = () => {
           {number == maximumNumber ? (
             <Image
               source={Images.leftarrow}
-              style={{ transform: [{ rotate: "180deg" }] }}
+              style={Styles.transformStyle}
             />
           ) : (
             <Image source={Images.rightarrow} />

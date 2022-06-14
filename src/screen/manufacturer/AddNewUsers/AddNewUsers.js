@@ -19,6 +19,8 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import Dropdown from "../../../component/DropDown/dropdown";
 import { regExpEmail } from "../../../locales/regexp";
 import Images from "../../../asset/images";
+import ConstKey from "../../../locales/ApikeyConst";
+import Screen from "../../../locales/navigationConst";
 
 const AddNewUsers = () => {
   const [organizationList, setOrganizationList] = useState([]);
@@ -35,14 +37,15 @@ const AddNewUsers = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { btnStatus, Item } = route.params;
-  
 
-  const tableKey = ["name", "emis"];
+  const tableKey = [ConstKey.name, ConstKey.emis];
   const tableHeader = [constants.school, constants.emis];
 
   useEffect(() => {
-    { !regExpEmail.test(email) ? setDisable(true) : setDisable(false) }
-  }, [email])
+    {
+      !regExpEmail.test(email) ? setDisable(true) : setDisable(false);
+    }
+  }, [email]);
   useEffect(() => {
     apicall();
     addSchool();
@@ -54,8 +57,8 @@ const AddNewUsers = () => {
       setName("");
       setSurname("");
       setEmail("");
-      setSchoolName('');
-      setEmis('')
+      setSchoolName("");
+      setEmis("");
     }
   }, [selected]);
 
@@ -74,8 +77,6 @@ const AddNewUsers = () => {
 
   const addSchool = async () => {
     try {
-      // const response = await axios.get(`${endUrl.schoolList}?all==true`);
-      // setSchoolData(response?.data?.data?.records);
       const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
       setSchoolData(response?.data?.data);
     } catch (e) {
@@ -95,7 +96,7 @@ const AddNewUsers = () => {
   useLayoutEffect(() => {
     let title;
     if (btnStatus == "0") {
-      title = constants.Edit
+      title = constants.Edit;
       setDropdowndata(Item.organization);
       setEmail(Item.email);
       setName(Item.name);
@@ -103,7 +104,7 @@ const AddNewUsers = () => {
       setEmis(Item.username);
       setSchoolName(Item.name);
     } else {
-      title = constants.add
+      title = constants.add;
     }
     navigation.setOptions({ title });
   }, []);
@@ -131,8 +132,8 @@ const AddNewUsers = () => {
 
   const showHide = () => {
     setStatus(!status);
-    addSchool()
-    addSchoolSearch()
+    addSchool();
+    addSchoolSearch();
   };
 
   const schoolDataList = (value) => {
@@ -150,18 +151,22 @@ const AddNewUsers = () => {
       obj.name = schoolName;
     } else {
       obj.surname = surname;
-      obj.name = name
-    };
+      obj.name = name;
+    }
 
     let item;
-    if (btnStatus == '0') {
-      item = Item
-      obj.organization = Item.organization_id
+    if (btnStatus == "0") {
+      item = Item;
+      obj.organization = Item.organization_id;
     } else {
-      item = null
-      obj.organization = selected.id
+      item = null;
+      obj.organization = selected.id;
     }
-    navigation.navigate("Functionalities", { reqData: obj, itemObj: item, btnStatus: btnStatus });
+    navigation.navigate(Screen.Functionalities, {
+      reqData: obj,
+      itemObj: item,
+      btnStatus: btnStatus,
+    });
   };
 
   return (
@@ -177,11 +182,12 @@ const AddNewUsers = () => {
             data={organizationList}
             onSelect={setSelected}
             task="name"
-            way={btnStatus == 0 ? 'Edit' : null}
+            way={btnStatus == 0 ? "Edit" : null}
           />
         </View>
 
-        {dropdata == "Furniture Depot" || selected.name == "Furniture Depot" ? (
+        {dropdata == constants.Furniture_Depot ||
+        selected.name == constants.Furniture_Depot ? (
           <View>
             <TextInput
               placeholder={constants.enterName}
@@ -209,7 +215,7 @@ const AddNewUsers = () => {
           </View>
         ) : null}
 
-        {dropdata == "School" || selected.name == "School" ? (
+        {dropdata == constants.school || selected.name == constants.school ? (
           <View>
             <View
               style={{
@@ -275,8 +281,8 @@ const AddNewUsers = () => {
           </View>
         ) : null}
 
-        {dropdata == "Department of Education" ||
-          selected.name == "Department of Education" ? (
+        {dropdata == constants.Department_of_Education ||
+        selected.name == constants.Department_of_Education ? (
           <View>
             <TextInput
               placeholder={constants.enterName}
@@ -304,7 +310,7 @@ const AddNewUsers = () => {
           </View>
         ) : null}
       </KeyboardAvoidingView>
-      {dropdata == "School" || selected.name == "School" ? (
+      {dropdata == constants.school || selected.name == constants.school ? (
         <>
           {schoolName && email && emis ? (
             <TouchableOpacity

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import Styles from './style'
+import React, { useState, useEffect } from "react";
+import Styles from "./style";
 import {
   SafeAreaView,
   View,
@@ -9,60 +9,63 @@ import {
   ScrollView,
   Image,
   Text,
-} from 'react-native'
-import COLORS from '../../../../../asset/color'
-import Images from '../../../../../asset/images'
+} from "react-native";
+import COLORS from "../../../../../asset/color";
+import Images from "../../../../../asset/images";
 
-import constants from '../../../../../locales/constants'
-import axios from 'axios'
-import endUrl from '../../../../../redux/configration/endUrl'
-import { useSelector } from 'react-redux'
-import { DataDisplayList } from '../../../../../component/manufacturer/displayListComman'
-import { ListHeaderComman } from '../../../../../component/manufacturer/ListHeaderComman'
-import { AddUserModal } from '../../../../../component/manufacturer/AddFormModal/AddFormModal'
-import Loader from '../../../../../component/loader'
-import AlertText from '../../../../../Alert/AlertText'
-import { AlertMessage } from '../../../../../Alert/alert'
-import CommonService from '../../../../../locales/service'
+import constants from "../../../../../locales/constants";
+import axios from "axios";
+import endUrl from "../../../../../redux/configration/endUrl";
+import { useSelector } from "react-redux";
+import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
+import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
+import { AddUserModal } from "../../../../../component/manufacturer/AddFormModal/AddFormModal";
+import Loader from "../../../../../component/loader";
+import AlertText from "../../../../../Alert/AlertText";
+import { AlertMessage } from "../../../../../Alert/alert";
+import CommonService from "../../../../../locales/service";
+import ConstKey from "../../../../../locales/ApikeyConst";
 
 export const SchoolDistrictList = () => {
-  const [listData, setListData] = useState([])
-  const loginData = useSelector((state) => state?.loginData)
-  const [addUserModal, setAdduserModal] = useState(false)
-  const [loader, setLoader] = useState(true)
-  const [searchtask, setSearchTask] = useState('')
-  const [operation, setOperation] = useState('')
-  const [updateItem, setUpdateItem] = useState({})
-  const [alert, setAlert] = useState(false)
-  const [erroralert, seterrorAlert] = useState(false)
-  const [maximumNumber, setmaximunNumber] = useState(0)
-  const [number, setNumber] = useState(1)
+  const [listData, setListData] = useState([]);
+  const loginData = useSelector((state) => state?.loginData);
+  const [addUserModal, setAdduserModal] = useState(false);
+  const [loader, setLoader] = useState(true);
+  const [searchtask, setSearchTask] = useState("");
+  const [operation, setOperation] = useState("");
+  const [updateItem, setUpdateItem] = useState({});
+  const [alert, setAlert] = useState(false);
+  const [erroralert, seterrorAlert] = useState(false);
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
-  })
-  const [errorMessage, setErrorMessage] = useState('')
-  const [eMsg, setEMsg] = useState('')
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [eMsg, setEMsg] = useState("");
 
-  const tableKey = ['district_office']
+  const tableKey = [ConstKey.district_office];
 
-  const tableHeader = [constants.DistrictOffice, constants.manage]
+  const tableHeader = [constants.DistrictOffice, constants.manage];
 
-  const addArray = [{ key: 'district_office', value: constants.DistrictOffice }]
+  const addArray = [
+    { key: ConstKey.district_office, value: constants.DistrictOffice },
+  ];
 
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions
+    const arr = loginData?.user?.data?.data?.permissions;
     const [userCreate, userEdit, userDlt] = CommonService.getPermission(
       arr,
       [6, 7, 8]
-    )
+    );
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
-  }, [])
+    });
+  }, []);
 
   const rendercomponent = ({ item }) => {
     return (
@@ -76,173 +79,171 @@ export const SchoolDistrictList = () => {
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
       />
-    )
-  }
+    );
+  };
 
   const onEdit = (item, task) => {
-    setOperation(task)
-    setUpdateItem(item)
-    setAdduserModal(true)
-  }
+    setOperation(task);
+    setUpdateItem(item);
+    setAdduserModal(true);
+  };
 
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} />
-  }
+    return <ListHeaderComman tableHeader={tableHeader} />;
+  };
 
   const reloadList = () => {
-    apicall()
-  }
+    apicall();
+  };
 
   const onSubmitDetails = async (values, oper) => {
-    setAdduserModal(false)
-    setLoader(true)
-    let obj = {}
+    setAdduserModal(false);
+    setLoader(true);
+    let obj = {};
     Object.entries(values).forEach(([key, value]) => {
-      if (value !== null && value !== '') {
-        obj[key] = value
+      if (value !== null && value !== "") {
+        obj[key] = value;
       }
-    })
-    axios.defaults.headers.common['Content-Type'] = 'application/json'
+    });
+    axios.defaults.headers.common["Content-Type"] = "application/json";
     const service =
       oper == constants.add
         ? axios.post(`${endUrl.schoolDistList}`, obj)
-        : axios.put(`${endUrl.schoolDistList}/${updateItem.id}`, obj)
+        : axios.put(`${endUrl.schoolDistList}/${updateItem.id}`, obj);
     service
       .then((res) => {
-        setLoader(false)
-        setAlert(true)
-        apicall()
+        setLoader(false);
+        setAlert(true);
+        apicall();
       })
       .catch((e) => {
-        let { message, data, status } = e?.response?.data || {}
-        setLoader(false)
-        seterrorAlert(true)
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        seterrorAlert(true);
         {
-          let str = ''
+          let str = "";
           status == 422
             ? Object.values(data).forEach((value) => {
-                str += `  ${value}`
-                setEMsg(str)
+                str += `  ${value}`;
+                setEMsg(str);
               })
-            : setEMsg(message)
+            : setEMsg(message);
         }
-      })
-  }
+      });
+  };
 
   const apicall = async (count) => {
-    setLoader(true)
+    setLoader(true);
     axios
       .get(`${endUrl.schoolDistList}?page=${count ? count : number}`)
       .then((res) => {
-        setListData(res?.data?.data?.records)
-        setmaximunNumber(res?.data?.data?.total_page)
-        setLoader(false)
+        setListData(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
       })
-      .catch((e) => setLoader(false))
-  }
+      .catch((e) => setLoader(false));
+  };
 
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number + 1)
-    apicall(count)
-    setLoader(false)
-  }
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    apicall(count);
+    setLoader(false);
+  };
 
   const onPrevious = () => {
-    let count = number - 1
-    setLoader(true)
-    setNumber(number - 1)
-    apicall(count)
-    setLoader(false)
-  }
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    apicall(count);
+    setLoader(false);
+  };
 
   const onsearch = async () => {
-    setErrorMessage('')
-    if (searchtask == '') {
-      setErrorMessage(constants.enterSearchData)
+    setErrorMessage("");
+    if (searchtask == "") {
+      setErrorMessage(constants.enterSearchData);
     } else {
-      setLoader(true)
+      setLoader(true);
       axios
         .get(`${endUrl.districtSearch}${searchtask}`)
         .then((res) => {
-          setListData(res?.data?.data)
-          setLoader(false)
+          setListData(res?.data?.data);
+          setLoader(false);
         })
         .catch((e) => {
           {
-            let { message, data, status } = e?.response?.data || {}
-            setLoader(false)
+            let { message, data, status } = e?.response?.data || {};
+            setLoader(false);
             {
-              let str = ''
+              let str = "";
               status == 422
                 ? Object.values(data).forEach((value) => {
-                    str += `  ${value}`
-                    setErrorMessage(str)
+                    str += `  ${value}`;
+                    setErrorMessage(str);
                   })
-                : setErrorMessage(message)
+                : setErrorMessage(message);
             }
           }
-        })
+        });
     }
   };
-  const onReset = ()=>{
-    setErrorMessage('')
-    setSearchTask('')
-  }
+  const onReset = () => {
+    setErrorMessage("");
+    setSearchTask("");
+  };
 
   const onAddPress = (task) => {
-    setOperation(task)
-    setAdduserModal(true)
-  }
+    setOperation(task);
+    setAdduserModal(true);
+  };
 
   useEffect(() => {
-    apicall()
-  }, [])
+    apicall();
+  }, []);
 
   useEffect(() => {
-    if (listData) setLoader(false)
-  }, [listData])
+    if (listData) setLoader(false);
+  }, [listData]);
 
   useEffect(() => {
-    if (searchtask == '') {
-      apicall()
-      setErrorMessage('')
-      setLoader(false)
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false);
     }
-  }, [searchtask])
+  }, [searchtask]);
 
   return loader ? (
     <Loader />
   ) : (
     <ScrollView showsVerticalScrollIndicator={false}>
-    <SafeAreaView style={Styles.mainView}>
-      <View style={Styles.halfView}>
-        <View>
-          <TextInput
-            style={Styles.refrenceStyle}
-            placeholder={constants.SearchDistrict}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={searchtask}
-            onChangeText={(val) => setSearchTask(val)}
-          />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={() => onsearch()}>
-            <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
-          </TouchableOpacity>
-        </View>
-        {errorMessage ? (
-          <View style={Styles.errorView}>
-            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+      <SafeAreaView style={Styles.mainView}>
+        <View style={Styles.halfView}>
+          <View>
+            <TextInput
+              style={Styles.refrenceStyle}
+              placeholder={constants.SearchDistrict}
+              placeholderTextColor={COLORS.Black}
+              opacity={0.5}
+              value={searchtask}
+              onChangeText={(val) => setSearchTask(val)}
+            />
             <TouchableOpacity
-              style={Styles.searchButton}
-              onPress={onReset}
+              style={Styles.eyeStyle}
+              onPress={() => onsearch()}
             >
-              <Text style={Styles.searchText}>
-                {constants.Reset}
-              </Text>
+              <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
             </TouchableOpacity>
           </View>
+          {errorMessage ? (
+            <View style={Styles.errorView}>
+              <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+              <TouchableOpacity style={Styles.searchButton} onPress={onReset}>
+                <Text style={Styles.searchText}>{constants.Reset}</Text>
+              </TouchableOpacity>
+            </View>
           ) : (
             <ScrollView
               horizontal={true}
@@ -267,10 +268,7 @@ export const SchoolDistrictList = () => {
             {number == 1 ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: '180deg' }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.tramsformStyle} />
             )}
           </TouchableOpacity>
 
@@ -279,10 +277,7 @@ export const SchoolDistrictList = () => {
             disabled={number == maximumNumber ? true : false}
           >
             {number == maximumNumber ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: '180deg' }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.tramsformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}
@@ -337,5 +332,5 @@ export const SchoolDistrictList = () => {
         ) : null}
       </SafeAreaView>
     </ScrollView>
-  )
-}
+  );
+};
