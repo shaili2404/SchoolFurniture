@@ -15,6 +15,7 @@ import { RfH, RfW } from "../utils/helpers";
 import Fonts from "../asset/Fonts";
 import { STANDARD_SCREEN_SIZE } from "../utils/constants";
 import { useNavigation } from "@react-navigation/native";
+import Screen from '../locales/navigationConst'
 
 const EmailSent = () => {
   const navigation = useNavigation();
@@ -25,7 +26,7 @@ const EmailSent = () => {
         <Text style={Styles.emailText}>{constants.EmailSent}</Text>
         <Text style={Styles.emailMsg}>{constants.EmailMsg}</Text>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+      <TouchableOpacity onPress={() => navigation.navigate(Screen.Login_Screen)}>
         <Text style={Styles.BackText}>{constants.BackToLogin}</Text>
       </TouchableOpacity>
     </SafeAreaView>

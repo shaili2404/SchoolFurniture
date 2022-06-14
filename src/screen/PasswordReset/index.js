@@ -11,7 +11,7 @@ import {
   Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
+import Screen from '../../locales/navigationConst'
 import { resetRequest } from "../../redux/actions/resetAction";
 import { LogoImg } from "../../atoms/logo";
 import constants from "../../locales/constants";
@@ -94,7 +94,6 @@ const PasswordReset = () => {
                 placeholderTextColor={COLORS.Black}
                 value={username}
                 onFocus={() => setDefaultState(true)}
-                // onBlur={() => setDefaultState(false)}
                 onChangeText={(username) => onChangeEmail(username)}
                 opacity={defaultState === true ? 1 : 0.5}
               />
@@ -137,7 +136,7 @@ const PasswordReset = () => {
         </KeyboardAvoidingView>
         <TouchableOpacity
           style={style.backContainer}
-          onPress={() => navigation.navigate("LoginScreen")}
+          onPress={() => navigation.navigate(Screen.Login_Screen)}
         >
           <Text style={style.BackText}>{constants.BackToLogin}</Text>
         </TouchableOpacity>
