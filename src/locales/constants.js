@@ -117,8 +117,8 @@ const constants = {
   collectedcount: "Confirm Collected Count",
   AddPhoto: "+Add Photo",
   RemovePhoto: "-Remove",
-  ReparableItem: "Confirm Number Of reparable Furniture Item",
-  ReplanishmentItems: "Number Of Furniture Item To Be Replanished",
+  ReparableItem: "Reparable Count",
+  ReplanishmentItems: "Replanished Count",
   camera: "Camera",
   Photos: "Photos",
   Back: "Back",
@@ -145,7 +145,7 @@ const constants = {
   Delivery_hasDelivered: "The Furniture Items have been Delivered",
   Delivery_hasreadytoDilvered:
     "Tick Here When Furniture Items Are Ready To Delivered",
-  Dilvery_headerDil: "Confirm Number Of Items To Be delivered",
+  Dilvery_headerDil: "Delivered Count",
 
   Status_PendingCollection: "Pending Collection",
   Status_CollectionAccepted: "Collection Accepted",
@@ -210,14 +210,15 @@ const constants = {
   furniture_full_count:"Item Full Count",
   enter_full_count:'Item full Count Is Required',
   Greater_full_count:'Furniture Count Should not Greater than Item Full Count',
-  Replenishment_Approved_item:'Number Of Replenishment Approved Furniture Item',
-  Replenishment_Reject_item:'Number Of Replenishment Rejected Furniture Item',
+  Replenishment_Approved_item:'Replenishment Approved Count',
+  Replenishment_Reject_item:'Replenishment Rejected Count',
   addbrokenfuritem: "+ Add Broken Furniture Item",
   Count :"Count",
   BrokenFurnitureCount: "Broken Furniture Count",
   Sub:'Sub',
   Deliver_Count_Is_Invalid:'Deliver Count Is Invalid',
   Furniture_Depot:'Furniture Depot',
-  Department_of_Education:'Department of Education'
+  Department_of_Education:'Department of Education',
+  updatebrokenfuritem: "+ Update Broken Furniture Item",
 };
 export default constants;

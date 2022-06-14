@@ -38,7 +38,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   crossImg: {
-    marginTop: 10,
+    marginTop: 15,
   },
   NewStyle: {
     fontSize: 14,

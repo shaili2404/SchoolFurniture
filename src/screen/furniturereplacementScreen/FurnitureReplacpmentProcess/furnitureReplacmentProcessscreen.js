@@ -22,7 +22,6 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import { AlertMessage } from "../../../Alert/alert";
@@ -41,6 +40,7 @@ import ModalLoader from "../../../component/ModalLoader";
 import ConstKey from "../../../locales/ApikeyConst";
 import Screen from "../../../locales/navigationConst";
 import ScreenTitle from "../../../locales/ScreenTitle";
+import { ListHeader } from "./ListDisplay/HeaderList";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -524,7 +524,7 @@ export const FurnitureReplacmentProcess = () => {
       : setcheckoboxofDilveryitem(true);
     const ismore = data?.every(
       (ele) =>
-        ele?.repaired_count + ele?.rejected_replenished_count <
+        ele?.repaired_count + ele?.approved_replenished_count <
         ele.deliver_count
     );
     ismore
@@ -566,7 +566,7 @@ export const FurnitureReplacmentProcess = () => {
 
   const HeaderComponent = () => {
     return (
-      <ListHeaderComman tableHeader={tableHeader} lenofContent={lenofContent} />
+      <ListHeader tableHeader={tableHeader} lenofContent={lenofContent} />
     );
   };
 
@@ -1171,7 +1171,7 @@ export const FurnitureReplacmentProcess = () => {
           {flatListData == undefined ? (
             <>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <ListHeaderComman
+                <ListHeader
                   tableHeader={tableHeader}
                   lenofContent={lenofContent}
                 />
