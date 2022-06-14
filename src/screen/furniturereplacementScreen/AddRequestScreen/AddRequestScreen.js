@@ -17,6 +17,7 @@ import Images from "../../../asset/images";
 import Dropdown from "../../../component/DropDown/dropdown";
 import Loader from "../../../component/loader";
 import constants from "../../../locales/constants";
+import Screen from "../../../locales/navigationConst";
 import endUrl from "../../../redux/configration/endUrl";
 import style from "./style";
 
@@ -30,7 +31,6 @@ export const AddFurRequestScreen = () => {
   const [way, setWay] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
   const [prevData, setPrevData] = useState([]);
-  const [count, setCount] = useState("");
   const [item_fullCount, setitem_fullCount] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -56,22 +56,6 @@ export const AddFurRequestScreen = () => {
         setLoader(false);
       });
   };
-
-  useEffect(() => {
-    if (route?.params?.task) {
-      const { task, item, flatListData } = route?.params;
-      setLoader(true);
-      getStockList(item?.category_id, item);
-      setWay(task);
-      setSelectedItem(item);
-      setEditItem(item);
-      setPrevData(flatListData);
-      setLoader(false);
-    } else {
-      getCategoriesList();
-      setPrevData(route?.params?.flatListData);
-    }
-  }, [route]);
 
   const setCategoryValue = (item) => {
     getStockList(item?.id);
@@ -138,7 +122,7 @@ export const AddFurRequestScreen = () => {
           element.count = parseInt(val);
         }
       });
-    } else if (task == "Sub") {
+    } else if (task == constants.Sub) {
       const minusValue = (val -= 1);
       setitem_fullCount(minusValue);
       finalList.filter((element) => {
@@ -154,7 +138,7 @@ export const AddFurRequestScreen = () => {
       finalList.filter((element) => {
         if (element.item_id == item?.item_id) {
           setitem_fullCount("");
-          element.item_full_count = '';
+          element.item_full_count = "";
         }
       });
     } else if (task == constants.add) {
@@ -172,7 +156,7 @@ export const AddFurRequestScreen = () => {
           element.item_full_count = parseInt(val);
         }
       });
-    } else if (task == "Sub") {
+    } else if (task == constants.Sub) {
       const minusValue = (val -= 1);
       setitem_fullCount(minusValue);
       finalList.filter((element) => {
@@ -195,7 +179,7 @@ export const AddFurRequestScreen = () => {
               disabled={item.item_full_count == 1 ? true : false}
               style={style.minusButton}
               onPress={() =>
-                onchangefurcount(item.item_full_count, "Sub", item)
+                onchangefurcount(item.item_full_count, constants.Sub, item)
               }
             >
               <Image source={Images.MinusIcon} />
@@ -223,7 +207,7 @@ export const AddFurRequestScreen = () => {
           <TouchableOpacity
             disabled={item.count == 1 ? true : false}
             style={style.minusButton}
-            onPress={() => setQuantity(item.count, "Sub", item)}
+            onPress={() => setQuantity(item.count, constants.Sub, item)}
           >
             <Image source={Images.MinusIcon} />
           </TouchableOpacity>
@@ -246,8 +230,20 @@ export const AddFurRequestScreen = () => {
   };
 
   useEffect(() => {
-    console.log(finalList);
-  }, [finalList]);
+    if (route?.params?.task) {
+      const { task, item, flatListData } = route?.params;
+      setLoader(true);
+      getStockList(item?.category_id, item);
+      setWay(task);
+      setSelectedItem(item);
+      setEditItem(item);
+      setPrevData(flatListData);
+      setLoader(false);
+    } else {
+      getCategoriesList();
+      setPrevData(route?.params?.flatListData);
+    }
+  }, [route]);
 
   const onPressNext = () => {
     const isGreaterThanZero = finalList?.every(
@@ -272,13 +268,13 @@ export const AddFurRequestScreen = () => {
             });
           }
 
-          navigation.navigate("FurnitureReplacmentProcess", {
+          navigation.navigate(Screen.Furniture_Replacment_Process, {
             finalList: uniqueArr,
             screen: route?.params?.screen,
             id: route?.params?.id,
           });
         } else {
-          navigation.navigate("FurnitureReplacmentProcess", {
+          navigation.navigate(Screen.Furniture_Replacment_Process, {
             finalList: finalList,
             screen: route?.params?.screen,
             id: route?.params?.id,
@@ -296,7 +292,7 @@ export const AddFurRequestScreen = () => {
           }
         });
 
-        navigation.navigate("FurnitureReplacmentProcess", {
+        navigation.navigate(Screen.Furniture_Replacment_Process, {
           finalList: prevData,
           screen: route?.params?.screen,
           id: route?.params?.id,
@@ -326,10 +322,10 @@ export const AddFurRequestScreen = () => {
           style={style.crossImg}
           onPress={() => {
             way == constants.Edit
-              ? navigation.navigate("FurnitureReplacmentProcess", {
+              ? navigation.navigate(Screen.Furniture_Replacment_Process, {
                   finalList: finalList,
                 })
-              : navigation.navigate("FurnitureReplacmentProcess");
+              : navigation.navigate(Screen.Furniture_Replacment_Process);
           }}
         >
           <Image source={Images.closeimage} />

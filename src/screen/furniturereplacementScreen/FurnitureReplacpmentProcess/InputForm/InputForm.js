@@ -15,23 +15,22 @@ export const InputForm = ({
   stockcount,
   onvalueEdit,
   totalFur,
-  task
+  task,
 }) => {
   const [defaultState, setDefaultState] = useState(true);
-  const [inputValues, setInputValues] = task == constants.ManageReqText ? useState(totalFur) : useState("");
-  const [totalFurCount,setTotalFurCOunt] = useState(totalFur)
+  const [inputValues, setInputValues] =
+    task == constants.ManageReqText ? useState(totalFur) : useState("");
+  const [totalFurCount, setTotalFurCOunt] = useState(totalFur);
 
   const onValueChange = (val) => {
     if (val <= 0) {
       setInputValues("");
-      setTotalFurCOunt('')
+      setTotalFurCOunt("");
       onvalueEdit(val);
     } else {
       setInputValues(val);
-      setTotalFurCOunt(val)
+      setTotalFurCOunt(val);
       onvalueEdit(val);
-     
-
     }
   };
 
@@ -78,7 +77,13 @@ export const InputForm = ({
           placeholder={defaultState === true ? "" : { stockcollectionName }}
           placeholderTextColor={COLORS.Black}
           opacity={defaultState === true ? 1 : 0.5}
-          value={org == constants.school ? task == constants.ManageReqText? String(totalFurCount) : inputValues : String(stockcount)}
+          value={
+            org == constants.school
+              ? task == constants.ManageReqText
+                ? String(totalFurCount)
+                : inputValues
+              : String(stockcount)
+          }
           editable={org == constants.school ? true : false}
           onChangeText={(val) => onValueChange(val)}
           keyboardType="numeric"

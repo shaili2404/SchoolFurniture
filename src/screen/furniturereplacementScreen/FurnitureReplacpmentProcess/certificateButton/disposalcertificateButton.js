@@ -98,13 +98,7 @@ export const DisposalCertificateButton = ({
                 {checkBoxStatus ? (
                   <Image
                     source={Images.rightIcon}
-                    style={{
-                      height: 15,
-                      width: 15,
-                      alignSelf: "center",
-                      position: "absolute",
-                      top: 4,
-                    }}
+                    style={style.checkboxRightStyle}
                   />
                 ) : (
                   false

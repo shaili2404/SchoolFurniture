@@ -63,4 +63,11 @@ export default StyleSheet.create({
     position: "absolute",
     top: 4,
   },
+  checkboxRightStyle: {
+    height: 15,
+    width: 15,
+    alignSelf: "center",
+    position: "absolute",
+    top: 4,
+  },
 });

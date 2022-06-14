@@ -7,7 +7,6 @@ import {
   Text,
   ScrollView,
   FlatList,
-  Image,
   KeyboardAvoidingView,
   Alert,
   TouchableOpacity,
@@ -31,7 +30,6 @@ import AlertText from "../../../Alert/AlertText";
 import Loader from "../../../component/loader";
 import { DisplayList } from "./ListDisplay/displayList";
 import ImagePickerModal from "../../../component/imagePickerModal";
-import Images from "../../../asset/images";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
 import ShowImages from "../../../component/showImages";
 import { Baseurl } from "../../../redux/configration/baseurl";
@@ -40,6 +38,9 @@ import { DisposalCertificateButton } from "./certificateButton/disposalcertifica
 import { DisposalDIlveryButton } from "./certificateButton/disposalDilveryButton";
 import DocumentPicker from "react-native-document-picker";
 import ModalLoader from "../../../component/ModalLoader";
+import ConstKey from "../../../locales/ApikeyConst";
+import Screen from "../../../locales/navigationConst";
+import ScreenTitle from "../../../locales/ScreenTitle";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -180,7 +181,7 @@ export const FurnitureReplacmentProcess = () => {
         constants.collectioncount,
         constants.collectedcount,
       ]);
-      setTableKey((oldData) => [...oldData, "confirmed_count"]);
+      setTableKey((oldData) => [...oldData, ConstKey.confirmed_count]);
       setFlatListData(route?.params?.broken_items);
       setLoader(false);
     } else if (task == constants.Status_RepairCompleted) {
@@ -205,11 +206,11 @@ export const FurnitureReplacmentProcess = () => {
 
       setTableKey((oldData) => [
         ...oldData,
-        "confirmed_count",
-        "repaired_count",
-        "replenished_count",
-        "approved_replenished_count",
-        "rejected_replenished_count",
+        ConstKey.confirmed_count,
+        ConstKey.repaired_count,
+        ConstKey.replenished_count,
+        ConstKey.approved_replenished_count,
+        ConstKey.rejected_replenished_count,
       ]);
       setlenofContent("More");
       setFlatListData(route?.params?.broken_items);
@@ -242,14 +243,14 @@ export const FurnitureReplacmentProcess = () => {
 
       setTableKey((oldData) => [
         ...oldData,
-        "confirmed_count",
-        "repaired_count",
-        "replenished_count",
-        "approved_replenished_count",
-        "rejected_replenished_count",
+        ConstKey.confirmed_count,
+        ConstKey.repaired_count,
+        ConstKey.replenished_count,
+        ConstKey.approved_replenished_count,
+        ConstKey.rejected_replenished_count,
       ]);
 
-      setTableKey((oldData) => [...oldData, "delivered_count"]);
+      setTableKey((oldData) => [...oldData, ConstKey.delivered_count]);
 
       setlenofContent("More");
       setFlatListData(route?.params?.broken_items);
@@ -285,7 +286,7 @@ export const FurnitureReplacmentProcess = () => {
     setOnetasksection(constants.collectFurnitureRequest);
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
-    setTableKey((oldData) => [...oldData, "collectionCount"]);
+    setTableKey((oldData) => [...oldData, ConstKey.collectionCount]);
     setFlatListData(broken_items);
     setLoader(false);
   };
@@ -301,22 +302,22 @@ export const FurnitureReplacmentProcess = () => {
       constants.ReparableItem,
       constants.ReplanishmentItems,
     ]);
-    setTableKey((oldData) => [...oldData, "confirmed_count"]);
+    setTableKey((oldData) => [...oldData, ConstKey.confirmed_count]);
     setTableKey((oldData) =>
       replenishment_status == null
-        ? [...oldData, "reparableitem"]
-        : [...oldData, "repaired_count"]
+        ? [...oldData, ConstKey.reparableitem]
+        : [...oldData, ConstKey.repaired_count]
     );
     setTableKey((oldData) =>
       replenishment_status == null
-        ? [...oldData, "replanishitem"]
-        : [...oldData, "replenished_count"]
+        ? [...oldData, ConstKey.replanishitem]
+        : [...oldData, ConstKey.replenished_count]
     );
     if (replenishment_status == 1) {
       setTableKey((oldData) => [
         ...oldData,
-        "Approved_Items",
-        "Rejected_Items",
+        ConstKey.Approved_Items,
+        ConstKey.Rejected_Items,
       ]);
       setTableHeader((oldData) => [
         ...oldData,
@@ -326,8 +327,8 @@ export const FurnitureReplacmentProcess = () => {
     } else if (replenishment_status == 2 || replenishment_status == 3) {
       setTableKey((oldData) => [
         ...oldData,
-        "approved_replenished_count",
-        "rejected_replenished_count",
+        ConstKey.approved_replenished_count,
+        ConstKey.rejected_replenished_count,
       ]);
       setTableHeader((oldData) => [
         ...oldData,
@@ -358,13 +359,13 @@ export const FurnitureReplacmentProcess = () => {
 
     setTableKey((oldData) => [
       ...oldData,
-      "confirmed_count",
-      "repaired_count",
-      "replenished_count",
-      "approved_replenished_count",
-      "rejected_replenished_count",
+      ConstKey.confirmed_count,
+      ConstKey.repaired_count,
+      ConstKey.replenished_count,
+      ConstKey.approved_replenished_count,
+      ConstKey.rejected_replenished_count,
     ]);
-    setTableKey((oldData) => [...oldData, "deliveritem"]);
+    setTableKey((oldData) => [...oldData, ConstKey.deliveritem]);
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -389,14 +390,14 @@ export const FurnitureReplacmentProcess = () => {
 
     setTableKey((oldData) => [
       ...oldData,
-      "confirmed_count",
-      "repaired_count",
-      "replenished_count",
-      "approved_replenished_count",
-      "rejected_replenished_count",
+      ConstKey.confirmed_count,
+      ConstKey.repaired_count,
+      ConstKey.replenished_count,
+      ConstKey.approved_replenished_count,
+      ConstKey.rejected_replenished_count,
     ]);
 
-    setTableKey((oldData) => [...oldData, "delivered_count"]);
+    setTableKey((oldData) => [...oldData, ConstKey.delivered_count]);
     setlenofContent("More");
     setFlatListData(broken_items);
     setLoader(false);
@@ -421,12 +422,12 @@ export const FurnitureReplacmentProcess = () => {
 
     setTableKey((oldData) => [
       ...oldData,
-      "confirmed_count",
-      "repaired_count",
-      "replenished_count",
-      "approved_replenished_count",
-      "rejected_replenished_count",
-      "delivered_count",
+      ConstKey.confirmed_count,
+      ConstKey.repaired_count,
+      ConstKey.replenished_count,
+      ConstKey.approved_replenished_count,
+      ConstKey.rejected_replenished_count,
+      ConstKey.delivered_count,
     ]);
     setlenofContent("More");
     setFlatListData(broken_items);
@@ -448,10 +449,10 @@ export const FurnitureReplacmentProcess = () => {
   }, [tableHeader, isFocused]);
 
   const [tableKey, setTableKey] = useState([
-    "category_name",
-    "item_name",
-    "item_full_count",
-    "count",
+    ConstKey.category_name,
+    ConstKey.item_name,
+    ConstKey.item_full_count,
+    ConstKey.count,
   ]);
 
   const [tableHeader, setTableHeader] =
@@ -518,18 +519,23 @@ export const FurnitureReplacmentProcess = () => {
   };
   const onsubmitDilverdetails = (data) => {
     const isGreaterThanZero = data?.every((ele) => ele?.deliver_count == 0);
-    isGreaterThanZero ? setcheckoboxofDilveryitem(false) : setcheckoboxofDilveryitem(true);
+    isGreaterThanZero
+      ? setcheckoboxofDilveryitem(false)
+      : setcheckoboxofDilveryitem(true);
     const ismore = data?.every(
       (ele) =>
-        ele?.repaired_count + ele?.rejected_replenished_count >
+        ele?.repaired_count + ele?.rejected_replenished_count <
         ele.deliver_count
     );
-    ismore ? setErrorMessage("Deliver Count Is Invalid") : setErrorMessage("");
+    ismore
+      ? setErrorMessage("")
+      : setErrorMessage(constants.Deliver_Count_Is_Invalid);
+      console.log(errorMessage)
     setConfirmCollectedCount(data);
   };
 
   const onEdit = (item, task) => {
-    navigation.navigate("AddRequestFur", {
+    navigation.navigate(Screen.Add_Request_Fur, {
       item: item,
       task: task,
       flatListData: flatListData,
@@ -624,7 +630,7 @@ export const FurnitureReplacmentProcess = () => {
         filename: name,
       });
     });
-    body.append("ref_number", ref_number);
+    body.append(ConstKey.ref_number, ref_number);
     const uploadImg = async () => {
       try {
         let response = await fetch(url, {
@@ -709,7 +715,7 @@ export const FurnitureReplacmentProcess = () => {
     for (const [key, value] of Object.entries(obj)) {
       body.append(`confirm_count[${key}]`, `${value}`);
     }
-    body.append("ref_number", ref_number);
+    body.append(ConstKey.ref_number, ref_number);
 
     const uploadImg = async () => {
       try {
@@ -799,16 +805,16 @@ export const FurnitureReplacmentProcess = () => {
       route?.params?.task == constants.ManageReqText
     ) {
       seterrorAlert(false);
-      navigation.navigate("ManageRequests");
+      navigation.navigate(Screen.Manage_Requests);
     } else {
       seterrorAlert(false);
-      navigation.navigate("Furniture Replacment");
+      navigation.navigate(Screen.Furniture_Replacment);
     }
   };
 
   const onPressYesCancel = () => {
     setCancelProcessalert(false);
-    navigation.navigate("Furniture Replacment");
+    navigation.navigate(Screen.Furniture_Replacment);
   };
 
   const onTransactionList = () => {
@@ -820,7 +826,7 @@ export const FurnitureReplacmentProcess = () => {
     setTaskNameButtonValue(constants.Accepted);
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
-    setTableKey((oldData) => [...oldData, "collectionCount"]);
+    setTableKey((oldData) => [...oldData, ConstKey.collectionCount]);
     axios
       .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
       .then((res) => {})
@@ -895,7 +901,11 @@ export const FurnitureReplacmentProcess = () => {
       constants.Replenishment_Reject_item,
     ]);
 
-    setTableKey((oldData) => [...oldData, "Approved_Items", "Rejected_Items"]);
+    setTableKey((oldData) => [
+      ...oldData,
+      ConstKey.Approved_Items,
+      ConstKey.Rejected_Items,
+    ]);
     if (replenishment_status !== null) {
       flatListData.map((ele) => {
         ele.replenish_count = ele.replenished_count;
@@ -929,8 +939,7 @@ export const FurnitureReplacmentProcess = () => {
         filename: name,
       });
     });
-    body.append("ref_number", ref_number);
-    // body.append("replenishment_status", selected?.id);
+    body.append(ConstKey.ref_number, ref_number);
 
     body.append("accept_array", JSON.stringify(confirmCollectedCount));
 
@@ -963,7 +972,6 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onUploadreplanisNote = async () => {
-    console.log("hey");
     try {
       const result = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
@@ -1041,7 +1049,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   useLayoutEffect(() => {
-    const title = "Furniture Replacement Process";
+    const title = ScreenTitle.Furniture_Replacement_Process;
     navigation.setOptions({ title });
   }, []);
 
@@ -1107,7 +1115,7 @@ export const FurnitureReplacmentProcess = () => {
               <View style={styles.addplusView}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("AddRequestFur", {
+                    navigation.navigate(Screen.Add_Request_Fur, {
                       flatListData: flatListData,
                       screen:
                         route?.params?.screen == constants.ManageReqText ||

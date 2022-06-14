@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import COLORS from "../../../../asset/color";
 import Images from "../../../../asset/images";
-import Dropdown from "../../../../component/DropDown/dropdown";
 import constants from "../../../../locales/constants";
 import style from "./style";
 
@@ -105,13 +104,7 @@ export const DisposalDIlveryButton = ({
                   {checkBoxStatus2 ? (
                     <Image
                       source={Images.rightIcon}
-                      style={{
-                        height: 15,
-                        width: 15,
-                        alignSelf: "center",
-                        position: "absolute",
-                        top: 4,
-                      }}
+                      style={style.checkboxRightStyle}
                     />
                   ) : (
                     false

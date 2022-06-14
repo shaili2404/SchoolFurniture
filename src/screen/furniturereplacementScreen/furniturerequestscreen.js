@@ -14,11 +14,7 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./styles";
-import {
-  useIsFocused,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
@@ -27,17 +23,12 @@ import endUrl from "../../redux/configration/endUrl";
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
-
-const PAGESIZE = 6;
+import Screen from "../../locales/navigationConst";
+import ConstKey from "../../locales/ApikeyConst";
+import ScreenTitle from "../../locales/ScreenTitle";
 
 export const FurnitureReplacmentManfacturer = () => {
   const isFocused = useIsFocused();
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -65,14 +56,29 @@ export const FurnitureReplacmentManfacturer = () => {
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
+
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
-  useEffect(() => {
-    if (startDate.getTime() > endDate.getTime())
-      setDateErrorMessage(AlertText.DateError);
-    else setDateErrorMessage("");
-  }, [startDate, endDate]);
+
+  const tableHeader = [
+    constants.schoolName,
+    constants.dateCreated,
+    constants.refrenceNo,
+    constants.status,
+    constants.emis,
+    constants.totalFurnitureCount,
+  ];
+
+  const tableKey = [
+    ConstKey.school_name,
+    ConstKey.created_at,
+    ConstKey.ref_number,
+    ConstKey.status,
+    ConstKey.emis,
+    ConstKey.total_furniture,
+  ];
+
   const onsearch = () => {
     setSearchStatus(false);
     let strtDte = `${startDate?.getFullYear()}-${
@@ -82,11 +88,11 @@ export const FurnitureReplacmentManfacturer = () => {
       endDate?.getMonth() + 1
     }-${endDate.getDate()}`;
     let str = "";
-    if (!validation(refnumber)) str += `ref_number=${refnumber}&`;
-    if (startDateStatus == false) str += `start_date=${strtDte}&`;
-    if (enddateStatus == false) str += `end_date=${endDte}&`;
-    if (!validation(emisNumber)) str += `emis=${emisNumber}&`;
-    if (select?.id) str += `status_id=${select?.id}&`;
+    if (!validation(refnumber)) str += `${ConstKey.ref_number}=${refnumber}&`;
+    if (startDateStatus == false) str += `${ConstKey.start_date}=${strtDte}&`;
+    if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&`;
+    if (!validation(emisNumber)) str += `${ConstKey.emis}=${emisNumber}&`;
+    if (select?.id) str += `${ConstKey.status_id}=${select?.id}&`;
     setLoader(true);
     console.log(str);
     axios.defaults.headers.common["Content-Type"] = "application/json";
@@ -101,11 +107,13 @@ export const FurnitureReplacmentManfacturer = () => {
         setErrorMessage(e?.response?.data?.message);
       });
   };
+
   const onsuccessapi = (res) => {
     setCollectionList(res?.data?.data?.records);
     setmaximunNumber(res?.data?.data?.total_page);
     setLoader(false);
   };
+
   const onerrorapi = (e) => {
     setLoader(false);
   };
@@ -117,23 +125,14 @@ export const FurnitureReplacmentManfacturer = () => {
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
+
   const getstatusList = () => {
     setLoader(true);
     axios
       .get(`${endUrl.statusList}`)
       .then((res) => setDropData(res?.data?.data))
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
-
-  useLayoutEffect(() => {
-    const title = "Furniture Replacement";
-    navigation.setOptions({ title });
-  }, []);
-
-  useEffect(() => {
-    getCollectionRequest();
-    getstatusList();
-  }, [isFocused]);
 
   const onNext = () => {
     let count = number + 1;
@@ -164,6 +163,16 @@ export const FurnitureReplacmentManfacturer = () => {
     setSelect({});
   };
 
+  useLayoutEffect(() => {
+    const title = ScreenTitle.Furniture_Replacement;
+    navigation.setOptions({ title });
+  }, []);
+
+  useEffect(() => {
+    getCollectionRequest();
+    getstatusList();
+  }, [isFocused]);
+
   useEffect(() => {
     if (refnumber == "") {
       getCollectionRequest();
@@ -171,26 +180,18 @@ export const FurnitureReplacmentManfacturer = () => {
     }
   }, [refnumber]);
 
-  const tableHeader = [
-    constants.schoolName,
-    constants.dateCreated,
-    constants.refrenceNo,
-    constants.status,
-    constants.emis,
-    constants.totalFurnitureCount,
-  ];
-  const tableKey = [
-    "school_name",
-    "created_at",
-    "ref_number",
-    "status",
-    "emis",
-    "total_furniture",
-  ];
+  useEffect(() => {
+    if (startDate.getTime() > endDate.getTime())
+      setDateErrorMessage(AlertText.DateError);
+    else setDateErrorMessage("");
+  }, [startDate, endDate]);
+
   const rendercomponent = ({ item }) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("FurnitureReplacmentProcess", item)}
+        onPress={() =>
+          navigation.navigate(Screen.Furniture_Replacment_Process, item)
+        }
       >
         <DataDisplayList
           tableKey={tableKey}
@@ -321,7 +322,7 @@ export const FurnitureReplacmentManfacturer = () => {
             <View style={Styles.plusView}>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate("FurnitureReplacmentProcess")
+                  navigation.navigate(Screen.Furniture_Replacment_Process)
                 }
                 style={Styles.buttonStyle}
               >
@@ -360,7 +361,7 @@ export const FurnitureReplacmentManfacturer = () => {
               ) : (
                 <Image
                   source={Images.rightarrow}
-                  style={{ transform: [{ rotate: "180deg" }] }}
+                  style={Styles.transformStyle}
                 />
               )}
             </TouchableOpacity>
@@ -372,7 +373,7 @@ export const FurnitureReplacmentManfacturer = () => {
               {number == maximumNumber ? (
                 <Image
                   source={Images.leftarrow}
-                  style={{ transform: [{ rotate: "180deg" }] }}
+                  style={Styles.transformStyle}
                 />
               ) : (
                 <Image source={Images.rightarrow} />
@@ -380,7 +381,7 @@ export const FurnitureReplacmentManfacturer = () => {
             </TouchableOpacity>
           </View>
         ) : null}
-        <View style={{ height: 70 }} />
+        <View style={Styles.lastViewStyle} />
       </ScrollView>
     </SafeAreaView>
   );

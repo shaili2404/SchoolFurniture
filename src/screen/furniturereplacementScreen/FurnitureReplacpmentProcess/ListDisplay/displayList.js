@@ -16,6 +16,7 @@ import constants from "../../../../locales/constants";
 import { AddUserModal } from "../../../../locales/constants";
 import Fonts from "../../../../asset/Fonts";
 import { RfW } from "../../../../utils/helpers";
+import ConstKey from "../../../../locales/ApikeyConst";
 
 export const DisplayList = ({
   item,
@@ -118,8 +119,7 @@ export const DisplayList = ({
   };
   const onchangedeliver = (val) => {
     let Confirm_cnt;
-    if (val > item.confirmed_count ) Confirm_cnt = item.confirmed_count;
-    // else if (val < item.repaired_count + item.rejected_replenished_count) Confirm_cnt = item.repaired_count + item.rejected_replenished_count
+    if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
     else Confirm_cnt = val;
     setDeliverCount(Confirm_cnt);
     flatListData.map((element) => {
@@ -143,46 +143,52 @@ export const DisplayList = ({
             <View key={val} style={Styles.viewStyle}>
               {pageStatus == constants.Status_pendingRepair ? (
                 <>
-                  {val == "reparableitem" || val == "replanishitem" ? (
+                  {val == ConstKey.reparableitem ||
+                  val == ConstKey.replanishitem ? (
                     <TextInput
                       placeholder={
-                        val == "replanishitem" ? "" : constants.Enterval
+                        val == ConstKey.replanishitem ? "" : constants.Enterval
                       }
                       placeholderTextColor={COLORS.Black}
                       style={
-                        val == "replanishitem"
+                        val == ConstKey.replanishitem
                           ? Styles.grayinputStyles
                           : Styles.inputStyles
                       }
                       onChangeText={(value) => onchangereparableval(value)}
                       value={
-                        val == "replanishitem"
+                        val == ConstKey.replanishitem
                           ? String(repItem)
                           : String(reparable)
                       }
-                      editable={val == "replanishitem" ? false : true}
+                      editable={val == ConstKey.replanishitem ? false : true}
                       keyboardType="numeric"
                     />
                   ) : (
                     <>
-                      {val == "Approved_Items" || val == "Rejected_Items" ? (
+                      {val == ConstKey.Approved_Items ||
+                      val == ConstKey.Rejected_Items ? (
                         <TextInput
                           placeholder={
-                            val == "replanishitem" ? "" : constants.Enterval
+                            val == ConstKey.replanishitem
+                              ? ""
+                              : constants.Enterval
                           }
                           placeholderTextColor={COLORS.Black}
                           style={
-                            val == "Rejected_Items"
+                            val == ConstKey.Rejected_Items
                               ? Styles.grayinputStyles
                               : Styles.inputStyles
                           }
                           onChangeText={(value) => onApprovedRejectQty(value)}
                           value={
-                            val == "Rejected_Items"
+                            val == ConstKey.Rejected_Items
                               ? String(reparable_Reject)
                               : String(reparable_Aprroved)
                           }
-                          editable={val == "Rejected_Items" ? false : true}
+                          editable={
+                            val == ConstKey.Rejected_Items ? false : true
+                          }
                           keyboardType="numeric"
                         />
                       ) : (
@@ -195,7 +201,7 @@ export const DisplayList = ({
                 <>
                   {pageStatus == constants.Status_RepairCompleted ? (
                     <>
-                      {val == "deliveritem" ? (
+                      {val == ConstKey.deliveritem ? (
                         <TextInput
                           placeholder={constants.Enterval}
                           placeholderTextColor={COLORS.Black}
@@ -210,7 +216,7 @@ export const DisplayList = ({
                     </>
                   ) : (
                     <>
-                      {val == "collectionCount" ? (
+                      {val == ConstKey.collectionCount ? (
                         <TextInput
                           placeholder={constants.Enterval}
                           placeholderTextColor={COLORS.Black}

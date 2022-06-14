@@ -172,8 +172,6 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     width: "30%",
     marginTop: 10,
-    // position: "absolute",
-    // bottom: 130,
     alignSelf: "center",
   },
   lastViews: {
@@ -188,8 +186,6 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     width: "95%",
-    // position: "absolute",
-    // bottom: Platform.OS === 'android'? 25 : 25,
   },
   container: {
     borderRadius: 5,
@@ -217,4 +213,10 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+  transformStyle:{
+    transform:[{
+      rotate:'180deg'
+    }]
+  },
+  lastViewStyle:{ height: 70 }
 });

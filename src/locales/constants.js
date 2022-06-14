@@ -215,5 +215,7 @@ const constants = {
   addbrokenfuritem: "+ Add Broken Furniture Item",
   Count :"Count",
   BrokenFurnitureCount: "Broken Furniture Count",
+  Sub:'Sub',
+  Deliver_Count_Is_Invalid:'Deliver Count Is Invalid'
 };
 export default constants;
