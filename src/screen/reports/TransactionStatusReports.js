@@ -206,6 +206,9 @@ export const TransactionStatusReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.Transaction_Status,
+    constants.Evidence_Proof,
+    constants.Replenishment_Proof,
+    constants.Delivery_Note
   ];
 
   const tableKey = [
@@ -215,6 +218,9 @@ export const TransactionStatusReports = () => {
     "ref_number",
     "transaction_date",
     "transaction_status",
+    "Evidence_Proof",
+    "Replenishment_Proof",
+    "Delivery_Note"
   ];
   const rendercomponent = ({ item }) => {
     return (

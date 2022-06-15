@@ -36,7 +36,12 @@ export const DataDisplayList = ({
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
   const [address1, setAddress1] = useState("");
-  const [level, setLevel] = item?.level_id == 1 ? useState("P") : item?.level_id == 2?  useState("S") : useState("C")  ;
+  const [level, setLevel] =
+    item?.level_id == 1
+      ? useState("P")
+      : item?.level_id == 2
+      ? useState("S")
+      : useState("C");
   const [errorMsg, setErrorMsg] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
@@ -64,10 +69,8 @@ export const DataDisplayList = ({
     setAlert(false);
     try {
       const response = await axios.delete(`${link}/${item.id}`);
-      if (response.status === 200) 
-         reloadList();
-      else
-        reloadList();
+      if (response.status === 200) reloadList();
+      else reloadList();
     } catch (e) {
       setMainMsg(e?.response?.data?.message);
       setSubMsg(e?.response?.data?.data);
@@ -96,32 +99,50 @@ export const DataDisplayList = ({
             <View
               key={val}
               style={List === "screen" ? Styles.screenStyle : Styles.viewStyle}
-              key={index}
             >
               {val === "level_id" && page === constants.School ? (
                 <Text style={Styles.textStyle} numberOfLines={1}>
                   {level}
                 </Text>
               ) : (
-                <Text style={Styles.textStyle}>{item[val]}</Text>
+                <>
+                  {val == "Evidence_Proof" ? (
+                    <TouchableOpacity style={Styles.downloadButton}>
+                      <Text style={Styles.searchText}>{constants.preview}</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <>
+                      {val == "Replenishment_Proof" ||
+                      val == "Delivery_Note" ? (
+                        <TouchableOpacity style={Styles.downloadButton}>
+                          <Text style={Styles.searchText}>
+                            {constants.download}
+                          </Text>
+                        </TouchableOpacity>
+                      ) : (
+                        <Text style={Styles.textStyle}>{item[val]}</Text>
+                      )}
+                    </>
+                  )}
+                </>
               )}
             </View>
           ))}
-       
-              {permissionId.userEdit && (
-                <View style={Styles.viewsssStyle}>
-                  <TouchableOpacity onPress={() => onEdit(item, constants.Edit)}>
-                    <Image source={Images.editIcon} />
-                  </TouchableOpacity>
-                </View>
-              )}
-              {permissionId.userDelete && (
-                <View style={Styles.viewsssStyle}>
-                  <TouchableOpacity onPress={()=>onDelete(item)}>
-                    <Image source={Images.deleteIcon} />
-                  </TouchableOpacity>
-                </View>
-              )}
+
+          {permissionId.userEdit && (
+            <View style={Styles.viewsssStyle}>
+              <TouchableOpacity onPress={() => onEdit(item, constants.Edit)}>
+                <Image source={Images.editIcon} />
+              </TouchableOpacity>
+            </View>
+          )}
+          {permissionId.userDelete && (
+            <View style={Styles.viewsssStyle}>
+              <TouchableOpacity onPress={() => onDelete(item)}>
+                <Image source={Images.deleteIcon} />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       )}
 
@@ -168,7 +189,7 @@ const Styles = StyleSheet.create({
   mainView: {
     flexDirection: "row",
     width: "100%",
-    height:RfH(50)
+    height: RfH(50),
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
@@ -180,7 +201,6 @@ const Styles = StyleSheet.create({
     width: RfW(180),
     marginTop: RfH(12),
     marginHorizontal: 20,
- 
   },
   viewsssStyle: {
     width: 20,
@@ -190,6 +210,20 @@ const Styles = StyleSheet.create({
   screenStyle: {
     width: "30%",
     marginHorizontal: 4,
-    justifyContent:'center'
+    justifyContent: "center",
+  },
+  downloadButton: {
+    backgroundColor: COLORS.GreenBox,
+    borderRadius: 5,
+    width: 90,
+    height: 30,
+    justifyContent: "center",
+  },
+  searchText: {
+    color: COLORS.White,
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontWeight: "normal",
+    fontSize: 16,
   },
 });

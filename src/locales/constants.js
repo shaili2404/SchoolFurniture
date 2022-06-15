@@ -220,5 +220,9 @@ const constants = {
   Furniture_Depot:'Furniture Depot',
   Department_of_Education:'Department of Education',
   updatebrokenfuritem: "+ Update Broken Furniture Item",
+  preview: "Preview",
+  Evidence_Proof:'Evidence Proof',
+  Replenishment_Proof:'Replenishment Proof',
+  Delivery_Note:'Delivery Note'
 };
 export default constants;
