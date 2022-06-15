@@ -110,18 +110,16 @@ export const GraphChart = () => {
           data={sampleData}
         />
         <VictoryAxis
-         dependentAxis
+          dependentAxis
           style={{
-             ticks: { stroke: "transparent" },
+            ticks: { stroke: "transparent" },
           }}
         />
-         <VictoryAxis
+        <VictoryAxis
           style={{
-            //  ticks: { stroke: "transparent" },
             tickLabels: { fill: "transparent" },
           }}
         />
-
       </VictoryChart>
       <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
         <View>
