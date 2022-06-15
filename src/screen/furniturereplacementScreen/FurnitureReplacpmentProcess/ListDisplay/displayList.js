@@ -303,7 +303,7 @@ const Styles = StyleSheet.create({
     borderBottomWidth: 0.4,
   },
   viewStyle: {
-    width: RfW(180),
+    width: RfW(110),
     alignSelf: "center",
     marginHorizontal: 20,
   },

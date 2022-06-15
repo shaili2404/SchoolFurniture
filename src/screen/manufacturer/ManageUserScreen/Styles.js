@@ -96,4 +96,5 @@ export default StyleSheet.create({
     fontWeight: "normal",
     fontSize: 16,
   },
+  transformStyle:{ transform: [{ rotate: '180deg' }] }
 });

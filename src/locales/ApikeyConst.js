@@ -37,7 +37,16 @@ const ConstKey = {
     snq_id:'snq_id',
     school_principal:'school_principal',
     tel:'tel',
-    street_code:'street_code'
+    street_code:'street_code',
+    surname:'surname',
+    username:'username',
+    email:'email',
+    organization:'organization',
+    director:'director',
+    address1:'address1',
+    address2:'address2',
+    address3:'address3',
+    address4:'address4'
 
   };
   export default ConstKey;

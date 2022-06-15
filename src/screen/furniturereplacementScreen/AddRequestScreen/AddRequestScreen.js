@@ -316,7 +316,7 @@ export const AddFurRequestScreen = () => {
     <SafeAreaView style={style.mainView}>
       <View style={style.subview}>
         <Text style={style.createNewStyle}>
-          {way == constants.Edit ? constants.Editreq : constants.createNewReq}
+          {way == constants.Edit ? constants.updatebrokenfuritem : constants.addbrokenfuritem}
         </Text>
         <TouchableOpacity
           style={style.crossImg}

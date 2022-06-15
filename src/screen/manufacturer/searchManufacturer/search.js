@@ -13,26 +13,23 @@ import {
 import styles from "./Styles";
 import COLORS from "../../../asset/color";
 import Images from "../../../asset/images";
-
-import constants from "../../../locales/constants";
-import axios from "axios";
-import endUrl from "../../../redux/configration/endUrl";
-import { useSelector } from "react-redux";
-import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
-import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
-import Loader from "../../../component/loader";
-import AlertText from "../../../Alert/AlertText";
-import { useNavigation } from "@react-navigation/native";
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button";
+import constants from "../../../locales/constants";
+import axios from "axios";
+import endUrl from "../../../redux/configration/endUrl";
+import { DataDisplayList } from "../../../component/manufacturer/displayListComman";
+import { ListHeaderComman } from "../../../component/manufacturer/ListHeaderComman";
+import Loader from "../../../component/loader";
+import AlertText from "../../../Alert/AlertText";
 import DatePicker from "react-native-date-picker";
+import ConstKey from "../../../locales/ApikeyConst";
 
 export const Search = () => {
   const [listData, setListData] = useState([]);
-  const loginData = useSelector((state) => state?.loginData);
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
   const [radioParam, setRadioParam] = useState([
@@ -44,20 +41,11 @@ export const Search = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [close, setCLose] = useState(false);
-  const [status, setStatus] = useState(false);
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
-  const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
-  const navigation = useNavigation();
   const [prevpage, setprevpage] = useState("");
   const [nextPage, setnextpage] = useState("");
-  const [pagination, setPagination] = useState({
-    currentPage: 0,
-    totalPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-  });
   const [permissionId, setPermissionId] = useState({
     userList: false,
     userCreate: false,
@@ -65,17 +53,16 @@ export const Search = () => {
     userDelete: false,
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const [permissionArr, setpermissionArr] = useState([]);
   const [searchStatus, setSearchStatus] = useState(true);
 
   const tableKey = [
-    "school_name",
-    "emis",
-    "ref_number",
-    "created_at",
-    "category_name",
-    "count",
-    "status",
+    ConstKey.school_name,
+    ConstKey.emis,
+    ConstKey.ref_number,
+    ConstKey.ref_number,
+    ConstKey.category_name,
+    ConstKey.count,
+    ConstKey.status,
   ];
 
   const tableHeader = [
@@ -89,51 +76,20 @@ export const Search = () => {
   ];
 
   const addArray = [
-    { key: "district_office", value: constants.DistrictOffice },
-    { key: "director", value: constants.Director },
-    { key: "tel", value: constants.TelphoneNo },
-    { key: "address1", value: constants.Address1 },
-    { key: "address2", value: constants.Address2 },
-    { key: "address3", value: constants.Address3 },
-    { key: "address4", value: constants.Address4 },
-    { key: "street_code", value: constants.streetCode },
+    { key: ConstKey.district_office, value: constants.DistrictOffice },
+    { key: ConstKey.director, value: constants.Director },
+    { key: ConstKey.tel, value: constants.TelphoneNo },
+    { key: ConstKey.address1, value: constants.Address1 },
+    { key: ConstKey.address2, value: constants.Address2 },
+    { key: ConstKey.address3, value: constants.Address3 },
+    { key: ConstKey.address4, value: constants.Address4 },
+    { key: ConstKey.street_code, value: constants.streetCode },
   ];
 
-  // useEffect(() => {
-  //   setpermissionArr(loginData?.user?.data?.data?.permissions)
-  //   let userList = false,
-  //     userCreate = false,
-  //     userEdit = false,
-  //     userDlt = false
-  //   permissionArr.forEach((input) => {
-  //     if (input.id === 5) {
-  //       // setErrorMessage("");
-  //       userList = true
-  //     }
-  //     if (input.id === 6) {
-  //       userCreate = true
-  //     }
-  //     if (input.id === 7) {
-  //       userEdit = true
-  //     }
-  //     if (input.id === 8) {
-  //       userDlt = true
-  //     } else if (!userList) {
-  //     }
-  //   })
-  //   setPermissionId({
-  //     userList: userList,
-  //     userCreate: userCreate,
-  //     userEdit: userEdit,
-  //     userDelete: userDlt,
-  //   })
-  // }, [listData])
+  
 
   const rendercomponent = ({ item }) => {
     return (
-      // <TouchableOpacity
-      //   onPress={() => navigation.navigate('FurnitureReplacmentProcess', item)}
-      // >
       <DataDisplayList
         item={item}
         tableKey={tableKey}
@@ -142,9 +98,8 @@ export const Search = () => {
         mainMessage={AlertText.deletedistrict}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
-        // data={'0'}
       />
-      // </TouchableOpacity>
+     
     );
   };
 
@@ -169,24 +124,12 @@ export const Search = () => {
       .catch((e) => setLoader(false));
   };
 
-  // const getallData = () => {
-  //   setLoader(true);
-  //   axios
-  //     .get(`${endUrl.get_search_list}?all=true`)
-  //     .then((res) => {
-  //       setListData(res?.data?.data?.records)
-  //       setLoader(false);
-  //     })
-  //     .catch((e) => setLoader(false))
-  // };
-
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
     setNumber(number + 1);
     apicall(count);
     setLoader(false);
-    // getallData();
   };
 
   const onPrevious = () => {
@@ -195,22 +138,10 @@ export const Search = () => {
     setNumber(number - 1);
     apicall(count);
     setLoader(false);
-    // getallData();
   };
 
   const onsearch = async () => {
     setSearchStatus(false);
-    // setLoader(true);
-    // let strtDte = `${startDate?.getFullYear()}-${
-    //   startDate?.getMonth() + 1
-    // }-${startDate?.getDate()}`
-    // let endDte = `${endDate?.getFullYear()}-${
-    //   endDate?.getMonth() + 1
-    // }-${endDate.getDate()}`
-    // let str = ''
-    // if (startDateStatus == false) str += `start_date=${strtDte}&`
-    // if (enddateStatus == false) str += `end_date=${endDte}&`
-
     let strtDte =
       startDateStatus == false
         ? `${startDate?.getFullYear()}-${
@@ -242,10 +173,6 @@ export const Search = () => {
         setLoader(false);
       })
       .catch((e) => {
-        //   console.log('err', e?.response)
-        //   let errorMsg = e?.response?.data?.message
-        //   setLoader(false)
-        //   setErrorMessage(errorMsg)
         {
           let { message, data, status } = e?.response?.data || {};
           setLoader(false);

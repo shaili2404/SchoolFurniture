@@ -11,7 +11,9 @@ const Screen = {
   Sub_Places:'Sub Places',
   School:'School',
   StockCategory:'StockCategory',
-  Stock_Item:'Stock Item'
+  Stock_Item:'Stock Item',
+  Add_New_Users:'AddNewUsers',
+  Login_Screen:'"LoginScreen"'
 ,
 };
 export default Screen;

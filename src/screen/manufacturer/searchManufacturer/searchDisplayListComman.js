@@ -7,24 +7,7 @@ import { RfW } from '../../../utils/helpers'
 export const DataDisplayList = ({
   item,
   tableKey,
-  onEdit,
-  mainMessage,
-  submessage,
-  permissionId,
-  organization,
-  onDeleteFurItem,
-  flatListData,
-  onSubmitDetails,
-  pageStatus,
-  data,
-  onSubmitreparableDetails,
-  onsubmitDilverdetails,
 }) => {
-  const [userModal, setUserModal] = useState(false)
-  const [alert, setAlert] = useState(false)
-  const [errorMsg, setErrorMsg] = useState(false)
-  const [mainMsg, setMainMsg] = useState('')
-  const [subMsg, setSubMsg] = useState('')
 
   const getContent = (val) => {
     if (val && Array.isArray(val)) {
