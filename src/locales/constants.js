@@ -222,5 +222,9 @@ const constants = {
   updatebrokenfuritem: "+ Update Broken Furniture Item",
   Approved_Replishment_Item: "Approved Replenishment Count",
   Rejected_Replishment_Item: "Rejected Replenishment Count",
+  preview: "Preview",
+  Evidence_Proof:'Evidence Proof',
+  Replenishment_Proof:'Replenishment Proof',
+  Delivery_Note:'Delivery Note',
 };
 export default constants;
