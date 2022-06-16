@@ -220,7 +220,7 @@ export const DisposalReports = () => {
     "ref_number",
     "transaction_date",
     "furniture_category",
-    "replenishment_count",
+    "disposal_count",
     "total_per_school",
   ];
   const rendercomponent = ({ item }) => {
