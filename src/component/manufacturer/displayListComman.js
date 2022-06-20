@@ -6,6 +6,10 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Modal,
+  FlatList,
+  Alert,
+  PermissionsAndroid,
 } from "react-native";
 import { AlertMessage } from "../../Alert/alert";
 import COLORS from "../../asset/color";
@@ -18,6 +22,8 @@ import Fonts from "../../asset/Fonts";
 import { RFValue } from "react-native-responsive-fontsize";
 import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
 import { RfH, RfW } from "../../utils/helpers";
+import Loader from "../loader";
+import RNFetchBlob from "rn-fetch-blob";
 
 export const DataDisplayList = ({
   item,
@@ -46,6 +52,11 @@ export const DataDisplayList = ({
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const navigation = useNavigation();
+  const [collectionImages, setcollectionImages] = useState([]);
+  const [imageModal, setimageModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [imageData, setImageData] = useState([]);
+
   const onDelete = () => {
     setAlert(true);
   };
@@ -78,6 +89,149 @@ export const DataDisplayList = ({
     }
   };
 
+  const checkPermission = async () => {
+    console.log(imageData)
+    if (Platform.OS === "ios") {
+      downloadFile();
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: "Storage Permission Required",
+            message:
+              "Application needs access to your storage to download File",
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          downloadFile();
+        } else {
+          Alert.alert("Error", "Storage Permission Not Granted");
+        }
+      } catch (err) {}
+    }
+  };
+  const downloadFile = () => {
+    let date = new Date();
+    let FILE_URL = imageData;
+    let file_ext = getFileExtention(FILE_URL);
+
+    file_ext = "." + file_ext[0];
+    const { config, fs } = RNFetchBlob;
+    let RootDir = fs.dirs.PictureDir;
+    let options = {
+      fileCache: true,
+      addAndroidDownloads: {
+        path:
+          RootDir +
+          "/file_" +
+          Math.floor(date.getTime() + date.getSeconds() / 2) +
+          file_ext,
+        description: "downloading file...",
+        notification: true,
+        useDownloadManager: true,
+      },
+    };
+    config(options)
+      .fetch("GET", FILE_URL)
+      .then((res) => {
+        Alert.alert("File Downloaded Successfully.");
+      });
+  };
+
+  const getFileExtention = (imageData) => {
+    return /[.]/.exec(imageData) ? /[^.]+$/.exec(imageData) : undefined;
+  };
+
+  const rendercomponent = ({ item }) => {
+    return (
+      <>
+        <TouchableOpacity
+          onPress={() => {
+            setImageData(item.path);
+            setModalVisible(true);
+          }}
+        >
+          <View>
+            {item?.path ? (
+              <Image
+                resizeMode="cover"
+                style={{ width: 180, height: 180, margin: 2, borderRadius: 20 }}
+                source={{
+                  uri: item.path,
+                }}
+              />
+            ) : (
+              <View
+                style={{ width: 180, height: 180, margin: 2, borderRadius: 20 }}
+              >
+                <Loader />
+              </View>
+            )}
+          </View>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(!modalVisible)}
+        >
+          <View style={Styles.centeredView}>
+            <View style={Styles.modalView}>
+              {imageData ? (
+                <Image
+                  resizeMode="contain"
+                  style={{ height: "100%", width: 370 }}
+                  source={{
+                    uri: imageData,
+                  }}
+                />
+              ) : (
+                <View
+                  style={{
+                    width: 180,
+                    height: 180,
+                    margin: 2,
+                    borderRadius: 20,
+                  }}
+                >
+                  <Loader />
+                </View>
+              )}
+              <TouchableOpacity
+                style={Styles.butto}
+                onPress={() => checkPermission()}
+              >
+                <Text style={Styles.text}>Download File</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ bottom: 90 }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  setimageModal(true);
+                }}
+              >
+                <Text
+                  style={{
+                    color: COLORS.blue,
+                    fontSize: 18,
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  Close
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </>
+    );
+  };
+  const onPreview = (item) => {
+    setcollectionImages(item?.evidence_images);
+    setimageModal(true);
+  };
+
   return (
     <SafeAreaView style={Styles.firstView}>
       {data == "0" ? (
@@ -106,19 +260,47 @@ export const DataDisplayList = ({
                 </Text>
               ) : (
                 <>
-                  {val == "Evidence_Proof" ? (
-                    <TouchableOpacity style={Styles.downloadButton}>
-                      <Text style={Styles.searchText}>{constants.preview}</Text>
-                    </TouchableOpacity>
-                  ) : (
+                  {val == "evidence_images" ? (
                     <>
-                      {val == "Replenishment_Proof" ||
-                      val == "Delivery_Note" ? (
-                        <TouchableOpacity style={Styles.downloadButton}>
+                      {item[val] == "NA" ? (
+                        <Text style={Styles.textStyle}>{item[val]}</Text>
+                      ) : (
+                        <TouchableOpacity
+                          style={Styles.downloadButton}
+                          onPress={() => onPreview(item)}
+                        >
                           <Text style={Styles.searchText}>
-                            {constants.download}
+                            {constants.preview}
                           </Text>
                         </TouchableOpacity>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {val == "replenishment_proof" ||
+                      val == "delivery_note" ? (
+                        <>
+                          {item[val] == "NA" ? (
+                            <Text style={Styles.textStyle}>{item[val]}</Text>
+                          ) : (
+                            <TouchableOpacity
+                              style={Styles.downloadButton}
+                              onPress={() => {
+                                checkPermission();
+                                setImageData(
+                                  val == "replenishment_proof"
+                                    ? item?.replenishment_proof?.path
+                                    : null
+                                );
+                                console.log(item?.replenishment_proof?.path)
+                              }}
+                            >
+                              <Text style={Styles.searchText}>
+                                {constants.download}
+                              </Text>
+                            </TouchableOpacity>
+                          )}
+                        </>
                       ) : (
                         <Text style={Styles.textStyle}>{item[val]}</Text>
                       )}
@@ -174,6 +356,29 @@ export const DataDisplayList = ({
           subMessage={subMsg}
         />
       ) : null}
+
+      <Modal animationType="slide" visible={imageModal} transparent={true}>
+        <SafeAreaView style={Styles.Container}>
+          <View style={Styles.crossImg}>
+            <Text style={Styles.textIcon}>Evidence proof images</Text>
+
+            <TouchableOpacity
+              style={Styles.crossIcon}
+              onPress={() => setimageModal(false)}
+            >
+              <Image source={Images.closeimage} />
+            </TouchableOpacity>
+          </View>
+          <View style={Styles.modalStyle}>
+            <FlatList
+              keyExtractor={(item) => item.id}
+              data={collectionImages}
+              renderItem={rendercomponent}
+              numColumns={2}
+            />
+          </View>
+        </SafeAreaView>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -225,5 +430,56 @@ const Styles = StyleSheet.create({
     textAlignVertical: "center",
     fontWeight: "normal",
     fontSize: 16,
+  },
+  modalStyle: {
+    height: "85%",
+    // backgroundColor: COLORS.LinearGreen1,
+    margin: 10,
+  },
+  Container: {
+    height: "90%",
+    marginTop: 150,
+    backgroundColor: COLORS.White,
+    borderWidth: 1,
+    borderColor: COLORS.LinearGreen1,
+  },
+  crossImg: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 40,
+    marginVertical: 10,
+  },
+  textIcon: {
+    fontSize: 18,
+    textDecorationLine: "underline",
+  },
+  crossIcon: {
+    marginTop: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    height: "100%",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+  },
+  butto: {
+    width: "80%",
+    backgroundColor: COLORS.ThemeGreen,
+    bottom: 120,
+  },
+  text: {
+    color: COLORS.White,
+    fontSize: 20,
+    textAlign: "center",
+    padding: 5,
   },
 });

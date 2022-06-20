@@ -25,6 +25,7 @@ export const GraphChart = () => {
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
+        console.log('28',data)
         setsampleData([
           {
             x: 1,

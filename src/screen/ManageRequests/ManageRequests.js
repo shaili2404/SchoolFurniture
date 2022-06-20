@@ -148,6 +148,12 @@ export const ManageRequests = () => {
     }
   }, [startDate, endData]);
 
+
+  useLayoutEffect(() => {
+    const title = "Manage Request";
+    navigation.setOptions({ title });
+  }, []);
+
   const onsearch = () => {
     setSearchStatus(false);
     let strtDte = `${startDate?.getFullYear()}-${

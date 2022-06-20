@@ -493,11 +493,11 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onsubmitApproved = (data) => {
-    console.log(data);
-    const isGreaterThanZero = data?.every((ele) => ele?.accept_count != "");
-    console.log(isGreaterThanZero);
-    isGreaterThanZero ? setDisableUploadcpy(false) : setDisableUploadcpy(true);
-
+    // console.log(data);
+    // const isGreaterThanZero = data?.every((ele) => ele?.accept_count == "" || ele?.accept_count < 0);
+    // console.log(isGreaterThanZero);
+    // isGreaterThanZero ? setDisableUploadcpy(true) :setDisableUploadcpy(false);
+    setDisableUploadcpy(false)
     setConfirmCollectedCount(data);
   };
 
@@ -524,19 +524,21 @@ export const FurnitureReplacmentProcess = () => {
     setConfirmCollectedCount(data);
   };
   const onsubmitDilverdetails = (data) => {
-    const isGreaterThanZero = data?.every((ele) => ele?.deliver_count == 0);
-    isGreaterThanZero
-      ? setcheckoboxofDilveryitem(false)
-      : setcheckoboxofDilveryitem(true);
-    const ismore = data?.every(
-      (ele) =>
-        ele?.repaired_count + ele?.approved_replenished_count <
-        ele.deliver_count
-    );
-    ismore
-      ? setErrorMessage("")
-      : setErrorMessage(constants.Deliver_Count_Is_Invalid);
-    console.log(errorMessage);
+    // const isGreaterThanZero = data?.every((ele) => ele?.deliver_count == 0);
+    // isGreaterThanZero
+    //   ? setcheckoboxofDilveryitem(false)
+      // :
+       setcheckoboxofDilveryitem(true);
+       setErrorMessage("")
+    // const ismore = data?.every(
+    //   (ele) =>
+    //     ele?.repaired_count + ele?.approved_replenished_count <
+    //     ele.deliver_count
+    // );
+    // ismore
+    //   ? setErrorMessage("")
+    //   : setErrorMessage(constants.Deliver_Count_Is_Invalid);
+    // console.log(errorMessage);
     setConfirmCollectedCount(data);
   };
 

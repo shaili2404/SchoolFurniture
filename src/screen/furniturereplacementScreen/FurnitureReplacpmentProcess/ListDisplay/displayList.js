@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -45,6 +45,10 @@ export const DisplayList = ({
   const [reparable_Reject, setreparable_Reject] = useState("");
   const [confirmCount, setConfirmCount] = useState("");
   const [deliverCount, setDeliverCount] = useState("");
+  const checkZero = item?.replenish_count
+    ? item?.replenish_count
+    : item?.replenished_count;
+
   const onchangeInp = (val) => {
     let Confirm_cnt;
     if (val > item.count) Confirm_cnt = item.count;
@@ -117,16 +121,40 @@ export const DisplayList = ({
     });
     onsubmitApproved(flatListData);
   };
-  const onchangedeliver = (val) => {
-    let Confirm_cnt;
-    if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
-    else Confirm_cnt = val;
-    setDeliverCount(Confirm_cnt);
+  // const onchangedeliver = (val) => {
+  //   let Confirm_cnt;
+  //   if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
+  //   else Confirm_cnt = val;
+  //   setDeliverCount(Confirm_cnt);
+  //   flatListData.map((element) => {
+  //     if (element.id === item.id) element.deliver_count = Confirm_cnt;
+  //   });
+  //   onsubmitDilverdetails(flatListData);
+  // };
+
+  useEffect(() => {
     flatListData.map((element) => {
-      if (element.id === item.id) element.deliver_count = Confirm_cnt;
+      if (element?.id == item?.id) {
+        element.deliver_count =
+          item?.repaired_count + item?.approved_replenished_count;
+        element.deliveritem =
+          item?.repaired_count + item?.approved_replenished_count;
+      }
     });
     onsubmitDilverdetails(flatListData);
-  };
+  }, []);
+  useEffect(() => {
+    flatListData.map((element) => {
+      if (element?.id == item?.id) {
+        if (checkZero == 0){ 
+        element.accept_count = "0"
+        element.reject_count = "0"
+        }
+      }
+    });
+    onApprovedRejectQty(flatListData);
+  }, []);
+
   const onDelete = (item) => {
     if (organization == constants.school) onDeleteFurItem(item);
     else setAlert(true);
@@ -168,29 +196,37 @@ export const DisplayList = ({
                     <>
                       {val == ConstKey.Approved_Items ||
                       val == ConstKey.Rejected_Items ? (
-                        <TextInput
-                          placeholder={
-                            val == ConstKey.replanishitem
-                              ? ""
-                              : constants.Enterval
-                          }
-                          placeholderTextColor={COLORS.Black}
-                          style={
-                            val == ConstKey.Rejected_Items
-                              ? Styles.grayinputStyles
-                              : Styles.inputStyles
-                          }
-                          onChangeText={(value) => onApprovedRejectQty(value)}
-                          value={
-                            val == ConstKey.Rejected_Items
-                              ? String(reparable_Reject)
-                              : String(reparable_Aprroved)
-                          }
-                          editable={
-                            val == ConstKey.Rejected_Items ? false : true
-                          }
-                          keyboardType="numeric"
-                        />
+                        <>
+                          {checkZero == 0 ? (
+                            <Text style={Styles.textStyle}>0</Text>
+                          ) : (
+                            <TextInput
+                              placeholder={
+                                val == ConstKey.replanishitem
+                                  ? ""
+                                  : constants.Enterval
+                              }
+                              placeholderTextColor={COLORS.Black}
+                              style={
+                                val == ConstKey.Rejected_Items
+                                  ? Styles.grayinputStyles
+                                  : Styles.inputStyles
+                              }
+                              onChangeText={(value) =>
+                                onApprovedRejectQty(value)
+                              }
+                              value={
+                                val == ConstKey.Rejected_Items
+                                  ? String(reparable_Reject)
+                                  : String(reparable_Aprroved)
+                              }
+                              editable={
+                                val == ConstKey.Rejected_Items ? false : true
+                              }
+                              keyboardType="numeric"
+                            />
+                          )}
+                        </>
                       ) : (
                         <Text style={Styles.textStyle}>{item[val]}</Text>
                       )}
@@ -202,14 +238,9 @@ export const DisplayList = ({
                   {pageStatus == constants.Status_RepairCompleted ? (
                     <>
                       {val == ConstKey.deliveritem ? (
-                        <TextInput
-                          placeholder={constants.Enterval}
-                          placeholderTextColor={COLORS.Black}
-                          style={Styles.inputStyles}
-                          onChangeText={(val) => onchangedeliver(val)}
-                          keyboardType="numeric"
-                          value={String(deliverCount)}
-                        />
+                        <Text style={Styles.textStyle}>
+                          {String(item[val])}
+                        </Text>
                       ) : (
                         <Text style={Styles.textStyle}>{item[val]}</Text>
                       )}
@@ -328,3 +359,14 @@ const Styles = StyleSheet.create({
     width: 140,
   },
 });
+
+{
+  /* <TextInput
+placeholder={constants.Enterval}
+placeholderTextColor={COLORS.Black}
+style={Styles.inputStyles}
+onChangeText={(val) => onchangedeliver(val)}
+keyboardType="numeric"
+value={String(deliverCount)}
+/> */
+}
