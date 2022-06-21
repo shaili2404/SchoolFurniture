@@ -87,11 +87,11 @@ const style = StyleSheet.create({
     textDecorationLine: "underline",
   },
   backContainer: {
-    alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
     position: "absolute",
     bottom: "5%",
-    width: "100%",
+    width: "40%",
   },
 });
 export default style;

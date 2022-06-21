@@ -197,7 +197,7 @@ export const LoginScreen = () => {
                 <Text style={Styles.errorStyle}>{errorMessage}</Text>
               </View>
             ) : null}
-            <View>
+            <View style={Styles.restpassView} >
               <TouchableOpacity
                 onPress={() => navigation.navigate(Screen.Password_Reset)}
               >
@@ -225,7 +225,7 @@ export const LoginScreen = () => {
           </View>
 
           {defaultState === true ? (
-            <TouchableOpacity onPress={onClear}>
+            <TouchableOpacity onPress={onClear} style={Styles.clearpassView}>
               <Text style={Styles.clearStyle}>{constants.Clear}</Text>
             </TouchableOpacity>
           ) : (

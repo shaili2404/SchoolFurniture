@@ -223,7 +223,7 @@ export const TransactionStatusReports = () => {
     "delivery_note"
   ];
   const rendercomponent = ({ item }) => {
-    console.log('226',item.replenishment_proof)
+    console.log('226',item)
     return (
       <DataDisplayList
         tableKey={tableKey}

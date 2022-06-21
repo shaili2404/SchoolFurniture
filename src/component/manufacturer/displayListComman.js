@@ -156,14 +156,14 @@ export const DataDisplayList = ({
             {item?.path ? (
               <Image
                 resizeMode="cover"
-                style={{ width: 180, height: 180, margin: 2, borderRadius: 20 }}
+                style={{ width: 170, height: 170, margin: 10 }}
                 source={{
                   uri: item.path,
                 }}
               />
             ) : (
               <View
-                style={{ width: 180, height: 180, margin: 2, borderRadius: 20 }}
+                style={{ width: 170, height: 170, margin: 10 }}
               >
                 <Loader />
               </View>
@@ -433,7 +433,6 @@ const Styles = StyleSheet.create({
   },
   modalStyle: {
     height: "85%",
-    // backgroundColor: COLORS.LinearGreen1,
     margin: 10,
   },
   Container: {
@@ -446,15 +445,16 @@ const Styles = StyleSheet.create({
   crossImg: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 40,
+    marginHorizontal: 20,
     marginVertical: 10,
   },
   textIcon: {
-    fontSize: 18,
-    textDecorationLine: "underline",
+    fontSize:RFValue(18, STANDARD_SCREEN_SIZE),
+    fontFamily:Fonts.bold,
+    color:COLORS.ThemeGreen
   },
   crossIcon: {
-    marginTop: 5,
+    marginTop: 7,
   },
   centeredView: {
     flex: 1,
