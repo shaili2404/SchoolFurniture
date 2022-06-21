@@ -20,51 +20,52 @@ export const BarChart = () => {
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
+        console.log('23',data)
         setsampleData([
           {
             x: 1,
             y: data?.collection_accepted,
-            label: "Collection Accepted",
+            label: constants.Status_CollectionAccepted,
           },
           {
             x: 2,
             y: data?.delivery_confirmed,
-            label: "Delivery Confirmed",
+            label: constants.Status_DeliveryConfirmed,
           },
           {
             x: 3,
             y: data?.pending_collection,
-            label: "Pending Collection",
+            label: constants.Status_PendingCollection,
           },
           {
             x: 4,
             y: data?.pending_delivery,
-            label: "Pending Delivery",
+            label: constants.Status_pendingDilver,
           },
           {
             x: 5,
             y: data?.pending_repairs,
-            label: "Pending Repair",
+            label: constants.Status_pendingRepair,
           },
           {
             x: 6,
             y: data?.pending_replenishment,
-            label: "Pending Replanishment Approval",
+            label: constants.Status_Pending_Replanishment_Approval,
           },
           {
             x: 7,
             y: data?.repair_completed,
-            label: "Repair Completed",
+            label: constants.Status_RepairCompleted,
           },
           {
             x: 8,
             y: data?.replenishment_approved,
-            label: "Replanishment Approved",
+            label: constants.Status_Replanishment_Approved,
           },
           {
             x: 9,
             y: data?.replenishment_rejected,
-            label: "Replanishment Rejected",
+            label: constants.Status_Replanishment_Rejected,
           },
         ]);
       })

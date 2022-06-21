@@ -10,6 +10,14 @@ export default StyleSheet.create({
     justifyContent: "center",
     borderRadius: 5,
   },
+  buttonColopacity: {
+    backgroundColor: COLORS.certificateboxGreen,
+    opacity:0.5,
+    height: 40,
+    marginVertical: 10,
+    justifyContent: "center",
+    borderRadius: 5,
+  },
   textCOl: {
     color: COLORS.White,
     fontSize: 15,

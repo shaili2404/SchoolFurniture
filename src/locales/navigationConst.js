@@ -13,7 +13,6 @@ const Screen = {
   StockCategory:'StockCategory',
   Stock_Item:'Stock Item',
   Add_New_Users:'AddNewUsers',
-  Login_Screen:'"LoginScreen"'
-,
+  Login_Screen:"LoginScreen",
 };
 export default Screen;

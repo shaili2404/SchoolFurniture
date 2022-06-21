@@ -22,6 +22,7 @@ export const DisposalCertificateButton = ({
   onUploadreplanisNote,
   checkboxStatusreplanish,
   oncheckboxvalue,
+  disableUpload={disableUploadcpy}
 }) => {
   const [checkBoxStatus, setCheckBoxStatus] = useState(false);
   const [distList, setDistList] = useState([]);
@@ -81,7 +82,8 @@ export const DisposalCertificateButton = ({
           ) : null}
           {statusOFreplanishCertificateStatus ? (
             <TouchableOpacity
-              style={style.buttonCol}
+            style={disableUpload ? style.buttonColopacity : style.buttonCol}
+            disabled={disableUpload ? true : false}
               onPress={() => onUploadreplanisNote()}
             >
               <View>

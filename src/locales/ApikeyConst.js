@@ -21,7 +21,7 @@ const ConstKey = {
     replenished_count:"replenished_count",
     Approved_Items:'Approved_Items',
     Rejected_Items:'Rejected_Items',
-    deliveritem:'deliveritem',
+    deliveritem:'deliveritem', 
     category_name:'category_name',
     item_name:'item_name',
     item_full_count:'item_full_count',
@@ -46,7 +46,10 @@ const ConstKey = {
     address1:'address1',
     address2:'address2',
     address3:'address3',
-    address4:'address4'
+    address4:'address4',
+    collection_count:"collection_count",
+    date_created:'date_created',
+    days_in_waiting:'days_in_waiting'
 
   };
   export default ConstKey;

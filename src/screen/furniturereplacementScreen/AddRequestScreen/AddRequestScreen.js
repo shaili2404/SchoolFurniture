@@ -304,8 +304,8 @@ export const AddFurRequestScreen = () => {
       );
       const isZero = finalList?.every((ele) => ele?.item_full_count > 0);
       let str = "";
-      greaterNumber ? "" : (str += `${constants.Greater_full_count},`);
-      isZero ? "" : (str += `${constants.enter_full_count},`);
+      greaterNumber ? "" : (str += `${constants.Greater_full_count}`);
+      isZero ? "" : (str += `${constants.enter_full_count}`);
       setErrorMessage(str);
     }
   };
@@ -316,7 +316,9 @@ export const AddFurRequestScreen = () => {
     <SafeAreaView style={style.mainView}>
       <View style={style.subview}>
         <Text style={style.createNewStyle}>
-          {way == constants.Edit ? constants.updatebrokenfuritem : constants.addbrokenfuritem}
+          {way == constants.Edit
+            ? constants.updatebrokenfuritem
+            : constants.addbrokenfuritem}
         </Text>
         <TouchableOpacity
           style={style.crossImg}

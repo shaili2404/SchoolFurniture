@@ -77,6 +77,7 @@ export const FurnitureReplacmentProcess = () => {
   const [dileveryNote, setdileveryNote] = useState([]);
   const [totalFur, setTotalFur] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [disableUploadcpy, setDisableUploadcpy] = useState(true);
   const [uploadPrintDilveryStatus, setuploadPrintDilveryStatus] =
     useState(false);
   const [checkoboxofDilveryitem, setcheckoboxofDilveryitem] = useState(false);
@@ -492,6 +493,11 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onsubmitApproved = (data) => {
+    // console.log(data);
+    // const isGreaterThanZero = data?.every((ele) => ele?.accept_count == "" || ele?.accept_count < 0);
+    // console.log(isGreaterThanZero);
+    // isGreaterThanZero ? setDisableUploadcpy(true) :setDisableUploadcpy(false);
+    setDisableUploadcpy(false)
     setConfirmCollectedCount(data);
   };
 
@@ -518,19 +524,21 @@ export const FurnitureReplacmentProcess = () => {
     setConfirmCollectedCount(data);
   };
   const onsubmitDilverdetails = (data) => {
-    const isGreaterThanZero = data?.every((ele) => ele?.deliver_count == 0);
-    isGreaterThanZero
-      ? setcheckoboxofDilveryitem(false)
-      : setcheckoboxofDilveryitem(true);
-    const ismore = data?.every(
-      (ele) =>
-        ele?.repaired_count + ele?.approved_replenished_count <
-        ele.deliver_count
-    );
-    ismore
-      ? setErrorMessage("")
-      : setErrorMessage(constants.Deliver_Count_Is_Invalid);
-      console.log(errorMessage)
+    // const isGreaterThanZero = data?.every((ele) => ele?.deliver_count == 0);
+    // isGreaterThanZero
+    //   ? setcheckoboxofDilveryitem(false)
+      // :
+       setcheckoboxofDilveryitem(true);
+       setErrorMessage("")
+    // const ismore = data?.every(
+    //   (ele) =>
+    //     ele?.repaired_count + ele?.approved_replenished_count <
+    //     ele.deliver_count
+    // );
+    // ismore
+    //   ? setErrorMessage("")
+    //   : setErrorMessage(constants.Deliver_Count_Is_Invalid);
+    // console.log(errorMessage);
     setConfirmCollectedCount(data);
   };
 
@@ -565,9 +573,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const HeaderComponent = () => {
-    return (
-      <ListHeader tableHeader={tableHeader} lenofContent={lenofContent} />
-    );
+    return <ListHeader tableHeader={tableHeader} lenofContent={"more"} />;
   };
 
   const onCancel = () => {
@@ -767,6 +773,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const ErrorApi = (e, arg) => {
+    console.log(e);
     let res = arg != "collection" ? e?.response?.data : e;
     let { message, data, status } = res || {};
     setLoader(false);
@@ -922,6 +929,13 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const uploadSignedreplanishment = async (result) => {
+    console.log("926", confirmCollectedCount);
+    console.log("927", flatListData);
+    console.log("928", replenishment_status);
+    console.log(
+      "929",
+      confirmCollectedCount ? flatListData : confirmCollectedCount
+    );
     setmodalloader(true);
     const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
 
@@ -941,7 +955,12 @@ export const FurnitureReplacmentProcess = () => {
     });
     body.append(ConstKey.ref_number, ref_number);
 
-    body.append("accept_array", JSON.stringify(confirmCollectedCount));
+    body.append(
+      "accept_array",
+      JSON.stringify(
+        confirmCollectedCount == [] ? flatListData : confirmCollectedCount
+      )
+    );
 
     const uploadImg = async () => {
       try {
@@ -1223,6 +1242,11 @@ export const FurnitureReplacmentProcess = () => {
               }
               oncheckboxvalue={(value) => setvaluesavebutton(value)}
               replenishment_status={replenishment_status}
+              disableUpload={
+                replenishment_status == 2 || replenishment_status == 3
+                  ? false
+                  : disableUploadcpy
+              }
             />
           ) : null}
           {errorMessage ? (

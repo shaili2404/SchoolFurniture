@@ -9,7 +9,7 @@ import {
   Image,
   PermissionsAndroid,
   Alert,
-  Platform
+  Platform,
 } from "react-native";
 import Images from "../../../../asset/images";
 import constants from "../../../../locales/constants";
@@ -24,6 +24,8 @@ import Loader from "../../../../component/loader";
 import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
+import ConstKey from "../../../../locales/ApikeyConst";
+import { exportDataToExcel, handleClick } from "../../../../component/jsontoPdf/JsonToPdf";
 
 export const DashPendingCollection = () => {
   const isFocused = useIsFocused();
@@ -94,10 +96,10 @@ export const DashPendingCollection = () => {
   ];
 
   const tableKey = [
-    "school_name",
-    "collection_count",
-    "date_created",
-    "days_in_waiting",
+    ConstKey.school_name,
+    ConstKey.collection_count,
+    ConstKey.date_created,
+    ConstKey.days_in_waiting,
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -112,91 +114,29 @@ export const DashPendingCollection = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
-  const exportDataToExcel = async () => {
-    let wb = XLSX.utils.book_new();
-    let ws = XLSX.utils.json_to_sheet(collectionList);
-    ws["!cols"] = [
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-      { width: 30 },
-    ];
-
-    XLSX.utils.book_append_sheet(wb, ws, "Users");
-    const wbout = await XLSX.write(wb, {
-      type: "binary",
-      bookType: "xlsx",
-      compression: false,
-    });
-    const d = new Date();
-
-    var path = RNFS.DocumentDirectoryPath + `/PendingCOllectionReports.xlsx`;
-    RNFS.unlink(path, wbout, "ascii")
-      .then(() => {})
-      .catch((err) => {});
-    RNFS.writeFile(path, wbout, "ascii")
-      .then((res) => {
-        Alert.alert(
-          "Successfully Exported",
-          "Path:" + path,
-          [
-            { text: "Cancel", style: "cancel" },
-            { text: "Open", onPress: () => openfile(path) },
-          ],
-          { cancelable: true }
-        );
-      })
-      .catch((e) => {});
-  };
-
-  const openfile = async (path) => {
-    await FileViewer.open(path)
-      .then((r) => {})
-      .catch((error) => {
-      });
-  };
-
-  const handleClick = async () => {
-    try {
-      let isPermitedExternalStorage = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-
-      if (!isPermitedExternalStorage) {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: "Storage permission needed",
-            buttonNeutral: "Ask Me Later",
-            buttonNegative: "Cancel",
-            buttonPositive: "OK",
-          }
-        );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          exportDataToExcel();
-        } else {
-        }
-      } else {
-        exportDataToExcel();
-      }
-    } catch (e) {
-      return;
-    }
-  };
-
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.halfView}>
         <View style={Styles.searchButtonView}>
-          <TouchableOpacity onPress={() =>  Platform.OS == 'android'? handleClick() :exportDataToExcel() }>
+          <TouchableOpacity
+            onPress={() =>
+              Platform.OS == "android"
+                ? handleClick(
+                    "",
+                    {},
+                    res?.data?.data,
+                    "PendingCOllectionReports"
+                  )
+                : exportDataToExcel(
+                    "",
+                    {},
+                    res?.data?.data,
+                    "PendingCOllectionReports"
+                  )
+            }
+          >
             <Text style={Styles.transactionText}>
               {constants.Status_PendingCollection}
             </Text>

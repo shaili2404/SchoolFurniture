@@ -218,11 +218,12 @@ export const TransactionStatusReports = () => {
     "ref_number",
     "transaction_date",
     "transaction_status",
-    "Evidence_Proof",
-    "Replenishment_Proof",
-    "Delivery_Note"
+    "evidence_images",
+    "replenishment_proof",
+    "delivery_note"
   ];
   const rendercomponent = ({ item }) => {
+    console.log('226',item)
     return (
       <DataDisplayList
         tableKey={tableKey}
