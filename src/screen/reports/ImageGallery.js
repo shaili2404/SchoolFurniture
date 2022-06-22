@@ -15,7 +15,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 // import { Gallery } from 'react-native-gallery-view';
 
-const First = () => {
+const ImageGallery = () => {
   const navigation = useNavigation();
   const [buttonStatus, setButtonStatus] = useState({})
   const [modalVisible, setModalVisible] = useState(false)
@@ -240,7 +240,7 @@ const checkPermission = async () => {
         return (
           <TouchableOpacity onPress={()=>{ setImageData(item.uri), setModalVisible(true)}}>
             <View style={styles.item} key={index}>
-                {/* <Image 
+                <Image 
                     resizeMode= 'cover'
                     style={styles.photo} 
                     // style={{ width: 450, height: 300, backgroundColor: "red" }}
@@ -248,7 +248,7 @@ const checkPermission = async () => {
                     source={{
                       uri: item.uri,
                     }}
-                    /> */}
+                    />
 
 <View style={styles.centeredView}>
         <Modal
@@ -260,12 +260,10 @@ const checkPermission = async () => {
            <View style={styles.centeredView}>
           <View style={styles.modalView}>
           <Image 
-            resizeMode= 'cover'
-            // style={{height: '100%', width: 370}}
-            style={{ width: 300, height: 600, backgroundColor: "red" }}
+            resizeMode= 'contain'
+            style={{height: '100%', width: 370}}
             source={{
-              // uri: imageData,
-              uri: item.uri,
+              uri: imageData,
             }}
           />
           <TouchableOpacity
@@ -351,7 +349,7 @@ const checkPermission = async () => {
 
       <View style={styles.buttonView}>
   <View style={styles.flx}>
-<TouchableOpacity onPress={()=>{ setImageData(), setModalVisible(true)}} style={[styles.button,{backgroundColor: '#21417C'}]}>
+<TouchableOpacity style={[styles.button,{backgroundColor: '#21417C'}]}>
         <Text style={styles.buttonText}>Pending Deliveries - {buttonStatus.pending_deliveries}</Text>
       </TouchableOpacity>
       </View>
@@ -505,4 +503,4 @@ modalView: {
   },
 });
 
-export default First;
+export default ImageGallery;

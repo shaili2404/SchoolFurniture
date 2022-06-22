@@ -222,6 +222,8 @@ export const ReplanishmentReports = () => {
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
     constants.ReplanishmentReports_Replcount,
+    constants.Approved_Replishment_Item,
+    constants.Rejected_Replishment_Item,
     constants.ReplanishmentReports_replaStatus,
     constants.ReplanishmentReports_TotalPerSchool,
   ];
@@ -234,6 +236,8 @@ export const ReplanishmentReports = () => {
     "transaction_date",
     "furniture_category",
     "replenishment_count",
+    "approved_replenished_count",
+    "rejected_replenished_count",
     "replenishment_status",
     "total_per_school",
   ];

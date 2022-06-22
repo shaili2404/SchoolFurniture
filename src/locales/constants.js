@@ -220,6 +220,8 @@ const constants = {
   Furniture_Depot: "Furniture Depot",
   Department_of_Education: "Department of Education",
   updatebrokenfuritem: "+ Update Broken Furniture Item",
+  Approved_Replishment_Item: "Approved Replenishment Count",
+  Rejected_Replishment_Item: "Rejected Replenishment Count",
   preview: "Preview",
   Evidence_Proof: "Evidence Proof",
   Replenishment_Proof: "Replenishment Proof",
