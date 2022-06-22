@@ -25,6 +25,7 @@ import {
   exportDataToExcel,
   handleClick,
 } from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const ManufactStockManageReports = () => {
   const isFocused = useIsFocused();
@@ -56,8 +57,8 @@ export const ManufactStockManageReports = () => {
       setErrorMessage(constants.enterSearchData);
     else {
       let str = "";
-      if (select?.id) str += `category=${select?.id}&&`;
-      if (stockItem?.id) str += `item=${stockItem?.id}&&`;
+      if (select?.id) str += `${ConstKey.category}=${select?.id}&&`;
+      if (stockItem?.id) str += `${ConstKey.item}=${stockItem?.id}&&`;
       setmodalloader(true);
 
       axios
@@ -79,6 +80,7 @@ export const ManufactStockManageReports = () => {
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    setCollectionList(false);
     setLoader(false);
   };
 
@@ -166,7 +168,7 @@ export const ManufactStockManageReports = () => {
 
   const tableHeader = [constants.FurCategory, constants.furItem];
 
-  const tableKey = ["furniture_category", "furniture_item"];
+  const tableKey = [ConstKey.furniture_category, ConstKey.furniture_item];
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -222,45 +224,74 @@ export const ManufactStockManageReports = () => {
             task="name"
           />
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-             style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-             disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "stockreports"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "stockreports"
-                  )
-            }
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "stockreports",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "stockreports",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
       {searchStatus ? (
@@ -272,10 +303,7 @@ export const ManufactStockManageReports = () => {
             {prevpage == null ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
             )}
           </TouchableOpacity>
 
@@ -284,10 +312,7 @@ export const ManufactStockManageReports = () => {
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}

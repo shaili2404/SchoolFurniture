@@ -29,7 +29,11 @@ import ModalLoader from "../../component/ModalLoader";
 import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
-import { exportDataToExcel, handleClick } from "../../component/jsontoPdf/JsonToPdf";
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const SchoolFullFurReports = () => {
   const isFocused = useIsFocused();
@@ -92,12 +96,15 @@ export const SchoolFullFurReports = () => {
         endDate?.getMonth() + 1
       }-${endDate.getDate()}`;
       let str = "";
-      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
-      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
-      if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (select?.id) str += `district_office=${select?.id}&&`;
-      if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
-      if (furItem_select?.id) str += `item_id=${furItem_select?.id}&&`;
+      if (!validation(refnumber))
+        str += `${ConstKey.school_name}=${refnumber}&&`;
+      if (startDateStatus == false)
+        str += `${ConstKey.start_date}=${strtDte}&&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
+      if (select?.id) str += `${ConstKey.district_office}=${select?.id}&&`;
+      if (fur_select?.id) str += `${ConstKey.category_id}=${fur_select?.id}&&`;
+      if (furItem_select?.id)
+        str += `${ConstKey.item_id}=${furItem_select?.id}&&`;
       setmodalloader(true);
       axios
         .post(`${endUrl.reports_school_furniture_count_report}?${str}`)
@@ -118,6 +125,7 @@ export const SchoolFullFurReports = () => {
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -233,17 +241,17 @@ export const SchoolFullFurReports = () => {
   ];
 
   const tableKey = [
-    "school_name",
-    "school_emis",
-    "district_office",
-    "ref_number",
-    "transaction_date",
-    "school_inventory_count",
-    "furniture_category",
-    "furniture_item",
-    "collection_requested_count",
-    "collection_confirmed_count",
-    "total_per_school",
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.ref_number,
+    ConstKey.transaction_date,
+    ConstKey.school_inventory_count,
+    ConstKey.furniture_category,
+    ConstKey.furniture_item,
+    ConstKey.collection_requested_count,
+    ConstKey.collection_confirmed_count,
+    ConstKey.total_per_school,
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -262,7 +270,6 @@ export const SchoolFullFurReports = () => {
     setfur_Select(item);
     getfuritem(item?.id);
   };
- 
 
   return loader ? (
     <Loader />
@@ -299,7 +306,7 @@ export const SchoolFullFurReports = () => {
               label={constants.DistrictOffice}
               data={distList}
               onSelect={setSelect}
-              task="district_office"
+              task={ConstKey.district_office}
             />
           </View>
         </View>
@@ -382,31 +389,38 @@ export const SchoolFullFurReports = () => {
             task="name"
           />
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-             style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-             disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "School_full_fur_count"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "School_full_fur_count"
-                  )
-            }
-
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "School_full_fur_count",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "School_full_fur_count",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
@@ -418,15 +432,36 @@ export const SchoolFullFurReports = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
       {searchStatus ? (
@@ -438,10 +473,7 @@ export const SchoolFullFurReports = () => {
             {prevpage == null ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
             )}
           </TouchableOpacity>
 
@@ -450,10 +482,7 @@ export const SchoolFullFurReports = () => {
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}

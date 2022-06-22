@@ -61,7 +61,7 @@ export default StyleSheet.create({
   viewInputStyle: {
     flexDirection: "row",
     marginTop: 20,
-    marginBottom:10,
+    marginBottom: 10,
     justifyContent: "space-between",
     width: "90%",
     alignSelf: "center",
@@ -199,24 +199,39 @@ export default StyleSheet.create({
     flexDirection: "column",
     marginTop: 20,
   },
-   buttonStyle: {
+  buttonStyle: {
     backgroundColor: COLORS.GreenBox,
     borderRadius: 5,
     width: "60%",
     height: 40,
     alignItems: "center",
     justifyContent: "center",
-    margin:10
+    margin: 10,
   },
   buttonText: {
     color: COLORS.White,
     fontWeight: "bold",
     fontSize: 16,
   },
-  transformStyle:{
-    transform:[{
-      rotate:'180deg'
-    }]
+  transformStyle: {
+    transform: [
+      {
+        rotate: "180deg",
+      },
+    ],
   },
-  lastViewStyle:{ height: 70 }
+  lastViewStyle: { height: 70 },
+  noDataView: {
+    backgroundColor: COLORS.LightGreen,
+    height: 56,
+    borderBottomColor: COLORS.Black,
+    borderBottomWidth: 0.4,
+    width: width,
+    justifyContent: "center",
+  },
+  noDataText: {
+    fontSize: 16,
+    textAlignVertical: "center",
+    textAlign: "center",
+  },
 });

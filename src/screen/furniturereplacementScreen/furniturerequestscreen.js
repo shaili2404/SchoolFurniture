@@ -26,6 +26,7 @@ import AlertText from "../../Alert/AlertText";
 import Screen from "../../locales/navigationConst";
 import ConstKey from "../../locales/ApikeyConst";
 import ScreenTitle from "../../locales/ScreenTitle";
+import { ListHeader } from "./FurnitureReplacpmentProcess/ListDisplay/HeaderList";
 
 export const FurnitureReplacmentManfacturer = () => {
   const isFocused = useIsFocused();
@@ -81,31 +82,41 @@ export const FurnitureReplacmentManfacturer = () => {
 
   const onsearch = () => {
     setSearchStatus(false);
-    let strtDte = `${startDate?.getFullYear()}-${
-      startDate?.getMonth() + 1
-    }-${startDate?.getDate()}`;
-    let endDte = `${endDate?.getFullYear()}-${
-      endDate?.getMonth() + 1
-    }-${endDate.getDate()}`;
-    let str = "";
-    if (!validation(refnumber)) str += `${ConstKey.ref_number}=${refnumber}&`;
-    if (startDateStatus == false) str += `${ConstKey.start_date}=${strtDte}&`;
-    if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&`;
-    if (!validation(emisNumber)) str += `${ConstKey.emis}=${emisNumber}&`;
-    if (select?.id) str += `${ConstKey.status_id}=${select?.id}&`;
-    setLoader(true);
-    console.log(str);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios
-      .get(`${endUrl.searchfurRequest}?${str}`)
-      .then((res) => {
-        setCollectionList(res?.data?.data);
-        setLoader(false);
-      })
-      .catch((e) => {
-        onerrorapi(e);
-        setErrorMessage(e?.response?.data?.message);
-      });
+    if (
+      select?.id == null &&
+      validation(emisNumber) &&
+      startDateStatus == true &&
+      enddateStatus == true &&
+      validation(refnumber)
+    )
+      setErrorMessage(constants.enterSearchData);
+    else {
+      let strtDte = `${startDate?.getFullYear()}-${
+        startDate?.getMonth() + 1
+      }-${startDate?.getDate()}`;
+      let endDte = `${endDate?.getFullYear()}-${
+        endDate?.getMonth() + 1
+      }-${endDate.getDate()}`;
+      let str = "";
+      if (!validation(refnumber)) str += `${ConstKey.ref_number}=${refnumber}&`;
+      if (startDateStatus == false) str += `${ConstKey.start_date}=${strtDte}&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&`;
+      if (!validation(emisNumber)) str += `${ConstKey.emis}=${emisNumber}&`;
+      if (select?.id) str += `${ConstKey.status_id}=${select?.id}&`;
+      setLoader(true);
+      console.log(str);
+      axios.defaults.headers.common["Content-Type"] = "application/json";
+      axios
+        .get(`${endUrl.searchfurRequest}?${str}`)
+        .then((res) => {
+          setCollectionList(res?.data?.data);
+          setLoader(false);
+        })
+        .catch((e) => {
+          onerrorapi(e);
+          setErrorMessage(e?.response?.data?.message);
+        });
+    }
   };
 
   const onsuccessapi = (res) => {
@@ -115,6 +126,7 @@ export const FurnitureReplacmentManfacturer = () => {
   };
 
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -205,6 +217,7 @@ export const FurnitureReplacmentManfacturer = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
+  console.log(JSON.stringify(collectionList));
   return loader ? (
     <Loader />
   ) : (
@@ -335,18 +348,33 @@ export const FurnitureReplacmentManfacturer = () => {
               <Text style={Styles.errormessStyle}>{errorMessage}</Text>
             </View>
           ) : (
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              <FlatList
-                ListHeaderComponent={HeaderComponet}
-                keyExtractor={(item) => item.id}
-                data={collectionList}
-                scrollEnabled={false}
-                renderItem={rendercomponent}
-              />
-            </ScrollView>
+            <>
+              {collectionList == undefined ? (
+                <>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <ListHeader tableHeader={tableHeader} lenofContent="more" />
+                  </ScrollView>
+                  <View style={Styles.noDataView}>
+                    <Text style={Styles.noDataText}>
+                      {constants.No_Collection_Requests_Found}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  <FlatList
+                    ListHeaderComponent={HeaderComponet}
+                    keyExtractor={(item) => item.id}
+                    data={collectionList}
+                    scrollEnabled={false}
+                    renderItem={rendercomponent}
+                  />
+                </ScrollView>
+              )}
+            </>
           )}
         </View>
 

@@ -3,18 +3,29 @@ import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
 import { Alert, PermissionsAndroid } from "react-native";
+import constants from "../../locales/constants";
 
 export const exportDataToExcel = async (
   searchStatus,
   collection_List,
   collectionList,
-  name
+  name,
+  headersTitle
 ) => {
+  const headerColumns = [headersTitle];
   let wb = XLSX.utils.book_new();
   let ws = XLSX.utils.json_to_sheet(
-    searchStatus ? collection_List : collectionList
+    searchStatus ? collection_List : collectionList,
+    { origin: "A2", skipHeader: true }
   );
+  XLSX.utils.sheet_add_aoa(ws, headerColumns, { origin: "A1" });
   ws["!cols"] = [
+    { width: 30 },
+    { width: 30 },
+    { width: 30 },
+    { width: 30 },
+    { width: 30 },
+    { width: 30 },
     { width: 30 },
     { width: 30 },
     { width: 30 },
@@ -37,7 +48,6 @@ export const exportDataToExcel = async (
   var path = RNFS.DocumentDirectoryPath + `/${name}.xlsx`;
   RNFS.unlink(path, wbout, "ascii")
     .then(() => {})
-    // `unlink` will throw an error, if the item to unlink does not exist
     .catch((err) => {});
 
   RNFS.writeFile(path, wbout, "ascii")
@@ -65,16 +75,15 @@ export const handleClick = async (
   searchStatus,
   collection_List,
   collectionList,
-  name
+  name,
+  headersTitle
 ) => {
   try {
-    // Check for Permission (check if permission is already given or not)
     let isPermitedExternalStorage = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
     );
 
     if (!isPermitedExternalStorage) {
-      // Ask for permission
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         {
@@ -86,14 +95,23 @@ export const handleClick = async (
       );
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        // Permission Granted (calling our exportDataToExcel function)
-        exportDataToExcel(searchStatus, collection_List, collectionList, name);
+        exportDataToExcel(
+          searchStatus,
+          collection_List,
+          collectionList,
+          name,
+          headersTitle
+        );
       } else {
-        // Permission denied
       }
     } else {
-      // Already have Permission (calling our exportDataToExcel function)
-      exportDataToExcel(searchStatus, collection_List, collectionList, name);
+      exportDataToExcel(
+        searchStatus,
+        collection_List,
+        collectionList,
+        name,
+        headersTitle
+      );
     }
   } catch (e) {
     return;

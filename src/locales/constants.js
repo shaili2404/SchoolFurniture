@@ -226,11 +226,15 @@ const constants = {
   Evidence_Proof: "Evidence Proof",
   Replenishment_Proof: "Replenishment Proof",
   Delivery_Note: "Delivery Note",
-  Status_Replanishment_Approved: "Replenishment Approved",
-  Status_Replanishment_Rejected: "Replenishment Rejected",
-  Status_Pending_Replanishment_Approval: "Pending Replenishment Approval",
   Furniture_Item: "Furniture Item",
   Approved_Replenishment_Number: "Number of Approved Replenishment",
   Status_Partial_Replenishment: "Partial Replenishment",
+  Status_Replanishment_Approved: "Replanishment Approved",
+  Status_Replanishment_Rejected: "Replanishment Rejected",
+  Status_Pending_Replanishment_Approval: "Pending Replanishment Approval",
+  No_Collection_Requests_Found :'No Collection Requests Found',
+  No_Transactions_Found :'No Transactions Found',
+  number_approved_items:'Number of Approved Replenishment',
+  Broken_FURITURE_COUNT_IS_REUIRED: "Broken Furniture Count Is Required",
 };
 export default constants;

@@ -15,10 +15,7 @@ import DatePicker from "react-native-date-picker";
 import Images from "../../asset/images";
 import constants from "../../locales/constants";
 import Styles from "./style";
-import {
-  useIsFocused,
-  useNavigation,
-} from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
 import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
@@ -28,8 +25,11 @@ import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-import { exportDataToExcel, handleClick } from "../../component/jsontoPdf/JsonToPdf";
-
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const TransactionSummaryReports = () => {
   const isFocused = useIsFocused();
@@ -51,11 +51,10 @@ export const TransactionSummaryReports = () => {
   const [searchStatus, setSearchStatus] = useState(true);
   const [number, setNumber] = useState(1);
   const [distList, setDistList] = useState([]);
-  const [modalloader,setmodalloader] = useState(false)  
-  const [prevpage,setprevpage] = useState('')
-  const [nextPage,setnextpage] = useState('')
+  const [modalloader, setmodalloader] = useState(false);
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
   const [collection_List, setCollection_List] = useState([]);
-
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -88,10 +87,13 @@ export const TransactionSummaryReports = () => {
         endDate?.getMonth() + 1
       }-${endDate.getDate()}`;
       let str = "";
-      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
-      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
-      if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (dist_select?.id) str += `district_office=${dist_select?.id}&&`;
+      if (!validation(refnumber))
+        str += `${ConstKey.school_name}=${refnumber}&&`;
+      if (startDateStatus == false)
+        str += `${ConstKey.start_date}=${strtDte}&&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
+      if (dist_select?.id)
+        str += `${ConstKey.district_office}=${dist_select?.id}&&`;
 
       setmodalloader(true);
       axios
@@ -107,12 +109,13 @@ export const TransactionSummaryReports = () => {
     }
   };
   const onsuccessapi = (res) => {
-    setprevpage(res?.data?.data?.previous_page)
-    setnextpage(res?.data?.data?.next_page)
-        setCollectionList(res?.data?.data?.records);
+    setprevpage(res?.data?.data?.previous_page);
+    setnextpage(res?.data?.data?.next_page);
+    setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -120,7 +123,9 @@ export const TransactionSummaryReports = () => {
     setLoader(true);
     axios
       .post(
-        `${endUrl.reports_transaction_summary_report}?page=${count ? count : number}`
+        `${endUrl.reports_transaction_summary_report}?page=${
+          count ? count : number
+        }`
       )
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
@@ -129,7 +134,7 @@ export const TransactionSummaryReports = () => {
     setLoader(true);
     axios
       .post(`${endUrl.reports_transaction_summary_report}?all=true`)
-      .then((res) =>{
+      .then((res) => {
         setCollection_List(res?.data?.data?.records);
         setLoader(false);
       })
@@ -159,8 +164,8 @@ export const TransactionSummaryReports = () => {
   useEffect(() => {
     getCollectionRequest();
     getstatusList();
-    getDistrictList()
-    getallData()
+    getDistrictList();
+    getallData();
   }, [isFocused]);
 
   const onNext = () => {
@@ -169,7 +174,7 @@ export const TransactionSummaryReports = () => {
     setNumber(number + 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onPrevious = () => {
@@ -178,7 +183,7 @@ export const TransactionSummaryReports = () => {
     setNumber(number - 1);
     getCollectionRequest(count);
     setLoader(false);
-    getallData()
+    getallData();
   };
 
   const onReset = () => {
@@ -190,14 +195,13 @@ export const TransactionSummaryReports = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
-    getstatusList()
-    getDistrictList()
-    setSelect({})
-    setdist_Select({})
-    getallData()
+    getstatusList();
+    getDistrictList();
+    setSelect({});
+    setdist_Select({});
+    getallData();
   };
 
-  
   const tableHeader = [
     constants.schoolName,
     constants.schoolEmisNumber,
@@ -206,21 +210,22 @@ export const TransactionSummaryReports = () => {
     constants.TransactionReports_confirmCollected,
     constants.TransactionReports_Repair,
     constants.TransactionReports_Disposal,
-    constants.Approved_Replenishment_Number,
+    constants.number_approved_items,
   ];
 
   const tableKey = [
-    "school_name",
-    "school_emis",
-    "district_office",
-    "reference_number",
-    "confirmed_collections",
-    "repairs",
-    "disposals",
-    "approved",
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.reference_number,
+    ConstKey.confirmed_collections,
+    ConstKey.repairs,
+    ConstKey.disposals,
+    ConstKey.approved,
   ];
 
   const rendercomponent = ({ item }) => {
+    console.log(item);
     return (
       <DataDisplayList
         tableKey={tableKey}
@@ -232,8 +237,6 @@ export const TransactionSummaryReports = () => {
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
-
- 
 
   return loader ? (
     <Loader />
@@ -270,11 +273,11 @@ export const TransactionSummaryReports = () => {
               label={constants.DistrictOffice}
               data={distList}
               onSelect={setdist_Select}
-              task="district_office"
+              task={ConstKey.district_office}
             />
           </View>
         </View>
-      
+
         <View style={Styles.viewInputStyle}>
           <View style={Styles.dropsssssStyle}>
             <Text style={Styles.textStyle}>
@@ -337,33 +340,38 @@ export const TransactionSummaryReports = () => {
             />
           </TouchableOpacity>
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-             style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-             disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "Transactionreports"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "Transactionreports"
-                  )
-            }
-
-          >
-            <Text style={Styles.searchText}>
-              {constants.download}
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
             </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "Transactionreports",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "Transactionreports",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
@@ -375,52 +383,65 @@ export const TransactionSummaryReports = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
 
-      {searchStatus?
-     <View style={Styles.lastView}>
-     <TouchableOpacity
-       onPress={onPrevious}
-       disabled={prevpage == null ? true : false}
-     >
-       {prevpage == null ? (
-         <Image source={Images.leftarrow} />
-       ) : (
-         <Image
-           source={Images.rightarrow}
-           style={{ transform: [{ rotate: "180deg" }] }}
-         />
-       )}
-     </TouchableOpacity>
+      {searchStatus ? (
+        <View style={Styles.lastView}>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={prevpage == null ? true : false}
+          >
+            {prevpage == null ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
+            )}
+          </TouchableOpacity>
 
-     <TouchableOpacity
-       onPress={onNext}
-       disabled={nextPage == null? true : false}
-     >
-       {nextPage == null ? (
-         <Image
-           source={Images.leftarrow}
-           style={{ transform: [{ rotate: "180deg" }] }}
-         />
-       ) : (
-         <Image source={Images.rightarrow} />
-       )}
-     </TouchableOpacity>
-   </View>
-      :null}
-      {modalloader?
-      <ModalLoader visible={modalloader}/>
-    : null}
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={nextPage == null ? true : false}
+          >
+            {nextPage == null ? (
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );
 };

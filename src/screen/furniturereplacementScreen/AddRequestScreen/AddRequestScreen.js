@@ -78,8 +78,8 @@ export const AddFurRequestScreen = () => {
     obj.category_name = item.category_name;
     obj.item_name = task == constants.Edit ? item.item_name : item.name;
     obj.item_id = task == constants.Edit ? item.item_id : item.id;
-    obj.count = task == constants.Edit ? item.count : 1;
-    obj.item_full_count = task == constants.Edit ? item.item_full_count : 1;
+    obj.count = task == constants.Edit ? item.count : 0;
+    obj.item_full_count = task == constants.Edit ? item.item_full_count : 0;
 
     if (way == constants.Edit) {
       finalList.find(function (post, index) {
@@ -100,26 +100,12 @@ export const AddFurRequestScreen = () => {
   };
 
   const setQuantity = (val, task, item) => {
-    if (val == "") {
-      finalList.filter((element) => {
-        if (element.item_id == item?.item_id) {
-          setitem_fullCount("");
-          element.count = "";
-        }
-      });
-    } else if (task == constants.add) {
+    if (task == constants.add) {
       const plusValue = (val += 1);
       setitem_fullCount(parseInt(plusValue));
       finalList.filter((element) => {
         if (element.item_id == item?.item_id) {
           element.count = plusValue;
-        }
-      });
-    } else if (task == constants.nextText) {
-      setitem_fullCount(parseInt(val));
-      finalList.filter((element) => {
-        if (element.item_id == item?.item_id) {
-          element.count = parseInt(val);
         }
       });
     } else if (task == constants.Sub) {
@@ -130,18 +116,26 @@ export const AddFurRequestScreen = () => {
           element.count = minusValue;
         }
       });
+    } else if (task == constants.nextText) {
+      if (val == "") {
+        setitem_fullCount("");
+        finalList.filter((element) => {
+          if (element.item_id == item?.item_id) {
+            element.count = "";
+          }
+        });
+      } else {
+        setitem_fullCount(parseInt(val));
+        finalList.filter((element) => {
+          if (element.item_id == item?.item_id) {
+            element.count = parseInt(val);
+          }
+        });
+      }
     }
   };
-
   const onchangefurcount = (val, task, item) => {
-    if (val < 1) {
-      finalList.filter((element) => {
-        if (element.item_id == item?.item_id) {
-          setitem_fullCount("");
-          element.item_full_count = "";
-        }
-      });
-    } else if (task == constants.add) {
+    if (task == constants.add) {
       const plusValue = (val += 1);
       setitem_fullCount(parseInt(plusValue));
       finalList.filter((element) => {
@@ -150,12 +144,21 @@ export const AddFurRequestScreen = () => {
         }
       });
     } else if (task == constants.nextText) {
-      setitem_fullCount(parseInt(val));
-      finalList.filter((element) => {
-        if (element.item_id == item?.item_id) {
-          element.item_full_count = parseInt(val);
-        }
-      });
+      if (val == "") {
+        setitem_fullCount("");
+        finalList.filter((element) => {
+          if (element.item_id == item?.item_id) {
+            element.item_full_count = "";
+          }
+        });
+      } else {
+        setitem_fullCount(parseInt(val));
+        finalList.filter((element) => {
+          if (element.item_id == item?.item_id) {
+            element.item_full_count = parseInt(val);
+          }
+        });
+      }
     } else if (task == constants.Sub) {
       const minusValue = (val -= 1);
       setitem_fullCount(minusValue);
@@ -176,7 +179,7 @@ export const AddFurRequestScreen = () => {
         <View>
           <View style={style.qutView}>
             <TouchableOpacity
-              disabled={item.item_full_count == 1 ? true : false}
+              disabled={item.item_full_count == 0 ? true : false}
               style={style.minusButton}
               onPress={() =>
                 onchangefurcount(item.item_full_count, constants.Sub, item)
@@ -205,7 +208,7 @@ export const AddFurRequestScreen = () => {
         </View>
         <View style={style.qutView}>
           <TouchableOpacity
-            disabled={item.count == 1 ? true : false}
+            disabled={item.count == 0 ? true : false}
             style={style.minusButton}
             onPress={() => setQuantity(item.count, constants.Sub, item)}
           >
@@ -247,7 +250,10 @@ export const AddFurRequestScreen = () => {
 
   const onPressNext = () => {
     const isGreaterThanZero = finalList?.every(
-      (ele) => ele?.item_full_count > 0 && ele?.item_full_count >= ele.count
+      (ele) =>
+        ele?.item_full_count > 0 &&
+        ele?.item_full_count >= ele.count &&
+        ele?.count > 0
     );
     if (isGreaterThanZero) {
       setErrorMessage("");
@@ -303,9 +309,13 @@ export const AddFurRequestScreen = () => {
         (ele) => ele?.item_full_count >= ele.count
       );
       const isZero = finalList?.every((ele) => ele?.item_full_count > 0);
+      const COuntisZero = finalList?.every((ele) => ele?.count > 0);
       let str = "";
-      greaterNumber ? "" : (str += `${constants.Greater_full_count}`);
-      isZero ? "" : (str += `${constants.enter_full_count}`);
+      greaterNumber ? "" : (str += `${constants.Greater_full_count} `);
+      isZero ? "" : (str += `${constants.enter_full_count} `);
+      COuntisZero
+        ? ""
+        : (str += `${constants.Broken_FURITURE_COUNT_IS_REUIRED} `);
       setErrorMessage(str);
     }
   };

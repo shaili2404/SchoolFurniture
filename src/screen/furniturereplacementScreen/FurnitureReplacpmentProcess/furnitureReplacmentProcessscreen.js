@@ -1199,7 +1199,6 @@ export const FurnitureReplacmentProcess = () => {
                 <Text style={styles.noDataText}>
                   {constants.Broken_Item_Not_Added}
                 </Text>
-                <Text style={styles.noDataText}>{flatListData}</Text>
               </View>
             </>
           ) : (

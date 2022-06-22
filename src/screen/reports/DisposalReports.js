@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useLayoutEffect,
-} from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -32,6 +28,7 @@ import {
   exportDataToExcel,
   handleClick,
 } from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const DisposalReports = () => {
   const isFocused = useIsFocused();
@@ -100,11 +97,14 @@ export const DisposalReports = () => {
         endDate?.getMonth() + 1
       }-${endDate.getDate()}`;
       let str = "";
-      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
-      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
-      if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (select?.id) str += `category_id=${select?.id}&&`;
-      if (selectdist?.id) str += `district_office=${selectdist?.id}&&`;
+      if (!validation(refnumber))
+        str += `${ConstKey.school_name}=${refnumber}&&`;
+      if (startDateStatus == false)
+        str += `${ConstKey.start_date}=${strtDte}&&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
+      if (select?.id) str += `${ConstKey.category_id}=${select?.id}&&`;
+      if (selectdist?.id)
+        str += `${ConstKey.district_office}=${selectdist?.id}&&`;
       setmodalloader(true);
       axios
         .post(`${endUrl.reports_DisposalReports}?${str}`)
@@ -113,7 +113,7 @@ export const DisposalReports = () => {
           setmodalloader(false);
         })
         .catch((e) => {
-          console.log(e)
+          console.log(e);
           setmodalloader(false);
           setErrorMessage(e?.response?.data?.message);
         });
@@ -128,6 +128,7 @@ export const DisposalReports = () => {
   };
 
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -216,15 +217,15 @@ export const DisposalReports = () => {
   ];
 
   const tableKey = [
-    "school_name",
-    "school_emis",
-    "district_office",
-    "ref_number",
-    "transaction_date",
-    "furniture_category",
-    "furniture_item",
-    "disposal_count",
-    "total_per_school",
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.ref_number,
+    ConstKey.transaction_date,
+    ConstKey.furniture_category,
+    ConstKey.furniture_item,
+    ConstKey.disposal_count,
+    ConstKey.total_per_school,
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -238,7 +239,6 @@ export const DisposalReports = () => {
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
-
 
   return loader ? (
     <Loader />
@@ -275,7 +275,7 @@ export const DisposalReports = () => {
               label={constants.DistrictOffice}
               data={distList}
               onSelect={setSelectdist}
-              task="district_office"
+              task={ConstKey.district_office}
             />
           </View>
         </View>
@@ -336,7 +336,6 @@ export const DisposalReports = () => {
               modal
               open={close}
               date={endDate}
-              
               mode="date"
               maximumDate={new Date()}
               onConfirm={(date) => {
@@ -350,30 +349,38 @@ export const DisposalReports = () => {
             />
           </TouchableOpacity>
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-            style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-            disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "DisposalReport"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "DisposalReport"
-                  )
-            }
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "DisposalReport",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "DisposalReport",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
@@ -385,15 +392,36 @@ export const DisposalReports = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
       {searchStatus ? (
@@ -405,10 +433,7 @@ export const DisposalReports = () => {
             {prevpage == null ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
             )}
           </TouchableOpacity>
 
@@ -417,10 +442,7 @@ export const DisposalReports = () => {
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}
