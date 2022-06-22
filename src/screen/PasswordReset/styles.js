@@ -91,7 +91,7 @@ const style = StyleSheet.create({
     justifyContent: "center",
     position: "absolute",
     bottom: "5%",
-    width: "40%",
+    width: "30%",
   },
 });
 export default style;
