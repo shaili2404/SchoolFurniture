@@ -125,6 +125,7 @@ export const ReplanishmentReports = () => {
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -221,6 +222,7 @@ export const ReplanishmentReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
+    constants.furItem,
     constants.ReplanishmentReports_Replcount,
     constants.Approved_Replishment_Item,
     constants.Rejected_Replishment_Item,
@@ -235,6 +237,7 @@ export const ReplanishmentReports = () => {
     "ref_number",
     "transaction_date",
     "furniture_category",
+    "furniture_item",
     "replenishment_count",
     "approved_replenished_count",
     "rejected_replenished_count",
@@ -251,7 +254,7 @@ export const ReplanishmentReports = () => {
     );
   };
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
+    return <ListHeaderComman tableHeader={tableHeader} lenofContent="more" />;
   };
 
   return loader ? (
@@ -372,30 +375,38 @@ export const ReplanishmentReports = () => {
             task="name"
           />
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-            style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-            disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "ReplanishmentReports"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "ReplanishmentReports"
-                  )
-            }
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "ReplanishmentReports",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "ReplanishmentReports",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
@@ -407,15 +418,36 @@ export const ReplanishmentReports = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
       {searchStatus ? (

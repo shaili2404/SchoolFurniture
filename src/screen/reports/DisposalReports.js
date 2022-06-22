@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useLayoutEffect,
-} from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -113,7 +109,7 @@ export const DisposalReports = () => {
           setmodalloader(false);
         })
         .catch((e) => {
-          console.log(e)
+          console.log(e);
           setmodalloader(false);
           setErrorMessage(e?.response?.data?.message);
         });
@@ -128,6 +124,7 @@ export const DisposalReports = () => {
   };
 
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -210,6 +207,7 @@ export const DisposalReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
+    constants.furItem,
     constants.DisposalReports_DisposalCount,
     constants.ReplanishmentReports_TotalPerSchool,
   ];
@@ -221,6 +219,7 @@ export const DisposalReports = () => {
     "ref_number",
     "transaction_date",
     "furniture_category",
+    "furniture_item",
     "disposal_count",
     "total_per_school",
   ];
@@ -236,7 +235,6 @@ export const DisposalReports = () => {
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
-
 
   return loader ? (
     <Loader />
@@ -334,7 +332,6 @@ export const DisposalReports = () => {
               modal
               open={close}
               date={endDate}
-              
               mode="date"
               maximumDate={new Date()}
               onConfirm={(date) => {
@@ -348,30 +345,38 @@ export const DisposalReports = () => {
             />
           </TouchableOpacity>
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-            style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-            disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "DisposalReport"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "DisposalReport"
-                  )
-            }
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "DisposalReport",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "DisposalReport",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
@@ -383,15 +388,36 @@ export const DisposalReports = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
       {searchStatus ? (

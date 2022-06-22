@@ -89,6 +89,7 @@ export const DataDisplayList = ({
     }
   };
 
+  console.log(item.evidence_images)
   const checkPermission = async () => {
     console.log(imageData)
     if (Platform.OS === "ios") {
@@ -262,8 +263,8 @@ export const DataDisplayList = ({
                 <>
                   {val == "evidence_images" ? (
                     <>
-                      {item[val] == "NA" ? (
-                        <Text style={Styles.textStyle}>{item[val]}</Text>
+                      {item.evidence_images == undefined ? (
+                        <Text style={Styles.textStyle}>{"NA"}</Text>
                       ) : (
                         <TouchableOpacity
                           style={Styles.downloadButton}
@@ -290,7 +291,7 @@ export const DataDisplayList = ({
                                 setImageData(
                                   val == "replenishment_proof"
                                     ? item?.replenishment_proof?.path
-                                    : null
+                                    : item?.delivery_note?.path
                                 );
                                 console.log(item?.replenishment_proof?.path)
                               }}

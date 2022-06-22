@@ -310,4 +310,17 @@ export default StyleSheet.create({
     fontSize: 22,
     marginTop: 10
   },
+  noDataView: {
+    backgroundColor: COLORS.LightGreen,
+    height: 56,
+    borderBottomColor: COLORS.Black,
+    borderBottomWidth: 0.4,
+    width: width,
+    justifyContent: "center",
+  },
+  noDataText: {
+    fontSize: 16,
+    textAlignVertical: "center",
+    textAlign: "center",
+  },
 });

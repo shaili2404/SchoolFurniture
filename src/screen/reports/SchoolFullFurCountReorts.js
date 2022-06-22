@@ -29,7 +29,10 @@ import ModalLoader from "../../component/ModalLoader";
 import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
-import { exportDataToExcel, handleClick } from "../../component/jsontoPdf/JsonToPdf";
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../component/jsontoPdf/JsonToPdf";
 
 export const SchoolFullFurReports = () => {
   const isFocused = useIsFocused();
@@ -118,6 +121,7 @@ export const SchoolFullFurReports = () => {
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -262,7 +266,6 @@ export const SchoolFullFurReports = () => {
     setfur_Select(item);
     getfuritem(item?.id);
   };
- 
 
   return loader ? (
     <Loader />
@@ -382,31 +385,38 @@ export const SchoolFullFurReports = () => {
             task="name"
           />
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-             style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-             disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "School_full_fur_count"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "School_full_fur_count"
-                  )
-            }
-
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "School_full_fur_count",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "School_full_fur_count",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
@@ -418,15 +428,36 @@ export const SchoolFullFurReports = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
       {searchStatus ? (

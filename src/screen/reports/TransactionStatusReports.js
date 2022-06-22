@@ -113,6 +113,7 @@ export const TransactionStatusReports = () => {
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -208,7 +209,7 @@ export const TransactionStatusReports = () => {
     constants.Transaction_Status,
     constants.Evidence_Proof,
     constants.Replenishment_Proof,
-    constants.Delivery_Note
+    constants.Delivery_Note,
   ];
 
   const tableKey = [
@@ -220,10 +221,10 @@ export const TransactionStatusReports = () => {
     "transaction_status",
     "evidence_images",
     "replenishment_proof",
-    "delivery_note"
+    "delivery_note",
   ];
   const rendercomponent = ({ item }) => {
-    console.log('226',item)
+    console.log("226", item);
     return (
       <DataDisplayList
         tableKey={tableKey}
@@ -345,30 +346,38 @@ export const TransactionStatusReports = () => {
             />
           </TouchableOpacity>
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-           style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-           disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "transaction_status_report"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "transaction_status_report"
-                  )
-            }
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "transaction_status_report",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "transaction_status_report",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {dateErrorMessage ? (
           <View style={Styles.dateerrorView}>
@@ -380,15 +389,36 @@ export const TransactionStatusReports = () => {
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
 

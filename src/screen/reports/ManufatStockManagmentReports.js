@@ -79,6 +79,7 @@ export const ManufactStockManageReports = () => {
     setLoader(false);
   };
   const onerrorapi = (e) => {
+    setCollectionList(false);
     setLoader(false);
   };
 
@@ -222,45 +223,74 @@ export const ManufactStockManageReports = () => {
             task="name"
           />
         </View>
-        <View style={Styles.downloadButtonView}>
-          <Text style={Styles.transactionText}>{constants.exportreports}</Text>
-          <TouchableOpacity
-             style={errorMessage ? Styles.downloadButtonopac :  Styles.downloadButton}
-             disabled={errorMessage? true:false}
-            onPress={() =>
-              Platform.OS == "android"
-                ? handleClick(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "stockreports"
-                  )
-                : exportDataToExcel(
-                    searchStatus,
-                    collection_List,
-                    collectionList,
-                    "stockreports"
-                  )
-            }
-          >
-            <Text style={Styles.searchText}>{constants.download}</Text>
-          </TouchableOpacity>
-        </View>
+        {collectionList == undefined ? null : (
+          <View style={Styles.downloadButtonView}>
+            <Text style={Styles.transactionText}>
+              {constants.exportreports}
+            </Text>
+            <TouchableOpacity
+              style={
+                errorMessage ? Styles.downloadButtonopac : Styles.downloadButton
+              }
+              disabled={errorMessage ? true : false}
+              onPress={() =>
+                Platform.OS == "android"
+                  ? handleClick(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "stockreports",
+                      tableHeader
+                    )
+                  : exportDataToExcel(
+                      searchStatus,
+                      collection_List,
+                      collectionList,
+                      "stockreports",
+                      tableHeader
+                    )
+              }
+            >
+              <Text style={Styles.searchText}>{constants.download}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {errorMessage ? (
           <View style={Styles.errorView}>
             <Text style={Styles.errormessStyle}>{errorMessage}</Text>
           </View>
         ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
-              keyExtractor={(item) => item.id}
-              data={collectionList}
-              renderItem={rendercomponent}
-              scrollEnabled={false}
-            />
-          </ScrollView>
+          <>
+            {collectionList == undefined ? (
+              <>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <ListHeaderComman
+                    tableHeader={tableHeader}
+                    lenofContent="more"
+                  />
+                </ScrollView>
+                <View style={Styles.noDataView}>
+                  <Text style={Styles.noDataText}>
+                    {constants.No_Transactions_Found}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <FlatList
+                  ListHeaderComponent={HeaderComponet}
+                  keyExtractor={(item) => item.id}
+                  data={collectionList}
+                  renderItem={rendercomponent}
+                  scrollEnabled={false}
+                />
+              </ScrollView>
+            )}
+          </>
         )}
       </View>
       {searchStatus ? (

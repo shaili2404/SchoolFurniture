@@ -26,6 +26,7 @@ import AlertText from "../../Alert/AlertText";
 import Screen from "../../locales/navigationConst";
 import ConstKey from "../../locales/ApikeyConst";
 import ScreenTitle from "../../locales/ScreenTitle";
+import { ListHeader } from "./FurnitureReplacpmentProcess/ListDisplay/HeaderList";
 
 export const FurnitureReplacmentManfacturer = () => {
   const isFocused = useIsFocused();
@@ -115,6 +116,7 @@ export const FurnitureReplacmentManfacturer = () => {
   };
 
   const onerrorapi = (e) => {
+    setCollectionList(undefined);
     setLoader(false);
   };
 
@@ -205,6 +207,7 @@ export const FurnitureReplacmentManfacturer = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
+  console.log(JSON.stringify(collectionList));
   return loader ? (
     <Loader />
   ) : (
@@ -335,18 +338,33 @@ export const FurnitureReplacmentManfacturer = () => {
               <Text style={Styles.errormessStyle}>{errorMessage}</Text>
             </View>
           ) : (
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              <FlatList
-                ListHeaderComponent={HeaderComponet}
-                keyExtractor={(item) => item.id}
-                data={collectionList}
-                scrollEnabled={false}
-                renderItem={rendercomponent}
-              />
-            </ScrollView>
+            <>
+              {collectionList == undefined ? (
+                <>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <ListHeader tableHeader={tableHeader} lenofContent="more" />
+                  </ScrollView>
+                  <View style={Styles.noDataView}>
+                    <Text style={Styles.noDataText}>
+                      {constants.No_Collection_Requests_Found}
+                    </Text>
+                  </View>
+                </>
+              ) : (
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  <FlatList
+                    ListHeaderComponent={HeaderComponet}
+                    keyExtractor={(item) => item.id}
+                    data={collectionList}
+                    scrollEnabled={false}
+                    renderItem={rendercomponent}
+                  />
+                </ScrollView>
+              )}
+            </>
           )}
         </View>
 

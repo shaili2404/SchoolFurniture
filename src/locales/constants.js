@@ -229,5 +229,8 @@ const constants = {
   Status_Replanishment_Approved: "Replanishment Approved",
   Status_Replanishment_Rejected: "Replanishment Rejected",
   Status_Pending_Replanishment_Approval: "Pending Replanishment Approval",
+  No_Collection_Requests_Found :'No Collection Requests Found',
+  No_Transactions_Found :'No Transactions Found',
+  number_approved_items:'Number of Approved Replenishment'
 };
 export default constants;
