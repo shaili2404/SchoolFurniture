@@ -28,6 +28,7 @@ import {
   exportDataToExcel,
   handleClick,
 } from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const DisposalReports = () => {
   const isFocused = useIsFocused();
@@ -96,11 +97,14 @@ export const DisposalReports = () => {
         endDate?.getMonth() + 1
       }-${endDate.getDate()}`;
       let str = "";
-      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
-      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
-      if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (select?.id) str += `category_id=${select?.id}&&`;
-      if (selectdist?.id) str += `district_office=${selectdist?.id}&&`;
+      if (!validation(refnumber))
+        str += `${ConstKey.school_name}=${refnumber}&&`;
+      if (startDateStatus == false)
+        str += `${ConstKey.start_date}=${strtDte}&&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
+      if (select?.id) str += `${ConstKey.category_id}=${select?.id}&&`;
+      if (selectdist?.id)
+        str += `${ConstKey.district_office}=${selectdist?.id}&&`;
       setmodalloader(true);
       axios
         .post(`${endUrl.reports_DisposalReports}?${str}`)
@@ -213,15 +217,15 @@ export const DisposalReports = () => {
   ];
 
   const tableKey = [
-    "school_name",
-    "school_emis",
-    "district_office",
-    "ref_number",
-    "transaction_date",
-    "furniture_category",
-    "furniture_item",
-    "disposal_count",
-    "total_per_school",
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.ref_number,
+    ConstKey.transaction_date,
+    ConstKey.furniture_category,
+    ConstKey.furniture_item,
+    ConstKey.disposal_count,
+    ConstKey.total_per_school,
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -271,7 +275,7 @@ export const DisposalReports = () => {
               label={constants.DistrictOffice}
               data={distList}
               onSelect={setSelectdist}
-              task="district_office"
+              task={ConstKey.district_office}
             />
           </View>
         </View>
@@ -429,10 +433,7 @@ export const DisposalReports = () => {
             {prevpage == null ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
             )}
           </TouchableOpacity>
 
@@ -441,10 +442,7 @@ export const DisposalReports = () => {
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}

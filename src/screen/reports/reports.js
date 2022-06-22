@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
-import { SafeAreaView, View, Text, ScrollView,Image } from "react-native";
+import { SafeAreaView, View, Text, ScrollView, Image } from "react-native";
 
 import constants from "../../locales/constants";
 import Styles from "./style";
@@ -48,7 +48,7 @@ export const Reports = () => {
     setPermissionId({
       reports_permission: repList,
     });
-    setLoader(false)
+    setLoader(false);
   }, []);
 
   const ListShowaccDrop = () => {
@@ -94,10 +94,12 @@ export const Reports = () => {
         </SafeAreaView>
       ) : (
         <SafeAreaView style={Styles.mainsecView}>
-        <View style={Styles.errorMsgView}>
-          <Image source={Images.error} style={Styles.errIconStyle} />
-          <Text style={Styles.errorMsg}>{constants.Error_Permission_Msg}</Text>
-        </View>
+          <View style={Styles.errorMsgView}>
+            <Image source={Images.error} style={Styles.errIconStyle} />
+            <Text style={Styles.errorMsg}>
+              {constants.Error_Permission_Msg}
+            </Text>
+          </View>
         </SafeAreaView>
       )}
     </>

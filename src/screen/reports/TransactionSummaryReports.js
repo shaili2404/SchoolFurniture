@@ -29,6 +29,7 @@ import {
   exportDataToExcel,
   handleClick,
 } from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const TransactionSummaryReports = () => {
   const isFocused = useIsFocused();
@@ -86,10 +87,13 @@ export const TransactionSummaryReports = () => {
         endDate?.getMonth() + 1
       }-${endDate.getDate()}`;
       let str = "";
-      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
-      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
-      if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (dist_select?.id) str += `district_office=${dist_select?.id}&&`;
+      if (!validation(refnumber))
+        str += `${ConstKey.school_name}=${refnumber}&&`;
+      if (startDateStatus == false)
+        str += `${ConstKey.start_date}=${strtDte}&&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
+      if (dist_select?.id)
+        str += `${ConstKey.district_office}=${dist_select?.id}&&`;
 
       setmodalloader(true);
       axios
@@ -206,22 +210,22 @@ export const TransactionSummaryReports = () => {
     constants.TransactionReports_confirmCollected,
     constants.TransactionReports_Repair,
     constants.TransactionReports_Disposal,
-    constants.number_approved_items
+    constants.number_approved_items,
   ];
 
   const tableKey = [
-    "school_name",
-    "school_emis",
-    "district_office",
-    "reference_number",
-    "confirmed_collections",
-    "repairs",
-    "disposals",
-    "approved"
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.reference_number,
+    ConstKey.confirmed_collections,
+    ConstKey.repairs,
+    ConstKey.disposals,
+    ConstKey.approved,
   ];
 
   const rendercomponent = ({ item }) => {
-    console.log(item)
+    console.log(item);
     return (
       <DataDisplayList
         tableKey={tableKey}
@@ -269,7 +273,7 @@ export const TransactionSummaryReports = () => {
               label={constants.DistrictOffice}
               data={distList}
               onSelect={setdist_Select}
-              task="district_office"
+              task={ConstKey.district_office}
             />
           </View>
         </View>
@@ -421,10 +425,7 @@ export const TransactionSummaryReports = () => {
             {prevpage == null ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
             )}
           </TouchableOpacity>
 
@@ -433,10 +434,7 @@ export const TransactionSummaryReports = () => {
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}

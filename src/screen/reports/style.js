@@ -67,7 +67,7 @@ export default StyleSheet.create({
   },
   downloadButtonopac: {
     backgroundColor: COLORS.GreenBox,
-    opacity:0.5,
+    opacity: 0.5,
     borderRadius: 5,
     width: 90,
     height: 30,
@@ -300,15 +300,15 @@ export default StyleSheet.create({
     height: 50,
   },
   errorMsgView: {
-    alignItems: 'center',
-    justifyContent:'center',
-    height:height
+    alignItems: "center",
+    justifyContent: "center",
+    height: height,
   },
   errorMsg: {
-    textAlign: 'center', 
-    color: COLORS.ThemeGreen, 
+    textAlign: "center",
+    color: COLORS.ThemeGreen,
     fontSize: 22,
-    marginTop: 10
+    marginTop: 10,
   },
   noDataView: {
     backgroundColor: COLORS.LightGreen,
@@ -323,4 +323,5 @@ export default StyleSheet.create({
     textAlignVertical: "center",
     textAlign: "center",
   },
+  TransformStyle: { transform: [{ rotate: "180deg" }] },
 });

@@ -28,6 +28,7 @@ import {
   exportDataToExcel,
   handleClick,
 } from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const ReplanishmentReports = () => {
   const isFocused = useIsFocused();
@@ -90,13 +91,15 @@ export const ReplanishmentReports = () => {
         endDate?.getMonth() + 1
       }-${endDate.getDate()}`;
       let str = "";
-      if (!validation(refnumber)) str += `school_name=${refnumber}&&`;
-      if (startDateStatus == false) str += `start_date=${strtDte}&&`;
-      if (enddateStatus == false) str += `end_date=${endDte}&&`;
-      if (select?.id) str += `district_office=${select?.id}&&`;
-      if (fur_select?.id) str += `category_id=${fur_select?.id}&&`;
+      if (!validation(refnumber))
+        str += `${ConstKey.school_name}=${refnumber}&&`;
+      if (startDateStatus == false)
+        str += `${ConstKey.start_date}=${strtDte}&&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
+      if (select?.id) str += `${ConstKey.district_office}=${select?.id}&&`;
+      if (fur_select?.id) str += `${ConstKey.category_id}=${fur_select?.id}&&`;
       if (replanishment_status?.id)
-        str += `replenishment_status=${replanishment_status?.id}&&`;
+        str += `${ConstKey.replenishment_status}=${replanishment_status?.id}&&`;
       setmodalloader(true);
       axios
         .post(`${endUrl.reports_ReplanishmentReports}?${str}`)
@@ -231,18 +234,18 @@ export const ReplanishmentReports = () => {
   ];
 
   const tableKey = [
-    "school_name",
-    "school_emis",
-    "district_office",
-    "ref_number",
-    "transaction_date",
-    "furniture_category",
-    "furniture_item",
-    "replenishment_count",
-    "approved_replenished_count",
-    "rejected_replenished_count",
-    "replenishment_status",
-    "total_per_school",
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.ref_number,
+    ConstKey.transaction_date,
+    ConstKey.furniture_category,
+    ConstKey.furniture_item,
+    ConstKey.replenishment_count,
+    ConstKey.approved_replenished_count,
+    ConstKey.rejected_replenished_count,
+    ConstKey.replenishment_status,
+    ConstKey.total_per_school,
   ];
   const rendercomponent = ({ item }) => {
     return (
@@ -293,7 +296,7 @@ export const ReplanishmentReports = () => {
               label={constants.DistrictOffice}
               data={distList}
               onSelect={setSelect}
-              task="district_office"
+              task={ConstKey.district_office}
             />
           </View>
         </View>
@@ -459,10 +462,7 @@ export const ReplanishmentReports = () => {
             {prevpage == null ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
             )}
           </TouchableOpacity>
 
@@ -471,10 +471,7 @@ export const ReplanishmentReports = () => {
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}

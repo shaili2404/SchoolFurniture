@@ -25,6 +25,7 @@ import {
   exportDataToExcel,
   handleClick,
 } from "../../component/jsontoPdf/JsonToPdf";
+import ConstKey from "../../locales/ApikeyConst";
 
 export const ManufactStockManageReports = () => {
   const isFocused = useIsFocused();
@@ -56,8 +57,8 @@ export const ManufactStockManageReports = () => {
       setErrorMessage(constants.enterSearchData);
     else {
       let str = "";
-      if (select?.id) str += `category=${select?.id}&&`;
-      if (stockItem?.id) str += `item=${stockItem?.id}&&`;
+      if (select?.id) str += `${ConstKey.category}=${select?.id}&&`;
+      if (stockItem?.id) str += `${ConstKey.item}=${stockItem?.id}&&`;
       setmodalloader(true);
 
       axios
@@ -167,7 +168,7 @@ export const ManufactStockManageReports = () => {
 
   const tableHeader = [constants.FurCategory, constants.furItem];
 
-  const tableKey = ["furniture_category", "furniture_item"];
+  const tableKey = [ConstKey.furniture_category, ConstKey.furniture_item];
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -302,10 +303,7 @@ export const ManufactStockManageReports = () => {
             {prevpage == null ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.rightarrow} style={Styles.TransformStyle} />
             )}
           </TouchableOpacity>
 
@@ -314,10 +312,7 @@ export const ManufactStockManageReports = () => {
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
-              <Image
-                source={Images.leftarrow}
-                style={{ transform: [{ rotate: "180deg" }] }}
-              />
+              <Image source={Images.leftarrow} style={Styles.TransformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}
