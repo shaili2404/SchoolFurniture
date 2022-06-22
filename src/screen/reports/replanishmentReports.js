@@ -391,14 +391,14 @@ export const ReplanishmentReports = () => {
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "ReplanishmentReports",
+                      "ReplenishmentReports",
                       tableHeader
                     )
                   : exportDataToExcel(
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "ReplanishmentReports",
+                      "ReplenishmentReports",
                       tableHeader
                     )
               }

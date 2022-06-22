@@ -231,6 +231,7 @@ const constants = {
   Status_Pending_Replanishment_Approval: "Pending Replanishment Approval",
   No_Collection_Requests_Found :'No Collection Requests Found',
   No_Transactions_Found :'No Transactions Found',
-  number_approved_items:'Number of Approved Replenishment'
+  number_approved_items:'Number of Approved Replenishment',
+  Broken_FURITURE_COUNT_IS_REUIRED: "Broken Furniture Count Is Required",
 };
 export default constants;
