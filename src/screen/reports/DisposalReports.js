@@ -210,6 +210,7 @@ export const DisposalReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
+    constants.Furniture_Item,
     constants.DisposalReports_DisposalCount,
     constants.ReplanishmentReports_TotalPerSchool,
   ];
@@ -221,6 +222,7 @@ export const DisposalReports = () => {
     "ref_number",
     "transaction_date",
     "furniture_category",
+    "furniture_item",
     "disposal_count",
     "total_per_school",
   ];

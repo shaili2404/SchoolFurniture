@@ -36,7 +36,7 @@ const constants = {
   editDistrict: "Edit District",
   District: "District",
   School: "School",
-  schoolEmisNumber: "School EMIS",
+  schoolEmisNumber: "School EMIS Number",
   SchoolDistrict: "District",
   SchoolPrinciple: "School Principal",
   SchoolTelno: "Telephone Number",
@@ -174,7 +174,7 @@ const constants = {
 
   ReplanishmentReports_Replcount: "Replenishment Count",
   ReplanishmentReports_trancRefNo: "Transaction Reference Number",
-  ReplanishmentReports_tranRefDate: "Transaction Reference Date",
+  ReplanishmentReports_tranRefDate: "Transaction Date",
   ReplanishmentReports_replaStatus: "Replenishment Status",
   ReplanishmentReports_TotalPerSchool: "Total Per School",
   DisposalReports_DisposalCount: "Disposal Count",
@@ -226,8 +226,11 @@ const constants = {
   Evidence_Proof: "Evidence Proof",
   Replenishment_Proof: "Replenishment Proof",
   Delivery_Note: "Delivery Note",
-  Status_Replanishment_Approved: "Replanishment Approved",
-  Status_Replanishment_Rejected: "Replanishment Rejected",
-  Status_Pending_Replanishment_Approval: "Pending Replanishment Approval",
+  Status_Replanishment_Approved: "Replenishment Approved",
+  Status_Replanishment_Rejected: "Replenishment Rejected",
+  Status_Pending_Replanishment_Approval: "Pending Replenishment Approval",
+  Furniture_Item: "Furniture Item",
+  Approved_Replenishment_Number: "Number of Approved Replenishment",
+  Status_Partial_Replenishment: "Partial Replenishment",
 };
 export default constants;

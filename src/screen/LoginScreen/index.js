@@ -97,7 +97,7 @@ export const LoginScreen = () => {
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.subContainer}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "android" ? "position" : null}
+          behavior="position"
           keyboardVerticalOffset={0}
         >
           <LogoImg />

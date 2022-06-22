@@ -206,6 +206,7 @@ export const TransactionSummaryReports = () => {
     constants.TransactionReports_confirmCollected,
     constants.TransactionReports_Repair,
     constants.TransactionReports_Disposal,
+    constants.Approved_Replenishment_Number,
   ];
 
   const tableKey = [
@@ -216,6 +217,7 @@ export const TransactionSummaryReports = () => {
     "confirmed_collections",
     "repairs",
     "disposals",
+    "approved",
   ];
 
   const rendercomponent = ({ item }) => {

@@ -72,6 +72,11 @@ export const GraphChart = () => {
             y: data?.replenishment_rejected,
             color: "#2F5597",
           },
+          {
+            x: 10,
+            y: data?.partial_replenishment,
+            color: "#000",
+          },
         ]);
       })
       .catch((e) => {});
@@ -174,6 +179,10 @@ export const GraphChart = () => {
               },
               {
                 name: `${constants.Replenishment_Rejected}-${data?.replenishment_rejected}`,
+                symbol: { fill: "#2F5597", type: "cricle" },
+              },
+              {
+                name: `${constants.Status_Partial_Replenishment}-${data?.partial_replenishment}`,
                 symbol: { fill: "#2F5597", type: "cricle" },
               },
             ]}

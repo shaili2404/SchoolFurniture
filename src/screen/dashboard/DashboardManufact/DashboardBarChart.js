@@ -67,6 +67,11 @@ export const BarChart = () => {
             y: data?.replenishment_rejected,
             label: constants.Status_Replanishment_Rejected,
           },
+          {
+            x: 10,
+            y: data?.partial_replenishment,
+            label: constants.Status_Partial_Replenishment,
+          },
         ]);
       })
       .catch((e) => {});
