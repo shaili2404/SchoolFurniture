@@ -82,31 +82,41 @@ export const FurnitureReplacmentManfacturer = () => {
 
   const onsearch = () => {
     setSearchStatus(false);
-    let strtDte = `${startDate?.getFullYear()}-${
-      startDate?.getMonth() + 1
-    }-${startDate?.getDate()}`;
-    let endDte = `${endDate?.getFullYear()}-${
-      endDate?.getMonth() + 1
-    }-${endDate.getDate()}`;
-    let str = "";
-    if (!validation(refnumber)) str += `${ConstKey.ref_number}=${refnumber}&`;
-    if (startDateStatus == false) str += `${ConstKey.start_date}=${strtDte}&`;
-    if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&`;
-    if (!validation(emisNumber)) str += `${ConstKey.emis}=${emisNumber}&`;
-    if (select?.id) str += `${ConstKey.status_id}=${select?.id}&`;
-    setLoader(true);
-    console.log(str);
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios
-      .get(`${endUrl.searchfurRequest}?${str}`)
-      .then((res) => {
-        setCollectionList(res?.data?.data);
-        setLoader(false);
-      })
-      .catch((e) => {
-        onerrorapi(e);
-        setErrorMessage(e?.response?.data?.message);
-      });
+    if (
+      select?.id == null &&
+      validation(emisNumber) &&
+      startDateStatus == true &&
+      enddateStatus == true &&
+      validation(refnumber)
+    )
+      setErrorMessage(constants.enterSearchData);
+    else {
+      let strtDte = `${startDate?.getFullYear()}-${
+        startDate?.getMonth() + 1
+      }-${startDate?.getDate()}`;
+      let endDte = `${endDate?.getFullYear()}-${
+        endDate?.getMonth() + 1
+      }-${endDate.getDate()}`;
+      let str = "";
+      if (!validation(refnumber)) str += `${ConstKey.ref_number}=${refnumber}&`;
+      if (startDateStatus == false) str += `${ConstKey.start_date}=${strtDte}&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&`;
+      if (!validation(emisNumber)) str += `${ConstKey.emis}=${emisNumber}&`;
+      if (select?.id) str += `${ConstKey.status_id}=${select?.id}&`;
+      setLoader(true);
+      console.log(str);
+      axios.defaults.headers.common["Content-Type"] = "application/json";
+      axios
+        .get(`${endUrl.searchfurRequest}?${str}`)
+        .then((res) => {
+          setCollectionList(res?.data?.data);
+          setLoader(false);
+        })
+        .catch((e) => {
+          onerrorapi(e);
+          setErrorMessage(e?.response?.data?.message);
+        });
+    }
   };
 
   const onsuccessapi = (res) => {
