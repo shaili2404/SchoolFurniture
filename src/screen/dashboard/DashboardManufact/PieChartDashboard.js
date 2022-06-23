@@ -45,7 +45,7 @@ export const Piechart = () => {
         ]);
       })
       .catch((e) => {
-        console.log(e);
+       
       });
   };
 

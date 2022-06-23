@@ -71,7 +71,7 @@ const AddNewUsers = () => {
 
       setOrganizationList(tempList);
     } catch (e) {
-      console.log(e);
+      
     }
   };
 
@@ -80,7 +80,7 @@ const AddNewUsers = () => {
       const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
       setSchoolData(response?.data?.data);
     } catch (e) {
-      console.log(e);
+    
     }
   };
 
@@ -89,7 +89,7 @@ const AddNewUsers = () => {
       const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
       setSchoolData(response?.data?.data);
     } catch (e) {
-      console.log(e);
+      
     }
   };
 

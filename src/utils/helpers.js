@@ -37,7 +37,6 @@ export const storeData = async (key, value) => {
   export const logout = async () => {
     try {
       await AsyncStorage.removeItem('userDetails');
-      console.log("logout successfully");
       navigate('LoginScreen');
     } catch (e) { }
   };

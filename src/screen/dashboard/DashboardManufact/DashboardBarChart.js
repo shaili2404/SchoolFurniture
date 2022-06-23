@@ -20,7 +20,6 @@ export const BarChart = () => {
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
-        console.log('23',data)
         setsampleData([
           {
             x: 1,

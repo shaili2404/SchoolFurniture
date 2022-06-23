@@ -123,4 +123,31 @@ export default StyleSheet.create({
     marginBottom: "2%",
   },
   transformStyle: { transform: [{ rotate: "180deg" }] },
+  errorMsg: {
+    textAlign: "center",
+    color: COLORS.ThemeGreen,
+    fontSize: 22,
+    marginTop: 10,
+  },
+  errIconStyle: {
+    width: 50,
+    height: 50,
+  },
+  errorMsgView: {
+    alignItems: "center",
+  },
+  errrorparentView: { justifyContent: "center", height: "100%" },
+  noDataView: {
+    backgroundColor: COLORS.LightGreen,
+    height: 56,
+    borderBottomColor: COLORS.Black,
+    borderBottomWidth: 0.4,
+    width: width,
+    justifyContent: "center",
+  },
+  noDataText: {
+    fontSize: 16,
+    textAlignVertical: "center",
+    textAlign: "center",
+  },
 });

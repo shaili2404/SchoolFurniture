@@ -89,9 +89,7 @@ export const DataDisplayList = ({
     }
   };
 
-  console.log(item.evidence_images)
   const checkPermission = async () => {
-    console.log(imageData)
     if (Platform.OS === "ios") {
       downloadFile();
     } else {
@@ -293,7 +291,6 @@ export const DataDisplayList = ({
                                     ? item?.replenishment_proof?.path
                                     : item?.delivery_note?.path
                                 );
-                                console.log(item?.replenishment_proof?.path)
                               }}
                             >
                               <Text style={Styles.searchText}>

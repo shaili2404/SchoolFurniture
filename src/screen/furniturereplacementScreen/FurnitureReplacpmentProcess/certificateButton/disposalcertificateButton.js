@@ -39,7 +39,7 @@ export const DisposalCertificateButton = ({
         setDistList(res?.data?.data);
       })
       .catch((e) => {
-        console.log(e);
+        
       });
   };
 

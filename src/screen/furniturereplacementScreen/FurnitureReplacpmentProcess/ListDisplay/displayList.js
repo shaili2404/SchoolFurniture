@@ -121,17 +121,6 @@ export const DisplayList = ({
     });
     onsubmitApproved(flatListData);
   };
-  // const onchangedeliver = (val) => {
-  //   let Confirm_cnt;
-  //   if (val > item.confirmed_count) Confirm_cnt = item.confirmed_count;
-  //   else Confirm_cnt = val;
-  //   setDeliverCount(Confirm_cnt);
-  //   flatListData.map((element) => {
-  //     if (element.id === item.id) element.deliver_count = Confirm_cnt;
-  //   });
-  //   onsubmitDilverdetails(flatListData);
-  // };
-
   useEffect(() => {
     flatListData.map((element) => {
       if (element?.id == item?.id) {
@@ -146,9 +135,9 @@ export const DisplayList = ({
   useEffect(() => {
     flatListData.map((element) => {
       if (element?.id == item?.id) {
-        if (checkZero == 0){ 
-        element.accept_count = "0"
-        element.reject_count = "0"
+        if (checkZero == 0) {
+          element.accept_count = "0";
+          element.reject_count = "0";
         }
       }
     });

@@ -37,12 +37,6 @@ const App = () => {
         // DocumentPicker.types.pdf
       });
       for (const res of result) {
-      //Printing the log realted to the file
-      console.log('res : ' + JSON.stringify(res));
-      console.log('URI : ' + res.uri);
-      console.log('Type : ' + res.type);
-      console.log('File Name : ' + res.name);
-      console.log('File Size : ' + res.size);
       }
       //Setting the state to show single file attributes
       setSingleFile(result);
@@ -68,11 +62,7 @@ const App = () => {
       });
       for (const res of results) {
         //Printing the log realted to the file
-        console.log('res : ' + JSON.stringify(res));
-        console.log('URI : ' + res.uri);
-        console.log('Type : ' + res.type);
-        console.log('File Name : ' + res.name);
-        console.log('File Size : ' + res.size);
+       
       }
       //Setting the state to show multiple file attributes
       setMultipleFile(results);
@@ -132,7 +122,7 @@ const App = () => {
         //  setSuccessAlert(true);
         //  setLoader(false);
         //  setMainMsg(res?.message);
-        console.log("data",res)
+      
        } else {
          ErrorApi(res, "collection");
        }
