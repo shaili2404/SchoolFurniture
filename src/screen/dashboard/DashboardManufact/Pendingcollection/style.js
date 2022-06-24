@@ -51,4 +51,12 @@ export default StyleSheet.create({
     bottom: 130,
     alignSelf: "center",
   },
+  mainVIew:{
+    flexDirection:'row',
+
+  },
+  dashbarimagesicon:{
+    marginTop: 10, 
+    height:30
+  }
 });

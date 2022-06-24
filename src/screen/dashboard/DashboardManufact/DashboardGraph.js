@@ -5,7 +5,7 @@ import {
   VictoryLegend,
   VictoryAxis,
 } from "victory-native";
-import { View, Text, TouchableOpacity, Platform } from "react-native";
+import { View, Text, TouchableOpacity, Platform, Image } from "react-native";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import Loader from "../../../component/loader";
@@ -15,9 +15,20 @@ import {
   exportDataToExcel,
   handleClick,
 } from "../../../component/jsontoPdf/JsonToPdf";
+import Images from "../../../asset/images";
 
 export const GraphChart = () => {
   const [loader, setLoader] = useState(false);
+  const tableHeader = [
+    constants.schoolName,
+    constants.emisNumber,
+    constants.District,
+    constants.referenceNumber,
+    constants.dateCreated,
+    constants.FurCategory,
+    constants.furItem,
+    constants.status,
+  ];
   const [sampleData, setsampleData] = useState([]);
   const getData = () => {
     axios
@@ -28,57 +39,72 @@ export const GraphChart = () => {
         setsampleData([
           {
             x: 1,
-            y: data?.collection_accepted,
+            y: data?.collection_accepted == 0 ? 0 : data?.collection_accepted,
             color: "#88B2DC",
           },
           {
             x: 2,
-            y: data?.delivery_confirmed,
+            y: data?.delivery_confirmed == 0 ? 0 : data?.delivery_confirmed,
             color: "#E97A7A",
           },
           {
             x: 3,
-            y: data?.pending_collection,
+            y: data?.pending_collection == 0 ? 0 : data?.pending_collection,
             color: "#8CBD90",
           },
           {
             x: 4,
-            y: data?.pending_delivery,
+            y: data?.pending_delivery == 0 ? 0 : data?.pending_delivery,
             color: "#C3AF7A",
           },
           {
             x: 5,
-            y: data?.pending_repairs,
+            y: data?.pending_repairs == 0 ? 0 : data?.pending_repairs,
             color: "#AEF182",
           },
           {
             x: 6,
-            y: data?.pending_replenishment,
+            y:
+              data?.pending_replenishment == 0
+                ? 1
+                : data?.pending_replenishment,
             color: "#FF6700",
           },
           {
             x: 7,
-            y: data?.repair_completed,
+            y: data?.repair_completed == 0 ? 0 : data?.repair_completed,
             color: "#FFC000",
           },
           {
             x: 8,
-            y: data?.replenishment_approved,
+            y:
+              data?.replenishment_approved == 0
+                ? 0
+                : data?.replenishment_approved,
             color: "#FFBF94",
           },
           {
             x: 9,
-            y: data?.replenishment_rejected,
+            y:
+              data?.replenishment_rejected == 0
+                ? 0
+                : data?.replenishment_rejected,
             color: "#2F5597",
           },
           {
             x: 10,
-            y: data?.partial_replenishment,
-            color: "#000",
+            y:
+              data?.partial_replenishment == 0
+                ? 0
+                : data?.partial_replenishment,
+            color: "#88B2DC",
           },
         ]);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        setsampleData(undefined);
+        console.log(e);
+      });
   };
 
   useEffect(() => {
@@ -91,12 +117,19 @@ export const GraphChart = () => {
       .get(endUrl.DownloadPreviousYearStatus)
       .then((res) => {
         Platform.OS == "android"
-          ? handleClick("", {}, res?.data?.data?.records, "Previous_year_chart")
+          ? handleClick(
+              "",
+              {},
+              res?.data?.data?.records,
+              "Previous_year_chart",
+              tableHeader
+            )
           : exportDataToExcel(
               "",
               {},
               res?.data?.data?.records,
-              "Previous_year_chart"
+              "Previous_year_chart",
+              tableHeader
             );
       })
       .catch((e) => {});
@@ -106,14 +139,17 @@ export const GraphChart = () => {
     <Loader />
   ) : (
     <View>
-      <TouchableOpacity onPress={() => onbarclick()}>
+      <TouchableOpacity onPress={() => onbarclick()} style={style.mainVIew}>
         <Text style={style.dashbarchart}>{constants.Previous_year_status}</Text>
+        <Image style={style.dashbarimagesicon} source={Images.downloadIcon} />
       </TouchableOpacity>
       <VictoryChart domainPadding={{ x: 50 }} width={380} height={500}>
-        <VictoryBar
-          style={{ data: { fill: ({ datum }) => `${datum.color}` } }}
-          data={sampleData}
-        />
+        {sampleData == undefined ? null : (
+          <VictoryBar
+            style={{ data: { fill: ({ datum }) => `${datum.color}` } }}
+            data={sampleData}
+          />
+        )}
         <VictoryAxis
           dependentAxis
           style={{
@@ -182,7 +218,7 @@ export const GraphChart = () => {
               },
               {
                 name: `${constants.Status_Partial_Replenishment}-${data?.partial_replenishment}`,
-                symbol: { fill: "#2F5597", type: "cricle" },
+                symbol: { fill: "#88B2DC", type: "cricle" },
               },
             ]}
           />

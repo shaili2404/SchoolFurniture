@@ -25,7 +25,10 @@ import RNFS from "react-native-fs";
 import XLSX from "xlsx";
 import FileViewer from "react-native-file-viewer";
 import ConstKey from "../../../../locales/ApikeyConst";
-import { exportDataToExcel, handleClick } from "../../../../component/jsontoPdf/JsonToPdf";
+import {
+  exportDataToExcel,
+  handleClick,
+} from "../../../../component/jsontoPdf/JsonToPdf";
 
 export const DashPendingCollection = () => {
   const isFocused = useIsFocused();
@@ -126,20 +129,27 @@ export const DashPendingCollection = () => {
                 ? handleClick(
                     "",
                     {},
-                    res?.data?.data,
-                    "PendingCOllectionReports"
+                    collectionList,
+                    "PendingCOllectionReports",
+                    tableHeader
                   )
                 : exportDataToExcel(
                     "",
                     {},
-                    res?.data?.data,
-                    "PendingCOllectionReports"
+                    collectionList,
+                    "PendingCOllectionReports",
+                    tableHeader
                   )
             }
+            style={Styles.mainVIew}
           >
             <Text style={Styles.transactionText}>
               {constants.Status_PendingCollection}
             </Text>
+            <Image
+              style={Styles.dashbarimagesicon}
+              source={Images.downloadIcon}
+            />
           </TouchableOpacity>
         </View>
 
