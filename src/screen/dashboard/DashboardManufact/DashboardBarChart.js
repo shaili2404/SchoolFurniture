@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { VictoryChart, VictoryBar, VictoryLabel } from "victory-native";
-import { View, Text, TouchableOpacity, Platform } from "react-native";
+import {
+  VictoryChart,
+  VictoryBar,
+  VictoryLabel,
+  VictoryAxis,
+} from "victory-native";
+import { View, Text, TouchableOpacity, Platform, Image } from "react-native";
 import axios from "axios";
 import endUrl from "../../../redux/configration/endUrl";
 import Loader from "../../../component/loader";
@@ -10,9 +15,20 @@ import {
   handleClick,
 } from "../../../component/jsontoPdf/JsonToPdf";
 import style from "./style";
+import Images from "../../../asset/images";
 
 export const BarChart = () => {
   const [loader, setLoader] = useState(false);
+  const tableHeader = [
+    constants.schoolName,
+    constants.emisNumber,
+    constants.District,
+    constants.referenceNumber,
+    constants.dateCreated,
+    constants.FurCategory,
+    constants.furItem,
+    constants.status,
+  ];
   const [sampleData, setsampleData] = useState([]);
   const getData = () => {
     axios
@@ -20,7 +36,6 @@ export const BarChart = () => {
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
-        console.log('23',data)
         setsampleData([
           {
             x: 1,
@@ -87,8 +102,20 @@ export const BarChart = () => {
       .get(endUrl.ytd_status_report)
       .then((res) => {
         Platform.OS == "android"
-          ? handleClick("", {}, res?.data?.data, "YTD_Status_Report")
-          : exportDataToExcel("", {}, res?.data?.data, "YTD_Status_Report");
+          ? handleClick(
+              "",
+              {},
+              res?.data?.data,
+              "YTD_Status_Report",
+              tableHeader
+            )
+          : exportDataToExcel(
+              "",
+              {},
+              res?.data?.data,
+              "YTD_Status_Report",
+              tableHeader
+            );
       })
       .catch((e) => {});
   };
@@ -97,8 +124,9 @@ export const BarChart = () => {
     <Loader />
   ) : (
     <View>
-      <TouchableOpacity onPress={() => onbarclick()}>
+      <TouchableOpacity onPress={() => onbarclick()} style={style.mainVIew}>
         <Text style={style.dashbarchart}>{constants.YTD_Report_Status}</Text>
+        <Image style={style.dashbarimagesicon} source={Images.downloadIcon} />
       </TouchableOpacity>
       <VictoryChart domainPadding={{ x: 50 }} width={380} height={500}>
         <VictoryBar
@@ -107,6 +135,17 @@ export const BarChart = () => {
           horizontal
           labels={({ datum }) => `${datum.label}`}
           labelComponent={<VictoryLabel textAnchor={"start"} dy={-17} x={50} />}
+        />
+        <VictoryAxis
+          dependentAxis
+          style={{
+            ticks: { stroke: "transparent" },
+          }}
+        />
+        <VictoryAxis
+          style={{
+            tickLabels: { fill: "transparent" },
+          }}
         />
       </VictoryChart>
     </View>

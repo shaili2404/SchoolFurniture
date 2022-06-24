@@ -2,7 +2,6 @@ import { Dimensions, StyleSheet } from "react-native";
 import COLORS from "../../../asset/color";
 import { RfW, RfH } from "../../../utils/helpers";
 
-
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default StyleSheet.create({
@@ -121,18 +120,18 @@ export default StyleSheet.create({
     color: COLORS.ThemeGreen,
     textAlign: "center",
   },
-  noDataView:{
-    backgroundColor:COLORS.LightGreen,
+  noDataView: {
+    backgroundColor: COLORS.LightGreen,
     height: 56,
     borderBottomColor: COLORS.Black,
     borderBottomWidth: 0.4,
-    width:width,
-    justifyContent:'center'
+    width: width,
+    justifyContent: "center",
   },
-  noDataText:{
-    fontSize:16,
-    textAlignVertical:'center',
-    textAlign:'center'
+  noDataText: {
+    fontSize: 16,
+    textAlignVertical: "center",
+    textAlign: "center",
   },
   buttonStyle: {
     backgroundColor: COLORS.GreenBox,
@@ -141,17 +140,30 @@ export default StyleSheet.create({
     height: 40,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft:30
+    marginLeft: 30,
   },
   buttonText: {
     color: COLORS.White,
     fontWeight: "bold",
     fontSize: 14,
   },
-  errorStyle:{
-    textAlign:'center',
-    marginTop:2,
-    fontSize:16,
-    color:COLORS.red
-    },
+  errorStyle: {
+    textAlign: "center",
+    marginTop: 2,
+    fontSize: 16,
+    color: COLORS.red,
+  },
+  errorMsg: {
+    textAlign: "center",
+    color: COLORS.ThemeGreen,
+    fontSize: 22,
+    marginTop: 10,
+  },
+  errIconStyle: {
+    width: 50,
+    height: 50,
+  },
+  errorMsgView: {
+    alignItems: "center",
+  },
 });

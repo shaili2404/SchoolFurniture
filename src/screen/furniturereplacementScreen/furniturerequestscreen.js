@@ -27,6 +27,7 @@ import Screen from "../../locales/navigationConst";
 import ConstKey from "../../locales/ApikeyConst";
 import ScreenTitle from "../../locales/ScreenTitle";
 import { ListHeader } from "./FurnitureReplacpmentProcess/ListDisplay/HeaderList";
+import CommonService from "../../locales/service";
 
 export const FurnitureReplacmentManfacturer = () => {
   const isFocused = useIsFocused();
@@ -53,10 +54,25 @@ export const FurnitureReplacmentManfacturer = () => {
     userCreate: false,
     userEdit: false,
     userDelete: false,
+    createCollectionRequest: false,
+    collectionRequestList: false,
+    usercollectReuqest: false,
   });
   const organization = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
+  const loginData = useSelector((state) => state?.loginData);
+
+  useEffect(() => {
+    const arr = loginData?.user?.data?.data?.permissions;
+    const [collectionRequest, requestList, collectReuqest] =
+      CommonService.getPermission(arr, [22, 21, 25]);
+    setPermissionId({
+      createCollectionRequest: collectionRequest,
+      collectionRequestList: requestList,
+      usercollectReuqest: collectReuqest,
+    });
+  }, []);
 
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
@@ -104,7 +120,6 @@ export const FurnitureReplacmentManfacturer = () => {
       if (!validation(emisNumber)) str += `${ConstKey.emis}=${emisNumber}&`;
       if (select?.id) str += `${ConstKey.status_id}=${select?.id}&`;
       setLoader(true);
-      console.log(str);
       axios.defaults.headers.common["Content-Type"] = "application/json";
       axios
         .get(`${endUrl.searchfurRequest}?${str}`)
@@ -200,217 +215,248 @@ export const FurnitureReplacmentManfacturer = () => {
 
   const rendercomponent = ({ item }) => {
     return (
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate(Screen.Furniture_Replacment_Process, item)
-        }
-      >
-        <DataDisplayList
-          tableKey={tableKey}
-          item={item}
-          permissionId={permissionId}
-        />
-      </TouchableOpacity>
+      <>
+        {permissionId.usercollectReuqest ? (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(Screen.Furniture_Replacment_Process, item)
+            }
+          >
+            <DataDisplayList
+              tableKey={tableKey}
+              item={item}
+              permissionId={permissionId}
+            />
+          </TouchableOpacity>
+        ) : (
+          <DataDisplayList
+            tableKey={tableKey}
+            item={item}
+            permissionId={permissionId}
+          />
+        )}
+      </>
     );
   };
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
-  console.log(JSON.stringify(collectionList));
   return loader ? (
     <Loader />
   ) : (
     <SafeAreaView style={Styles.mainView}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={Styles.halfView}>
-          <View style={Styles.searchButtonView}>
-            <Text style={Styles.transactionText}>
-              {constants.transactionSearch}
-            </Text>
-            <TouchableOpacity
-              style={Styles.searchButton}
-              onPress={searchStatus ? onsearch : onReset}
-            >
-              <Text style={Styles.searchText}>
-                {searchStatus ? constants.search : constants.Reset}
+      {permissionId.collectionRequestList ||
+      permissionId.createCollectionRequest ? (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={Styles.halfView}>
+            <View style={Styles.searchButtonView}>
+              <Text style={Styles.transactionText}>
+                {constants.transactionSearch}
               </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={Styles.refView}>
-            <TextInput
-              style={Styles.refrenceStyle}
-              placeholder={constants.refrenceNumber}
-              placeholderTextColor={COLORS.Black}
-              opacity={0.5}
-              value={refnumber}
-              onChangeText={(val) => setrefNumber(val)}
-            />
-            <TextInput
-              style={Styles.dropStyle}
-              placeholder={constants.emisNumber}
-              placeholderTextColor={COLORS.Black}
-              opacity={0.5}
-              value={emisNumber}
-              onChangeText={(val) => setEmisNumber(val)}
-            />
-          </View>
-          <View style={Styles.container}>
-            <Dropdown
-              label={constants.status}
-              data={dropData}
-              onSelect={setSelect}
-              task="name"
-            />
-          </View>
-          <View style={Styles.viewInputStyle}>
-            <View style={Styles.dropsssssStyle}>
-              <Text style={Styles.textStyle}>
-                {startDateStatus
-                  ? "Start Date"
-                  : `${startDate?.getDate()}/${
-                      startDate?.getMonth() + 1
-                    }/${startDate?.getFullYear()}`}
-              </Text>
+              <TouchableOpacity
+                style={Styles.searchButton}
+                onPress={searchStatus ? onsearch : onReset}
+              >
+                <Text style={Styles.searchText}>
+                  {searchStatus ? constants.search : constants.Reset}
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={Styles.eyeStyle}
-              onPress={() => setOpen(true)}
-            >
-              <Image source={Images.Calender} style={Styles.imgStyle} />
-              <DatePicker
-                modal
-                open={open}
-                date={startDate}
-                maximumDate={new Date()}
-                mode="date"
-                onConfirm={(date) => {
-                  setOpen(false);
-                  setStartDate(date);
-                  setStartDateStatus(false);
-                }}
-                onCancel={() => {
-                  setOpen(false);
-                }}
+            <View style={Styles.refView}>
+              <TextInput
+                style={Styles.refrenceStyle}
+                placeholder={constants.refrenceNumber}
+                placeholderTextColor={COLORS.Black}
+                opacity={0.5}
+                value={refnumber}
+                onChangeText={(val) => setrefNumber(val)}
               />
-            </TouchableOpacity>
-            <View style={Styles.dropsssssStyle}>
-              <Text style={Styles.textStyle}>
-                {enddateStatus
-                  ? "End Date"
-                  : `${endDate?.getDate()}/${
-                      endDate?.getMonth() + 1
-                    }/${endDate?.getFullYear()}`}
-              </Text>
+              <TextInput
+                style={Styles.dropStyle}
+                placeholder={constants.emisNumber}
+                placeholderTextColor={COLORS.Black}
+                opacity={0.5}
+                value={emisNumber}
+                onChangeText={(val) => setEmisNumber(val)}
+              />
             </View>
-            <TouchableOpacity
-              style={Styles.eyeStyle}
-              onPress={() => setCLose(true)}
-            >
-              <Image source={Images.Calender} style={Styles.imgStyle} />
-              <DatePicker
-                modal
-                open={close}
-                date={endDate}
-                maximumDate={new Date()}
-                mode="date"
-                onConfirm={(date) => {
-                  setCLose(false);
-                  setEndDate(date);
-                  setendDatestatus(false);
-                }}
-                onCancel={() => {
-                  setCLose(false);
-                }}
+            <View style={Styles.container}>
+              <Dropdown
+                label={constants.status}
+                data={dropData}
+                onSelect={setSelect}
+                task="name"
               />
-            </TouchableOpacity>
+            </View>
+            <View style={Styles.viewInputStyle}>
+              <View style={Styles.dropsssssStyle}>
+                <Text style={Styles.textStyle}>
+                  {startDateStatus
+                    ? "Start Date"
+                    : `${startDate?.getDate()}/${
+                        startDate?.getMonth() + 1
+                      }/${startDate?.getFullYear()}`}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={Styles.eyeStyle}
+                onPress={() => setOpen(true)}
+              >
+                <Image source={Images.Calender} style={Styles.imgStyle} />
+                <DatePicker
+                  modal
+                  open={open}
+                  date={startDate}
+                  maximumDate={new Date()}
+                  mode="date"
+                  onConfirm={(date) => {
+                    setOpen(false);
+                    setStartDate(date);
+                    setStartDateStatus(false);
+                  }}
+                  onCancel={() => {
+                    setOpen(false);
+                  }}
+                />
+              </TouchableOpacity>
+              <View style={Styles.dropsssssStyle}>
+                <Text style={Styles.textStyle}>
+                  {enddateStatus
+                    ? "End Date"
+                    : `${endDate?.getDate()}/${
+                        endDate?.getMonth() + 1
+                      }/${endDate?.getFullYear()}`}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={Styles.eyeStyle}
+                onPress={() => setCLose(true)}
+              >
+                <Image source={Images.Calender} style={Styles.imgStyle} />
+                <DatePicker
+                  modal
+                  open={close}
+                  date={endDate}
+                  maximumDate={new Date()}
+                  mode="date"
+                  onConfirm={(date) => {
+                    setCLose(false);
+                    setEndDate(date);
+                    setendDatestatus(false);
+                  }}
+                  onCancel={() => {
+                    setCLose(false);
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {dateErrorMessage ? (
+              <View style={Styles.dateerrorView}>
+                <Text style={Styles.DateerrormessStyle}>
+                  {dateErrorMessage}
+                </Text>
+              </View>
+            ) : null}
+            {organization == constants.school ? (
+              <View style={Styles.plusView}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(Screen.Furniture_Replacment_Process)
+                  }
+                  style={Styles.buttonStyle}
+                >
+                  <Text style={Styles.buttonText}>
+                    {constants.createNewReq}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+            {errorMessage ? (
+              <View style={Styles.errorView}>
+                <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+              </View>
+            ) : (
+              <>
+                {collectionList == undefined ? (
+                  <>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                    >
+                      <ListHeader
+                        tableHeader={tableHeader}
+                        lenofContent="more"
+                      />
+                    </ScrollView>
+                    <View style={Styles.noDataView}>
+                      <Text style={Styles.noDataText}>
+                        {constants.No_Collection_Requests_Found}
+                      </Text>
+                    </View>
+                  </>
+                ) : (
+                  <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                  >
+                    <FlatList
+                      ListHeaderComponent={HeaderComponet}
+                      keyExtractor={(item) => item.id}
+                      data={collectionList}
+                      scrollEnabled={false}
+                      renderItem={rendercomponent}
+                    />
+                  </ScrollView>
+                )}
+              </>
+            )}
           </View>
 
-          {dateErrorMessage ? (
-            <View style={Styles.dateerrorView}>
-              <Text style={Styles.DateerrormessStyle}>{dateErrorMessage}</Text>
-            </View>
-          ) : null}
-          {organization == constants.school ? (
-            <View style={Styles.plusView}>
+          {searchStatus ? (
+            <View style={Styles.lastView}>
               <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(Screen.Furniture_Replacment_Process)
-                }
-                style={Styles.buttonStyle}
+                onPress={onPrevious}
+                disabled={number == 1 ? true : false}
               >
-                <Text style={Styles.buttonText}>{constants.createNewReq}</Text>
+                {number == 1 ? (
+                  <Image source={Images.leftarrow} />
+                ) : (
+                  <Image
+                    source={Images.rightarrow}
+                    style={Styles.transformStyle}
+                  />
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={onNext}
+                disabled={number == maximumNumber ? true : false}
+              >
+                {number == maximumNumber ? (
+                  <Image
+                    source={Images.leftarrow}
+                    style={Styles.transformStyle}
+                  />
+                ) : (
+                  <Image source={Images.rightarrow} />
+                )}
               </TouchableOpacity>
             </View>
           ) : null}
-          {errorMessage ? (
-            <View style={Styles.errorView}>
-              <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-            </View>
-          ) : (
-            <>
-              {collectionList == undefined ? (
-                <>
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    <ListHeader tableHeader={tableHeader} lenofContent="more" />
-                  </ScrollView>
-                  <View style={Styles.noDataView}>
-                    <Text style={Styles.noDataText}>
-                      {constants.No_Collection_Requests_Found}
-                    </Text>
-                  </View>
-                </>
-              ) : (
-                <ScrollView
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <FlatList
-                    ListHeaderComponent={HeaderComponet}
-                    keyExtractor={(item) => item.id}
-                    data={collectionList}
-                    scrollEnabled={false}
-                    renderItem={rendercomponent}
-                  />
-                </ScrollView>
-              )}
-            </>
-          )}
-        </View>
-
-        {searchStatus ? (
-          <View style={Styles.lastView}>
-            <TouchableOpacity
-              onPress={onPrevious}
-              disabled={number == 1 ? true : false}
-            >
-              {number == 1 ? (
-                <Image source={Images.leftarrow} />
-              ) : (
-                <Image
-                  source={Images.rightarrow}
-                  style={Styles.transformStyle}
-                />
-              )}
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={onNext}
-              disabled={number == maximumNumber ? true : false}
-            >
-              {number == maximumNumber ? (
-                <Image
-                  source={Images.leftarrow}
-                  style={Styles.transformStyle}
-                />
-              ) : (
-                <Image source={Images.rightarrow} />
-              )}
-            </TouchableOpacity>
+          <View style={Styles.lastViewStyle} />
+        </ScrollView>
+      ) : (
+        <View style={Styles.errrorparentView}>
+          <View style={Styles.errorMsgView}>
+            <Image source={Images.error} style={Styles.errIconStyle} />
+            <Text style={Styles.errorMsg}>
+              {constants.Error_Permission_Msg}
+            </Text>
           </View>
-        ) : null}
-        <View style={Styles.lastViewStyle} />
-      </ScrollView>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

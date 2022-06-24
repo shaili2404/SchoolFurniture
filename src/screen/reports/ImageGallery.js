@@ -151,14 +151,14 @@ const checkPermission = async () => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         // Start downloading
         downloadFile();
-        console.log('Storage Permission Granted.');
+       
       } else {
         // If permission denied then show alert
         Alert.alert('Error','Storage Permission Not Granted');
       }
     } catch (err) {
       // To handle permission related exception
-      console.log("++++"+err);
+      
     }
   }
 };
@@ -197,7 +197,7 @@ const checkPermission = async () => {
       .fetch('GET', FILE_URL)
       .then(res => {
         // Alert after successful downloading
-        console.log('res -> ', JSON.stringify(res));
+       
         alert('File Downloaded Successfully.');
       });
   };

@@ -141,7 +141,7 @@ export const CircuitList = () => {
         setmaximunNumber(res?.data?.data?.total_page);
         setLoader(false);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
   const onNext = () => {
     let count = number + 1;

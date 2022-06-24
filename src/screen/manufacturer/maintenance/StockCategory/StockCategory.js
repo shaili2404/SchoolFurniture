@@ -108,7 +108,6 @@ const StockCategory = () => {
       })
       .catch((e) => {
         setLoader(false);
-        console.log("apicall", e);
       });
   };
 

@@ -163,7 +163,6 @@ export const RepairmentReports = () => {
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
       .then((res) => {
-        console.log(res?.data?.data);
         setStockItem(res?.data?.data);
       })
       .catch((e) => {

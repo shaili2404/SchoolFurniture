@@ -45,7 +45,8 @@ export default StyleSheet.create({
   dashbarchart: { 
     marginLeft: 20, 
     marginTop: 40, 
-    fontWeight: "bold" 
+    fontWeight: "bold" ,
+
   },
   mainsecView: {
     position: "relative",
@@ -67,4 +68,12 @@ export default StyleSheet.create({
     fontSize: 22,
     marginTop: 10
   },
+  mainVIew:{
+    flexDirection:'row',
+
+  },
+  dashbarimagesicon:{
+    marginTop: 30, 
+    height:30
+  }
 });

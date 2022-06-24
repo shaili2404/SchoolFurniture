@@ -130,7 +130,7 @@ export const ManageUserScreen = () => {
       })
       .catch((e) => {
         setLoader(false);
-        console.log("apicall", e);
+       
       });
   };
 

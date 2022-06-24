@@ -113,7 +113,6 @@ export const DisposalReports = () => {
           setmodalloader(false);
         })
         .catch((e) => {
-          console.log(e);
           setmodalloader(false);
           setErrorMessage(e?.response?.data?.message);
         });

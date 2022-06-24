@@ -153,7 +153,7 @@ export const TransactionSummaryReports = () => {
     axios
       .get(`${endUrl.statusList}`)
       .then((res) => setDropData(res?.data?.data))
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
 
   useLayoutEffect(() => {
@@ -225,7 +225,7 @@ export const TransactionSummaryReports = () => {
   ];
 
   const rendercomponent = ({ item }) => {
-    console.log(item);
+  
     return (
       <DataDisplayList
         tableKey={tableKey}

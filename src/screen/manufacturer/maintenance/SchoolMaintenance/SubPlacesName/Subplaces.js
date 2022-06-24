@@ -149,7 +149,7 @@ export const SubPlacesList = () => {
         setmaximunNumber(res?.data?.data?.total_page);
         setLoader(false);
       })
-      .catch((e) => console.log("apicall", e));
+      .catch((e) => {});
   };
 
   const onNext = () => {

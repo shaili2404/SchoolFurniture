@@ -31,7 +31,7 @@ const ImagePickerModal = (props) => {
       setSelectedImg(images);
       setViewImage(true);
       setHideModal(true);
-      console.log("imagegal", images);
+     
     });
   };
 
@@ -46,7 +46,7 @@ const ImagePickerModal = (props) => {
         setSelectedImg(image);
         setViewImage(true);
         setHideModal(true);
-        console.log("imagecam", image);
+     
       })
       .catch((err) => {});
   };
