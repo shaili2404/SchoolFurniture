@@ -2,17 +2,16 @@ import React from 'react';
 import {Image} from 'react-native';
 import NavigationRouteNames from "./ScreenNames";
 
-const imgPath = require('../assets/Images/Common/');
+// const imgPath = require('../assets/Images/Common/');
 
 const USER_ROLE = {
-    MANUFACTURER: "manufacturer",
-    SCHOOL: "school",
-    DOE: "doe",
-    SUPERADMIN: "Super-Admin",
+    MANUFACTURER: "Furniture Depot", 
+    SCHOOL: "School",
+    DOE: "Department of Education",
   };
 
   const DRAWER_MENU = {
-    manufacturer: 
+    "Furniture Depot":
     [
       {
         name: 'Home',
@@ -39,12 +38,6 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.Furniturereplacment
       },
       {
-        name: 'Manage Request',
-        color: '#F7A435',
-        iconName: require('../assets/Images/Common/manage_request_icon.png'),
-        screenName: NavigationRouteNames.MANAGEREQUESTS
-      },
-      {
         name: 'Maintenance',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/engineering_black_24dp.png'),
@@ -69,41 +62,59 @@ const USER_ROLE = {
         screenName: 'logout'
       },
     ],
-    school: [
+    School: [
+      {
+        name: 'Home',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/home-icon.png'),
+        screenName: NavigationRouteNames.HOME
+      },
       {
         name: 'Search',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/search_black_24dp.png'),
-        screenName: ""
+        screenName: NavigationRouteNames.SEARCH
       },
       {
         name: 'Furniture Replacement',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/published_with_changes_black_24dp.png'),
-        screenName: ""
+        screenName: NavigationRouteNames.Furniturereplacment
+      },
+      {
+        name: 'Manage Request',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/manage_request_icon.png'),
+        screenName: NavigationRouteNames.MANAGEREQUESTS
       },
       {
         name: 'Reports',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
-        screenName: ""
+        screenName: NavigationRouteNames.REPORTS
       },
       {
-        name: 'Signout',
+        name: 'Logout',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/logout_black_24dp.png'),
         screenName: 'logout'
       },
     ],
-    doe: [
+    "Department of Education": [
+      {
+        name: 'Home',
+        color: '#F7A435',
+        iconName: require('../assets/Images/Common/home-icon.png'),
+        screenName: NavigationRouteNames.HOME
+      },
       {
         name: 'Reports',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
-        screenName: ""
+        screenName: NavigationRouteNames.REPORTS
       },
       {
-        name: 'Signout',
+        name: 'Logout',
         color: '#F7A435',
         iconName: require('../assets/Images/Common/logout_black_24dp.png'),
         screenName: 'logout'

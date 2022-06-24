@@ -185,7 +185,7 @@ const AppStack = (props) => {
 
   const loginData = useSelector((state) => state?.loginData);
   const token = loginData?.user?.data?.access_token;
-  const role = loginData?.user?.data?.data?.user?.role;
+  const role = loginData?.user?.data?.data?.user?.organization;
 
   useEffect(() => {
     SplashScreen.hide();
@@ -193,86 +193,11 @@ const AppStack = (props) => {
 
   const SwitchNavigation = (role) => {
     switch (role) {
-      case USER_ROLE.Manufacturer:
+      case USER_ROLE.MANUFACTURER:
         return (
           <>
-            <Stack.Screen
-              name={NavigationRouteNames.FIRST}
-              component={DrawerStack}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name={NavigationRouteNames.SECOND}
-              component={Second}
-              options={CommonHeaderStyle}
-            />
-            <Stack.Screen
-              name="School Maintenance"
-              component={SchoolMaintenanceDrawerStack}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name={NavigationRouteNames.MANAGEUSER}
-              component={ManageUserDrawerStack}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="School District"
-              component={SchoolDistrictList}
-              options={CommonHeaderStyle}
-            />
-            <Stack.Screen
-              name="School"
-              component={SchoolList}
-              options={CommonHeaderStyle}
-            />
-            <Stack.Screen
-              name="Furniture Replacment"
-              component={FurnitureReplaceDrawerStack}
-              options={{ headerShown: false }}
-            />
 
-            {/* dummy Screen  */}
-            <Stack.Screen
-              name={NavigationRouteNames.ADDNEWUSERS}
-              component={AddNewUsers}
-              options={CommonHeaderStyle}
-            />
-          </>
-        );
-
-      case USER_ROLE.SCHOOL:
-        return (
-          <>
-            <Stack.Screen name="First" component={DrawerStack} />
-            <Stack.Screen name="Second" component={Second} />
-          </>
-        );
-
-      case USER_ROLE.DOE:
-        return (
-          <>
-            <Stack.Screen name="First" component={DrawerStack} />
-            <Stack.Screen name="Second" component={Second} />
-          </>
-        );
-
-      default:
-        return (
-          <>
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="PasswordReset" component={PasswordReset} />
-            {/* <Stack.Screen name="First" component={DrawerStack} /> */}
-          </>
-        );
-    }
-  };
-
-  return (
-    <Stack.Navigator initialRouteName={NavigationRouteNames.LOGINSCREEN}>
-      {/* {!login ? ( */}
-      <>
-        <Stack.Screen
+         <Stack.Screen
           name={NavigationRouteNames.LOGINSCREEN}
           component={LoginScreen}
           options={{ headerShown: false }}
@@ -288,13 +213,13 @@ const AppStack = (props) => {
           options={{ headerShown: false }}
         />
 
-        {/* After Login Screen */}
-        <Stack.Screen
+         <Stack.Screen
           name={NavigationRouteNames.FIRST}
           component={DrawerStack}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+
+       <Stack.Screen
           name={NavigationRouteNames.SECOND}
           component={Second}
           options={CommonHeaderStyle}
@@ -326,7 +251,6 @@ const AppStack = (props) => {
           options={{ headerShown: false }}
         />
 
-        {/* dummy Screen  */}
         <Stack.Screen
           name={NavigationRouteNames.ADDNEWUSERS}
           component={AddNewUsers}
@@ -367,7 +291,7 @@ const AppStack = (props) => {
           component={AddFurRequestScreen}
           options={{ headerShown: false }}
         />
-      </>
+      
       <Stack.Screen
           name={NavigationRouteNames.MANAGEREQUESTS}
           component={ManageRequestsDrawerStack}
@@ -412,10 +336,156 @@ const AppStack = (props) => {
           name={NavigationRouteNames.DASHBOARDMANUFACTURER}
           component={DashboardManufacturer}
           options={{ headerShown: false }}
+        /> 
+          </>
+        );
+
+      case USER_ROLE.SCHOOL:
+        return (
+          <>
+
+         <Stack.Screen
+          name={NavigationRouteNames.LOGINSCREEN}
+          component={LoginScreen}
+          options={{ headerShown: false }}
         />
-      {/* ) : (
-        SwitchNavigation("Manufacturer")
-      )} */}
+        <Stack.Screen
+          name={NavigationRouteNames.PASSWORDRESET}
+          component={PasswordReset}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.EMAILSENT}
+          component={EmailSent}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Furniture Replacment"
+          component={FurnitureReplaceDrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FurnitureReplacmentProcess"
+          component={FurnitureReplacmentProcess}
+          options={CommonHeaderStyle}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.SEARCH}
+          component={SearchDrawerStack}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddRequestFur"
+          component={AddFurRequestScreen}
+          options={{ headerShown: false }}
+        />
+      
+      <Stack.Screen
+          name={NavigationRouteNames.MANAGEREQUESTS}
+          component={ManageRequestsDrawerStack}
+          options={{ headerShown: false }}
+      />
+       <Stack.Screen
+          name={NavigationRouteNames.DASHBOARDUSER}
+          component={DashboardStack}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.REPORTS}
+          component={ReportsDrawerStack}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.HOME}
+          component={homestack}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name={NavigationRouteNames.DASHBOARDMANUFACTURER}
+          component={DashboardManufacturer}
+          options={{ headerShown: false }}
+        /> 
+          </>
+        );
+
+      case USER_ROLE.DOE:
+        return (
+          <>
+
+         <Stack.Screen
+          name={NavigationRouteNames.LOGINSCREEN}
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.PASSWORDRESET}
+          component={PasswordReset}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.EMAILSENT}
+          component={EmailSent}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.HOME}
+          component={homestack}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={NavigationRouteNames.REPORTS}
+          component={ReportsDrawerStack}
+          options={{ headerShown: false }}
+        />
+          </>
+        );
+
+      default:
+        return (
+          <>
+            <Stack.Screen
+          name={NavigationRouteNames.LOGINSCREEN}
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.PASSWORDRESET}
+          component={PasswordReset}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.EMAILSENT}
+          component={EmailSent}
+          options={{ headerShown: false }}
+        />
+          </>
+        );
+    }
+  };
+
+  return (
+    <Stack.Navigator initialRouteName={NavigationRouteNames.LOGINSCREEN}>
+        {role == undefined ? (
+      <>
+        <Stack.Screen
+          name={NavigationRouteNames.LOGINSCREEN}
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.PASSWORDRESET}
+          component={PasswordReset}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.EMAILSENT}
+          component={EmailSent}
+          options={{ headerShown: false }}
+        />
+        </>
+        ) :
+        SwitchNavigation(role)}
     </Stack.Navigator>
   );
 };

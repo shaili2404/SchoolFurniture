@@ -9,8 +9,6 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-// import { removeData, getSaveData } from '../../utils/helpers';
-// import { LOCAL_STORAGE_DATA_KEY } from '../../utils/constants';
 
 import { DRAWER_MENU } from "../routes/Constants";
 import Styles from "./styles";
@@ -34,19 +32,11 @@ const DrawerSideBar = (props) => {
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
 
-  // useEffect(() => {
-  //     async function getUserName() {
-  //         const username = await getSaveData(LOCAL_STORAGE_DATA_KEY.USER_NAME);
-  //         setName(username)
-  //     }
-  //     getUserName();
-  // }, [userRole]);
+  const token = loginData?.user?.data?.access_token;
+  const role = loginData?.user?.data?.data?.user?.organization;
+
 
   const handleUserLogout = async () => {
-    // await removeData(LOCAL_STORAGE_DATA_KEY.JWT_TOKEN);
-    // await removeData(LOCAL_STORAGE_DATA_KEY.USER_ROLE);
-    // // await removeData(LOCAL_STORAGE_DATA_KEY.USER_NAME);
-    // setLogin(false);
     setAlert(true);
   };
 
@@ -74,28 +64,6 @@ const DrawerSideBar = (props) => {
     setStatus(!status);
   };
 
-  const onSubMenu = () => {
-    if (status) {
-      DRAWER_MENU["submenu"].map((item, index) => {
-        return (
-          <TouchableOpacity
-            key={index}
-            activeOpacity={0.8}
-            onPress={() => onSubNavigation(item.screenName)}
-          >
-            <View style={[Styles.menuItemContainer]}>
-              <View style={[Styles.iconContainer]}>
-                <Image source={item.iconName} />
-              </View>
-              <Text style={Styles.iconNameContainer}>Rammm</Text>
-            </View>
-          </TouchableOpacity>
-        );
-      });
-    } else {
-      return null;
-    }
-  };
 
   const onRenderMenu = (index, item) => {
     if (item.name == "Maintenance") {
@@ -176,32 +144,12 @@ const DrawerSideBar = (props) => {
                 <Image source={newLocal} style={Styles.logoImg} />
               </View>
             </View>
+           
             <FlatList
-              data={
-                schooldetails == "School"
-                  ? DRAWER_MENU["manufacturer"].filter(
-                      (item) =>
-                        item.name != "Maintenance" &&
-                        item.name != "Manage Users" &&
-                        item.name != "Dashboard"
-                    )
-                  : schooldetails == "Department of Education"
-                  ? DRAWER_MENU["manufacturer"].filter(
-                      (item) =>
-                      item.name != "Maintenance" &&
-                      item.name != "Manage Users" &&
-                      item.name != "Dashboard" &&
-                      item.name != "Search" &&
-                      item.name != "Furniture Replacement" &&
-                      item.name != "Manage Request" 
-                    )
-                  : DRAWER_MENU["manufacturer"].filter(
-                      (item) => item.name != "Manage Request"
-                    )
-              }
-              keyExtractor={(_, index) => `${index}2`}
-              renderItem={({ index, item }) => onRenderMenu(index, item)}
-            />
+                    data={DRAWER_MENU[role]}
+                    keyExtractor={(_, index) => `${index}2`}
+                    renderItem={({ index, item }) => onRenderMenu(index, item)}
+                />
           </View>
         </ScrollView>
         {alert ? (

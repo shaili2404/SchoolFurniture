@@ -23,25 +23,25 @@ export const Piechart = () => {
         setsampleData([
           data?.pending_repairs == 0
             ? { x: 0, y: 0 }
-            : { x: 1, y: Math.trunc(data?.pending_repairs) },
+            : { x: 1, y: (data?.pending_repairs) },
           data?.pending_delivery == 0
             ? { x: 0, y: 0 }
-            : { x: 2, y: Math.trunc(data?.pending_delivery) },
+            : { x: 2, y: (data?.pending_delivery) },
           data?.pending_replenishment_approvel == 0
             ? { x: 0, y: 0 }
-            : { x: 3, y: Math.trunc(data?.pending_replenishment_approval) },
+            : { x: 3, y: (data?.pending_replenishment_approval) },
           data?.replenishment_rejected == 0
             ? { x: 0, y: 0 }
-            : { x: 4, y: Math.trunc(data?.replenishment_rejected) },
+            : { x: 4, y: (data?.replenishment_rejected) },
           data?.delivery_confirmed == 0
             ? { x: 0, y: 0 }
-            : { x: 5, y: Math.trunc(data?.delivery_confirmed) },
+            : { x: 5, y: (data?.delivery_confirmed) },
           data?.repair_completed == 0
             ? { x: 0, y: 0 }
-            : { x: 6, y: Math.trunc(data?.repair_completed) },
+            : { x: 6, y: (data?.repair_completed) },
           data?.replenishment_approved == 0
             ? { x: 0, y: 0 }
-            : { x: 7, y: Math.trunc(data?.replenishment_approved) },
+            : { x: 7, y: (data?.replenishment_approved) },
         ]);
       })
       .catch((e) => {

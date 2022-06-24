@@ -63,7 +63,7 @@ export const LoginScreen = () => {
   };
 
   const onChangePass = (password) => {
-    if (password == "" || !regExpPassword.test(password)) {
+     if (password == "" || !regExpPassword.test(password)) {
       setEmptyPass(true);
       setPassword(password);
     } else {
