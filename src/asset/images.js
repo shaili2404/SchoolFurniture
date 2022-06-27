@@ -50,6 +50,19 @@ const Images = {
   dashboardline: require("./images/Dashboard3line.png"),
   dashboardGroup: require('./images/DashboardGroup.png'),
   downloadIcon :require('./images/download.png'),
-
+  homeIcon:require('./images/home-icon.png'),
+  space_dashboard_black_24dp:require('./images/space_dashboard_black_24dp.png'),
+  search_black_24dp:require('./images/search_black_24dp.png'),
+  published_with_changes_black_24dp : require('./images/published_with_changes_black_24dp.png'),
+  engineering_black_24dp : require('./images/engineering_black_24dp.png'),
+  view_list_black_24dp: require('./images/view_list_black_24dp.png'),
+  group_black_24dp:require('./images/group_black_24dp.png'),
+  logout_black_24dp:require('./images/logout_black_24dp.png'),
+  manage_request_icon:require('./images/manage_request_icon.png'),
+  inventory_black_24dp:require('./images/inventory_black_24dp.png'),
+  school_black_24dp:require('./images/school_black_24dp.png'),
+  Asset2:require('./images/Asset2@4x-100.png'),
+  Iconmaterial_arrow_drop_down:require('./images/Iconmaterial-arrow-drop-down.png'),
+  arrow_drop_down:require('./images/arrow-drop-down.png'),
 };
 export default Images;

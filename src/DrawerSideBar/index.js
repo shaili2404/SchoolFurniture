@@ -13,14 +13,12 @@ import {
 import { DRAWER_MENU } from "../routes/Constants";
 import Styles from "./styles";
 
-import newLocal from "../assets/Images/Common/Asset2@4x-100.png";
-import dropdownOpen from "../assets/Images/Common/Iconmaterial-arrow-drop-down.png";
-import dropdownClose from "../assets/Images/Common/arrow-drop-down.png";
 import { AlertMessage } from "../Alert/alert";
 import AlertText from "../Alert/AlertText";
 import axios from "axios";
 import endUrl from "../redux/configration/endUrl";
 import constants from "../locales/constants";
+import Images from "../asset/images";
 
 const DrawerSideBar = (props) => {
   const [name, setName] = useState("");
@@ -85,9 +83,9 @@ const DrawerSideBar = (props) => {
             <View style={{ marginTop: 10, marginLeft: 20 }}>
               <TouchableOpacity activeOpacity={0.8} onPress={() => showHide()}>
                 {status ? (
-                  <Image source={dropdownClose} />
+                  <Image source={Images.arrow_drop_down} />
                 ) : (
-                  <Image source={dropdownOpen} />
+                  <Image source={Images.Iconmaterial_arrow_drop_down} />
                 )}
               </TouchableOpacity>
             </View>
@@ -141,7 +139,7 @@ const DrawerSideBar = (props) => {
           <View>
             <View style={Styles.userSectionContainer}>
               <View style={Styles.logoView}>
-                <Image source={newLocal} style={Styles.logoImg} />
+                <Image source={Images.Asset2} style={Styles.logoImg} />
               </View>
             </View>
            

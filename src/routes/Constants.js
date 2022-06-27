@@ -1,8 +1,8 @@
 import React from 'react';
 import {Image} from 'react-native';
+import Images from '../asset/images';
 import NavigationRouteNames from "./ScreenNames";
 
-// const imgPath = require('../assets/Images/Common/');
 
 const USER_ROLE = {
     MANUFACTURER: "Furniture Depot", 
@@ -16,49 +16,49 @@ const USER_ROLE = {
       {
         name: 'Home',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/home-icon.png'),
+        iconName: Images.homeIcon,
         screenName: NavigationRouteNames.HOME
       },
       {
         name: 'Dashboard',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/space_dashboard_black_24dp.png'),
+        iconName: Images.space_dashboard_black_24dp,
         screenName: NavigationRouteNames.DASHBOARDMANUFACTURER
       },
       {
         name: 'Search',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/search_black_24dp.png'),
+        iconName: Images.search_black_24dp,
         screenName: NavigationRouteNames.SEARCH
       },
       {
         name: 'Furniture Replacement',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/published_with_changes_black_24dp.png'),
+        iconName: Images.published_with_changes_black_24dp,
         screenName: NavigationRouteNames.Furniturereplacment
       },
       {
         name: 'Maintenance',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/engineering_black_24dp.png'),
+        iconName: Images.engineering_black_24dp,
         screenName: NavigationRouteNames.Second
       },
       {
         name: 'Reports',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
+        iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
       },
       {
         name: 'Manage Users',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/group_black_24dp.png'),
+        iconName: Images.group_black_24dp,
         screenName: NavigationRouteNames.manageuserscreen
       },
       {
         name: 'Logout',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/logout_black_24dp.png'),
+        iconName: Images.logout_black_24dp,
         screenName: 'logout'
       },
     ],
@@ -66,37 +66,37 @@ const USER_ROLE = {
       {
         name: 'Home',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/home-icon.png'),
+        iconName: Images.homeIcon,
         screenName: NavigationRouteNames.HOME
       },
       {
         name: 'Search',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/search_black_24dp.png'),
+        iconName: Images.search_black_24dp,
         screenName: NavigationRouteNames.SEARCH
       },
       {
         name: 'Furniture Replacement',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/published_with_changes_black_24dp.png'),
+        iconName: Images.published_with_changes_black_24dp,
         screenName: NavigationRouteNames.Furniturereplacment
       },
       {
         name: 'Manage Request',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/manage_request_icon.png'),
+        iconName: Images.manage_request_icon,
         screenName: NavigationRouteNames.MANAGEREQUESTS
       },
       {
         name: 'Reports',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
+        iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
       },
       {
         name: 'Logout',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/logout_black_24dp.png'),
+        iconName: Images.logout_black_24dp,
         screenName: 'logout'
       },
     ],
@@ -104,19 +104,19 @@ const USER_ROLE = {
       {
         name: 'Home',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/home-icon.png'),
+        iconName: Images.homeIcon,
         screenName: NavigationRouteNames.HOME
       },
       {
         name: 'Reports',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/view_list_black_24dp.png'),
+        iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
       },
       {
         name: 'Logout',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/logout_black_24dp.png'),
+        iconName: Images.logout_black_24dp,
         screenName: 'logout'
       },
     ],
@@ -124,13 +124,13 @@ const USER_ROLE = {
       {
         name: 'Stock',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/inventory_black_24dp.png'),
+        iconName: Images.inventory_black_24dp,
         screenName: NavigationRouteNames.STOCKMAINTENANCE
       },
       {
         name: 'School',
         color: '#F7A435',
-        iconName: require('../assets/Images/Common/school_black_24dp.png'),
+        iconName: Images.school_black_24dp,
         screenName: NavigationRouteNames.schoolMaintenace
       },
     ],
