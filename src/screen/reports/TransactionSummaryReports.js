@@ -61,15 +61,56 @@ export const TransactionSummaryReports = () => {
     userEdit: false,
     userDelete: false,
   });
-  const validation = (value) => {
-    return value == "" || value == undefined || value == null;
-  };
+
+  const tableHeader = [
+    constants.schoolName,
+    constants.schoolEmisNumber,
+    constants.DistrictOffice,
+    constants.ReplanishmentReports_trancRefNo,
+    constants.TransactionReports_confirmCollected,
+    constants.TransactionReports_Repair,
+    constants.TransactionReports_Disposal,
+    constants.number_approved_items,
+  ];
+
+  const tableKey = [
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.reference_number,
+    ConstKey.confirmed_collections,
+    ConstKey.repairs,
+    ConstKey.disposals,
+    ConstKey.approved,
+  ];
+
+  // checking is start date is greater than end date
   useEffect(() => {
     if (startDate.getTime() > endDate.getTime())
       setDateErrorMessage(AlertText.DateError);
     else setDateErrorMessage("");
   }, [startDate, endDate]);
 
+  // setting title of header
+  useLayoutEffect(() => {
+    const title = constants.Reports;
+    navigation.setOptions({ title });
+  }, []);
+
+  // getting all data
+  useEffect(() => {
+    getCollectionRequest();
+    getstatusList();
+    getDistrictList();
+    getallData();
+  }, [isFocused]);
+
+  // validating input feild
+  const validation = (value) => {
+    return value == "" || value == undefined || value == null;
+  };
+
+  // on search button clicked
   const onsearch = () => {
     setSearchStatus(false);
     if (
@@ -108,17 +149,22 @@ export const TransactionSummaryReports = () => {
         });
     }
   };
+
+  // on success of getting api data
   const onsuccessapi = (res) => {
     setprevpage(res?.data?.data?.previous_page);
     setnextpage(res?.data?.data?.next_page);
     setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
+
+  // on error in getting api data
   const onerrorapi = (e) => {
     setCollectionList(undefined);
     setLoader(false);
   };
 
+  // get collection data list according to pagination
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
@@ -130,6 +176,8 @@ export const TransactionSummaryReports = () => {
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
+
+  // get all data
   const getallData = () => {
     setLoader(true);
     axios
@@ -140,6 +188,7 @@ export const TransactionSummaryReports = () => {
       })
       .catch((e) => onerrorapi(e));
   };
+  // get district list
   const getDistrictList = async () => {
     axios
       .get(`${endUrl.schoolDistList}?all=true`)
@@ -148,6 +197,8 @@ export const TransactionSummaryReports = () => {
       })
       .catch((e) => {});
   };
+
+  // get status list
   const getstatusList = () => {
     setLoader(true);
     axios
@@ -156,18 +207,7 @@ export const TransactionSummaryReports = () => {
       .catch((e) => {});
   };
 
-  useLayoutEffect(() => {
-    const title = constants.Reports;
-    navigation.setOptions({ title });
-  }, []);
-
-  useEffect(() => {
-    getCollectionRequest();
-    getstatusList();
-    getDistrictList();
-    getallData();
-  }, [isFocused]);
-
+  // on click of right button
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -177,6 +217,7 @@ export const TransactionSummaryReports = () => {
     getallData();
   };
 
+  // on click of left button
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -186,6 +227,7 @@ export const TransactionSummaryReports = () => {
     getallData();
   };
 
+  // on reset button click
   const onReset = () => {
     setSearchStatus(true);
     setrefNumber("");
@@ -202,30 +244,8 @@ export const TransactionSummaryReports = () => {
     getallData();
   };
 
-  const tableHeader = [
-    constants.schoolName,
-    constants.schoolEmisNumber,
-    constants.DistrictOffice,
-    constants.ReplanishmentReports_trancRefNo,
-    constants.TransactionReports_confirmCollected,
-    constants.TransactionReports_Repair,
-    constants.TransactionReports_Disposal,
-    constants.number_approved_items,
-  ];
-
-  const tableKey = [
-    ConstKey.school_name,
-    ConstKey.school_emis,
-    ConstKey.district_office,
-    ConstKey.reference_number,
-    ConstKey.confirmed_collections,
-    ConstKey.repairs,
-    ConstKey.disposals,
-    ConstKey.approved,
-  ];
-
+  // render component flatlist
   const rendercomponent = ({ item }) => {
-  
     return (
       <DataDisplayList
         tableKey={tableKey}
@@ -234,6 +254,8 @@ export const TransactionSummaryReports = () => {
       />
     );
   };
+
+  // header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };

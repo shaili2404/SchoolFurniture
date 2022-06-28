@@ -8,9 +8,7 @@ import {
   FlatList,
   ScrollView,
   Image,
-  PermissionsAndroid,
   Platform,
-  Alert,
 } from "react-native";
 import COLORS from "../../asset/color";
 import DatePicker from "react-native-date-picker";
@@ -26,9 +24,6 @@ import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import AlertText from "../../Alert/AlertText";
 import ModalLoader from "../../component/ModalLoader";
-import RNFS from "react-native-fs";
-import XLSX from "xlsx";
-import FileViewer from "react-native-file-viewer";
 import {
   exportDataToExcel,
   handleClick,
@@ -68,15 +63,60 @@ export const SchoolFullFurReports = () => {
     userEdit: false,
     userDelete: false,
   });
-  const validation = (value) => {
-    return value == "" || value == undefined || value == null;
-  };
+  const tableHeader = [
+    constants.schoolName,
+    constants.schoolEmisNumber,
+    constants.DistrictOffice,
+    constants.ReplanishmentReports_trancRefNo,
+    constants.ReplanishmentReports_tranRefDate,
+    constants.SchoolReports_fullInvCount,
+    constants.FurnitureCat,
+    constants.furItem,
+    constants.SchoolReports_collectRe,
+    constants.SchoolReports_collectConfirm,
+    constants.furniture_full_count,
+  ];
+
+  const tableKey = [
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.ref_number,
+    ConstKey.transaction_date,
+    ConstKey.school_inventory_count,
+    ConstKey.furniture_category,
+    ConstKey.furniture_item,
+    ConstKey.collection_requested_count,
+    ConstKey.collection_confirmed_count,
+    ConstKey.total_per_school,
+  ];
+  // Getting if Start Date is Greater End Date
   useEffect(() => {
     if (startDate.getTime() > endDate.getTime())
       setDateErrorMessage(AlertText.DateError);
     else setDateErrorMessage("");
   }, [startDate, endDate]);
 
+  // on setting Header Title
+  useLayoutEffect(() => {
+    const title = constants.Reports;
+    navigation.setOptions({ title });
+  }, []);
+
+  // On Getting all Data
+  useEffect(() => {
+    getCollectionRequest();
+    getfurcategory();
+    getfuritem();
+    getDistrictList();
+    getallData();
+  }, [isFocused]);
+
+  // Validating Input Data
+  const validation = (value) => {
+    return value == "" || value == undefined || value == null;
+  };
+  // On Search Button Clicked
   const onsearch = () => {
     setSearchStatus(false);
     if (
@@ -118,17 +158,21 @@ export const SchoolFullFurReports = () => {
         });
     }
   };
+
+  // On Success Of Getting Api Data
   const onsuccessapi = (res) => {
     setCollectionList(res?.data?.data?.records);
     setprevpage(res?.data?.data?.previous_page);
     setnextpage(res?.data?.data?.next_page);
     setLoader(false);
   };
+  // On error in Getting Api Data
   const onerrorapi = (e) => {
     setCollectionList(undefined);
     setLoader(false);
   };
 
+  // on getting collection data according to pagination
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
@@ -140,6 +184,7 @@ export const SchoolFullFurReports = () => {
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
+  // on all getting collection data
   const getallData = () => {
     setLoader(true);
     axios
@@ -150,6 +195,7 @@ export const SchoolFullFurReports = () => {
       })
       .catch((e) => onerrorapi(e));
   };
+  // Getting District List
   const getDistrictList = async () => {
     axios
       .get(`${endUrl.schoolDistList}?all=true`)
@@ -158,6 +204,7 @@ export const SchoolFullFurReports = () => {
       })
       .catch((e) => {});
   };
+  // On getting Furniture Category
   const getfurcategory = () => {
     setLoader(true);
     axios
@@ -166,6 +213,7 @@ export const SchoolFullFurReports = () => {
       .catch((e) => {});
   };
 
+  // On getting Furiture Item
   const getfuritem = (id) => {
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
@@ -177,19 +225,7 @@ export const SchoolFullFurReports = () => {
       });
   };
 
-  useLayoutEffect(() => {
-    const title = constants.Reports;
-    navigation.setOptions({ title });
-  }, []);
-
-  useEffect(() => {
-    getCollectionRequest();
-    getfurcategory();
-    getfuritem();
-    getDistrictList();
-    getallData();
-  }, [isFocused]);
-
+  // On Click right button
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -198,7 +234,7 @@ export const SchoolFullFurReports = () => {
     setLoader(false);
     getallData();
   };
-
+  // on left button click
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -207,7 +243,7 @@ export const SchoolFullFurReports = () => {
     setLoader(false);
     getallData();
   };
-
+  // on reset button click
   const onReset = () => {
     setSearchStatus(true);
     setrefNumber("");
@@ -226,33 +262,7 @@ export const SchoolFullFurReports = () => {
     getallData();
   };
 
-  const tableHeader = [
-    constants.schoolName,
-    constants.schoolEmisNumber,
-    constants.DistrictOffice,
-    constants.ReplanishmentReports_trancRefNo,
-    constants.ReplanishmentReports_tranRefDate,
-    constants.SchoolReports_fullInvCount,
-    constants.FurnitureCat,
-    constants.furItem,
-    constants.SchoolReports_collectRe,
-    constants.SchoolReports_collectConfirm,
-    constants.ReplanishmentReports_TotalPerSchool,
-  ];
-
-  const tableKey = [
-    ConstKey.school_name,
-    ConstKey.school_emis,
-    ConstKey.district_office,
-    ConstKey.ref_number,
-    ConstKey.transaction_date,
-    ConstKey.school_inventory_count,
-    ConstKey.furniture_category,
-    ConstKey.furniture_item,
-    ConstKey.collection_requested_count,
-    ConstKey.collection_confirmed_count,
-    ConstKey.total_per_school,
-  ];
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -263,9 +273,12 @@ export const SchoolFullFurReports = () => {
     );
   };
 
+  // on header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
+
+  // set category value according to dropdown
   const setCategoryValue = (item) => {
     setfur_Select(item);
     getfuritem(item?.id);

@@ -143,6 +143,6 @@ export default StyleSheet.create({
   credStyle: {
     width: 200,
   },
-  restpassView:{alignSelf:'flex-end'},
-  clearpassView:{alignSelf:'center'},
+  restpassView: { alignSelf: "flex-end" },
+  clearpassView: { alignSelf: "center" },
 });

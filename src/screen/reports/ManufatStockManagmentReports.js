@@ -51,6 +51,24 @@ export const ManufactStockManageReports = () => {
     userDelete: false,
   });
 
+  const tableHeader = [constants.FurCategory, constants.furItem];
+  const tableKey = [ConstKey.furniture_category, ConstKey.furniture_item];
+
+  // Setting Title Of Header
+  useLayoutEffect(() => {
+    const title = constants.Reports;
+    navigation.setOptions({ title });
+  }, []);
+
+  // Getting All The List
+  useEffect(() => {
+    getCollectionRequest();
+    getfurcategory();
+    getfuritem();
+    getallData();
+  }, [isFocused]);
+
+  // On Search Button Click
   const onsearch = () => {
     setSearchStatus(false);
     if (select?.id == null && stockItem?.id == null)
@@ -73,17 +91,22 @@ export const ManufactStockManageReports = () => {
         });
     }
   };
+
+  // ON Success Of Getting Data List
   const onsuccessapi = (res) => {
     setprevpage(res?.data?.data?.previous_page);
     setnextpage(res?.data?.data?.next_page);
     setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
+
+  // On  Error in Getting Data List
   const onerrorapi = (e) => {
     setCollectionList(false);
     setLoader(false);
   };
 
+  // Get Data List According To Pagination
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
@@ -95,6 +118,8 @@ export const ManufactStockManageReports = () => {
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
+
+  // Getting ALl Data
   const getallData = () => {
     setLoader(true);
     axios
@@ -105,6 +130,8 @@ export const ManufactStockManageReports = () => {
       })
       .catch((e) => onerrorapi(e));
   };
+
+  // Getting Furiture Category
   const getfurcategory = () => {
     setLoader(true);
     axios
@@ -113,6 +140,7 @@ export const ManufactStockManageReports = () => {
       .catch((e) => {});
   };
 
+  // Getting Furniture Item
   const getfuritem = (id) => {
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
@@ -124,18 +152,7 @@ export const ManufactStockManageReports = () => {
       });
   };
 
-  useLayoutEffect(() => {
-    const title = constants.Reports;
-    navigation.setOptions({ title });
-  }, []);
-
-  useEffect(() => {
-    getCollectionRequest();
-    getfurcategory();
-    getfuritem();
-    getallData();
-  }, [isFocused]);
-
+  // On Right Arrow CLicked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -145,6 +162,7 @@ export const ManufactStockManageReports = () => {
     getallData();
   };
 
+  // On Left Arrow Clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -154,6 +172,7 @@ export const ManufactStockManageReports = () => {
     getallData();
   };
 
+  // On Reset Button Clicked
   const onReset = () => {
     setSearchStatus(true);
     setErrorMessage("");
@@ -166,9 +185,7 @@ export const ManufactStockManageReports = () => {
     getallData();
   };
 
-  const tableHeader = [constants.FurCategory, constants.furItem];
-
-  const tableKey = [ConstKey.furniture_category, ConstKey.furniture_item];
+  // Render Component Of FlatList
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -178,10 +195,12 @@ export const ManufactStockManageReports = () => {
       />
     );
   };
+  // Header Component Of FlatList
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
 
+  // On Set On select From DropDown
   const setCategoryValue = (item) => {
     setSelect(item);
     getfuritem(item?.id);

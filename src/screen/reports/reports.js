@@ -24,6 +24,7 @@ export const Reports = () => {
     reports_permission: false,
   });
 
+  // Setting DropDown Data
   const dropDownData = [
     { id: 0, name: constants.Replenishment_Report },
     { id: 1, name: constants.Disposal_Report },
@@ -38,10 +39,18 @@ export const Reports = () => {
   const [dropData, setDropData] = useState(dropDownData);
   const loginData = useSelector((state) => state?.loginData);
 
+  // Depend On dropDown Data Changing Component
   useEffect(() => {
     ListShowaccDrop();
   }, [select?.id]);
 
+  // setting header title
+  useLayoutEffect(() => {
+    const title = constants.Reports;
+    navigation.setOptions({ title });
+  }, []);
+
+  // Setting permission of Button Which Are Visible
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [repList] = CommonService.getPermission(arr, [33]);
@@ -51,6 +60,7 @@ export const Reports = () => {
     setLoader(false);
   }, []);
 
+  // Fuction to switch data according to dropdown data
   const ListShowaccDrop = () => {
     if (select?.id == 0) return <ReplanishmentReports />;
     else if (select?.id == 1) return <DisposalReports />;
@@ -61,10 +71,6 @@ export const Reports = () => {
     else if (select?.id == 6) return <TransactionStatusReports />;
     else return <ReplanishmentReports />;
   };
-  useLayoutEffect(() => {
-    const title = constants.Reports;
-    navigation.setOptions({ title });
-  }, []);
 
   return loader ? (
     <Loader />

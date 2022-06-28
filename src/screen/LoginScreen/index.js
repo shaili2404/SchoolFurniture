@@ -43,7 +43,7 @@ export const LoginScreen = () => {
     setLoader(loading);
     const { message } = err?.response?.data || {};
     setErrorMessage(message);
-
+    // Getting Ip Address As It Is Required At Time Of Login
     NetworkInfo.getIPAddress().then((ipAddress) => {
       setIpAddress(ipAddress);
     });
@@ -52,6 +52,7 @@ export const LoginScreen = () => {
     });
   }, [loginData]);
 
+  // Getting Email-id / UserName Of User
   const onChangeEmail = (username) => {
     if (username == "") {
       setEmptyUserName(true);
@@ -62,8 +63,9 @@ export const LoginScreen = () => {
     }
   };
 
+  // Getting Password Of User
   const onChangePass = (password) => {
-     if (password == "" || !regExpPassword.test(password)) {
+    if (password == "" || !regExpPassword.test(password)) {
       setEmptyPass(true);
       setPassword(password);
     } else {
@@ -72,6 +74,7 @@ export const LoginScreen = () => {
     }
   };
 
+  // On LOgin Buttton Click
   const onLogin = () => {
     var data = {
       username: username,
@@ -81,6 +84,7 @@ export const LoginScreen = () => {
     dispatch(loginRequest(data));
   };
 
+  // On Clear Button Click
   const onClear = () => {
     Keyboard.dismiss();
     setDefaultState(false);
@@ -96,10 +100,7 @@ export const LoginScreen = () => {
   ) : (
     <SafeAreaView style={Styles.mainView}>
       <View style={Styles.subContainer}>
-        <KeyboardAvoidingView
-          behavior="position"
-          keyboardVerticalOffset={0}
-        >
+        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={0}>
           <LogoImg />
           <View style={Styles.loginView}>
             <Text style={Styles.loginText}>{constants.Login}</Text>
@@ -197,7 +198,7 @@ export const LoginScreen = () => {
                 <Text style={Styles.errorStyle}>{errorMessage}</Text>
               </View>
             ) : null}
-            <View style={Styles.restpassView} >
+            <View style={Styles.restpassView}>
               <TouchableOpacity
                 onPress={() => navigation.navigate(Screen.Password_Reset)}
               >
