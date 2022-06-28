@@ -87,6 +87,7 @@ export const SchoolList = () => {
     { key: ConstKey.street_code, value: constants.streetCode },
   ];
 
+  // getting permmision if user is permitted to view data
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [userCreate, userEdit, userDlt] = CommonService.getPermission(
@@ -100,6 +101,25 @@ export const SchoolList = () => {
     });
   }, []);
 
+  // get list data
+  useEffect(() => {
+    apicall();
+  }, []);
+  // false the loader on getting list
+  useEffect(() => {
+    if (listData) setLoader(false);
+  }, [listData]);
+
+  // calling data again if search text is empty
+  useEffect(() => {
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false);
+    }
+  }, [searchtask]);
+
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -116,20 +136,24 @@ export const SchoolList = () => {
     );
   };
 
+  // on edit button click
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true);
   };
 
+  // header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
+  // reload list again on changing of data
   const reloadList = () => {
     apicall();
   };
 
+  // on submit details for add new school or edit school
   const onSubmitDetails = async (values, oper) => {
     setAdduserModal(false);
     setLoader(true);
@@ -165,6 +189,7 @@ export const SchoolList = () => {
       });
   };
 
+  // getting data list  with pagination
   const apicall = (count) => {
     setLoader(true);
     axios
@@ -176,6 +201,8 @@ export const SchoolList = () => {
       })
       .catch((e) => {});
   };
+
+  // on next button click
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -184,6 +211,7 @@ export const SchoolList = () => {
     setLoader(false);
   };
 
+  // on previous button click
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -192,6 +220,7 @@ export const SchoolList = () => {
     setLoader(false);
   };
 
+  // on search button click
   const onsearch = () => {
     setErrorMessage("");
     if (searchtask == "") {
@@ -212,30 +241,17 @@ export const SchoolList = () => {
     }
   };
 
+  // on add button press to add new school
   const onAddPress = (task) => {
     setOperation(task);
     setAdduserModal(true);
   };
 
-  useEffect(() => {
-    apicall();
-  }, []);
+  // on reset button click
   const onReset = () => {
     setErrorMessage("");
     setSearchTask("");
   };
-
-  useEffect(() => {
-    if (listData) setLoader(false);
-  }, [listData]);
-
-  useEffect(() => {
-    if (searchtask == "") {
-      apicall();
-      setErrorMessage("");
-      setLoader(false);
-    }
-  }, [searchtask]);
 
   return loader ? (
     <Loader />

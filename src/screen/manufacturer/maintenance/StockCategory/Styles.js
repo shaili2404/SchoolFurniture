@@ -21,7 +21,7 @@ export default StyleSheet.create({
   mainView: {
     backgroundColor: "#fff",
     flex: 1,
-    height:Dimensions.get('window').height
+    height: Dimensions.get("window").height,
   },
   buttonStyle: {
     marginTop: RfH(30),
@@ -108,5 +108,5 @@ export default StyleSheet.create({
     bottom: 0,
     alignSelf: "center",
   },
-  transformStyle:{ transform: [{ rotate: '180deg' }] }
+  transformStyle: { transform: [{ rotate: "180deg" }] },
 });

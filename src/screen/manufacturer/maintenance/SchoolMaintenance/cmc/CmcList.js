@@ -53,19 +53,24 @@ export const CMC = () => {
   const tableHeader = [constants.Cmc, constants.District, constants.manage];
 
   const addArray = [
-    { key:ConstKey.cmc_name, value: constants.Cmc },
-    { key:ConstKey.district_office, value: constants.District },
+    { key: ConstKey.cmc_name, value: constants.Cmc },
+    { key: ConstKey.district_office, value: constants.District },
   ];
 
+  // getting data if screen is in focus
   useEffect(() => {
     setLoader(true);
     apicall();
   }, [isFocused]);
 
+  // gettin permission if user is permitted
   useEffect(() => {
     setLoader(true);
     const arr = loginData?.user?.data?.data?.permissions;
-    const [userCreate, userEdit,userDlt] = CommonService.getPermission(arr, [35,36,27])
+    const [userCreate, userEdit, userDlt] = CommonService.getPermission(
+      arr,
+      [35, 36, 27]
+    );
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
@@ -73,6 +78,21 @@ export const CMC = () => {
     });
   }, []);
 
+  // setting loader flase on getting of data
+  useEffect(() => {
+    if (listData) setLoader(false);
+  }, [listData]);
+
+  // calling function again if search input tag is empty
+  useEffect(() => {
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false);
+    }
+  }, [searchtask]);
+
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -88,20 +108,24 @@ export const CMC = () => {
     );
   };
 
+  // on Edit button click
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true);
   };
 
+  // Header componet of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
+  // reloading data again if any cmc is add or edit
   const reloadList = () => {
     apicall();
   };
 
+  // on submit of new cmc or edit of cmc
   const onSubmitDetails = async (values, oper) => {
     setAdduserModal(false);
     setLoader(true);
@@ -137,6 +161,7 @@ export const CMC = () => {
       });
   };
 
+  // getting list data according to pagination
   const apicall = (count) => {
     setLoader(true);
     axios
@@ -148,6 +173,7 @@ export const CMC = () => {
       })
       .catch((e) => {});
   };
+  // on next button click
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -156,6 +182,7 @@ export const CMC = () => {
     setLoader(false);
   };
 
+  // on previous button click
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -163,178 +190,161 @@ export const CMC = () => {
     apicall(count);
     setLoader(false);
   };
-  const onReset = ()=>{
-    setErrorMessage('')
-    setSearchTask('')
-  }
 
+  // on reset button click
+  const onReset = () => {
+    setErrorMessage("");
+    setSearchTask("");
+  };
 
+  // on search button click
   const onsearch = () => {
-    setErrorMessage('')
+    setErrorMessage("");
     if (searchtask == "") {
       setErrorMessage(constants.enterSearchData);
     } else {
-    setLoader(true);
-    axios
-      .get(`${endUrl.CMC_search}${searchtask}`)
-      .then((res) => {
-        setListData(res?.data?.data);
-        setLoader(false);
-      })
-      .catch((e) => {
-        {
-          let { message, data, status } = e?.response?.data || {};
+      setLoader(true);
+      axios
+        .get(`${endUrl.CMC_search}${searchtask}`)
+        .then((res) => {
+          setListData(res?.data?.data);
           setLoader(false);
+        })
+        .catch((e) => {
           {
-            let str = "";
-            status == 422
-              ? Object.values(data).forEach((value) => {
-                  str += `  ${value}`;
-                  setErrorMessage(str);
-                })
-              : setErrorMessage(message);
+            let { message, data, status } = e?.response?.data || {};
+            setLoader(false);
+            {
+              let str = "";
+              status == 422
+                ? Object.values(data).forEach((value) => {
+                    str += `  ${value}`;
+                    setErrorMessage(str);
+                  })
+                : setErrorMessage(message);
+            }
           }
-        }
-      });
+        });
     }
   };
 
+  // on add button click for add new cmc
   const onAddPress = (task) => {
     setOperation(task);
     setAdduserModal(true);
   };
 
-  useEffect(() => {
-    if (listData) setLoader(false);
-  }, [listData]);
-
-  useEffect(() => {
-    if (searchtask == "") {
-      apicall();
-      setErrorMessage("");
-      setLoader(false);
-    }
-  }, [searchtask]);
-
   return loader ? (
     <Loader />
   ) : (
     <ScrollView showsVerticalScrollIndicator={false}>
-    <SafeAreaView style={Styles.mainView}>
-      <View style={Styles.halfView}>
-        <View>
-          <TextInput
-            style={Styles.refrenceStyle}
-            placeholder={constants.SearchCmc}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={searchtask}
-            onChangeText={(val) => setSearchTask(val)}
-          />
-          <TouchableOpacity style={Styles.eyeStyle} onPress={onsearch}>
-            <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
-          </TouchableOpacity>
-        </View>
-        {errorMessage ? (
-          <View style={Styles.errorView}>
-            <Text style={Styles.errormessStyle}>{errorMessage}</Text>
-            <TouchableOpacity
-              style={Styles.searchButton}
-              onPress={onReset}
-            >
-              <Text style={Styles.searchText}>
-                {constants.Reset}
-              </Text>
+      <SafeAreaView style={Styles.mainView}>
+        <View style={Styles.halfView}>
+          <View>
+            <TextInput
+              style={Styles.refrenceStyle}
+              placeholder={constants.SearchCmc}
+              placeholderTextColor={COLORS.Black}
+              opacity={0.5}
+              value={searchtask}
+              onChangeText={(val) => setSearchTask(val)}
+            />
+            <TouchableOpacity style={Styles.eyeStyle} onPress={onsearch}>
+              <Image source={Images.SearchIcon} style={Styles.imgsStyle} />
             </TouchableOpacity>
           </View>
-        ) : (
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FlatList
-              ListHeaderComponent={HeaderComponet}
+          {errorMessage ? (
+            <View style={Styles.errorView}>
+              <Text style={Styles.errormessStyle}>{errorMessage}</Text>
+              <TouchableOpacity style={Styles.searchButton} onPress={onReset}>
+                <Text style={Styles.searchText}>{constants.Reset}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <ScrollView
+              horizontal={true}
               showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              data={listData}
-              renderItem={rendercomponent}
-            />
-          </ScrollView>
-        )}
-      </View>
-      <View style={errorMessage ? Styles.lastssView :Styles.lastView}>
-        <TouchableOpacity
-          onPress={onPrevious}
-          disabled={number == 1 ? true : false}
-        >
-          {number == 1 ? (
-            <Image source={Images.leftarrow} />
-          ) : (
-            <Image
-              source={Images.rightarrow}
-              style={Styles.transformStyle}
-            />
+            >
+              <FlatList
+                ListHeaderComponent={HeaderComponet}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => item.id}
+                data={listData}
+                renderItem={rendercomponent}
+              />
+            </ScrollView>
           )}
-        </TouchableOpacity>
+        </View>
+        <View style={errorMessage ? Styles.lastssView : Styles.lastView}>
+          <TouchableOpacity
+            onPress={onPrevious}
+            disabled={number == 1 ? true : false}
+          >
+            {number == 1 ? (
+              <Image source={Images.leftarrow} />
+            ) : (
+              <Image source={Images.rightarrow} style={Styles.transformStyle} />
+            )}
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={onNext}
-          disabled={number == maximumNumber ? true : false}
-        >
-          {number == maximumNumber ? (
-            <Image
-              source={Images.leftarrow}
-              style={Styles.transformStyle}
-            />
-          ) : (
-            <Image source={Images.rightarrow} />
-          )}
-        </TouchableOpacity>
-      </View>
-
-      {permissionId.userCreate && (
-        <View style={Styles.plusView}>
-          <TouchableOpacity onPress={() => onAddPress(constants.add)}>
-            <Image source={Images.addCricleIcon} />
+          <TouchableOpacity
+            onPress={onNext}
+            disabled={number == maximumNumber ? true : false}
+          >
+            {number == maximumNumber ? (
+              <Image source={Images.leftarrow} style={Styles.transformStyle} />
+            ) : (
+              <Image source={Images.rightarrow} />
+            )}
           </TouchableOpacity>
         </View>
-      )}
 
-      {addUserModal ? (
-        <AddEditCMC
-          visible={addUserModal}
-          setmodalVisible={(val) => setAdduserModal(val)}
-          onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}
-          data={addArray}
-          name={constants.Cmc}
-          operation={operation}
-          updateItem={updateItem}
-          buttonVal={
-            operation === constants.add ? constants.add : constants.update
-          }
-        />
-      ) : null}
-      {alert ? (
-        <AlertMessage
-          visible={alert}
-          setmodalVisible={(val) => setAlert(val)}
-          mainMessage={
-            operation == constants.add
-              ? AlertText.AddedSuccessFully
-              : AlertText.SchoolUpdate
-          }
-          subMessage={
-            operation == constants.add ? AlertText.CMCAddedSub : AlertText.Cmc
-          }
-          onConfirm={() => onPressYes()}
-        />
-      ) : null}
-      {erroralert ? (
-        <AlertMessage
-          visible={erroralert}
-          setmodalVisible={(val) => seterrorAlert(val)}
-          mainMessage={errMsg}
-          onConfirm={() => onPressokay()}
-        />
-      ) : null}
-    </SafeAreaView>
+        {permissionId.userCreate && (
+          <View style={Styles.plusView}>
+            <TouchableOpacity onPress={() => onAddPress(constants.add)}>
+              <Image source={Images.addCricleIcon} />
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {addUserModal ? (
+          <AddEditCMC
+            visible={addUserModal}
+            setmodalVisible={(val) => setAdduserModal(val)}
+            onSubmitDetails={(value, oper) => onSubmitDetails(value, oper)}
+            data={addArray}
+            name={constants.Cmc}
+            operation={operation}
+            updateItem={updateItem}
+            buttonVal={
+              operation === constants.add ? constants.add : constants.update
+            }
+          />
+        ) : null}
+        {alert ? (
+          <AlertMessage
+            visible={alert}
+            setmodalVisible={(val) => setAlert(val)}
+            mainMessage={
+              operation == constants.add
+                ? AlertText.AddedSuccessFully
+                : AlertText.SchoolUpdate
+            }
+            subMessage={
+              operation == constants.add ? AlertText.CMCAddedSub : AlertText.Cmc
+            }
+            onConfirm={() => onPressYes()}
+          />
+        ) : null}
+        {erroralert ? (
+          <AlertMessage
+            visible={erroralert}
+            setmodalVisible={(val) => seterrorAlert(val)}
+            mainMessage={errMsg}
+            onConfirm={() => onPressokay()}
+          />
+        ) : null}
+      </SafeAreaView>
     </ScrollView>
   );
 };

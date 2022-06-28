@@ -86,8 +86,7 @@ export const Search = () => {
     { key: ConstKey.street_code, value: constants.streetCode },
   ];
 
-  
-
+  // render component of flat list
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -99,18 +98,18 @@ export const Search = () => {
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
       />
-     
     );
   };
-
+  // header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
+  // reload list when data change
   const reloadList = () => {
     apicall();
   };
-
+  // get data on api call
   const apicall = (count) => {
     setLoader(true);
     axios
@@ -123,7 +122,7 @@ export const Search = () => {
       })
       .catch((e) => setLoader(false));
   };
-
+  // on next button clicked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -131,7 +130,7 @@ export const Search = () => {
     apicall(count);
     setLoader(false);
   };
-
+  // on previous button clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -139,7 +138,7 @@ export const Search = () => {
     apicall(count);
     setLoader(false);
   };
-
+  // on search button clicked
   const onsearch = async () => {
     setSearchStatus(false);
     let strtDte =
@@ -188,10 +187,12 @@ export const Search = () => {
         }
       });
   };
-
+  // get data list
   useEffect(() => {
     apicall();
   }, []);
+
+  // on reset button clicked
   const onReset = () => {
     setSearchStatus(true);
     apicall();
@@ -200,11 +201,11 @@ export const Search = () => {
     setendDatestatus(true);
     setStartDateStatus(true);
   };
-
+  // doing loader false on getting api data
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
-
+  // calling data funtion if search task is empty
   useEffect(() => {
     if (searchtask == "") {
       apicall();

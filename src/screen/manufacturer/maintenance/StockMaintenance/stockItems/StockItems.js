@@ -1,5 +1,5 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   TextInput,
@@ -9,65 +9,82 @@ import {
   Image,
   FlatList,
   ScrollView,
-} from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import { AlertMessage } from '../../../../../Alert/alert'
-import AlertText from '../../../../../Alert/AlertText'
-import COLORS from '../../../../../asset/color'
-import Images from '../../../../../asset/images'
-import Dropdown from '../../../../../component/DropDown/dropdown'
-import Loader from '../../../../../component/loader'
-import { DataDisplayList } from '../../../../../component/manufacturer/displayListComman'
-import { ListHeaderComman } from '../../../../../component/manufacturer/ListHeaderComman'
-import constants from '../../../../../locales/constants'
-import endUrl from '../../../../../redux/configration/endUrl'
-import style from './style'
-import { useSelector } from 'react-redux'
-import CommonService from '../../../../../locales/service'
-import ConstKey from '../../../../../locales/ApikeyConst'
+} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
+import { AlertMessage } from "../../../../../Alert/alert";
+import AlertText from "../../../../../Alert/AlertText";
+import COLORS from "../../../../../asset/color";
+import Images from "../../../../../asset/images";
+import Dropdown from "../../../../../component/DropDown/dropdown";
+import Loader from "../../../../../component/loader";
+import { DataDisplayList } from "../../../../../component/manufacturer/displayListComman";
+import { ListHeaderComman } from "../../../../../component/manufacturer/ListHeaderComman";
+import constants from "../../../../../locales/constants";
+import endUrl from "../../../../../redux/configration/endUrl";
+import style from "./style";
+import { useSelector } from "react-redux";
+import CommonService from "../../../../../locales/service";
+import ConstKey from "../../../../../locales/ApikeyConst";
 
-const tableHeader = [constants.categories, constants.Items, constants.manage]
+const tableHeader = [constants.categories, constants.Items, constants.manage];
 
 export const StockItems = () => {
-  const [categoryList, setcategoryList] = useState([])
-  const [dataList, setDataList] = useState([])
-  const [selected, setSelected] = useState({})
-  const [defaultState, setDefaultState] = useState(false)
-  const [editState, setEditState] = useState(false)
-  const [stockCategoryName, setStockCategoryName] = useState('')
-  const [defaultStockCategory, setDefaultStockCategory] = useState('')
-  const [loader, setLoader] = useState(true)
-  const tableKey = [ConstKey.category_name, ConstKey.name]
-  const [errorMessage, setErrorMessage] = useState('')
-  const [searchtask, setSearchTask] = useState('')
-  const [alert, setAlert] = useState(false)
-  const [taskfor, setTaskFor] = useState('')
-  const [dropdata, setDropdowndata] = useState('')
-  const [onEditName, setOnEditName] = useState('')
-  const [successMessage, setSuccessMessage] = useState('')
-  const [maximumNumber, setmaximunNumber] = useState(0)
-  const [number, setNumber] = useState(1)
-  const loginData = useSelector((state) => state?.loginData)
+  const [categoryList, setcategoryList] = useState([]);
+  const [dataList, setDataList] = useState([]);
+  const [selected, setSelected] = useState({});
+  const [defaultState, setDefaultState] = useState(false);
+  const [editState, setEditState] = useState(false);
+  const [stockCategoryName, setStockCategoryName] = useState("");
+  const [defaultStockCategory, setDefaultStockCategory] = useState("");
+  const [loader, setLoader] = useState(true);
+  const tableKey = [ConstKey.category_name, ConstKey.name];
+  const [errorMessage, setErrorMessage] = useState("");
+  const [searchtask, setSearchTask] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [taskfor, setTaskFor] = useState("");
+  const [dropdata, setDropdowndata] = useState("");
+  const [onEditName, setOnEditName] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [maximumNumber, setmaximunNumber] = useState(0);
+  const [number, setNumber] = useState(1);
+  const loginData = useSelector((state) => state?.loginData);
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
     userDelete: false,
-  })
-
+  });
+  // get permission if user is able to view list
   useEffect(() => {
-    const arr = loginData?.user?.data?.data?.permissions
+    const arr = loginData?.user?.data?.data?.permissions;
     const [userCreate, userEdit, userDlt] = CommonService.getPermission(
       arr,
       [18, 19, 20]
-    )
+    );
     setPermissionId({
       userCreate: userCreate,
       userEdit: userEdit,
       userDelete: userDlt,
-    })
-  }, [])
+    });
+  }, []);
+  // get stock List
+  useEffect(() => {
+    getStockList();
+  }, []);
 
+  // get category list
+  useEffect(() => {
+    getCategoriesList();
+  }, []);
+  // if search task is empty call function again
+  useEffect(() => {
+    if (searchtask == "") {
+      getStockList();
+      setErrorMessage("");
+      setLoader(false);
+    }
+  }, [searchtask]);
+  // render component of flatlist
   const renderComponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -80,168 +97,155 @@ export const StockItems = () => {
         reloadList={() => reloadList()}
         permissionId={permissionId}
       />
-    )
-  }
-
+    );
+  };
+  // reload list if data is changed
   const reloadList = () => {
-    getStockList()
-  }
-
+    getStockList();
+  };
+  // On Edit button Clicked
   const onEdit = (item, task) => {
-    setTaskFor(task)
-    setEditState(true)
-    setDefaultStockCategory(item.name)
-    setDropdowndata(item.category_name)
-    setOnEditName(item)
-  }
-
+    setTaskFor(task);
+    setEditState(true);
+    setDefaultStockCategory(item.name);
+    setDropdowndata(item.category_name);
+    setOnEditName(item);
+  };
+  // on Update function
   const onUpdate = () => {
-    setEditState(false)
-    setTaskFor('')
+    setEditState(false);
+    setTaskFor("");
     let data = {
       name: defaultStockCategory,
       category_id: onEditName.category_id,
-    }
-    setLoader(true)
+    };
+    setLoader(true);
     axios
       .put(`${endUrl.stockitemList}/${onEditName.id}`, data)
       .then((res) => {
-        setAlert(true)
-        getStockList()
-        setLoader(false)
-        setSelected({})
-        setSuccessMessage(res?.data?.message)
-        setStockCategoryName('')
+        setAlert(true);
+        getStockList();
+        setLoader(false);
+        setSelected({});
+        setSuccessMessage(res?.data?.message);
+        setStockCategoryName("");
       })
       .catch((e) => {
-        let { message, data, status } = e?.response?.data || {}
-        setLoader(false)
-        setAlert(true)
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        setAlert(true);
         {
-          let str = ''
+          let str = "";
           status == 422
             ? Object.values(data).forEach((value) => {
-                str += `  ${value}`
-                setSuccessMessage(str)
+                str += `  ${value}`;
+                setSuccessMessage(str);
               })
-            : setSuccessMessage(message)
+            : setSuccessMessage(message);
         }
-      })
-  }
+      });
+  };
+  // on Add Button Click to add stock item
   const onAdd = () => {
     let data = {
       name: stockCategoryName,
       category_id: selected.id,
-    }
-    setLoader(true)
+    };
+    setLoader(true);
     axios
       .post(`${endUrl.stockitemList}`, data)
       .then((res) => {
-        getStockList()
-        setLoader(false)
-        setSelected({})
-        setStockCategoryName('')
-        setAlert(true)
-        setSuccessMessage(res?.data?.message)
+        getStockList();
+        setLoader(false);
+        setSelected({});
+        setStockCategoryName("");
+        setAlert(true);
+        setSuccessMessage(res?.data?.message);
       })
       .catch((e) => {
-        let { message, data, status } = e?.response?.data || {}
-        setLoader(false)
-        setAlert(true)
+        let { message, data, status } = e?.response?.data || {};
+        setLoader(false);
+        setAlert(true);
         {
-          let str = ''
+          let str = "";
           status == 422
             ? Object.values(data).forEach((value) => {
-                str += `  ${value}`
-                setSuccessMessage(str)
+                str += `  ${value}`;
+                setSuccessMessage(str);
               })
-            : setSuccessMessage(message)
+            : setSuccessMessage(message);
         }
-      })
-  }
-
+      });
+  };
+  // header component to flatlist
   const HeaderComponent = () => {
-    return <ListHeaderComman tableHeader={tableHeader} List="screen" />
-  }
-
+    return <ListHeaderComman tableHeader={tableHeader} List="screen" />;
+  };
+  // get data list
   const getCategoriesList = (count) => {
     axios
       .get(`${endUrl.stockCategoryList}?all==true`)
       .then((res) => {
-        setDataList(res?.data?.data?.records)
+        setDataList(res?.data?.data?.records);
       })
-      .catch((e) => {})
-  }
-
+      .catch((e) => {});
+  };
+  // get stock categories list
   const getStockList = (count) => {
-    setLoader(true)
+    setLoader(true);
     axios
       .get(`${endUrl.stockitemList}?page=${count ? count : number}`)
       .then((res) => {
-        setcategoryList(res?.data?.data?.records)
-        setmaximunNumber(res?.data?.data?.total_page)
-        setLoader(false)
+        setcategoryList(res?.data?.data?.records);
+        setmaximunNumber(res?.data?.data?.total_page);
+        setLoader(false);
       })
       .catch((e) => {
-        setLoader(false)
-      })
-  }
-
+        setLoader(false);
+      });
+  };
+  // on search button clicked
   const onsearch = async () => {
-    setLoader(true)
+    setLoader(true);
     axios
       .get(`${endUrl.stockItemSearch}${searchtask}`)
       .then((res) => {
-        setcategoryList(res?.data?.data)
-        setLoader(false)
+        setcategoryList(res?.data?.data);
+        setLoader(false);
       })
       .catch((e) => {
         {
-          let { message, data, status } = e?.response?.data || {}
-          setLoader(false)
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
           {
-            let str = ''
+            let str = "";
             status == 422
               ? Object.values(data).forEach((value) => {
-                  str += `  ${value}`
-                  setErrorMessage(str)
+                  str += `  ${value}`;
+                  setErrorMessage(str);
                 })
-              : setErrorMessage(message)
+              : setErrorMessage(message);
           }
         }
-      })
-  }
+      });
+  };
 
-  useEffect(() => {
-    getStockList()
-  }, [])
-  useEffect(() => {
-    getCategoriesList()
-  }, [])
-
-  useEffect(() => {
-    if (searchtask == '') {
-      getStockList()
-      setErrorMessage('')
-      setLoader(false)
-    }
-  }, [searchtask])
-
+  // on Next button clicked
   const onNext = () => {
-    let count = number + 1
-    setLoader(true)
-    setNumber(number + 1)
-    getStockList(count)
-    setLoader(false)
-  }
-
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    getStockList(count);
+    setLoader(false);
+  };
+  // on previous button Clicked
   const onPrevious = () => {
-    let count = number - 1
-    setLoader(true)
-    setNumber(number - 1)
-    getStockList(count)
-    setLoader(false)
-  }
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    getStockList(count);
+    setLoader(false);
+  };
 
   return loader ? (
     <Loader />
@@ -268,7 +272,7 @@ export const StockItems = () => {
           <View>
             <TextInput
               style={style.emailInputStyle}
-              placeholder={defaultState === true ? ' ' : constants.stockitems}
+              placeholder={defaultState === true ? " " : constants.stockitems}
               placeholderTextColor={COLORS.Black}
               onFocus={() => setDefaultState(true)}
               onBlur={() => setDefaultState(false)}
@@ -311,7 +315,7 @@ export const StockItems = () => {
           <View style={style.searchBox}>
             <TextInput
               style={style.searchInputStyle}
-              placeholder={defaultState === true ? ' ' : constants.searchItem}
+              placeholder={defaultState === true ? " " : constants.searchItem}
               placeholderTextColor={COLORS.Black}
               onFocus={() => setDefaultState(true)}
               onBlur={() => setDefaultState(false)}
@@ -349,10 +353,7 @@ export const StockItems = () => {
             {number == 1 ? (
               <Image source={Images.leftarrow} />
             ) : (
-              <Image
-                source={Images.rightarrow}
-                style={style.transformStyle}
-              />
+              <Image source={Images.rightarrow} style={style.transformStyle} />
             )}
           </TouchableOpacity>
 
@@ -361,10 +362,7 @@ export const StockItems = () => {
             disabled={number == maximumNumber ? true : false}
           >
             {number == maximumNumber ? (
-              <Image
-                source={Images.leftarrow}
-                style={style.transformStyle}
-              />
+              <Image source={Images.leftarrow} style={style.transformStyle} />
             ) : (
               <Image source={Images.rightarrow} />
             )}
@@ -381,5 +379,5 @@ export const StockItems = () => {
         <View style={{ height: 70 }} />
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};

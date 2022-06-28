@@ -58,11 +58,12 @@ export const SubPlacesList = () => {
     { key: ConstKey.subplace_name, value: constants.subplacesname },
     { key: ConstKey.circuit_name, value: constants.Circuit },
   ];
+  // get Data List
   useEffect(() => {
     setLoader(true);
     apicall();
   }, []);
-
+  // check permission if user has able to see data list
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [userCreate, userEdit, userDlt] = CommonService.getPermission(
@@ -76,6 +77,22 @@ export const SubPlacesList = () => {
     });
   }, []);
 
+  // setting loader false on getting list data
+  useEffect(() => {
+    if (listData) setLoader(false);
+  }, [listData]);
+
+  // getting data if search input text is null
+  useEffect(() => {
+    if (searchtask == "") {
+      setLoader(true);
+      apicall();
+      setErrorMessage("");
+      setLoader(false);
+    }
+  }, [searchtask]);
+
+  // render component for flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -91,20 +108,21 @@ export const SubPlacesList = () => {
     );
   };
 
+  // On Edit button clicked
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true);
   };
-
+  // header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
-
+  // reload list call when data changes
   const reloadList = () => {
     apicall();
   };
-
+  // on Submit details after add and edit subplace
   const onSubmitDetails = async (values, oper) => {
     setAdduserModal(false);
     setLoader(true);
@@ -139,7 +157,7 @@ export const SubPlacesList = () => {
         }
       });
   };
-
+  // Get  data list with pagination
   const apicall = (count) => {
     setLoader(true);
     axios
@@ -151,7 +169,7 @@ export const SubPlacesList = () => {
       })
       .catch((e) => {});
   };
-
+  // OnNext Button Cliecked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -159,7 +177,7 @@ export const SubPlacesList = () => {
     apicall(count);
     setLoader(false);
   };
-
+  // On previous button clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -167,11 +185,12 @@ export const SubPlacesList = () => {
     apicall(count);
     setLoader(false);
   };
-
+  // on Reset Button Clicked
   const onReset = () => {
     setErrorMessage("");
     setSearchTask("");
   };
+  // On Search button clicked
   const onsearch = () => {
     setErrorMessage("");
     if (searchtask == "") {
@@ -202,23 +221,11 @@ export const SubPlacesList = () => {
     }
   };
 
+  // on Add press to add Subplace
   const onAddPress = (task) => {
     setOperation(task);
     setAdduserModal(true);
   };
-
-  useEffect(() => {
-    if (listData) setLoader(false);
-  }, [listData]);
-
-  useEffect(() => {
-    if (searchtask == "") {
-      setLoader(true);
-      apicall();
-      setErrorMessage("");
-      setLoader(false);
-    }
-  }, [searchtask]);
 
   return loader ? (
     <Loader />

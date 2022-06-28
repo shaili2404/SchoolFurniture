@@ -21,7 +21,7 @@ export const StockMaintenanceScreen = () => {
     stockCat: false,
   });
   const navigation = useNavigation();
-
+  // Get Permission to view all data list
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [stockItem, stockCat] = CommonService.getPermission(arr, [17, 13]);

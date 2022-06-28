@@ -71,7 +71,7 @@ export const ManageRequests = () => {
     constants.totalFurnitureCount,
     constants.manage,
   ];
-
+  // get permission for list edit and delete
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [userList, userEdit, userDlt] = CommonService.getPermission(
@@ -85,6 +85,7 @@ export const ManageRequests = () => {
     });
   }, [listData]);
 
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -99,15 +100,15 @@ export const ManageRequests = () => {
       />
     );
   };
-
+  // header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
-
+  // reload list if request is edit and delete
   const reloadList = () => {
     apicall();
   };
-
+  // get request list on render
   const apicall = (count) => {
     setLoader(true);
     axios
@@ -122,7 +123,7 @@ export const ManageRequests = () => {
         setListData(undefined);
       });
   };
-
+  // on Next button Click
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -130,7 +131,7 @@ export const ManageRequests = () => {
     apicall(count);
     setLoader(false);
   };
-
+  // on previous button click
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -138,7 +139,7 @@ export const ManageRequests = () => {
     apicall(count);
     setLoader(false);
   };
-
+  // on edit button click
   const onEdit = (task) => {
     let data = task;
     navigation.navigate(Screen.Furniture_Replacment_Process, {
@@ -146,7 +147,7 @@ export const ManageRequests = () => {
       task: "MangeRequest",
     });
   };
-
+  // to see if start date is greater than end date
   useEffect(() => {
     if (startDate.getTime() > endData.getTime()) {
       setDateErrorMessage(AlertText.DateError);
@@ -155,11 +156,12 @@ export const ManageRequests = () => {
     }
   }, [startDate, endData]);
 
+  // setting header title on header
   useLayoutEffect(() => {
     const title = "Manage Request";
     navigation.setOptions({ title });
   }, []);
-
+  // on search button click
   const onsearch = () => {
     setSearchStatus(false);
     let strtDte = `${startDate?.getFullYear()}-${
@@ -185,6 +187,7 @@ export const ManageRequests = () => {
         setErrorMessage(e?.response?.data?.message);
       });
   };
+  // on reset button click
   const onReset = () => {
     setSearchStatus(true);
     setSearchTask("");
@@ -193,19 +196,19 @@ export const ManageRequests = () => {
     setDateErrorMessage("");
     setErrorMessage(false);
   };
-
+  // validating if input text is null
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
-
+  // get data list
   useEffect(() => {
     apicall();
   }, [isFocused]);
-
+  // flase loader on get of list
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
-
+  // get data list on empty if search text
   useEffect(() => {
     if (searchtask === "") {
       apicall();

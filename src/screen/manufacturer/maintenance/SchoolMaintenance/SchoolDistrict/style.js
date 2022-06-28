@@ -43,7 +43,7 @@ export default StyleSheet.create({
   plusView: {
     width: "20%",
     position: "absolute",
-    bottom: Platform.OS === 'android'? 25 : 65,
+    bottom: Platform.OS === "android" ? 25 : 65,
     right: 10,
   },
   lastText: {
@@ -89,5 +89,5 @@ export default StyleSheet.create({
     fontWeight: "normal",
     fontSize: 16,
   },
-  tramsformStyle:{ transform: [{ rotate: '180deg' }] }
+  tramsformStyle: { transform: [{ rotate: "180deg" }] },
 });

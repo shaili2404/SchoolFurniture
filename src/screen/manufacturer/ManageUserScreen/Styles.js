@@ -38,7 +38,7 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     width: "30%",
     position: "absolute",
-    bottom:130,
+    bottom: 130,
     alignSelf: "center",
   },
   plusView: {
@@ -96,5 +96,5 @@ export default StyleSheet.create({
     fontWeight: "normal",
     fontSize: 16,
   },
-  transformStyle:{ transform: [{ rotate: '180deg' }] }
+  transformStyle: { transform: [{ rotate: "180deg" }] },
 });

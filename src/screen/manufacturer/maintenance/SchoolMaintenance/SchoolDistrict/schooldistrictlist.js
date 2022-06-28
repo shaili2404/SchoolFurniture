@@ -54,6 +54,7 @@ export const SchoolDistrictList = () => {
     { key: ConstKey.district_office, value: constants.DistrictOffice },
   ];
 
+  // getting user permission to view list
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [userCreate, userEdit, userDlt] = CommonService.getPermission(
@@ -66,7 +67,25 @@ export const SchoolDistrictList = () => {
       userDelete: userDlt,
     });
   }, []);
+  // get data list
+  useEffect(() => {
+    apicall();
+  }, []);
 
+  // false loder when get list
+  useEffect(() => {
+    if (listData) setLoader(false);
+  }, [listData]);
+
+  // get data again if search task is zero
+  useEffect(() => {
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false);
+    }
+  }, [searchtask]);
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -82,20 +101,24 @@ export const SchoolDistrictList = () => {
     );
   };
 
+  // On edit button click
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true);
   };
 
+  // header component flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
+  // reload list if has any changes
   const reloadList = () => {
     apicall();
   };
 
+  // on submit details if add or edit any school
   const onSubmitDetails = async (values, oper) => {
     setAdduserModal(false);
     setLoader(true);
@@ -131,7 +154,7 @@ export const SchoolDistrictList = () => {
         }
       });
   };
-
+  // get list data with pagination
   const apicall = async (count) => {
     setLoader(true);
     axios
@@ -143,7 +166,7 @@ export const SchoolDistrictList = () => {
       })
       .catch((e) => setLoader(false));
   };
-
+  // on next button clicked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -152,6 +175,7 @@ export const SchoolDistrictList = () => {
     setLoader(false);
   };
 
+  // on previos button clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -160,6 +184,7 @@ export const SchoolDistrictList = () => {
     setLoader(false);
   };
 
+  // onSearch Button clicked
   const onsearch = async () => {
     setErrorMessage("");
     if (searchtask == "") {
@@ -189,31 +214,17 @@ export const SchoolDistrictList = () => {
         });
     }
   };
+
+  // on reset button clicked
   const onReset = () => {
     setErrorMessage("");
     setSearchTask("");
   };
-
+  // on add press to add school
   const onAddPress = (task) => {
     setOperation(task);
     setAdduserModal(true);
   };
-
-  useEffect(() => {
-    apicall();
-  }, []);
-
-  useEffect(() => {
-    if (listData) setLoader(false);
-  }, [listData]);
-
-  useEffect(() => {
-    if (searchtask == "") {
-      apicall();
-      setErrorMessage("");
-      setLoader(false);
-    }
-  }, [searchtask]);
 
   return loader ? (
     <Loader />

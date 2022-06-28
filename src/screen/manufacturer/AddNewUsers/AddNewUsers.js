@@ -40,17 +40,19 @@ const AddNewUsers = () => {
 
   const tableKey = [ConstKey.name, ConstKey.emis];
   const tableHeader = [constants.school, constants.emis];
-
+  // testing email with regexp
   useEffect(() => {
     {
       !regExpEmail.test(email) ? setDisable(true) : setDisable(false);
     }
   }, [email]);
+
+  // get user and school list
   useEffect(() => {
     apicall();
     addSchool();
   }, []);
-
+  // get btn status and apply condition
   useEffect(() => {
     if (btnStatus == 0) {
     } else {
@@ -61,7 +63,7 @@ const AddNewUsers = () => {
       setEmis("");
     }
   }, [selected]);
-
+  // get organzation list
   const apicall = async () => {
     try {
       const response = await axios.get(endUrl.organisation);
@@ -70,29 +72,23 @@ const AddNewUsers = () => {
       tempList = response?.data?.data;
 
       setOrganizationList(tempList);
-    } catch (e) {
-      
-    }
+    } catch (e) {}
   };
-
+  // search school list
   const addSchool = async () => {
     try {
       const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
       setSchoolData(response?.data?.data);
-    } catch (e) {
-    
-    }
+    } catch (e) {}
   };
-
+  // school search function
   const addSchoolSearch = async () => {
     try {
       const response = await axios.get(`${endUrl.searchSchool}${schoolName}`);
       setSchoolData(response?.data?.data);
-    } catch (e) {
-      
-    }
+    } catch (e) {}
   };
-
+  // to set header title and button status
   useLayoutEffect(() => {
     let title;
     if (btnStatus == "0") {
@@ -108,11 +104,11 @@ const AddNewUsers = () => {
     }
     navigation.setOptions({ title });
   }, []);
-
+  // header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
-
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -125,23 +121,23 @@ const AddNewUsers = () => {
       />
     );
   };
-
+  // reload if user is add or edit
   const reloadList = () => {
     addSchool();
   };
-
+  // on hiding funtion
   const showHide = () => {
     setStatus(!status);
     addSchool();
     addSchoolSearch();
   };
-
+  // get school data list
   const schoolDataList = (value) => {
     setSchoolName(value.name);
     setEmis(String(value.emis));
     setStatus(!status);
   };
-
+  // navigate to permission page
   const goToPermision = () => {
     let obj = {
       email: email,
