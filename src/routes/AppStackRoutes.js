@@ -197,6 +197,11 @@ const AppStack = (props) => {
         return (
           <>
 
+        <Stack.Screen
+          name={NavigationRouteNames.HOME}
+          component={homestack}
+          options={{ headerShown: false }}
+        />
          <Stack.Screen
           name={NavigationRouteNames.LOGINSCREEN}
           component={LoginScreen}
@@ -327,11 +332,7 @@ const AppStack = (props) => {
           component={ReportsDrawerStack}
           options={{ headerShown: false }}
         />
-         <Stack.Screen
-          name={NavigationRouteNames.HOME}
-          component={homestack}
-          options={{ headerShown: false }}
-        />
+         
           <Stack.Screen
           name={NavigationRouteNames.DASHBOARDMANUFACTURER}
           component={DashboardManufacturer}

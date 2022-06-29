@@ -118,7 +118,7 @@ const constants = {
   AddPhoto: "+Add Photo",
   RemovePhoto: "-Remove",
   ReparableItem: "Reparable Count",
-  ReplanishmentItems: "Replanished Count",
+  ReplanishmentItems: "Replenished Count",
   camera: "Camera",
   Photos: "Photos",
   Back: "Back",
@@ -199,7 +199,7 @@ const constants = {
   Replenishment_Rejected: "Replenishment Rejected",
   Replenishment_Approved: "Replenishment Approved",
   dateinWaiting: "Days In Waiting",
-  YTD_Report_Status: " YTD Report Status",
+  YTD_Report_Status: " YTD Status Count",
   Error_Permission_Msg: "User does not have the right permissions.",
   Previous_year_status: " Previous Year Status",
   Progress_from_Collections: "Progress % from Collections",
@@ -236,5 +236,7 @@ const constants = {
   No_Transactions_Found :'No Transactions Found',
   number_approved_items:'Number of Approved Replenishment',
   Broken_FURITURE_COUNT_IS_REUIRED: "Broken Furniture Count Is Required",
+  Modal_Close: "Close",
+  Download_File: "Download File",
 };
 export default constants;

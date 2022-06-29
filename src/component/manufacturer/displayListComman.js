@@ -155,14 +155,14 @@ export const DataDisplayList = ({
             {item?.path ? (
               <Image
                 resizeMode="cover"
-                style={{ width: 170, height: 170, margin: 10 }}
+                style={Styles.GalleryImage}
                 source={{
                   uri: item.path,
                 }}
               />
             ) : (
               <View
-                style={{ width: 170, height: 170, margin: 10 }}
+                style={Styles.GalleryImage}
               >
                 <Loader />
               </View>
@@ -180,19 +180,14 @@ export const DataDisplayList = ({
               {imageData ? (
                 <Image
                   resizeMode="contain"
-                  style={{ height: "100%", width: 370 }}
+                  style={Styles.ModalImage}
                   source={{
                     uri: imageData,
                   }}
                 />
               ) : (
                 <View
-                  style={{
-                    width: 180,
-                    height: 180,
-                    margin: 2,
-                    borderRadius: 20,
-                  }}
+                  style={Styles.ModalImgView}
                 >
                   <Loader />
                 </View>
@@ -201,7 +196,7 @@ export const DataDisplayList = ({
                 style={Styles.butto}
                 onPress={() => checkPermission()}
               >
-                <Text style={Styles.text}>Download File</Text>
+                <Text style={Styles.text}>{constants.Download_File}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ bottom: 90 }}
@@ -211,13 +206,9 @@ export const DataDisplayList = ({
                 }}
               >
                 <Text
-                  style={{
-                    color: COLORS.blue,
-                    fontSize: 18,
-                    textDecorationLine: "underline",
-                  }}
+                  style={Styles.ModalImgText}
                 >
-                  Close
+                  {constants.Modal_Close}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -434,8 +425,8 @@ const Styles = StyleSheet.create({
     margin: 10,
   },
   Container: {
-    height: "90%",
-    marginTop: 150,
+    height: "100%",
+    // marginTop: 150,
     backgroundColor: COLORS.White,
     borderWidth: 1,
     borderColor: COLORS.LinearGreen1,
@@ -479,5 +470,25 @@ const Styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     padding: 5,
+  },
+  GalleryImage: {
+    width: 170, 
+    height: 170, 
+    margin: 10 
+  },
+  ModalImage: {
+    height: "100%", 
+    width: 370
+  },
+  ModalImgView: {
+    width: 180,
+    height: 180,
+    margin: 2,
+    borderRadius: 20,
+  },
+  ModalImgText: {
+    color: COLORS.blue,
+    fontSize: 18,
+    textDecorationLine: "underline",
   },
 });
