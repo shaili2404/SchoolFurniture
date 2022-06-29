@@ -286,6 +286,7 @@ export const FurnitureReplacmentProcess = () => {
       setPlusSign(false);
       setfooterSign(false);
     }
+    setlenofContent("More");
     setLoader(false);
   };
   const onrequestList = () => {
