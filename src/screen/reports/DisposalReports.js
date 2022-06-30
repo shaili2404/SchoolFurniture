@@ -61,6 +61,52 @@ export const DisposalReports = () => {
     userDelete: false,
   });
 
+  const tableHeader = [
+    constants.schoolName,
+    constants.schoolEmisNumber,
+    constants.DistrictOffice,
+    constants.ReplanishmentReports_trancRefNo,
+    constants.ReplanishmentReports_tranRefDate,
+    constants.FurnitureCat,
+    constants.Furniture_Item,
+    constants.DisposalReports_DisposalCount,
+    constants.furniture_full_count,
+  ];
+
+  const tableKey = [
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.ref_number,
+    ConstKey.transaction_date,
+    ConstKey.furniture_category,
+    ConstKey.furniture_item,
+    ConstKey.disposal_count,
+    ConstKey.item_full_count,
+  ];
+
+  // Function For Setting Title Header OF Screen
+  useLayoutEffect(() => {
+    const title = constants.Reports;
+    navigation.setOptions({ title });
+  }, []);
+
+  // Geeting All List
+  useEffect(() => {
+    getCollectionRequest();
+    getfurcategory();
+    getDistrictList();
+    getallData();
+  }, [isFocused]);
+
+  // Getting IF Start Date Is Greater Than End Date
+  useEffect(() => {
+    if (startDate.getTime() > endDate.getTime())
+      setDateErrorMessage(AlertText.DateError);
+    else setDateErrorMessage("");
+  }, [startDate, endDate]);
+
+  // Get District List
   const getDistrictList = async () => {
     axios
       .get(`${endUrl.schoolDistList}?all=true`)
@@ -69,16 +115,12 @@ export const DisposalReports = () => {
       })
       .catch((e) => {});
   };
+  // Validation At The Time Of Search
   const validation = (value) => {
     return value == "" || value == undefined || value == null;
   };
 
-  useEffect(() => {
-    if (startDate.getTime() > endDate.getTime())
-      setDateErrorMessage(AlertText.DateError);
-    else setDateErrorMessage("");
-  }, [startDate, endDate]);
-
+  // On Search Button Click
   const onsearch = () => {
     setSearchStatus(false);
     if (
@@ -119,18 +161,22 @@ export const DisposalReports = () => {
     }
   };
 
+  // On Success Getting List Data
   const onsuccessapi = (res) => {
+    console.log(res?.data?.data?.records)
     setprevpage(res?.data?.data?.previous_page);
     setnextpage(res?.data?.data?.next_page);
     setCollectionList(res?.data?.data?.records);
     setLoader(false);
   };
 
+  // On Error In Getting List Data
   const onerrorapi = (e) => {
     setCollectionList(undefined);
     setLoader(false);
   };
 
+  // Getting List Data According To Pagination
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
@@ -138,6 +184,8 @@ export const DisposalReports = () => {
       .then((res) => onsuccessapi(res))
       .catch((e) => onerrorapi(e));
   };
+
+  // Getting All List Data
   const getallData = () => {
     setLoader(true);
     axios
@@ -149,6 +197,7 @@ export const DisposalReports = () => {
       .catch((e) => onerrorapi(e));
   };
 
+  // Get Furniture Category
   const getfurcategory = () => {
     setLoader(true);
     axios
@@ -157,18 +206,7 @@ export const DisposalReports = () => {
       .catch((e) => {});
   };
 
-  useLayoutEffect(() => {
-    const title = constants.Reports;
-    navigation.setOptions({ title });
-  }, []);
-
-  useEffect(() => {
-    getCollectionRequest();
-    getfurcategory();
-    getDistrictList();
-    getallData();
-  }, [isFocused]);
-
+  // ON Right Arrow Click
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -178,6 +216,7 @@ export const DisposalReports = () => {
     getallData();
   };
 
+  // On Left Arror CLick
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -187,6 +226,7 @@ export const DisposalReports = () => {
     getallData();
   };
 
+  // ON Reset Button CLick
   const onReset = () => {
     setSearchStatus(true);
     setrefNumber("");
@@ -203,29 +243,7 @@ export const DisposalReports = () => {
     getallData();
   };
 
-  const tableHeader = [
-    constants.schoolName,
-    constants.schoolEmisNumber,
-    constants.DistrictOffice,
-    constants.ReplanishmentReports_trancRefNo,
-    constants.ReplanishmentReports_tranRefDate,
-    constants.FurnitureCat,
-    constants.Furniture_Item,
-    constants.DisposalReports_DisposalCount,
-    constants.furniture_full_count,
-  ];
-
-  const tableKey = [
-    ConstKey.school_name,
-    ConstKey.school_emis,
-    ConstKey.district_office,
-    ConstKey.ref_number,
-    ConstKey.transaction_date,
-    ConstKey.furniture_category,
-    ConstKey.furniture_item,
-    ConstKey.disposal_count,
-    ConstKey.item_full_count,
-  ];
+  // Render Component Of Flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -235,6 +253,8 @@ export const DisposalReports = () => {
       />
     );
   };
+
+  // Header COmponent Of FlatList
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };

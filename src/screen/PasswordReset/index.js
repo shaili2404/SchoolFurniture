@@ -11,7 +11,7 @@ import {
   Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Screen from '../../locales/navigationConst'
+import Screen from "../../locales/navigationConst";
 import { resetRequest } from "../../redux/actions/resetAction";
 import { LogoImg } from "../../atoms/logo";
 import constants from "../../locales/constants";
@@ -38,6 +38,7 @@ const PasswordReset = () => {
     setErrorMessage(message);
   }, [resetData]);
 
+  // On Password Reset Button Click
   const onPressReset = () => {
     var data = {
       username: username,
@@ -45,6 +46,7 @@ const PasswordReset = () => {
     dispatch(resetRequest(data));
   };
 
+  // On Changes Email-Id / UserName
   const onChangeEmail = (username) => {
     if (username == "") {
       setEmptyMail(true);
@@ -54,7 +56,7 @@ const PasswordReset = () => {
       setUserName(username);
     }
   };
-
+  // OnClear Button Click
   const onClear = () => {
     Keyboard.dismiss();
     setDefaultState(false);

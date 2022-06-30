@@ -62,15 +62,59 @@ export const RepairmentReports = () => {
     userEdit: false,
     userDelete: false,
   });
-  const validation = (value) => {
-    return value == "" || value == undefined || value == null;
-  };
+
+  const tableHeader = [
+    constants.schoolName,
+    constants.schoolEmisNumber,
+    constants.DistrictOffice,
+    constants.ReplanishmentReports_trancRefNo,
+    constants.ReplanishmentReports_tranRefDate,
+    constants.FurnitureCat,
+    constants.furItem,
+    constants.RepairReports_Count,
+    constants.furniture_full_count,
+  ];
+
+  const tableKey = [
+    ConstKey.school_name,
+    ConstKey.school_emis,
+    ConstKey.district_office,
+    ConstKey.ref_number,
+    ConstKey.transaction_date,
+    ConstKey.furniture_category,
+    ConstKey.furniture_item,
+    ConstKey.repaired_count,
+    ConstKey.item_full_count,
+  ];
+
+  // Getting If StartDate Is Greater Than EndDate
   useEffect(() => {
     if (startDate.getTime() > endDate.getTime())
       setDateErrorMessage(AlertText.DateError);
     else setDateErrorMessage("");
   }, [startDate, endDate]);
 
+  // Setting Title Of header
+  useLayoutEffect(() => {
+    const title = constants.Reports;
+    navigation.setOptions({ title });
+  }, []);
+
+  // Getting ALl The List
+  useEffect(() => {
+    getCollectionRequest();
+    getfurcategory();
+    getfuritem();
+    getDistrictList();
+    getallData();
+  }, [isFocused]);
+
+  // Geting Validate Input Field
+  const validation = (value) => {
+    return value == "" || value == undefined || value == null;
+  };
+
+  // On Search Button Clicked
   const onsearch = () => {
     setSearchStatus(false);
     if (
@@ -112,17 +156,21 @@ export const RepairmentReports = () => {
         });
     }
   };
+
+  // On Success OF Getting in Data List
   const onsuccessapi = (res) => {
     setCollectionList(res?.data?.data?.records);
     setprevpage(res?.data?.data?.previous_page);
     setnextpage(res?.data?.data?.next_page);
     setLoader(false);
   };
+  // On Error  OF Getting in Data List
   const onerrorapi = (e) => {
     setCollectionList(undefined);
     setLoader(false);
   };
 
+  // Getting Data List According To Pagination
   const getCollectionRequest = (count) => {
     setLoader(true);
     axios
@@ -133,6 +181,7 @@ export const RepairmentReports = () => {
       .catch((e) => onerrorapi(e));
   };
 
+  // Getting All Data
   const getallData = () => {
     setLoader(true);
     axios
@@ -143,6 +192,8 @@ export const RepairmentReports = () => {
       })
       .catch((e) => onerrorapi(e));
   };
+
+  // Getting School District List
   const getDistrictList = async () => {
     axios
       .get(`${endUrl.schoolDistList}?all=true`)
@@ -151,6 +202,8 @@ export const RepairmentReports = () => {
       })
       .catch((e) => {});
   };
+
+  // Getting Furniture Category
   const getfurcategory = () => {
     setLoader(true);
     axios
@@ -159,6 +212,7 @@ export const RepairmentReports = () => {
       .catch((e) => {});
   };
 
+  // Getting Furiture Item
   const getfuritem = (id) => {
     axios
       .get(`${endUrl.categoryWiseItem}/${id}/edit`)
@@ -170,19 +224,7 @@ export const RepairmentReports = () => {
       });
   };
 
-  useLayoutEffect(() => {
-    const title = constants.Reports;
-    navigation.setOptions({ title });
-  }, []);
-
-  useEffect(() => {
-    getCollectionRequest();
-    getfurcategory();
-    getfuritem();
-    getDistrictList();
-    getallData();
-  }, [isFocused]);
-
+  // On RIght Arrow Clicked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -192,6 +234,7 @@ export const RepairmentReports = () => {
     getallData();
   };
 
+  // On Left Arrow Clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -201,6 +244,7 @@ export const RepairmentReports = () => {
     getallData();
   };
 
+  // On Reset Button Clicked
   const onReset = () => {
     setSearchStatus(true);
     setrefNumber("");
@@ -219,30 +263,7 @@ export const RepairmentReports = () => {
     getallData();
   };
 
-  const tableHeader = [
-    constants.schoolName,
-    constants.schoolEmisNumber,
-    constants.DistrictOffice,
-    constants.ReplanishmentReports_trancRefNo,
-    constants.ReplanishmentReports_tranRefDate,
-    constants.FurnitureCat,
-    constants.furItem,
-    constants.RepairReports_Count,
-    constants.furniture_full_count,
-  ];
-
-  const tableKey = [
-    ConstKey.school_name,
-    ConstKey.school_emis,
-    ConstKey.district_office,
-    ConstKey.ref_number,
-    ConstKey.transaction_date,
-    ConstKey.furniture_category,
-    ConstKey.furniture_item,
-    ConstKey.repaired_count,
-    ConstKey.item_full_count,
-  ];
-
+  // Render Component Of FlatList
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -253,9 +274,11 @@ export const RepairmentReports = () => {
     );
   };
 
+  // Header Component Of FlatList
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
+  // On Set On select From DropDown
   const setCategoryValue = (item) => {
     setfur_Select(item);
     getfuritem(item?.id);

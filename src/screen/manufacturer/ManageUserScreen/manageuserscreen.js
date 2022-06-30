@@ -66,7 +66,7 @@ export const ManageUserScreen = () => {
     constants.organisation,
     constants.manage,
   ];
-
+  // get permission to see User
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [userList, userCreate, userEdit, userDlt] =
@@ -78,7 +78,7 @@ export const ManageUserScreen = () => {
       userDelete: userDlt,
     });
   }, []);
-
+  // render component of flat list
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -93,7 +93,7 @@ export const ManageUserScreen = () => {
       />
     );
   };
-
+  // on Edit button Clicked
   const onEdit = (item, task) => {
     let btnStatus;
     if (task == constants.Edit) {
@@ -104,21 +104,21 @@ export const ManageUserScreen = () => {
       btnStatus: btnStatus,
     });
   };
-
+  // header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
-
+  // reload list after change in data
   const reloadList = () => {
     apicall();
   };
-
+  // on Submit of school details
   const onSubmitDetails = async (value) => {
     try {
       const response = await axios.post(`${endUrl.schoolList}`, value);
     } catch (e) {}
   };
-
+  // get data according to pagination
   const apicall = (count) => {
     setLoader(true);
     axios
@@ -130,10 +130,9 @@ export const ManageUserScreen = () => {
       })
       .catch((e) => {
         setLoader(false);
-       
       });
   };
-
+  // on next button clicked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -141,11 +140,13 @@ export const ManageUserScreen = () => {
     apicall(count);
     setLoader(false);
   };
+
+  // on reset button clicked
   const onReset = () => {
     setErrorMessage("");
     setSearchTask("");
   };
-
+  // on previous button clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -153,6 +154,8 @@ export const ManageUserScreen = () => {
     apicall(count);
     setLoader(false);
   };
+
+  // on search button clicked
   const onsearch = () => {
     setLoader(true);
     axios
@@ -177,15 +180,15 @@ export const ManageUserScreen = () => {
         }
       });
   };
-
+  // get all data
   useEffect(() => {
     apicall();
   }, [isFocused]);
-
+  // set loader false on getting of data
   useEffect(() => {
     if (listData) setLoader(false);
   }, [listData]);
-
+  // calling function again if search input tag is empty
   useEffect(() => {
     if (searchtask == "") {
       apicall();

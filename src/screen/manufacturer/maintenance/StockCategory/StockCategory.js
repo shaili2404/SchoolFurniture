@@ -51,6 +51,7 @@ const StockCategory = () => {
   const tableHeader = [Constants.categories, Constants.manage];
   const [alert, setAlert] = useState(false);
 
+  // check permission to see if user has edit and delte permission
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [userCreate, userEdit, userDlt] = CommonService.getPermission(
@@ -63,11 +64,11 @@ const StockCategory = () => {
       userDelete: userDlt,
     });
   }, []);
-
+  // header component of flatlist
   const HeaderComponent = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
-
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -82,7 +83,7 @@ const StockCategory = () => {
       />
     );
   };
-
+  // reload list after add and edit
   const reloadList = () => {
     categorylistapi();
   };
@@ -192,6 +193,7 @@ const StockCategory = () => {
       });
   };
 
+  // get data if search input is empty
   useEffect(() => {
     if (searchtask == "") {
       categorylistapi();
@@ -200,6 +202,7 @@ const StockCategory = () => {
     }
   }, [searchtask]);
 
+  // on next button clicked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -207,7 +210,7 @@ const StockCategory = () => {
     categorylistapi(count);
     setLoader(false);
   };
-
+  // on previous button clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);

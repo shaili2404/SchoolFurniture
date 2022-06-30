@@ -55,6 +55,7 @@ export const CircuitList = () => {
     { key: ConstKey.cmc_name, value: constants.Cmc },
   ];
 
+  // Checking permission What user is permitted
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [userCreate, userEdit, userDlt] = CommonService.getPermission(
@@ -68,6 +69,26 @@ export const CircuitList = () => {
     });
   }, []);
 
+  // Get Data List
+  useEffect(() => {
+    apicall();
+  }, []);
+
+  // set loader false on getting of data
+  useEffect(() => {
+    if (listData) setLoader(false);
+  }, [listData]);
+
+  // calling list data again if search input text is empty
+  useEffect(() => {
+    if (searchtask == "") {
+      apicall();
+      setErrorMessage("");
+      setLoader(false);
+    }
+  }, [searchtask]);
+
+  // render component of flatlist
   const rendercomponent = ({ item }) => {
     return (
       <DataDisplayList
@@ -83,20 +104,24 @@ export const CircuitList = () => {
     );
   };
 
+  // on Edit button click
   const onEdit = (item, task) => {
     setOperation(task);
     setUpdateItem(item);
     setAdduserModal(true);
   };
 
+  // Header component of flatlist
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} />;
   };
 
+  // repload function on changing of data
   const reloadList = () => {
     apicall();
   };
 
+  // on submit detail click for both add and edit
   const onSubmitDetails = async (values, oper) => {
     setAdduserModal(false);
     setLoader(true);
@@ -132,6 +157,7 @@ export const CircuitList = () => {
       });
   };
 
+  // get list data according to pagination
   const apicall = (count) => {
     setLoader(true);
     axios
@@ -143,6 +169,8 @@ export const CircuitList = () => {
       })
       .catch((e) => {});
   };
+
+  // On Next Button Clicked
   const onNext = () => {
     let count = number + 1;
     setLoader(true);
@@ -151,6 +179,7 @@ export const CircuitList = () => {
     setLoader(false);
   };
 
+  // On previous button Clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -159,6 +188,7 @@ export const CircuitList = () => {
     setLoader(false);
   };
 
+  // On search Button Clicked
   const onsearch = () => {
     setErrorMessage("");
     if (searchtask == "") {
@@ -188,31 +218,18 @@ export const CircuitList = () => {
         });
     }
   };
+
+  // On reset button Clicked
   const onReset = () => {
     setErrorMessage("");
     setSearchTask("");
   };
 
+  // On Add new Circuit
   const onAddPress = (task) => {
     setOperation(task);
     setAdduserModal(true);
   };
-
-  useEffect(() => {
-    apicall();
-  }, []);
-
-  useEffect(() => {
-    if (listData) setLoader(false);
-  }, [listData]);
-
-  useEffect(() => {
-    if (searchtask == "") {
-      apicall();
-      setErrorMessage("");
-      setLoader(false);
-    }
-  }, [searchtask]);
 
   return loader ? (
     <Loader />

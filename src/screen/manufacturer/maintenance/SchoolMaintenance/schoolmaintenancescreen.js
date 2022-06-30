@@ -28,7 +28,7 @@ export const Schoolmaintenancescreen = () => {
     subplaceList: false,
   });
   const navigation = useNavigation();
-
+  // checked does user has permission to View List
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [disList, sclList, cmcList, crtList, subList] =
@@ -50,6 +50,7 @@ export const Schoolmaintenancescreen = () => {
     permissionId.schoolList && constants.school,
   ];
 
+  // navigation fuction to diffrent page
   const navigatetoPage = (task) => {
     if (task == constants.Sc_District)
       navigation.navigate(Screen.School_District);

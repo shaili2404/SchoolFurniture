@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions,Platform } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import COLORS from "../../../../../asset/color";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -44,7 +44,7 @@ export default StyleSheet.create({
   plusView: {
     width: "20%",
     position: "absolute",
-    bottom: Platform.OS === 'android'? 25 : 65,
+    bottom: Platform.OS === "android" ? 25 : 65,
     right: 10,
   },
   lastText: {
@@ -90,5 +90,5 @@ export default StyleSheet.create({
     fontWeight: "normal",
     fontSize: 16,
   },
-  transformStyle:{ transform: [{ rotate: "180deg" }] }
+  transformStyle: { transform: [{ rotate: "180deg" }] },
 });

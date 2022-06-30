@@ -23,25 +23,47 @@ export const Reports = () => {
   const [permissionId, setPermissionId] = useState({
     reports_permission: false,
   });
+  const schooldetails = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
 
-  const dropDownData = [
-    { id: 0, name: constants.Replenishment_Report },
-    { id: 1, name: constants.Disposal_Report },
-    { id: 2, name: constants.Manufacturer_Stock },
-    { id: 3, name: constants.School_Furniture_Count_Report },
-    { id: 4, name: constants.Repairment_Report },
-    { id: 5, name: constants.Transactions_Summary_Report },
-    { id: 6, name: constants.Transactions_Status_Report },
-  ];
+  // Setting DropDown Data
+  const dropDownData =
+    schooldetails == constants.school
+      ? [
+          { id: 0, name: constants.Replenishment_Report },
+          { id: 1, name: constants.Disposal_Report },
+          { id: 3, name: constants.School_Furniture_Count_Report },
+          { id: 4, name: constants.Repairment_Report },
+          { id: 5, name: constants.Transactions_Summary_Report },
+          { id: 6, name: constants.Transactions_Status_Report },
+        ]
+      : [
+          { id: 0, name: constants.Replenishment_Report },
+          { id: 1, name: constants.Disposal_Report },
+          { id: 2, name: constants.Manufacturer_Stock },
+          { id: 3, name: constants.School_Furniture_Count_Report },
+          { id: 4, name: constants.Repairment_Report },
+          { id: 5, name: constants.Transactions_Summary_Report },
+          { id: 6, name: constants.Transactions_Status_Report },
+        ];
   const [select, setSelect] = useState([]);
   const [loader, setLoader] = useState(false);
   const [dropData, setDropData] = useState(dropDownData);
   const loginData = useSelector((state) => state?.loginData);
 
+  // Depend On dropDown Data Changing Component
   useEffect(() => {
     ListShowaccDrop();
   }, [select?.id]);
 
+  // setting header title
+  useLayoutEffect(() => {
+    const title = constants.Reports;
+    navigation.setOptions({ title });
+  }, []);
+
+  // Setting permission of Button Which Are Visible
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [repList] = CommonService.getPermission(arr, [33]);
@@ -51,6 +73,7 @@ export const Reports = () => {
     setLoader(false);
   }, []);
 
+  // Fuction to switch data according to dropdown data
   const ListShowaccDrop = () => {
     if (select?.id == 0) return <ReplanishmentReports />;
     else if (select?.id == 1) return <DisposalReports />;
@@ -61,10 +84,6 @@ export const Reports = () => {
     else if (select?.id == 6) return <TransactionStatusReports />;
     else return <ReplanishmentReports />;
   };
-  useLayoutEffect(() => {
-    const title = constants.Reports;
-    navigation.setOptions({ title });
-  }, []);
 
   return loader ? (
     <Loader />
