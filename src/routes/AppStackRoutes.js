@@ -54,7 +54,7 @@ const ReportsDrawerStack = () => {
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       <Drawer.Screen
         component={Reports}
-        name="First"
+        name={NavigationRouteNames.REPORTS}
         options={CommonHeaderStyle}
       />
     </Drawer.Navigator>
@@ -110,7 +110,7 @@ const SchoolMaintenanceDrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       <Drawer.Screen
-        name="School Maintenance"
+        name={NavigationRouteNames.schoolMaintenace}
         component={Schoolmaintenancescreen}
         options={CommonHeaderStyle}
       />
@@ -122,7 +122,7 @@ const FurnitureReplaceDrawerStack = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerSideBar {...props} />}>
       <Drawer.Screen
-        name="Furniture Replacment"
+        name={NavigationRouteNames.Furniturereplacment}
         component={FurnitureReplacmentManfacturer}
         options={CommonHeaderStyle}
       />
@@ -230,7 +230,7 @@ const AppStack = (props) => {
           options={CommonHeaderStyle}
         />
         <Stack.Screen
-          name="School Maintenance"
+          name={NavigationRouteNames.schoolMaintenace}
           component={SchoolMaintenanceDrawerStack}
           options={{ headerShown: false }}
         />
@@ -240,18 +240,18 @@ const AppStack = (props) => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="School District"
+          name={NavigationRouteNames.SCHOOLDISTRICT}
           component={SchoolDistrictList}
           options={CommonHeaderStyle}
         />
         <Stack.Screen
-          name="School"
+          name={NavigationRouteNames.SCHOOL}
           component={SchoolList}
           options={CommonHeaderStyle}
         />
 
         <Stack.Screen
-          name="Furniture Replacment"
+          name={NavigationRouteNames.Furniturereplacment}
           component={FurnitureReplaceDrawerStack}
           options={{ headerShown: false }}
         />
@@ -282,7 +282,7 @@ const AppStack = (props) => {
           options={CommonHeaderStyle}
         />
         <Stack.Screen
-          name="FurnitureReplacmentProcess"
+          name={NavigationRouteNames.FURNITUREREPLACMENTPROCESS}
           component={FurnitureReplacmentProcess}
           options={CommonHeaderStyle}
         />
@@ -292,7 +292,7 @@ const AppStack = (props) => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="AddRequestFur"
+          name={NavigationRouteNames.ADDREQUEST}
           component={AddFurRequestScreen}
           options={{ headerShown: false }}
         />
@@ -362,12 +362,12 @@ const AppStack = (props) => {
         />
 
         <Stack.Screen
-          name="Furniture Replacment"
+          name={NavigationRouteNames.Furniturereplacment}
           component={FurnitureReplaceDrawerStack}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="FurnitureReplacmentProcess"
+          name={NavigationRouteNames.FURNITUREREPLACMENTPROCESS}
           component={FurnitureReplacmentProcess}
           options={CommonHeaderStyle}
         />
@@ -377,7 +377,7 @@ const AppStack = (props) => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="AddRequestFur"
+          name={NavigationRouteNames.ADDREQUEST}
           component={AddFurRequestScreen}
           options={{ headerShown: false }}
         />
@@ -460,6 +460,11 @@ const AppStack = (props) => {
           component={EmailSent}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name={NavigationRouteNames.HOME}
+          component={homestack}
+          options={{ headerShown: false }}
+        />
           </>
         );
     }
@@ -482,6 +487,11 @@ const AppStack = (props) => {
         <Stack.Screen
           name={NavigationRouteNames.EMAILSENT}
           component={EmailSent}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={NavigationRouteNames.HOME}
+          component={homestack}
           options={{ headerShown: false }}
         />
         </>

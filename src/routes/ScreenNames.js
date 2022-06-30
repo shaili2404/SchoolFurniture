@@ -24,8 +24,10 @@ const NavigationRouteNames = {
     SUBPLACES:"Sub Places",
     REPORTS:'Reports',
     HOME:'home',
-    DASHBOARDMANUFACTURER:'Dashboard'
-
+    DASHBOARDMANUFACTURER:'Dashboard',
+    SCHOOLDISTRICT: 'School District',
+    SCHOOL: 'School',
+    ADDREQUEST: 'AddRequestFur',
 };
 
 export default NavigationRouteNames;

@@ -237,7 +237,7 @@ export const SchoolFullFurReports = () => {
     constants.furItem,
     constants.SchoolReports_collectRe,
     constants.SchoolReports_collectConfirm,
-    constants.ReplanishmentReports_TotalPerSchool,
+    constants.furniture_full_count,
   ];
 
   const tableKey = [
@@ -251,7 +251,7 @@ export const SchoolFullFurReports = () => {
     ConstKey.furniture_item,
     ConstKey.collection_requested_count,
     ConstKey.collection_confirmed_count,
-    ConstKey.total_per_school,
+    ConstKey.item_full_count,
   ];
   const rendercomponent = ({ item }) => {
     return (

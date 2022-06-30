@@ -228,7 +228,7 @@ export const RepairmentReports = () => {
     constants.FurnitureCat,
     constants.furItem,
     constants.RepairReports_Count,
-    constants.ReplanishmentReports_TotalPerSchool,
+    constants.furniture_full_count,
   ];
 
   const tableKey = [
@@ -240,7 +240,7 @@ export const RepairmentReports = () => {
     ConstKey.furniture_category,
     ConstKey.furniture_item,
     ConstKey.repaired_count,
-    ConstKey.total_per_school,
+    ConstKey.item_full_count,
   ];
 
   const rendercomponent = ({ item }) => {

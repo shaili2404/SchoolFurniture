@@ -230,7 +230,7 @@ export const ReplanishmentReports = () => {
     constants.Approved_Replishment_Item,
     constants.Rejected_Replishment_Item,
     constants.ReplanishmentReports_replaStatus,
-    constants.ReplanishmentReports_TotalPerSchool,
+    constants.furniture_full_count,
   ];
 
   const tableKey = [
@@ -245,7 +245,7 @@ export const ReplanishmentReports = () => {
     ConstKey.approved_replenished_count,
     ConstKey.rejected_replenished_count,
     ConstKey.replenishment_status,
-    ConstKey.total_per_school,
+    ConstKey.item_full_count,
   ];
   const rendercomponent = ({ item }) => {
     return (

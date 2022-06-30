@@ -212,7 +212,7 @@ export const DisposalReports = () => {
     constants.FurnitureCat,
     constants.Furniture_Item,
     constants.DisposalReports_DisposalCount,
-    constants.ReplanishmentReports_TotalPerSchool,
+    constants.furniture_full_count,
   ];
 
   const tableKey = [
@@ -224,7 +224,7 @@ export const DisposalReports = () => {
     ConstKey.furniture_category,
     ConstKey.furniture_item,
     ConstKey.disposal_count,
-    ConstKey.total_per_school,
+    ConstKey.item_full_count,
   ];
   const rendercomponent = ({ item }) => {
     return (
