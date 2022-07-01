@@ -142,7 +142,6 @@ export const FurnitureReplacmentProcess = () => {
       deliver_furniture_create: dfc,
     });
   }, []);
-  console.log("145", permissionId);
   const onSchool = () => {
     let task = route?.params?.status;
     if (route?.params?.task == constants.ManageReqText) {
@@ -505,7 +504,6 @@ export const FurnitureReplacmentProcess = () => {
 
   useEffect(() => {
     const task = route?.params?.status;
-    console.log(route?.params?.status);
     settaskOfPage(task);
     if (schooldetails?.organization == constants.school) onSchool();
     else if (task == constants.Status_PendingCollection) onrequestList();

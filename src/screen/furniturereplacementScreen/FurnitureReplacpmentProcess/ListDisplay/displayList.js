@@ -325,7 +325,7 @@ const Styles = StyleSheet.create({
   viewStyle: {
     width: RfW(110),
     alignSelf: "center",
-    marginHorizontal: 20,
+    marginHorizontal: 5,
   },
   viewsssStyle: {
     width: 20,
@@ -349,13 +349,3 @@ const Styles = StyleSheet.create({
   },
 });
 
-{
-  /* <TextInput
-placeholder={constants.Enterval}
-placeholderTextColor={COLORS.Black}
-style={Styles.inputStyles}
-onChangeText={(val) => onchangedeliver(val)}
-keyboardType="numeric"
-value={String(deliverCount)}
-/> */
-}

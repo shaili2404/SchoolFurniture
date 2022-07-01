@@ -29,6 +29,7 @@ import {
   handleClick,
 } from "../../component/jsontoPdf/JsonToPdf";
 import ConstKey from "../../locales/ApikeyConst";
+import { useSelector } from "react-redux";
 
 export const RepairmentReports = () => {
   const isFocused = useIsFocused();
@@ -56,7 +57,9 @@ export const RepairmentReports = () => {
   const [prevpage, setprevpage] = useState("");
   const [nextPage, setnextpage] = useState("");
   const [collection_List, setCollection_List] = useState([]);
-
+  const schooldetails = useSelector(
+    (state) => state?.loginData?.user?.data?.data?.user?.organization
+  );
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
     userEdit: false,
@@ -305,24 +308,26 @@ export const RepairmentReports = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={Styles.refView}>
-          <TextInput
-            style={Styles.refrenceStyle}
-            placeholder={constants.schoolName}
-            placeholderTextColor={COLORS.Black}
-            opacity={0.5}
-            value={refnumber}
-            onChangeText={(val) => setrefNumber(val)}
-          />
-          <View style={Styles.dropdownsecStyle}>
-            <Dropdown
-              label={constants.DistrictOffice}
-              data={distList}
-              onSelect={setSelect}
-              task={ConstKey.district_office}
+        {schooldetails == constants.school ? null : (
+          <View style={Styles.refView}>
+            <TextInput
+              style={Styles.refrenceStyle}
+              placeholder={constants.schoolName}
+              placeholderTextColor={COLORS.Black}
+              opacity={0.5}
+              value={refnumber}
+              onChangeText={(val) => setrefNumber(val)}
             />
+            <View style={Styles.dropdownsecStyle}>
+              <Dropdown
+                label={constants.DistrictOffice}
+                data={distList}
+                onSelect={setSelect}
+                task={ConstKey.district_office}
+              />
+            </View>
           </View>
-        </View>
+        )}
         <View style={Styles.container}>
           <Dropdown
             label={constants.FurnitureCat}

@@ -256,8 +256,11 @@ export const SchoolList = () => {
   return loader ? (
     <Loader />
   ) : (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <SafeAreaView style={Styles.mainView}>
+    <SafeAreaView style={Styles.mainView}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ marginBottom: 40 }}
+      >
         <View style={Styles.halfView}>
           <View>
             <TextInput
@@ -290,6 +293,7 @@ export const SchoolList = () => {
                 keyExtractor={(item) => item.id}
                 data={listData}
                 renderItem={rendercomponent}
+                scrollEnabled={false}
               />
             </ScrollView>
           )}
@@ -365,7 +369,7 @@ export const SchoolList = () => {
             onConfirm={() => onPressokay()}
           />
         ) : null}
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

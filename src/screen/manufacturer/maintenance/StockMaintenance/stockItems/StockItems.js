@@ -90,7 +90,6 @@ export const StockItems = () => {
       <DataDisplayList
         item={item}
         tableKey={tableKey}
-        List="screen"
         onEdit={(item, task) => onEdit(item, task)}
         link={endUrl.stockitemList}
         mainMessage={AlertText.deleteStock}
@@ -179,7 +178,7 @@ export const StockItems = () => {
   };
   // header component to flatlist
   const HeaderComponent = () => {
-    return <ListHeaderComman tableHeader={tableHeader} List="screen" />;
+    return <ListHeaderComman tableHeader={tableHeader}  />;
   };
   // get data list
   const getCategoriesList = (count) => {

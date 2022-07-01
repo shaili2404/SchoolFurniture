@@ -264,6 +264,7 @@ export const SubPlacesList = () => {
                 keyExtractor={(item) => item.id}
                 data={listData}
                 renderItem={rendercomponent}
+                scrollEnabled={false}
               />
             </ScrollView>
           )}

@@ -97,6 +97,7 @@ export const SchoolDistrictList = () => {
         mainMessage={AlertText.deletedistrict}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
+        List="screen"
       />
     );
   };
@@ -110,7 +111,7 @@ export const SchoolDistrictList = () => {
 
   // header component flatlist
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} />;
+    return <ListHeaderComman tableHeader={tableHeader} List='screen'/>;
   };
 
   // reload list if has any changes
@@ -229,8 +230,8 @@ export const SchoolDistrictList = () => {
   return loader ? (
     <Loader />
   ) : (
-    <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView style={Styles.mainView}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={Styles.halfView}>
           <View>
             <TextInput
@@ -267,6 +268,7 @@ export const SchoolDistrictList = () => {
                 keyExtractor={(item) => item.id}
                 data={listData}
                 renderItem={rendercomponent}
+                scrollEnabled={false}
               />
             </ScrollView>
           )}
@@ -341,7 +343,8 @@ export const SchoolDistrictList = () => {
             onConfirm={() => onPressokay()}
           />
         ) : null}
+          </ScrollView>
       </SafeAreaView>
-    </ScrollView>
+  
   );
 };
