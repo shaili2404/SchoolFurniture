@@ -7,7 +7,7 @@ const constants = {
   ResetPassword: "Reset Password",
   BackToLogin: "Back to Login",
   Reset: "Reset",
-  EnterPassword: "Enter Password",
+  EnterPassword: "Password",
   Clear: "Clear",
   EmailSent: "Email Sent",
   EmailMsg: "An email has been sent to the profiles email address",

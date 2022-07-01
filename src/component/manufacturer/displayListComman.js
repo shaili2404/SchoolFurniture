@@ -114,6 +114,7 @@ export const DataDisplayList = ({
     let date = new Date();
     let FILE_URL = imageData;
     let file_ext = getFileExtention(FILE_URL);
+    let Ref_No = item.ref_number;
 
     file_ext = "." + file_ext[0];
     const { config, fs } = RNFetchBlob;
@@ -123,8 +124,9 @@ export const DataDisplayList = ({
       addAndroidDownloads: {
         path:
           RootDir +
-          "/file_" +
-          Math.floor(date.getTime() + date.getSeconds() / 2) +
+          "/proof_" +
+          // Math.floor(date.getTime() + date.getSeconds() / 2) +
+          Ref_No +
           file_ext,
         description: "downloading file...",
         notification: true,
