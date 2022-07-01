@@ -382,7 +382,7 @@ export const AddFurRequestScreen = () => {
           </View>
           <View style={style.subHeaderView}>
             <Text style={style.headerText}>
-              {constants.furniture_full_count}
+              {constants.Learner_Enrolment_Count}
             </Text>
           </View>
           <View style={style.subHeaderView}>

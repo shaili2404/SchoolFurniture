@@ -385,28 +385,29 @@ const Styles = StyleSheet.create({
   mainView: {
     flexDirection: "row",
     width: "100%",
-    height: RfH(50),
+    // height: RfH(50),
   },
   firstView: {
     backgroundColor: COLORS.LightGreen,
-    height: RfH(56),
+    // height: RfH(56),
     borderBottomColor: COLORS.Black,
     borderBottomWidth: 0.4,
   },
   viewStyle: {
-    width: RfW(180),
-    marginTop: RfH(12),
-    marginHorizontal: 20,
+    width: RfW(110),
+    marginVertical: RfH(10),
+    marginHorizontal: 5,
   },
   viewsssStyle: {
     width: 20,
     marginTop: 12,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
   screenStyle: {
-    width: "30%",
-    marginHorizontal: 4,
+    width: RfW(170),
+    marginHorizontal:  20,
     justifyContent: "center",
+     height: RfH(50),
   },
   downloadButton: {
     backgroundColor: COLORS.GreenBox,

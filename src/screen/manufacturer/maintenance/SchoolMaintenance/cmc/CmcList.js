@@ -271,6 +271,7 @@ export const CMC = () => {
                 keyExtractor={(item) => item.id}
                 data={listData}
                 renderItem={rendercomponent}
+                scrollEnabled={false}
               />
             </ScrollView>
           )}

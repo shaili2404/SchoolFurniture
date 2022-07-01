@@ -100,7 +100,8 @@ const constants = {
   ItemCount: "Furniture Item Count",
   Edit: "Edit",
   dashboard: "Dashboard",
-  enterSearchData: "At least one search criteria must be entered to conduct a search.",
+  enterSearchData:
+    "At least one search criteria must be entered to conduct a search.",
   FurCategory: "Furniture Category",
   furItem: "Furniture Items",
   refrenceNo: "Reference No.",
@@ -232,11 +233,12 @@ const constants = {
   Status_Replanishment_Approved: "Replanishment Approved",
   Status_Replanishment_Rejected: "Replanishment Rejected",
   Status_Pending_Replanishment_Approval: "Pending Replanishment Approval",
-  No_Collection_Requests_Found :'No Collection Requests Found',
-  No_Transactions_Found :'No Transactions Found',
-  number_approved_items:'Number of Approved Replenishment',
+  No_Collection_Requests_Found: "No Collection Requests Found",
+  No_Transactions_Found: "No Transactions Found",
+  number_approved_items: "Number of Approved Replenishment",
   Broken_FURITURE_COUNT_IS_REUIRED: "Broken Furniture Count Is Required",
   Modal_Close: "Close",
   Download_File: "Download File",
+  Learner_Enrolment_Count: "Learner Enrollment Count",
 };
 export default constants;

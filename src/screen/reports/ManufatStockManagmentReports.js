@@ -192,12 +192,13 @@ export const ManufactStockManageReports = () => {
         tableKey={tableKey}
         item={item}
         permissionId={permissionId}
+        List='screen'
       />
     );
   };
   // Header Component Of FlatList
   const HeaderComponet = () => {
-    return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
+    return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"}   List='screen' />;
   };
 
   // On Set On select From DropDown

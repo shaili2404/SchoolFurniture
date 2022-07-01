@@ -268,6 +268,7 @@ export const CircuitList = () => {
                 keyExtractor={(item) => item.id}
                 data={listData}
                 renderItem={rendercomponent}
+                scrollEnabled={false}
               />
             </ScrollView>
           )}

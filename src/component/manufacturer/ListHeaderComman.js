@@ -44,21 +44,22 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
   },
   firstView: {
-    height: RfH(46),
+    // height: RfH(46),
     opacity: 1,
   },
   firstlenView: {
-    height: RfH(66),
+    // height: RfH(66),
     opacity: 1,
   },
   viewStyle: {
-    width: RfW(180),
-    marginTop: RfH(12),
-    marginHorizontal: 20,
+    width: RfW(110),
+    marginVertical: RfH(10),
+    marginHorizontal: 5,
   },
   ScreenStyles: {
-    width: "30%",
-    marginTop: 12,
-    marginHorizontal: 4,
+    width: RfW(170),
+    marginVertical: 12,
+    marginHorizontal: 20,
+     height: RfH(40),
   },
 });
