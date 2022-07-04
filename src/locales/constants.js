@@ -96,7 +96,7 @@ const constants = {
   userAdded: "User Added SuccessFully",
   noAccess: "Access Permission Denied",
   dateCreated: "Date Created",
-  FurnitureCat: "Furniture Category",
+  FurnitureCat: "Item Category",
   ItemCount: "Furniture Item Count",
   Edit: "Edit",
   dashboard: "Dashboard",
@@ -190,7 +190,7 @@ const constants = {
   Replenishment_Report: "Replenishment Report",
   Disposal_Report: "Disposal Report",
   Manufacturer_Stock: "Manufacturer Stock Management Report",
-  School_Furniture_Count_Report: "School Furniture Count Report",
+  School_Furniture_Count_Report: "LTSM Count Report",
   Repairment_Report: "Repairment Report",
   Transactions_Summary_Report: "Transactions Summary Report",
   Transactions_Status_Report: "Transactions Status Report",
@@ -240,5 +240,6 @@ const constants = {
   Modal_Close: "Close",
   Download_File: "Download File",
   Learner_Enrolment_Count: "Learner Enrollment Count",
+  Report_Item_Description: "Item Description",
 };
 export default constants;

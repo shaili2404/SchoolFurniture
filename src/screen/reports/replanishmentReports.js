@@ -76,7 +76,7 @@ export const ReplanishmentReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
-    constants.Furniture_Item,
+    constants.Report_Item_Description,
     constants.ReplanishmentReports_Replcount,
     constants.Approved_Replishment_Item,
     constants.Rejected_Replishment_Item,

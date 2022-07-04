@@ -74,7 +74,7 @@ export const SchoolFullFurReports = () => {
     constants.ReplanishmentReports_tranRefDate,
     constants.SchoolReports_fullInvCount,
     constants.FurnitureCat,
-    constants.furItem,
+    constants.Report_Item_Description,
     constants.SchoolReports_collectRe,
     constants.SchoolReports_collectConfirm,
     constants.furniture_full_count,
