@@ -340,12 +340,12 @@ const Styles = StyleSheet.create({
   inputStyles: {
     height: 35,
     backgroundColor: COLORS.White,
-    width: 140,
+    width: 100,
   },
   grayinputStyles: {
     height: 35,
     backgroundColor: COLORS.White,
-    width: 140,
+    width: 100,
   },
 });
 
