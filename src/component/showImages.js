@@ -58,13 +58,13 @@ const ShowImage = (props) => {
   }, [selectedImg]);
 
   const onPressCross = (filename) => {
-    if (Platform.OS === "ios") {
-      filterList = newList.filter((ele) => ele.filename != filename);
-    } else {
-      filterList = newList.filter(
-        (ele) => ele.path.substring(ele.path.lastIndexOf("/") + 1) != filename
-      );
-    }
+    // if (Platform.OS === "ios") {
+    //   filterList = newList.filter((ele) => ele.filename != filename);
+    // } else {
+    filterList = newList.filter(
+      (ele) => ele.path.substring(ele.path.lastIndexOf("/") + 1) != filename
+    );
+    // }
     setnewList(filterList);
   };
 
