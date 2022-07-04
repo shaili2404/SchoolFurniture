@@ -759,12 +759,9 @@ export const FurnitureReplacmentProcess = () => {
     let body = new FormData();
 
     imgData.forEach((img) => {
-      const name =
-        Platform.OS == "ios"
-          ? img.filename
-          : img.path.substring(img.path.lastIndexOf("/") + 1);
+      const name = img.path.substring(img.path.lastIndexOf("/") + 1);
       body.append("images[]", {
-        uri: Platform.OS == "ios" ? img.sourceURL : img.path,
+        uri: img.path,
         type: img.mime,
         name: name,
         filename: name,
