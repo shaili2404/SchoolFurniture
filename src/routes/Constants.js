@@ -44,7 +44,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.Second
       },
       {
-        name: 'Reports',
+        name: 'Catalogue Report',
         color: '#F7A435',
         iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
@@ -88,7 +88,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.MANAGEREQUESTS
       },
       {
-        name: 'Reports',
+        name: 'Catalogue Report',
         color: '#F7A435',
         iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
@@ -108,7 +108,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.HOME
       },
       {
-        name: 'Reports',
+        name: 'Catalogue Report',
         color: '#F7A435',
         iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
@@ -122,7 +122,7 @@ const USER_ROLE = {
     ],
     submenu: [
       {
-        name: 'Stock',
+        name: "Catalogue",
         color: '#F7A435',
         iconName: Images.inventory_black_24dp,
         screenName: NavigationRouteNames.STOCKMAINTENANCE
