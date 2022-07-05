@@ -70,7 +70,7 @@ export const Search = () => {
     constants.emisNumber,
     constants.refrenceNumber,
     constants.dateCreated,
-    constants.FurnitureCat,
+    constants.FurCategory, 
     constants.ItemCount,
     constants.status,
   ];

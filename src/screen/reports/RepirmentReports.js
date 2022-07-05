@@ -73,7 +73,7 @@ export const RepairmentReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
-    constants.furItem,
+    constants.Report_Item_Description,
     constants.RepairReports_Count,
     constants.furniture_full_count,
   ];

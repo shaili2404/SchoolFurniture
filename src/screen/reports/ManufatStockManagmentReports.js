@@ -51,7 +51,7 @@ export const ManufactStockManageReports = () => {
     userDelete: false,
   });
 
-  const tableHeader = [constants.FurCategory, constants.furItem];
+  const tableHeader = [constants.FurnitureCat, constants.Report_Item_Description];
   const tableKey = [ConstKey.furniture_category, ConstKey.furniture_item];
 
   // Setting Title Of Header

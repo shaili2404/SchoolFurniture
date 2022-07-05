@@ -72,7 +72,7 @@ export const DisposalReports = () => {
     constants.ReplanishmentReports_trancRefNo,
     constants.ReplanishmentReports_tranRefDate,
     constants.FurnitureCat,
-    constants.Furniture_Item,
+    constants.Report_Item_Description,
     constants.DisposalReports_DisposalCount,
     constants.furniture_full_count,
   ];
