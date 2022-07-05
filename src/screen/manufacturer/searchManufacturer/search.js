@@ -59,7 +59,7 @@ export const Search = () => {
     ConstKey.school_name,
     ConstKey.emis,
     ConstKey.ref_number,
-    ConstKey.ref_number,
+    ConstKey.created_at,
     ConstKey.category_name,
     ConstKey.count,
     ConstKey.status,
@@ -88,6 +88,7 @@ export const Search = () => {
 
   // render component of flat list
   const rendercomponent = ({ item }) => {
+    console.log(item)
     return (
       <DataDisplayList
         item={item}
