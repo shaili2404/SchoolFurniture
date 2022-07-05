@@ -59,7 +59,7 @@ export const Search = () => {
     ConstKey.school_name,
     ConstKey.emis,
     ConstKey.ref_number,
-    ConstKey.ref_number,
+    ConstKey.created_at,
     ConstKey.category_name,
     ConstKey.count,
     ConstKey.status,
@@ -194,12 +194,13 @@ export const Search = () => {
 
   // on reset button clicked
   const onReset = () => {
+    setSearchValue(0);
     setSearchStatus(true);
-    apicall();
-    setErrorMessage("");
     setSearchTask("");
+    setErrorMessage("");
     setendDatestatus(true);
     setStartDateStatus(true);
+    apicall();
   };
   // doing loader false on getting api data
   useEffect(() => {
