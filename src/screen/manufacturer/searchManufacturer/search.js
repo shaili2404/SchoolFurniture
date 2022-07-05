@@ -88,6 +88,7 @@ export const Search = () => {
 
   // render component of flat list
   const rendercomponent = ({ item }) => {
+    console.log(item)
     return (
       <DataDisplayList
         item={item}
