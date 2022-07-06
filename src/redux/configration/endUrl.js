@@ -64,5 +64,7 @@ const endUrl = {
   Previous_year_status: "user/dashboard/get-previous-year-status",
   DownloadPreviousYearStatus:
     "user/dashboard/previous-year-status/report-download",
+  uploadProofofReplenishedPhoto :
+  "user/file/upload/disposal-images"
 };
 export default endUrl;

@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import COLORS from "../../../../asset/color";
+import { RfH, RfW } from "../../../../utils/helpers";
 
 const width = Dimensions.get("window").width;
 export default StyleSheet.create({
@@ -78,4 +79,62 @@ export default StyleSheet.create({
     position: "absolute",
     top: 4,
   },
+  photoText: {
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  uploadedView: {
+    backgroundColor: COLORS.White,
+    width: '100%',
+    height: RfH(30),
+    justifyContent: "center",
+    flexDirection: "row",
+    borderWidth: 1,
+    borderStyle: "dashed",
+  },
+  uploadedText: {
+    fontSize: 14,
+    padding: 2,
+  },
+  viewAllText: {
+    color: COLORS.blue,
+    fontSize: 18,
+    paddingLeft:10,
+    textDecorationLine: "underline",
+  },
+  noOfPhoto: {
+    // flexDirection: "column",
+  },
+  textStyle: {
+    fontSize: 10,
+    padding: 10,
+    color: COLORS.ThemeGreen,
+    textAlign: "center",
+  },
+  noDataView: {
+    backgroundColor: COLORS.LightGreen,
+    height: 56,
+    borderBottomColor: COLORS.Black,
+    borderBottomWidth: 0.4,
+    width: width,
+    justifyContent: "center",
+  },
+  noDataText: {
+    fontSize: 16,
+    textAlignVertical: "center",
+    textAlign: "center",
+  },
+  photoView: {
+    backgroundColor: COLORS.White,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    width: '100%',
+    height: RfH(30),
+    justifyContent: "center",
+  },
+  redText:{
+    fontSize:16,
+    color:COLORS.red,
+    padding:10
+  }
 });
