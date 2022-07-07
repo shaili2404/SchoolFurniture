@@ -27,7 +27,8 @@ export const DisposalCertificateButton = ({
   imgData,
   PhotoSection,
   viewAllImg,
-  errormessageofPhoto
+  errormessageofPhoto,
+  viewAfterUpload
   
 }) => {
   const [checkBoxStatus, setCheckBoxStatus] = useState(false);
@@ -79,7 +80,7 @@ export const DisposalCertificateButton = ({
             </TouchableOpacity>
           </View>
           ) : null}
-
+          {viewAfterUpload ?  <>
           {imgData && imgData.length ? (
              <View style={style.uploadedView}>
                <Text style={style.uploadedText}>{constants.uploaded}</Text>
@@ -91,6 +92,8 @@ export const DisposalCertificateButton = ({
              </TouchableOpacity>
            </View>
           ) : null}
+          </>
+          :null}
           {errormessageofPhoto? 
          <Text style={style.redText}>{constants.Add_Disposal_Images_Proof}</Text>  :
          null

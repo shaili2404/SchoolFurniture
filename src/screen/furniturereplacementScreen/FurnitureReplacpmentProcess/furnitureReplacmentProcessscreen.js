@@ -85,7 +85,7 @@ export const FurnitureReplacmentProcess = () => {
   const [selected, setselected] = useState([]);
   const [replanishCertificateStatus, setreplanishcertificateStatus] =
     useState(false);
-    const [errormessageofPhoto,setErrormessageofPhoto] = useState(false)
+  const [errormessageofPhoto, setErrormessageofPhoto] = useState(false);
   const [EmailreplanishCertificateStatus, setEmailreplanishcertificateStatus] =
     useState(false);
   const [onetaskSection, setOnetasksection] = useState("");
@@ -115,6 +115,7 @@ export const FurnitureReplacmentProcess = () => {
   const [plusSign, setPlusSign] = useState(false);
   const [footerSign, setfooterSign] = useState(false);
   const [modalloader, setmodalloader] = useState(false);
+  const [viewAfterUpload, setViewAfterUpload] = useState(true);
   const {
     school_name,
     emis,
@@ -960,40 +961,42 @@ export const FurnitureReplacmentProcess = () => {
     };
     getpdfApi(endUrl?.annexureB, data, "Disposal Certificate");
     setEmailreplanishcertificateStatus(true);
-    setPhotoSection(true)
+    setPhotoSection(true);
   };
   const onreplanishemailcer = () => {
-    if (imgData.length == 0 ) setErrormessageofPhoto(true)
-    else{
-      setErrormessageofPhoto(false)
-    uploadReplenishmentPhoto()
-    setTableHeader((oldData) => [
-      ...oldData,
-      constants.Replenishment_Approved_item,
-      constants.Replenishment_Reject_item,
-    ]);
+    if (imgData.length == 0 && replenishment_status == null)
+      setErrormessageofPhoto(true);
+    else {
+      setErrormessageofPhoto(false);
+      setViewAfterUpload(false);
+      replenishment_status == null ? uploadReplenishmentPhoto() : null;
+      setTableHeader((oldData) => [
+        ...oldData,
+        constants.Replenishment_Approved_item,
+        constants.Replenishment_Reject_item,
+      ]);
 
-    setTableKey((oldData) => [
-      ...oldData,
-      ConstKey.Approved_Items,
-      ConstKey.Rejected_Items,
-    ]);
-    if (replenishment_status !== null) {
-      flatListData.map((ele) => {
-        ele.replenish_count = ele.replenished_count;
-        ele.repair_count = ele.repaired_count;
-      });
+      setTableKey((oldData) => [
+        ...oldData,
+        ConstKey.Approved_Items,
+        ConstKey.Rejected_Items,
+      ]);
+      if (replenishment_status !== null) {
+        flatListData.map((ele) => {
+          ele.replenish_count = ele.replenished_count;
+          ele.repair_count = ele.repaired_count;
+        });
+      }
+      let data = {
+        ref_number: ref_number,
+        items:
+          replenishment_status == null ? confirmCollectedCount : flatListData,
+      };
+      getpdfApi(endUrl?.annexureC, data, "Replenishment Request Form");
+      setStatusOFEmailreplanishcertificateStatus(true);
     }
-    let data = {
-      ref_number: ref_number,
-      items:
-        replenishment_status == null ? confirmCollectedCount : flatListData,
-    };
-    getpdfApi(endUrl?.annexureC, data, "Replenishment Request Form");
-    setStatusOFEmailreplanishcertificateStatus(true);
-  }
   };
-  const uploadReplenishmentPhoto = ()=>{
+  const uploadReplenishmentPhoto = () => {
     const url = `${Baseurl}${endUrl.uploadProofofReplenishedPhoto}`;
 
     let body = new FormData();
@@ -1020,13 +1023,13 @@ export const FurnitureReplacmentProcess = () => {
           body: body,
         });
         let res = await response.json();
-        if (response.ok) console.log('success');
+        if (response.ok) console.log("success");
         else ErrorApi(res, "collection");
       } catch (err) {}
     };
 
     uploadImg();
-  }
+  };
 
   const uploadSignedreplanishment = async (result) => {
     setmodalloader(true);
@@ -1249,7 +1252,8 @@ export const FurnitureReplacmentProcess = () => {
               </View>
             ) : (
               <>
-                {PhotoSection && taskofPage !== constants.Status_pendingRepair? (
+                {PhotoSection &&
+                taskofPage !== constants.Status_pendingRepair ? (
                   <View style={styles.photoView}>
                     <TouchableOpacity onPress={() => setImageModal(true)}>
                       <Text style={styles.photoText}>{constants.AddPhoto}</Text>
@@ -1259,7 +1263,9 @@ export const FurnitureReplacmentProcess = () => {
               </>
             )}
 
-            {imgData && imgData.length && taskofPage !== constants.Status_pendingRepair ? (
+            {imgData &&
+            imgData.length &&
+            taskofPage !== constants.Status_pendingRepair ? (
               <View style={styles.uploadedView}>
                 <View style={styles.noOfPhoto}>
                   <Text style={styles.uploadedText}>{constants.uploaded}</Text>
@@ -1340,11 +1346,12 @@ export const FurnitureReplacmentProcess = () => {
                   ? false
                   : disableUploadcpy
               }
-              uploadPhoto={()=>setImageModal(true)}
+              uploadPhoto={() => setImageModal(true)}
               imgData={imgData}
               PhotoSection={PhotoSection}
               viewAllImg={viewAllImg}
               errormessageofPhoto={errormessageofPhoto}
+              viewAfterUpload={viewAfterUpload}
             />
           ) : null}
           {errorMessage ? (
