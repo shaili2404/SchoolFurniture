@@ -183,8 +183,21 @@ export const ManageRequests = () => {
         setLoader(false);
       })
       .catch((e) => {
-        setLoader(false);
-        setErrorMessage(e?.response?.data?.message);
+        // setLoader(false);
+        // setErrorMessage(e?.response?.data?.message);
+        {
+          let { message, data, status } = e?.response?.data || {};
+          setLoader(false);
+          {
+            let str = "";
+            status == 422
+              ? Object.values(data).forEach((value) => {
+                  str += `  ${value}`;
+                  setErrorMessage(str);
+                })
+              : setErrorMessage(message);
+          }
+        }
       });
   };
   // on reset button click

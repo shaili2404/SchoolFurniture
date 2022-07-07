@@ -39,28 +39,28 @@ export const BarChart = () => {
         setsampleData([
           {
             x: 1,
-            y: data?.collection_accepted,
-            label: constants.Status_CollectionAccepted,
-          },
-          {
-            x: 2,
             y: data?.delivery_confirmed,
             label: constants.Status_DeliveryConfirmed,
           },
           {
-            x: 3,
-            y: data?.pending_collection,
-            label: constants.Status_PendingCollection,
-          },
-          {
-            x: 4,
+            x: 2,
             y: data?.pending_delivery,
             label: constants.Status_pendingDilver,
           },
           {
+            x: 3,
+            y: data?.partial_replenishment,
+            label: constants.Status_Partial_Replenishment,
+          },
+          {
+            x: 4,
+            y: data?.replenishment_rejected,
+            label: constants.Status_Replanishment_Rejected,
+          },
+          {
             x: 5,
-            y: data?.pending_repairs,
-            label: constants.Status_pendingRepair,
+            y: data?.replenishment_approved,
+            label: constants.Status_Replanishment_Approved,
           },
           {
             x: 6,
@@ -74,18 +74,18 @@ export const BarChart = () => {
           },
           {
             x: 8,
-            y: data?.replenishment_approved,
-            label: constants.Status_Replanishment_Approved,
+            y: data?.pending_repairs,
+            label: constants.Status_pendingRepair,
           },
           {
             x: 9,
-            y: data?.replenishment_rejected,
-            label: constants.Status_Replanishment_Rejected,
+            y: data?.collection_accepted,
+            label: constants.Status_CollectionAccepted,
           },
           {
             x: 10,
-            y: data?.partial_replenishment,
-            label: constants.Status_Partial_Replenishment,
+            y: data?.pending_collection,
+            label: constants.Status_PendingCollection,
           },
         ]);
       })

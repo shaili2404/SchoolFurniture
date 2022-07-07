@@ -163,8 +163,21 @@ export const ReplanishmentReports = () => {
           setmodalloader(false);
         })
         .catch((e) => {
-          setmodalloader(false);
-          setErrorMessage(e?.response?.data?.message);
+          // setmodalloader(false);
+          // setErrorMessage(e?.response?.data?.message);
+          {
+            let { message, data, status } = e?.response?.data || {};
+            setLoader(false);
+            {
+              let str = "";
+              status == 422
+                ? Object.values(data).forEach((value) => {
+                    str += `  ${value}`;
+                    setErrorMessage(str);
+                  })
+                : setErrorMessage(message);
+            }
+          }
         });
     }
   };

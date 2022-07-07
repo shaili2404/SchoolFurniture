@@ -24,24 +24,24 @@ export const Piechart = () => {
           data?.pending_repairs == 0
             ? { x: 0, y: 0 }
             : { x: 1, y: (data?.pending_repairs) },
-          data?.pending_delivery == 0
+            data?.repair_completed == 0
             ? { x: 0, y: 0 }
-            : { x: 2, y: (data?.pending_delivery) },
-          data?.pending_replenishment_approvel == 0
+            : { x: 2, y: (data?.repair_completed) },
+            data?.pending_replenishment_approvel == 0
             ? { x: 0, y: 0 }
             : { x: 3, y: (data?.pending_replenishment_approval) },
-          data?.replenishment_rejected == 0
+            data?.replenishment_approved == 0
             ? { x: 0, y: 0 }
-            : { x: 4, y: (data?.replenishment_rejected) },
+            : { x: 4, y: (data?.replenishment_approved) },
+            data?.replenishment_rejected == 0
+            ? { x: 0, y: 0 }
+            : { x: 5, y: (data?.replenishment_rejected) },
+            data?.pending_delivery == 0
+            ? { x: 0, y: 0 }
+            : { x: 6, y: (data?.pending_delivery) },
           data?.delivery_confirmed == 0
             ? { x: 0, y: 0 }
-            : { x: 5, y: (data?.delivery_confirmed) },
-          data?.repair_completed == 0
-            ? { x: 0, y: 0 }
-            : { x: 6, y: (data?.repair_completed) },
-          data?.replenishment_approved == 0
-            ? { x: 0, y: 0 }
-            : { x: 7, y: (data?.replenishment_approved) },
+            : { x: 7, y: (data?.delivery_confirmed) }, 
         ]);
       })
       .catch((e) => {
@@ -63,12 +63,12 @@ export const Piechart = () => {
         <VictoryPie
           colorScale={[
             "#AEF182",
-            "#FFC000",
-            "#9E480E",
-            "#FFBF94",
-            "#FF6700",
             "#BF9514",
+            "#9E480E",
             "#72B746",
+            "#FFBF94",
+            "#FFC000",
+            "#FF6700",
           ]}
           width={200}
           height={200}
@@ -89,28 +89,28 @@ export const Piechart = () => {
               symbol: { fill: "#AEF182", type: "square" },
             },
             {
-              name: constants.Status_pendingDilver,
-              symbol: { fill: "#FFC000", type: "square" },
+              name: constants.Status_RepairCompleted,
+              symbol: { fill: "#BF9514", type: "square" },
             },
             {
               name: constants.Pending_Replenishment_Approval,
               symbol: { fill: "#9E480E", type: "square" },
             },
             {
+              name: constants.Replenishment_Approved,
+              symbol: { fill: "#72B746", type: "square" },
+            },
+            {
               name: constants.Replenishment_Rejected,
               symbol: { fill: "#FFBF94", type: "square" },
             },
             {
+              name: constants.Status_pendingDilver,
+              symbol: { fill: "#FFC000", type: "square" },
+            }, 
+            {
               name: constants.Status_DeliveryConfirmed,
               symbol: { fill: "#FF6700", type: "square" },
-            },
-            {
-              name: constants.Status_RepairCompleted,
-              symbol: { fill: "#BF9514", type: "square" },
-            },
-            {
-              name: constants.Replenishment_Approved,
-              symbol: { fill: "#72B746", type: "square" },
             },
           ]}
         />

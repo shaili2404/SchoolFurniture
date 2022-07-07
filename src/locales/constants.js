@@ -137,7 +137,7 @@ const constants = {
   School_Name: "School Name",
 
   Replanish_certificate: "Email and Print Replenishment Request Form",
-  Replanish_Disposalcertificate: "Print Furniture Disposal Certificate",
+  Replanish_Disposalcertificate: "Print Disposal Certificate",
   Replanish_checkMessage: "Tick here when repairs are Completed",
   Replanish_proofreplanish: "Upload Proof Of Replenishment Descion",
 
@@ -184,7 +184,7 @@ const constants = {
   SchoolReports_fullInvCount: "School Full Inventory Count",
   RepairReports_Count: "Repair Count",
   TransactionReports_confirmCollected: "Number of Confirmed Collections",
-  TransactionReports_Repair: "Number of Repair Collections",
+  TransactionReports_Repair: "Number of Repairs",
   TransactionReports_Disposal: "Number of Disposals",
   Transaction_Status: "Transaction Status",
   Replenishment_Report: "Replenishment Report",
@@ -196,7 +196,7 @@ const constants = {
   Transactions_Status_Report: "Transactions Status Report",
   exportreports: "Export Reports",
   download: "Download",
-  Pending_Replenishment_Approval: "Pending Replenishment Approval",
+  Pending_Replenishment_Approval: "Pending Replenishment",
   Replenishment_Rejected: "Replenishment Rejected",
   Replenishment_Approved: "Replenishment Approved",
   dateinWaiting: "Days In Waiting",
