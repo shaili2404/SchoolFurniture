@@ -68,7 +68,7 @@ const constants = {
   TransactionList: "Transaction List",
   createRequest: "Create Request",
   collectFurnitureRequest: "Collect Items",
-  RepairReplnish: "Repair/Replenish Items",
+  RepairReplnish: "Repair/Replenish",
   DeliverFurItem: "Deliver Items",
   Accept: "Accept",
   Accepted: "Accepted",

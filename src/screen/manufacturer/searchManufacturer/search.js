@@ -75,27 +75,12 @@ export const Search = () => {
     constants.status,
   ];
 
-  const addArray = [
-    { key: ConstKey.district_office, value: constants.DistrictOffice },
-    { key: ConstKey.director, value: constants.Director },
-    { key: ConstKey.tel, value: constants.TelphoneNo },
-    { key: ConstKey.address1, value: constants.Address1 },
-    { key: ConstKey.address2, value: constants.Address2 },
-    { key: ConstKey.address3, value: constants.Address3 },
-    { key: ConstKey.address4, value: constants.Address4 },
-    { key: ConstKey.street_code, value: constants.streetCode },
-  ];
-
   // render component of flat list
   const rendercomponent = useCallback(({ item }) => {
     return (
       <DataDisplayList
         item={item}
         tableKey={tableKey}
-        reloadList={() => reloadList()}
-        link={endUrl.schoolDistList}
-        mainMessage={AlertText.deletedistrict}
-        submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
       />
     );
@@ -119,6 +104,7 @@ export const Search = () => {
   },[listData])
   // on next button clicked
   const onNext = () => {
+    console.log('107')
     let count = number + 1;
     setLoader(true);
     setNumber(number + 1);
@@ -127,6 +113,7 @@ export const Search = () => {
   };
   // on prevxious button clicked
   const onPrevious = () => {
+    console.log('116')
     let count = number - 1;
     setLoader(true);
     setNumber(number - 1);
@@ -135,6 +122,7 @@ export const Search = () => {
   };
   // on search button clicked
   const onsearch = async () => {
+    console.log('125')
     setSearchStatus(false);
     let strtDte =
       startDateStatus == false
@@ -193,6 +181,7 @@ export const Search = () => {
 
   // on reset button clicked
   const onReset = () => {
+    console.log('184')
     setSearchStatus(true);
     setSearchValue(0);
     apicall();
@@ -202,6 +191,7 @@ export const Search = () => {
     setStartDateStatus(true);
   };
   const getSearcData = (value)=>{
+    console.log('194')
     setSearchTask(value)
   }
 
@@ -330,7 +320,7 @@ export const Search = () => {
         >
           <FlatList
             ListHeaderComponent={HeaderComponet}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item}
             data={listData}
             renderItem={rendercomponent}
           />

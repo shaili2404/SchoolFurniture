@@ -643,8 +643,16 @@ export const FurnitureReplacmentProcess = () => {
 
   const onSubmit = () => {
     setAlert(true);
+    if (schooldetails?.organization == constants.school)
     setMainMsg(AlertText.submitMessage);
-    setSubMsg(AlertText.canNotUndo);
+    else if (taskofPage == constants.Status_PendingCollection || taskofPage == constants.Status_CollectionAccepted)
+    setMainMsg(AlertText.SubmitMessagePendingCollection);
+    else if (taskofPage == constants.Status_pendingRepair)
+    setMainMsg(AlertText.ReplenishmentSubmitMessage);
+    else if ( taskofPage == constants.Status_RepairCompleted ||
+      taskofPage == constants.Status_pendingDilver)
+    setMainMsg(AlertText.DeliverSubmitMessage);
+    
   };
 
   const onvalueEdit = (val) => {
@@ -711,7 +719,7 @@ export const FurnitureReplacmentProcess = () => {
   const SuccessUploadImage = (res) => {
     setSuccessAlert(true);
     setLoader(false);
-    setMainMsg(res?.message);
+    setMainMsg(AlertText.MessageForSubmitForAnother);
   };
   const successApi = (res) => {
     setSuccessAlert(true);
