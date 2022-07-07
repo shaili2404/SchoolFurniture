@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Styles from "../maintenance/SchoolMaintenance/SchoolDistrict/style";
 import {
   SafeAreaView,
@@ -32,10 +32,10 @@ export const Search = () => {
   const [listData, setListData] = useState([]);
   const [loader, setLoader] = useState(true);
   const [searchtask, setSearchTask] = useState("");
-  const [radioParam, setRadioParam] = useState([
+  const radioParam = [
     { label: "Date Range", value: 0 },
     { label: "Reference Number", value: 1 },
-  ]);
+  ];
   const [searchValue, setSearchValue] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -70,7 +70,7 @@ export const Search = () => {
     constants.emisNumber,
     constants.refrenceNumber,
     constants.dateCreated,
-    constants.FurCategory, 
+    constants.FurnitureCat,
     constants.ItemCount,
     constants.status,
   ];
@@ -87,8 +87,7 @@ export const Search = () => {
   ];
 
   // render component of flat list
-  const rendercomponent = ({ item }) => {
-    console.log(item)
+  const rendercomponent = useCallback(({ item }) => {
     return (
       <DataDisplayList
         item={item}
@@ -100,18 +99,13 @@ export const Search = () => {
         permissionId={permissionId}
       />
     );
-  };
+  },[listData])
   // header component of flatlist
-  const HeaderComponet = () => {
+  const HeaderComponet = useCallback(() => {
     return <ListHeaderComman tableHeader={tableHeader} />;
-  };
+  },[listData])
 
-  // reload list when data change
-  const reloadList = () => {
-    apicall();
-  };
-  // get data on api call
-  const apicall = (count) => {
+  const apicall = useCallback((count) => {
     setLoader(true);
     axios
       .get(`${endUrl.get_search_list}?page=${count ? count : number}`)
@@ -122,7 +116,7 @@ export const Search = () => {
         setLoader(false);
       })
       .catch((e) => setLoader(false));
-  };
+  },[listData])
   // on next button clicked
   const onNext = () => {
     let count = number + 1;
@@ -131,7 +125,7 @@ export const Search = () => {
     apicall(count);
     setLoader(false);
   };
-  // on previous button clicked
+  // on prevxious button clicked
   const onPrevious = () => {
     let count = number - 1;
     setLoader(true);
@@ -159,6 +153,7 @@ export const Search = () => {
       searchValue != 0
         ? { ref_number: searchtask }
         : { start_date: strtDte, end_date: endDte };
+    
     axios
       .post(
         `${
@@ -170,6 +165,8 @@ export const Search = () => {
       )
       .then((res) => {
         setListData(res?.data?.data?.records);
+        setprevpage(res?.data?.data?.previous_page);
+        setnextpage(res?.data?.data?.next_page);
         setLoader(false);
       })
       .catch((e) => {
@@ -189,6 +186,7 @@ export const Search = () => {
       });
   };
   // get data list
+
   useEffect(() => {
     apicall();
   }, []);
@@ -197,24 +195,15 @@ export const Search = () => {
   const onReset = () => {
     setSearchValue(0);
     setSearchStatus(true);
+    apicall();
     setSearchTask("");
     setErrorMessage("");
     setendDatestatus(true);
     setStartDateStatus(true);
-    apicall();
   };
-  // doing loader false on getting api data
-  useEffect(() => {
-    if (listData) setLoader(false);
-  }, [listData]);
-  // calling data funtion if search task is empty
-  useEffect(() => {
-    if (searchtask == "") {
-      apicall();
-      setErrorMessage("");
-      setLoader(false);
-    }
-  }, [searchtask]);
+  const getSearcData = (value)=>{
+    setSearchTask(value)
+  }
 
   return loader ? (
     <Loader />
@@ -239,7 +228,8 @@ export const Search = () => {
               buttonWrapStyle={{ paddingLeft: 50 }}
               radioStyle={{ paddingRight: 40 }}
               labelStyle={{ fontSize: 16, color: "#000000" }}
-              onPress={(value) => setSearchValue(value)}
+              onPress={(value) => 
+                setSearchValue(value)}
             />
           </View>
           {searchValue == 0 ? (
@@ -311,9 +301,8 @@ export const Search = () => {
                 style={styles.refrenceStyle}
                 placeholder={constants.referenceNumber}
                 placeholderTextColor={COLORS.Black}
-                opacity={0.5}
                 value={searchtask}
-                onChangeText={(val) => setSearchTask(val)}
+                onChangeText={(value) => getSearcData(value)}
               />
             </View>
           )}
@@ -341,7 +330,6 @@ export const Search = () => {
         >
           <FlatList
             ListHeaderComponent={HeaderComponet}
-            showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             data={listData}
             renderItem={rendercomponent}
@@ -351,7 +339,7 @@ export const Search = () => {
 
       <View style={Styles.lastView}>
         <TouchableOpacity
-          onPress={onPrevious}
+          onPress={() => onPrevious()}
           disabled={prevpage == null ? true : false}
         >
           {prevpage == null ? (
@@ -365,7 +353,7 @@ export const Search = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={onNext}
+          onPress={() => onNext()}
           disabled={nextPage == null ? true : false}
         >
           {nextPage == null ? (

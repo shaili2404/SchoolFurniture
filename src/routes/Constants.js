@@ -32,7 +32,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.SEARCH
       },
       {
-        name: 'Furniture Replacement',
+        name: 'Transact',
         color: '#F7A435',
         iconName: Images.published_with_changes_black_24dp,
         screenName: NavigationRouteNames.Furniturereplacment
@@ -76,7 +76,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.SEARCH
       },
       {
-        name: 'Furniture Replacement',
+        name: 'Transact',
         color: '#F7A435',
         iconName: Images.published_with_changes_black_24dp,
         screenName: NavigationRouteNames.Furniturereplacment
