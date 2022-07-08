@@ -242,6 +242,8 @@ const constants = {
   Learner_Enrolment_Count: "Learner Enrollment Count",
   Report_Item_Description: "Item Description",
   Transact :'Transact',
-  Add_Disposal_Images_Proof:"Add Disposal Images Proof"
+  Add_Disposal_Images_Proof:"Add Disposal Images Proof",
+  startDateIsRequired:
+    "Start Date Is Required",
 };
 export default constants;

@@ -122,6 +122,9 @@ export const TransactionSummaryReports = () => {
       validation(refnumber)
     )
       setErrorMessage(constants.enterSearchData);
+      else if (startDateStatus == true &&
+        enddateStatus == false )
+        setErrorMessage(constants.startDateIsRequired);
     else {
       let strtDte = `${startDate?.getFullYear()}-${
         startDate?.getMonth() + 1
