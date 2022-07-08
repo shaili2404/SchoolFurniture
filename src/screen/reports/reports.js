@@ -41,7 +41,7 @@ export const Reports = () => {
       : [
           { id: 0, name: constants.Replenishment_Report },
           { id: 1, name: constants.Disposal_Report },
-          { id: 2, name: constants.Manufacturer_Stock },
+          { id: 2, name: constants.Reports },
           { id: 3, name: constants.School_Furniture_Count_Report },
           { id: 4, name: constants.Repairment_Report },
           { id: 5, name: constants.Transactions_Summary_Report },

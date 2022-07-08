@@ -66,6 +66,7 @@ const ConstKey = {
   collection_confirmed_count:'collection_confirmed_count',
   transaction_status:'transaction_status',
   evidence_images:'evidence_images',
+  disposal_images:'disposal_images',
   replenishment_proof:'replenishment_proof',
   delivery_note:'delivery_note',
   reference_number:'reference_number',

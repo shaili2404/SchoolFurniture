@@ -224,6 +224,11 @@ export const DataDisplayList = ({
     setimageModal(true);
   };
 
+  const onPreviewDisposal = (item) => {
+    setcollectionImages(item?.disposal_images);
+    setimageModal(true);
+  };
+
   return (
     <SafeAreaView style={Styles.firstView}>
       {data == "0" ? (
@@ -252,14 +257,15 @@ export const DataDisplayList = ({
                 </Text>
               ) : (
                 <>
-                  {val == "evidence_images" ? (
+                  {val == "evidence_images" ||
+                      val == "disposal_images" ? (
                     <>
                       {item.evidence_images == undefined ? (
                         <Text style={Styles.textStyle}>{"NA"}</Text>
                       ) : (
                         <TouchableOpacity
                           style={Styles.downloadButton}
-                          onPress={() => onPreview(item)}
+                          onPress={() => val == "evidence_images" ? onPreview(item): onPreviewDisposal(item) }
                         >
                           <Text style={Styles.searchText}>
                             {constants.preview}

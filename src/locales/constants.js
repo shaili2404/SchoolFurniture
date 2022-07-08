@@ -224,7 +224,7 @@ const constants = {
   Approved_Replishment_Item: "Approved Replenishment Count",
   Rejected_Replishment_Item: "Rejected Replenishment Count",
   preview: "Preview",
-  Evidence_Proof: "Evidence Proof",
+  Evidence_Proof: "Collection Proof",
   Replenishment_Proof: "Replenishment Proof",
   Delivery_Note: "Delivery Note",
   Furniture_Item: "Item Description",
@@ -242,6 +242,7 @@ const constants = {
   Learner_Enrolment_Count: "Learner Enrollment Count",
   Report_Item_Description: "Item Description",
   Transact :'Transact',
-  Add_Disposal_Images_Proof:"Add Disposal Images Proof"
+  Add_Disposal_Images_Proof:"Add Disposal Images Proof",
+  Report_Disposal_Proof: "Disposal Proof",
 };
 export default constants;

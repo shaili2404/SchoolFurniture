@@ -73,6 +73,7 @@ export const TransactionStatusReports = () => {
     constants.ReplanishmentReports_tranRefDate,
     constants.Transaction_Status,
     constants.Evidence_Proof,
+    constants.Report_Disposal_Proof,
     constants.Replenishment_Proof,
     constants.Delivery_Note,
   ];
@@ -85,6 +86,7 @@ export const TransactionStatusReports = () => {
     ConstKey.transaction_date,
     ConstKey.transaction_status,
     ConstKey.evidence_images,
+    ConstKey.disposal_images,
     ConstKey.replenishment_proof,
     ConstKey.delivery_note,
   ];
