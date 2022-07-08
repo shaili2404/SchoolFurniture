@@ -56,6 +56,7 @@ export const DataDisplayList = ({
   const [imageModal, setimageModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [imageData, setImageData] = useState([]);
+  const [task, setTask] = useState("");
 
   const onDelete = () => {
     setAlert(true);
@@ -124,7 +125,8 @@ export const DataDisplayList = ({
       addAndroidDownloads: {
         path:
           RootDir +
-          "/proof_" +
+            // "/proof_" +
+            task +
           // Math.floor(date.getTime() + date.getSeconds() / 2) +
           Ref_No +
           file_ext,
@@ -222,11 +224,13 @@ export const DataDisplayList = ({
   const onPreview = (item) => {
     setcollectionImages(item?.evidence_images);
     setimageModal(true);
+    setTask("/collection_proof_");
   };
 
   const onPreviewDisposal = (item) => {
     setcollectionImages(item?.disposal_images);
     setimageModal(true);
+    setTask("/disposal_proof_");
   };
 
   return (
