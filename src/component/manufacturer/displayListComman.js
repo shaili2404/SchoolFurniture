@@ -264,7 +264,7 @@ export const DataDisplayList = ({
                   {val == "evidence_images" ||
                       val == "disposal_images" ? (
                     <>
-                      {item.evidence_images == undefined ? (
+                      {item?.evidence_images[0]?.path == undefined || item.disposal_images[0]?.path == undefined  ? (
                         <Text style={Styles.textStyle}>{"NA"}</Text>
                       ) : (
                         <TouchableOpacity

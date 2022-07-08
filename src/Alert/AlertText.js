@@ -40,7 +40,7 @@ const AlertText = {
   subplaceAddedSub: "Sub Place Added Successfully",
   SubplaceUpdateSub: "Sub Place Updated Successfully",
   submitMsg:
-    "Transaction Recorded: Your Collection Request has been submitted successfully! The Reference Number is....",
+    "Transaction Recorded: Your Collection Request has been submitted successfully! The Reference Number is",
   SubmitMessagePendingCollection:
     "Transaction - Collect Items: Are you sure you want to submit?",
   MessageForSubmitForAnother:

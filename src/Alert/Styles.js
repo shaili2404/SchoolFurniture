@@ -21,9 +21,8 @@ export default StyleSheet.create({
     height: 200,
     width: width,
     backgroundColor: COLORS.White,
-
     borderRadius: 25,
-    paddingTop: 50,
+    paddingTop: 40,
   },
   Container: {
     backgroundColor: COLORS.ThemeGreen,
