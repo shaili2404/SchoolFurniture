@@ -129,7 +129,19 @@ export const FurnitureReplacmentManfacturer = () => {
         })
         .catch((e) => {
           onerrorapi(e);
-          setErrorMessage(e?.response?.data?.message);
+          {
+            let { message, data, status } = e?.response?.data || {};
+            setLoader(false);
+            {
+              let str = "";
+              status == 422
+                ? Object.values(data).forEach((value) => {
+                    str += `  ${value}`;
+                    setErrorMessage(str);
+                  })
+                : setErrorMessage(message);
+            }
+          }
         });
     }
   };

@@ -23,7 +23,7 @@ const AlertText = {
   canNotUndo: "You cannot undo this action",
   deleteStockCategory: "Do you want to delete this Category?",
   deleteStock: "Are you sure you want to delete?",
-  submitMessage: "Do you Want to submit",
+  submitMessage: "Transaction: Are you sure you want to  submit this request?",
   deleteManageRequest: "Are you sure you want to delete this request?",
   GoToTransactionList:
     "Information that is not saved will be lost, are you sure you want to leave the current page?",
@@ -41,5 +41,13 @@ const AlertText = {
   SubplaceUpdateSub: "Sub Place Updated Successfully",
   submitMsg:
     "Transaction Recorded: Your Collection Request has been submitted successfully! The Reference Number is....",
+  SubmitMessagePendingCollection:
+    "Transaction - Collect Items: Are you sure you want to submit?",
+  MessageForSubmitForAnother:
+    "Transaction: The changes have been submitted successfully!",
+  ReplenishmentSubmitMessage:
+    "Transaction: Repair Items: Are you sure you want to submit?",
+  DeliverSubmitMessage:
+    "Transaction: Deliver Items: Are you sure you want to submit?",
 };
 export default AlertText;

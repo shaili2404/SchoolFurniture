@@ -68,7 +68,7 @@ const constants = {
   TransactionList: "Transaction List",
   createRequest: "Create Request",
   collectFurnitureRequest: "Collect Items",
-  RepairReplnish: "Repair/Replenish Items",
+  RepairReplnish: "Repair/Replenish",
   DeliverFurItem: "Deliver Items",
   Accept: "Accept",
   Accepted: "Accepted",
@@ -244,5 +244,7 @@ const constants = {
   Transact :'Transact',
   Add_Disposal_Images_Proof:"Add Disposal Images Proof",
   Report_Disposal_Proof: "Disposal Proof",
+  startDateIsRequired:
+    "Start Date Is Required",
 };
 export default constants;
