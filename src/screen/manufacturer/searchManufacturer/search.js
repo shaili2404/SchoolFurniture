@@ -61,6 +61,7 @@ export const Search = () => {
     ConstKey.ref_number,
     ConstKey.created_at,
     ConstKey.category_name,
+    ConstKey.item_name,
     ConstKey.count,
     ConstKey.status,
   ];
@@ -71,6 +72,7 @@ export const Search = () => {
     constants.refrenceNumber,
     constants.dateCreated,
     constants.FurnitureCat,
+    constants.furItem,
     constants.ItemCount,
     constants.status,
   ];
@@ -152,6 +154,7 @@ export const Search = () => {
         obj
       )
       .then((res) => {
+        console.log(res?.data?.data?.records)
         setListData(res?.data?.data?.records);
         setprevpage(res?.data?.data?.previous_page);
         setnextpage(res?.data?.data?.next_page);
@@ -319,7 +322,7 @@ export const Search = () => {
         >
           <FlatList
             ListHeaderComponent={HeaderComponet}
-            keyExtractor={(item) => item}
+            keyExtractor={(item, index) => index.toString()}
             data={listData}
             renderItem={rendercomponent}
           />

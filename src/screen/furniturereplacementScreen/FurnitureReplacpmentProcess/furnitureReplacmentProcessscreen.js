@@ -836,7 +836,7 @@ export const FurnitureReplacmentProcess = () => {
         .then((res) => {
           setSuccessAlert(true);
           setLoader(false);
-          setMainMsg(AlertText.submitMsg);
+          setMainMsg(`${AlertText.submitMsg} ${res?.data?.data?.ref_number}`);
         })
         .catch((e) => ErrorApi(e));
     }
