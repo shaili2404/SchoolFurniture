@@ -14,12 +14,13 @@ export const Piechart = () => {
   const [sampleData, setsampleData] = useState([]);
 
   const getData = () => {
-    
+     
     axios
       .get(endUrl.get_percentagecollection)
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
+        console.log(data)
         setsampleData([
           data?.pending_repairs == 0
             ? { x: 0, y: 0 }
@@ -27,7 +28,7 @@ export const Piechart = () => {
             data?.repair_completed == 0
             ? { x: 0, y: 0 }
             : { x: 2, y: (data?.repair_completed) },
-            data?.pending_replenishment_approvel == 0
+            data?.pending_replenishment_approvel == 0.00
             ? { x: 0, y: 0 }
             : { x: 3, y: (data?.pending_replenishment_approval) },
             data?.replenishment_approved == 0
@@ -74,7 +75,7 @@ export const Piechart = () => {
           height={200}
           labels={({ datum }) => (datum.y == 0 ? "" : `${datum.y}%`)}
           labelPosition={"centroid"}
-          labelPlacement={"perpendicular"}
+          labelPlacement={"parallel"}
           labelRadius={40}
           data={sampleData}
           radius={90}

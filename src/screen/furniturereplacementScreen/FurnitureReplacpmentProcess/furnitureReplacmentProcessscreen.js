@@ -99,7 +99,7 @@ export const FurnitureReplacmentProcess = () => {
   const schooldetails = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user
   );
-
+  const [secondTaskItem, SetSecondtaskItem] = useState("");
   const token = useSelector(
     (state) => state?.loginData?.user?.data?.access_token
   );
@@ -150,6 +150,7 @@ export const FurnitureReplacmentProcess = () => {
       setfooterSign(false);
       setCreateRequestIcon(constants.inprogress);
       setOnetasksection(constants.createRequest);
+      SetSecondtaskItem(constants.BrokenFurnitureItem);
       setPermissionId({
         userCreate: true,
         userDelete: true,
@@ -163,7 +164,8 @@ export const FurnitureReplacmentProcess = () => {
       setPlusSign(true);
       setfooterSign(true);
       setCollectFurItem(constants.inprogress);
-      setOnetasksection(constants.collectFurnitureRequest);
+      setOnetasksection(constants.collectTransaction);
+      SetSecondtaskItem(constants.collectFurnitureRequest);
       setFlatListData(route?.params?.broken_items);
       setTableHeader([
         constants.FurCategory,
@@ -177,7 +179,8 @@ export const FurnitureReplacmentProcess = () => {
       setPlusSign(true);
       setfooterSign(true);
       setCollectFurItem(constants.inprogress);
-      setOnetasksection(constants.collectFurnitureRequest);
+      setOnetasksection(constants.collectTransaction);
+      SetSecondtaskItem(constants.collectFurnitureRequest);
       setTableHeader([
         constants.FurCategory,
         constants.furItem,
@@ -192,7 +195,8 @@ export const FurnitureReplacmentProcess = () => {
       setfooterSign(true);
       setCollectFurItem(constants.success);
       setRepairIcon(constants.inprogress);
-      setOnetasksection(constants.RepairReplnish);
+      setOnetasksection(constants.Repair_Replenish_Transaction);
+      SetSecondtaskItem(constants.Repair_Replenish_Items);
       setTableHeader((oldData) => [
         constants.FurCategory,
         constants.furItem,
@@ -209,7 +213,8 @@ export const FurnitureReplacmentProcess = () => {
       setfooterSign(true);
       setCollectFurItem(constants.success);
       setRepairIcon(constants.success);
-      setOnetasksection(constants.DeliverFurItem);
+      setOnetasksection(constants.Deliver_Transaction);
+      SetSecondtaskItem(constants.Deliver_Items);
       setDilverFurIcon(constants.inprogress);
       setTableHeader((oldData) => [
         constants.FurCategory,
@@ -243,7 +248,8 @@ export const FurnitureReplacmentProcess = () => {
       setfooterSign(true);
       setCollectFurItem(constants.success);
       setRepairIcon(constants.success);
-      setOnetasksection(constants.DeliverFurItem);
+      setOnetasksection(constants.Deliver_Transaction);
+      SetSecondtaskItem(constants.Deliver_Items);
       task == constants.Status_DeliveryConfirmed
         ? setDilverFurIcon(constants.success)
         : setDilverFurIcon(constants.inprogress);
@@ -278,6 +284,7 @@ export const FurnitureReplacmentProcess = () => {
       setFlatListData(route?.params?.finalList);
       setCreateRequestIcon(constants.inprogress);
       setOnetasksection(constants.createRequest);
+      SetSecondtaskItem(constants.BrokenFurnitureItem);
       setPermissionId({
         userCreate: true,
         userDelete: true,
@@ -293,7 +300,8 @@ export const FurnitureReplacmentProcess = () => {
     setPlusSign(true);
     setfooterSign(false);
     setCollectFurItem(constants.inprogress);
-    setOnetasksection(constants.collectFurnitureRequest);
+    setOnetasksection(constants.collectTransaction);
+    SetSecondtaskItem(constants.collectFurnitureRequest);
     setTaskNameButtonValue(constants.Accept);
     setFlatListData(broken_items);
     setLoader(false);
@@ -303,7 +311,8 @@ export const FurnitureReplacmentProcess = () => {
     setfooterSign(false);
     setCollectFurItem(constants.inprogress);
     setTaskNameButtonValue(constants.Accepted);
-    setOnetasksection(constants.collectFurnitureRequest);
+    setOnetasksection(constants.collectTransaction);
+    SetSecondtaskItem(constants.collectFurnitureRequest);
     setTaskListButtonValue(constants.printPickupSLip);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, ConstKey.collectionCount]);
@@ -318,7 +327,8 @@ export const FurnitureReplacmentProcess = () => {
       setfooterSign(false);
       setCollectFurItem(constants.success);
       setRepairIcon(constants.inprogress);
-      setOnetasksection(constants.RepairReplnish);
+      setOnetasksection(constants.Repair_Replenish_Transaction);
+      SetSecondtaskItem(constants.Repair_Replenish_Items);
       setTableHeader((oldData) => [
         ...oldData,
         constants.collectedcount,
@@ -369,7 +379,8 @@ export const FurnitureReplacmentProcess = () => {
     setfooterSign(false);
     setCollectFurItem(constants.success);
     setRepairIcon(constants.inprogress);
-    setOnetasksection(constants.RepairReplnish);
+    setOnetasksection(constants.Deliver_Transaction);
+    SetSecondtaskItem(constants.Deliver_Items);
     setTableHeader((oldData) => [...oldData, constants.collectedcount]);
     setTableKey((oldData) => [...oldData, ConstKey.confirmed_count]);
     setlenofContent("More");
@@ -384,7 +395,8 @@ export const FurnitureReplacmentProcess = () => {
       setfooterSign(false);
       setCollectFurItem(constants.success);
       setRepairIcon(constants.success);
-      setOnetasksection(constants.DeliverFurItem);
+      setOnetasksection(constants.Deliver_Transaction);
+      SetSecondtaskItem(constants.Deliver_Items);
       setDilverFurIcon(constants.inprogress);
       setTableHeader((oldData) => [
         ...oldData,
@@ -415,7 +427,8 @@ export const FurnitureReplacmentProcess = () => {
     setfooterSign(false);
     setCollectFurItem(constants.success);
     setRepairIcon(constants.success);
-    setOnetasksection(constants.DeliverFurItem);
+    setOnetasksection(constants.Deliver_Transaction);
+    SetSecondtaskItem(constants.Deliver_Items);
     setDilverFurIcon(constants.inprogress);
     setTableHeader((oldData) => [
       ...oldData,
@@ -444,7 +457,8 @@ export const FurnitureReplacmentProcess = () => {
     setfooterSign(false);
     setCollectFurItem(constants.success);
     setRepairIcon(constants.success);
-    setOnetasksection(constants.DeliverFurItem);
+    setOnetasksection(constants.Deliver_Transaction);
+    SetSecondtaskItem(constants.Deliver_Items);
     setDilverFurIcon(constants.inprogress);
     setTableHeader((oldData) => [
       ...oldData,
@@ -475,7 +489,8 @@ export const FurnitureReplacmentProcess = () => {
     setfooterSign(false);
     setCreateRequestIcon(constants.success);
     setCollectFurItem(constants.success);
-    setOnetasksection(constants.DeliverFurItem);
+    setOnetasksection(constants.Transaction);
+    SetSecondtaskItem(constants.Transaction_Details);
     setRepairIcon(constants.success);
     setDilverFurIcon(constants.success);
     setTableHeader((oldData) => [
@@ -644,15 +659,19 @@ export const FurnitureReplacmentProcess = () => {
   const onSubmit = () => {
     setAlert(true);
     if (schooldetails?.organization == constants.school)
-    setMainMsg(AlertText.submitMessage);
-    else if (taskofPage == constants.Status_PendingCollection || taskofPage == constants.Status_CollectionAccepted)
-    setMainMsg(AlertText.SubmitMessagePendingCollection);
+      setMainMsg(AlertText.submitMessage);
+    else if (
+      taskofPage == constants.Status_PendingCollection ||
+      taskofPage == constants.Status_CollectionAccepted
+    )
+      setMainMsg(AlertText.SubmitMessagePendingCollection);
     else if (taskofPage == constants.Status_pendingRepair)
-    setMainMsg(AlertText.ReplenishmentSubmitMessage);
-    else if ( taskofPage == constants.Status_RepairCompleted ||
-      taskofPage == constants.Status_pendingDilver)
-    setMainMsg(AlertText.DeliverSubmitMessage);
-    
+      setMainMsg(AlertText.ReplenishmentSubmitMessage);
+    else if (
+      taskofPage == constants.Status_RepairCompleted ||
+      taskofPage == constants.Status_pendingDilver
+    )
+      setMainMsg(AlertText.DeliverSubmitMessage);
   };
 
   const onvalueEdit = (val) => {
@@ -1289,7 +1308,7 @@ export const FurnitureReplacmentProcess = () => {
           </View>
 
           <TaskSection
-            taskName={constants.BrokenFurnitureItem}
+            taskName={secondTaskItem}
             taskNamePrintButoonValue={taskListButtonValue}
             printPickupPress={() => printPickupbutpress()}
           />
