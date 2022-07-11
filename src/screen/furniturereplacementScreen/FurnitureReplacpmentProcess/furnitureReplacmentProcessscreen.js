@@ -489,8 +489,8 @@ export const FurnitureReplacmentProcess = () => {
     setfooterSign(false);
     setCreateRequestIcon(constants.success);
     setCollectFurItem(constants.success);
-    setOnetasksection(constants.Deliver_Transaction);
-    SetSecondtaskItem(constants.Deliver_Items);
+    setOnetasksection(constants.Transaction);
+    SetSecondtaskItem(constants.Transaction_Details);
     setRepairIcon(constants.success);
     setDilverFurIcon(constants.success);
     setTableHeader((oldData) => [

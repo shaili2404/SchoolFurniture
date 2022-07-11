@@ -250,7 +250,9 @@ const constants = {
     Repair_Replenish_Transaction :'Repair/ Replenish Transaction',
     Repair_Replenish_Items :'Repair/ Replenish Items',
     Deliver_Transaction: 'Deliver Transaction',
-    Deliver_Items :'Deliver Items'
+    Deliver_Items :'Deliver Items',
+    Transaction:'Transaction',
+    Transaction_Details :'Transaction Details'
 
 };
 export default constants;
