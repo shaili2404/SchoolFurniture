@@ -30,6 +30,7 @@ import {
 } from "../../component/jsontoPdf/JsonToPdf";
 import ConstKey from "../../locales/ApikeyConst";
 import { useSelector } from "react-redux";
+import DisposalDropDown from "../../component/DropDown/disposalDropDown";
 
 export const DisposalReports = () => {
   const isFocused = useIsFocused();
@@ -208,8 +209,10 @@ export const DisposalReports = () => {
   const getfurcategory = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.stockCategoryList}?all=true`)
-      .then((res) => setDropData(res?.data?.data?.records))
+      .get(`${endUrl.stockitemList}?all=true`)
+      .then((res) => { 
+        console.log('214',res?.data?.data?.records)
+        setDropData(res?.data?.data?.records)})
       .catch((e) => {});
   };
 
@@ -308,11 +311,12 @@ export const DisposalReports = () => {
           </View>
         )}
         <View style={Styles.container}>
-          <Dropdown
-            label={constants.FurnitureCat}
+          <DisposalDropDown
+            label={constants.furItem}
             data={dropData}
             onSelect={setSelect}
             task="name"
+            taskCat='category_name'
           />
         </View>
         <View style={Styles.viewInputStyle}>

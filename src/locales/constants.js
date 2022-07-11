@@ -246,5 +246,11 @@ const constants = {
   Report_Disposal_Proof: "Disposal Proof",
   startDateIsRequired:
     "Start Date Is Required",
+    collectTransaction: "Collect Transaction",
+    Repair_Replenish_Transaction :'Repair/ Replenish Transaction',
+    Repair_Replenish_Items :'Repair/ Replenish Items',
+    Deliver_Transaction: 'Deliver Transaction',
+    Deliver_Items :'Deliver Items'
+
 };
 export default constants;
