@@ -41,10 +41,10 @@ const USER_ROLE = {
         name: 'Maintenance',
         color: '#F7A435',
         iconName: Images.engineering_black_24dp,
-        screenName: NavigationRouteNames.Second
+        screenName: '',
       },
       {
-        name: 'Report',
+        name: 'Reports',
         color: '#F7A435',
         iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
@@ -88,7 +88,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.MANAGEREQUESTS
       },
       {
-        name: 'Report',
+        name: 'Reports',
         color: '#F7A435',
         iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
@@ -108,7 +108,7 @@ const USER_ROLE = {
         screenName: NavigationRouteNames.HOME
       },
       {
-        name: 'Report',
+        name: 'Reports',
         color: '#F7A435',
         iconName: Images.view_list_black_24dp,
         screenName: NavigationRouteNames.REPORTS
