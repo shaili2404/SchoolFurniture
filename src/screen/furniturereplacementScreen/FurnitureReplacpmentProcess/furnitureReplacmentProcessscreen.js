@@ -609,12 +609,13 @@ export const FurnitureReplacmentProcess = () => {
     setErrorMessage("");
     setConfirmCollectedCount(data);
   };
-
   const onEdit = (item, task) => {
+  
     navigation.navigate(Screen.Add_Request_Fur, {
       item: item,
       task: task,
       flatListData: flatListData,
+      ref_number: route?.params?.items?.ref_number,
       screen:
         route?.params?.screen == constants.ManageReqText ||
         route?.params?.task == constants.ManageReqText
@@ -820,7 +821,8 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onschoolreqSubmit = async () => {
-    const ref = route?.params?.items?.ref_number;
+    const ref = route?.params?.items?.ref_number ? route?.params?.items?.ref_number : route?.params?.ref_number;
+    console.log(route?.params)
     setLoader(true);
     const data = {
       total_furniture: totalFurCount ? totalFurCount : totalFur,
@@ -1259,6 +1261,7 @@ export const FurnitureReplacmentProcess = () => {
                   onPress={() =>
                     navigation.navigate(Screen.Add_Request_Fur, {
                       flatListData: flatListData,
+                      ref_number:route?.params?.items?.ref_number,
                       screen:
                         route?.params?.screen == constants.ManageReqText ||
                         route?.params?.task == constants.ManageReqText

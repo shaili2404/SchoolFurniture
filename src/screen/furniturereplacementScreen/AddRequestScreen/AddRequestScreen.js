@@ -33,7 +33,7 @@ export const AddFurRequestScreen = () => {
   const [prevData, setPrevData] = useState([]);
   const [item_fullCount, setitem_fullCount] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
-
+  console.log('285',route?.params)
   const getCategoriesList = () => {
     setLoader(true);
     axios
@@ -249,6 +249,7 @@ export const AddFurRequestScreen = () => {
   }, [route]);
 
   const onPressNext = () => {
+    if(finalList[0]?.category_id){
     const isGreaterThanZero = finalList?.every(
       (ele) =>
         ele?.item_full_count > 0 &&
@@ -278,12 +279,14 @@ export const AddFurRequestScreen = () => {
             finalList: uniqueArr,
             screen: route?.params?.screen,
             id: route?.params?.id,
+            ref_number:route?.params?.ref_number
           });
         } else {
           navigation.navigate(Screen.Furniture_Replacment_Process, {
             finalList: finalList,
             screen: route?.params?.screen,
             id: route?.params?.id,
+            ref_number:route?.params?.ref_number
           });
         }
       } else {
@@ -302,6 +305,7 @@ export const AddFurRequestScreen = () => {
           finalList: prevData,
           screen: route?.params?.screen,
           id: route?.params?.id,
+          ref_number:route?.params?.ref_number
         });
       }
     } else {
@@ -317,6 +321,10 @@ export const AddFurRequestScreen = () => {
         ? ""
         : (str += `${constants.Broken_FURITURE_COUNT_IS_REUIRED} `);
       setErrorMessage(str);
+    }
+    }
+    else{
+      setErrorMessage('Furniture Item Is Required');
     }
   };
 
@@ -336,6 +344,7 @@ export const AddFurRequestScreen = () => {
             way == constants.Edit
               ? navigation.navigate(Screen.Furniture_Replacment_Process, {
                   finalList: finalList,
+                  ref_number:route?.params?.ref_number
                 })
               : navigation.navigate(Screen.Furniture_Replacment_Process);
           }}
