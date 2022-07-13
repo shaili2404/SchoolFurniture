@@ -160,13 +160,13 @@ export const ReplanishmentReports = () => {
         str += `${ConstKey.replenishment_status}=${replanishment_status?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_ReplanishmentReports}?${str}`)
+        .post(`${endUrl.reports_ReplanishmentReports}?${str}&search=true`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setmodalloader(false);
         })
         .catch((e) => {
-          // setmodalloader(false);
+           setmodalloader(false);
           // setErrorMessage(e?.response?.data?.message);
           {
             let { message, data, status } = e?.response?.data || {};

@@ -151,7 +151,7 @@ export const RepairmentReports = () => {
         str += `${ConstKey.item_id}=${furItem_select?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_repairment_report}?${str}`)
+        .post(`${endUrl.reports_repairment_report}?${str}&search=true`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setmodalloader(false);

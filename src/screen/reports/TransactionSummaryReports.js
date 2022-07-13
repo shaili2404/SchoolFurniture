@@ -143,7 +143,7 @@ export const TransactionSummaryReports = () => {
 
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_transaction_summary_report}?${str}`)
+        .post(`${endUrl.reports_transaction_summary_report}?${str}&search=true`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setmodalloader(false);

@@ -28,7 +28,7 @@ export const Piechart = () => {
             data?.repair_completed == 0
             ? { x: 0, y: 0 }
             : { x: 2, y: (data?.repair_completed) },
-            data?.pending_replenishment_approvel == 0.00
+            data?.pending_replenishment_approval == 0
             ? { x: 0, y: 0 }
             : { x: 3, y: (data?.pending_replenishment_approval) },
             data?.replenishment_approved == 0
@@ -49,6 +49,10 @@ export const Piechart = () => {
        
       });
   };
+
+  {
+    console.log("1111",data?.pending_replenishment_approval);
+  }
 
   useEffect(() => {
     setLoader(true);

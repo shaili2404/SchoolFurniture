@@ -611,6 +611,7 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onEdit = (item, task) => {
+    console.log("1122",item);
     navigation.navigate(Screen.Add_Request_Fur, {
       item: item,
       task: task,
@@ -1243,7 +1244,7 @@ export const FurnitureReplacmentProcess = () => {
                   : emis
               }
               org={plusSign == true ? "" : schooldetails?.organization}
-              stockcollectionName={constants.schoolFurCount}
+              stockcollectionName={constants.Learner_Enrolment_Count}
               stockcount={
                 schooldetails?.organization == constants.school
                   ? totalFur

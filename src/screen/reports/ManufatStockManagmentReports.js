@@ -80,7 +80,7 @@ export const ManufactStockManageReports = () => {
       setmodalloader(true);
 
       axios
-        .post(`${endUrl.reports_manufacturer_stock_management_report}?${str}`)
+        .post(`${endUrl.reports_manufacturer_stock_management_report}?${str}&search=true`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setmodalloader(false);
