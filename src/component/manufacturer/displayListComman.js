@@ -56,7 +56,7 @@ export const DataDisplayList = ({
   const [imageModal, setimageModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [imageData, setImageData] = useState([]);
-  const [task, setTask] = useState("");
+  const [task,setTask]= useState('');
 
   const onDelete = () => {
     setAlert(true);
@@ -90,9 +90,9 @@ export const DataDisplayList = ({
     }
   };
 
-  const checkPermission = async () => {
+  const checkPermission = async (val,getData) => {
     if (Platform.OS === "ios") {
-      downloadFile();
+      downloadFile(val,getData);
     } else {
       try {
         const granted = await PermissionsAndroid.request(
@@ -104,16 +104,16 @@ export const DataDisplayList = ({
           }
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          downloadFile();
+          downloadFile(val,getData);
         } else {
           Alert.alert("Error", "Storage Permission Not Granted");
         }
       } catch (err) {}
     }
   };
-  const downloadFile = () => {
+  const downloadFile = (val,getData) => {
     let date = new Date();
-    let FILE_URL = imageData;
+    let FILE_URL = getData;
     let file_ext = getFileExtention(FILE_URL);
     let Ref_No = item.ref_number;
 
@@ -125,8 +125,7 @@ export const DataDisplayList = ({
       addAndroidDownloads: {
         path:
           RootDir +
-            // "/proof_" +
-            task +
+          `/${val}_` +
           // Math.floor(date.getTime() + date.getSeconds() / 2) +
           Ref_No +
           file_ext,
@@ -198,7 +197,7 @@ export const DataDisplayList = ({
               )}
               <TouchableOpacity
                 style={Styles.butto}
-                onPress={() => checkPermission()}
+                onPress={() => checkPermission(task,item?.path )}
               >
                 <Text style={Styles.text}>{constants.Download_File}</Text>
               </TouchableOpacity>
@@ -221,14 +220,16 @@ export const DataDisplayList = ({
       </>
     );
   };
-  const onPreview = (item) => {
+  const onPreview = (item,task) => {
     setcollectionImages(item?.evidence_images);
+    setTask(task)
     setimageModal(true);
     setTask("/collection_proof_");
   };
 
-  const onPreviewDisposal = (item) => {
+  const onPreviewDisposal = (item,task) => {
     setcollectionImages(item?.disposal_images);
+    setTask(task)
     setimageModal(true);
     setTask("/disposal_proof_");
   };
@@ -269,7 +270,7 @@ export const DataDisplayList = ({
                       ) : (
                         <TouchableOpacity
                           style={Styles.downloadButton}
-                          onPress={() => val == "evidence_images" ? onPreview(item): onPreviewDisposal(item) }
+                          onPress={() => val == "evidence_images" ? onPreview(item,"evidence_images"): onPreviewDisposal(item,"disposal_images") }
                         >
                           <Text style={Styles.searchText}>
                             {constants.preview}
@@ -288,7 +289,10 @@ export const DataDisplayList = ({
                             <TouchableOpacity
                               style={Styles.downloadButton}
                               onPress={() => {
-                                checkPermission();
+                                checkPermission( val == "replenishment_proof" ? "replenishment_proof" : "delivery_note", val == "replenishment_proof"
+                                ? item?.replenishment_proof?.path
+                                : item?.delivery_note?.path
+                            );
                                 setImageData(
                                   val == "replenishment_proof"
                                     ? item?.replenishment_proof?.path
