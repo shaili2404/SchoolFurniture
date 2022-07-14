@@ -106,14 +106,14 @@ export const BarChart = () => {
               "",
               {},
               res?.data?.data,
-              "YTD_Status_Report",
+              "Year-To-Date Statuses Count",
               tableHeader
             )
           : exportDataToExcel(
               "",
               {},
               res?.data?.data,
-              "YTD_Status_Report",
+              "Year-To-Date Statuses Count",
               tableHeader
             );
       })

@@ -84,7 +84,7 @@ export const FurnitureReplacmentManfacturer = () => {
     constants.refrenceNo,
     constants.status,
     constants.emis,
-    constants.totalFurnitureCount,
+    constants.Learner_Enrolment_Count,
   ];
 
   const tableKey = [

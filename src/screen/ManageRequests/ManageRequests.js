@@ -55,20 +55,20 @@ export const ManageRequests = () => {
 
   const tableKey = [
     ConstKey.school_name,
-    ConstKey.emis,
     ConstKey.created_at,
     ConstKey.ref_number,
     ConstKey.status,
+    ConstKey.emis,
     ConstKey.total_furniture,
   ];
 
   const tableHeader = [
     constants.School,
-    constants.emisNumber,
     constants.dateCreated,
     constants.refrenceNumber,
     constants.status,
-    constants.totalFurnitureCount,
+    constants.emisNumber,
+    constants.Learner_Enrolment_Count,
     constants.manage,
   ];
   // get permission for list edit and delete

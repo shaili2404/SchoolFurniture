@@ -61,7 +61,7 @@ export const GraphChart = () => {
             x: 5,
             y:
               data?.pending_replenishment == 0
-                ? 1
+                ? 0
                 : data?.pending_replenishment,
             color: "#FF6700",
           },   

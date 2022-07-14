@@ -108,7 +108,7 @@ const constants = {
   totalFurnitureCount: "Total Furniture Count",
   inprogress: "In Progress",
   success: "Success",
-  collectioncount: "Collection Count",
+  collectioncount: "School Collection Count", 
   schoolFullFur: "School Full Furniture Including Working Furniture",
   schoolFurCount: "School Furniture Count",
   selectSearchOption: "Select Search Option",
