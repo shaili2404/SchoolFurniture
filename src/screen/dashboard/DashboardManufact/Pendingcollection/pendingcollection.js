@@ -130,14 +130,14 @@ export const DashPendingCollection = () => {
                     "",
                     {},
                     collectionList,
-                    "PendingCOllectionReports",
+                    "Pending Collections",
                     tableHeader
                   )
                 : exportDataToExcel(
                     "",
                     {},
                     collectionList,
-                    "PendingCOllectionReports",
+                    "Pending Collections",
                     tableHeader
                   )
             }

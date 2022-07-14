@@ -121,14 +121,14 @@ export const GraphChart = () => {
               "",
               {},
               res?.data?.data?.records,
-              "Previous_year_chart",
+              "Previous year status",
               tableHeader
             )
           : exportDataToExcel(
               "",
               {},
               res?.data?.data?.records,
-              "Previous_year_chart",
+              "Previous year status",
               tableHeader
             );
       })
