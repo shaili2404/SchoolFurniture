@@ -138,6 +138,7 @@ export const DataDisplayList = ({
       .fetch("GET", FILE_URL)
       .then((res) => {
         Alert.alert("File Downloaded Successfully.");
+        console.log(options)
       });
   };
 
