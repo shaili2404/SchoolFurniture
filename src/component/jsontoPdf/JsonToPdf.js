@@ -18,7 +18,11 @@ export const exportDataToExcel = async (
     searchStatus ? collection_List : collectionList,
     { origin: "A2", skipHeader: true }
   );
+ 
   XLSX.utils.sheet_add_aoa(ws, headerColumns, { origin: "A1" });
+  // ws["A1"].s = {font: {
+  //   bold: true,
+  //   }}
   ws["!cols"] = [
     { width: 30 },
     { width: 30 },
