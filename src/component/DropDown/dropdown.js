@@ -63,6 +63,11 @@ const Dropdown = ({
     setVisible(false);
   };
 
+  const renderFooter = ()=>{
+    return(
+      <View style={{height:30}}/>
+    )
+  }
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.item} onPress={() => onItemPress(item)}>
       <Text>{item[task]}</Text>
@@ -83,6 +88,7 @@ const Dropdown = ({
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}
               style={data?.length > 4 ? styles.flatStyle : styles.flatStyles}
+              ListFooterComponent={renderFooter}
             />
           </View>
         </TouchableOpacity>
