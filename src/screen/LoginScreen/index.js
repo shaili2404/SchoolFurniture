@@ -76,7 +76,6 @@ export const LoginScreen = () => {
 
   // On LOgin Buttton Click
   const onLogin = () => {
-    console.log('hey')
     var data = {
       username: username,
       password: password,

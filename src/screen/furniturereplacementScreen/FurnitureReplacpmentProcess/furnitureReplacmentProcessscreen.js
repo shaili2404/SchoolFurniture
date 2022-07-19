@@ -821,7 +821,6 @@ export const FurnitureReplacmentProcess = () => {
 
   const onschoolreqSubmit = async () => {
     const ref = route?.params?.items?.ref_number ? route?.params?.items?.ref_number : route?.params?.ref_number;
-    console.log(route?.params)
     setLoader(true);
     const data = {
       total_furniture: totalFurCount ? totalFurCount : totalFur,

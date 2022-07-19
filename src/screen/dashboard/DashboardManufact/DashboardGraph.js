@@ -103,7 +103,6 @@ export const GraphChart = () => {
       })
       .catch((e) => {
         setsampleData(undefined);
-        console.log(e);
       });
   };
 

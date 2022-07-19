@@ -69,7 +69,7 @@ export const InputForm = ({
       <View>
         {defaultState === true ? (
           <View style={style.changeView}>
-            <Text style={style.changeText}>{stockcollectionName}</Text>
+            <Text style={style.changeTextsss}>{stockcollectionName}</Text>
           </View>
         ) : null}
         <TextInput

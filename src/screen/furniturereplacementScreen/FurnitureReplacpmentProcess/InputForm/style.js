@@ -29,6 +29,12 @@ const style = StyleSheet.create({
     opacity: 0.5,
     fontSize: 12,
   },
+  changeTextsss: {
+    opacity: 1,
+    fontSize: 12,
+    fontWeight:'bold',
+    color:COLORS.Black
+  },
   changeView: {
     position: "relative",
     left: 10,
