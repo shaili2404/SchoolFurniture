@@ -41,20 +41,22 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   eyeStyle: {
-    top: 20,
+    marginTop: 6,
+    position: "relative",
+    top:20,
+     right: 50,
   },
   eyeStylee: {
-    top: 20,
+    marginTop: 6,
+    position: "relative",
+    top:20,
+     right: 30,
   },
   imgStyle: {
-    marginTop: 6,
-    position: "absolute",
-    right: 30,
   },
   imgStylee: {
-    marginTop: 6,
-    position: "absolute",
-    right: 30,
+   
+    
   },
   radioView: {
     backgroundColor: COLORS.LightGreen,
