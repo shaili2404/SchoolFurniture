@@ -171,7 +171,6 @@ export const DisposalReports = () => {
 
   // On Success Getting List Data
   const onsuccessapi = (res) => {
-    console.log(res?.data?.data?.records);
     setprevpage(res?.data?.data?.previous_page);
     setnextpage(res?.data?.data?.next_page);
     setCollectionList(res?.data?.data?.records);
@@ -211,7 +210,6 @@ export const DisposalReports = () => {
     axios
       .get(`${endUrl.stockitemList}?all=true`)
       .then((res) => { 
-        console.log('214',res?.data?.data?.records)
         setDropData(res?.data?.data?.records)})
       .catch((e) => {});
   };

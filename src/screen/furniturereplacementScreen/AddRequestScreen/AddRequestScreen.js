@@ -33,7 +33,6 @@ export const AddFurRequestScreen = () => {
   const [prevData, setPrevData] = useState([]);
   const [item_fullCount, setitem_fullCount] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log('285',route?.params)
   const getCategoriesList = () => {
     setLoader(true);
     axios

@@ -106,7 +106,6 @@ export const Search = () => {
   },[listData])
   // on next button clicked
   const onNext = () => {
-    console.log('107')
     let count = number + 1;
     setLoader(true);
     setNumber(number + 1);
@@ -115,7 +114,6 @@ export const Search = () => {
   };
   // on prevxious button clicked
   const onPrevious = () => {
-    console.log('116')
     let count = number - 1;
     setLoader(true);
     setNumber(number - 1);
@@ -124,7 +122,6 @@ export const Search = () => {
   };
   // on search button clicked
   const onsearch = async () => {
-    console.log('125')
     setSearchStatus(false);
     let strtDte =
       startDateStatus == false
@@ -154,7 +151,6 @@ export const Search = () => {
         obj
       )
       .then((res) => {
-        console.log(res?.data?.data?.records)
         setListData(res?.data?.data?.records);
         setprevpage(res?.data?.data?.previous_page);
         setnextpage(res?.data?.data?.next_page);
@@ -193,7 +189,6 @@ export const Search = () => {
     setStartDateStatus(true);
   };
   const getSearcData = (value)=>{
-    console.log('194')
     setSearchTask(value)
   }
 

@@ -20,7 +20,6 @@ export const Piechart = () => {
       .then((res) => {
         setLoader(false);
         data = res?.data?.data;
-        console.log(data)
         setsampleData([
           data?.pending_repairs == 0
             ? { x: 0, y: 0 }
