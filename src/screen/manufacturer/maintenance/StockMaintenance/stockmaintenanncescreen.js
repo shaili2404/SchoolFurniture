@@ -38,7 +38,7 @@ export const StockMaintenanceScreen = () => {
             style={style.districtButton}
             onPress={() => navigation.navigate(Screen.StockCategory)}
           >
-            <Text style={style.stockCategory}>{constants.stockCategory}</Text>
+            <Text style={style.stockCategory}>{constants.FurnitureCat}</Text>
           </TouchableOpacity>
         )}
         {permissionId.stockItem && (
@@ -46,7 +46,7 @@ export const StockMaintenanceScreen = () => {
             style={style.stockitemButton}
             onPress={() => navigation.navigate(Screen.Stock_Item)}
           >
-            <Text style={style.stockitems}>{constants.stockitems}</Text>
+            <Text style={style.stockitems}>{constants.Furniture_Item}</Text>
           </TouchableOpacity>
         )}
         {permissionId.stockCat || permissionId.stockItem ? null : (

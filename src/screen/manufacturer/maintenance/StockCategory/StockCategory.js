@@ -48,7 +48,7 @@ const StockCategory = () => {
     userDelete: false,
   });
 
-  const tableHeader = [Constants.categories, Constants.manage];
+  const tableHeader = [Constants.FurnitureCat, Constants.manage];
   const [alert, setAlert] = useState(false);
 
   // check permission to see if user has edit and delte permission
@@ -228,7 +228,7 @@ const StockCategory = () => {
     >
       <View style={Styles.mainView}>
         <TextInput
-          placeholder={Constants.StockCategories}
+          placeholder={Constants.FurnitureCat}
           style={Styles.inputTxtStyle}
           value={editState === true ? defaultStockCategory : stockCategory}
           onChangeText={(txt) =>

@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 import CommonService from "../../../../../locales/service";
 import ConstKey from "../../../../../locales/ApikeyConst";
 
-const tableHeader = [constants.categories, constants.Items, constants.manage];
+const tableHeader = [constants.FurnitureCat, constants.Furniture_Item, constants.manage];
 
 export const StockItems = () => {
   const [categoryList, setcategoryList] = useState([]);
@@ -254,7 +254,7 @@ export const StockItems = () => {
         <View style={style.container}>
           <Dropdown
             label={
-              taskfor == constants.Edit ? dropdata : constants.stockCategory
+              taskfor == constants.Edit ? dropdata : constants.FurnitureCat
             }
             data={dataList}
             onSelect={setSelected}
@@ -265,13 +265,13 @@ export const StockItems = () => {
         <View>
           {defaultState === true ? (
             <View style={style.changeView}>
-              <Text style={style.changeText}>{constants.stockitems}</Text>
+              <Text style={style.changeText}>{constants.Furniture_Item}</Text>
             </View>
           ) : null}
           <View>
             <TextInput
               style={style.emailInputStyle}
-              placeholder={defaultState === true ? " " : constants.stockitems}
+              placeholder={defaultState === true ? " " : constants.Furniture_Item}
               placeholderTextColor={COLORS.Black}
               onFocus={() => setDefaultState(true)}
               onBlur={() => setDefaultState(false)}

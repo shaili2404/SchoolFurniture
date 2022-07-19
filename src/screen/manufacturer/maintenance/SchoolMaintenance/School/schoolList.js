@@ -54,10 +54,10 @@ export const SchoolList = () => {
     ConstKey.cmc_name,
     ConstKey.circuit_name,
     ConstKey.subplace_name,
-    ConstKey.level_id,
-    ConstKey.snq_id,
+    // ConstKey.level_id,
+    // ConstKey.snq_id,
     ConstKey.school_principal,
-    ConstKey.tel,
+    // ConstKey.tel,
   ];
   const tableHeader = [
     constants.School_Name,
@@ -66,10 +66,10 @@ export const SchoolList = () => {
     constants.Cmc,
     constants.Circuit,
     constants.subplacesname,
-    constants.Level,
-    constants.SNQ,
+    // constants.Level,
+    // constants.SNQ,
     constants.SchoolPrinciple,
-    constants.SchoolTelno,
+    // constants.SchoolTelno,
     constants.manage,
   ];
 
