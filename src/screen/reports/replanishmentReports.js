@@ -30,6 +30,7 @@ import {
 } from "../../component/jsontoPdf/JsonToPdf";
 import ConstKey from "../../locales/ApikeyConst";
 import { useSelector } from "react-redux";
+import DisposalDropDown from "../../component/DropDown/disposalDropDown";
 
 export const ReplanishmentReports = () => {
   const isFocused = useIsFocused();
@@ -155,7 +156,7 @@ export const ReplanishmentReports = () => {
         str += `${ConstKey.start_date}=${strtDte}&&`;
       if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
       if (select?.id) str += `${ConstKey.district_office}=${select?.id}&&`;
-      if (fur_select?.id) str += `${ConstKey.category_id}=${fur_select?.id}&&`;
+      if (fur_select?.id) str += `${ConstKey.item_id}=${fur_select?.id}&&`;
       if (replanishment_status?.id)
         str += `${ConstKey.replenishment_status}=${replanishment_status?.id}&&`;
       setmodalloader(true);
@@ -246,7 +247,7 @@ export const ReplanishmentReports = () => {
   const getfurcat = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.stockCategoryList}?all=true`)
+      .get(`${endUrl.stockitemList}?all=true`)
       .then((res) => setFur_cat(res?.data?.data?.records))
       .catch((e) => {});
   };
@@ -418,11 +419,19 @@ export const ReplanishmentReports = () => {
           </TouchableOpacity>
         </View>
         <View style={Styles.containerfurcat}>
-          <Dropdown
+          {/* <Dropdown
             label={constants.FurnitureCat}
             data={fur_cat}
             onSelect={setfur_Select}
             task="name"
+          /> */}
+          <DisposalDropDown
+            label={constants.furItem}
+            data={fur_cat}
+            // onSelect={(item) => setCategoryValue(item)}
+            onSelect={setfur_Select}
+            task="name"
+            taskCat='category_name'
           />
         </View>
         {collectionList == undefined ? null : (

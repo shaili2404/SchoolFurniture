@@ -403,7 +403,7 @@ export const SchoolFullFurReports = () => {
         </View>
         <View style={Styles.containerfurcat}>
           <Dropdown
-            label={constants.Furnitureitems}
+            label={constants.Furniture_Item}
             data={stockItem}
             onSelect={setfurItem_Select}
             task="name"

@@ -49,10 +49,6 @@ export const Piechart = () => {
       });
   };
 
-  {
-    console.log("1111",data?.pending_replenishment_approval);
-  }
-
   useEffect(() => {
     setLoader(true);
     getData();

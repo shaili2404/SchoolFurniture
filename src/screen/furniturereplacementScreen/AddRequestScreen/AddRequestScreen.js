@@ -386,7 +386,7 @@ export const AddFurRequestScreen = () => {
 
         <View style={style.headerView}>
           <View style={style.subHeaderView}>
-            <Text style={style.headerText}>{constants.Furnitureitems}</Text>
+            <Text style={style.headerText}>{constants.Furniture_Item}</Text>
           </View>
           <View style={style.subHeaderView}>
             <Text style={style.headerText}>

@@ -152,7 +152,7 @@ export const DisposalReports = () => {
       if (startDateStatus == false)
         str += `${ConstKey.start_date}=${strtDte}&&`;
       if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
-      if (select?.id) str += `${ConstKey.category_id}=${select?.id}&&`;
+      if (select?.id) str += `${ConstKey.item_id}=${select?.id}&&`;
       if (selectdist?.id)
         str += `${ConstKey.district_office}=${selectdist?.id}&&`;
       setmodalloader(true);
@@ -308,7 +308,7 @@ export const DisposalReports = () => {
             </View>
           </View>
         )}
-        <View style={Styles.container}>
+        <View style={Styles.container}> 
           <DisposalDropDown
             label={constants.furItem}
             data={dropData}

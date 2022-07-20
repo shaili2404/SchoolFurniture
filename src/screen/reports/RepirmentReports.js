@@ -30,7 +30,7 @@ import {
 } from "../../component/jsontoPdf/JsonToPdf";
 import ConstKey from "../../locales/ApikeyConst";
 import { useSelector } from "react-redux";
-import DisposalDropDown from "../../component/DropDown/disposalDropDown";
+// import DisposalDropDown from "../../component/DropDown/disposalDropDown";
 
 export const RepairmentReports = () => {
   const isFocused = useIsFocused();
@@ -214,7 +214,7 @@ export const RepairmentReports = () => {
   const getfurcategory = () => {
     setLoader(true);
     axios
-      .get(`${endUrl.stockitemList}?all=true`)
+      .get(`${endUrl.stockCategoryList}?all=true`)
       .then((res) => setDropData(res?.data?.data?.records))
       .catch((e) => {});
   };
@@ -333,12 +333,18 @@ export const RepairmentReports = () => {
           </View>
         )}
         <View style={Styles.container}>
-        <DisposalDropDown
+        {/* <DisposalDropDown
             label={constants.furItem}
             data={dropData}
             onSelect={setSelect}
             task="name"
             taskCat='category_name'
+          /> */}
+            <Dropdown
+            label={constants.FurnitureCat}
+            data={dropData}
+            onSelect={(item) => setCategoryValue(item)}
+            task="name"
           />
         </View>
 
@@ -406,7 +412,7 @@ export const RepairmentReports = () => {
         </View>
         <View style={Styles.containerfurcat}>
           <Dropdown
-            label={constants.Furnitureitems}
+            label={constants.Furniture_Item}
             data={stockItem}
             onSelect={setfurItem_Select}
             task="name"

@@ -238,7 +238,7 @@ export const ManufactStockManageReports = () => {
         </View>
         <View style={Styles.containerfurcat}>
           <Dropdown
-            label={constants.Furnitureitems}
+            label={constants.Furniture_Item}
             data={stockItem}
             onSelect={setStockItem}
             task="name"

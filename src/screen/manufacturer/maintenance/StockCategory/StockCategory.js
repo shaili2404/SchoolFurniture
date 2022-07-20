@@ -228,7 +228,7 @@ const StockCategory = () => {
     >
       <View style={Styles.mainView}>
         <TextInput
-          placeholder={Constants.FurnitureCat}
+          placeholder={Constants.ItemCategoryPlaceholder}
           style={Styles.inputTxtStyle}
           value={editState === true ? defaultStockCategory : stockCategory}
           onChangeText={(txt) =>

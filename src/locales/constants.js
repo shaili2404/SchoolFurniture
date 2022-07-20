@@ -97,6 +97,8 @@ const constants = {
   noAccess: "Access Permission Denied",
   dateCreated: "Date Created",
   FurnitureCat: "Item Category",
+  ItemCategoryPlaceholder: "Item Category Name",
+  ItemDescriptionPlaceholder: "Item Description Name",
   ItemCount: "Item Count",
   Edit: "Edit",
   dashboard: "Dashboard",

@@ -265,13 +265,13 @@ export const StockItems = () => {
         <View>
           {defaultState === true ? (
             <View style={style.changeView}>
-              <Text style={style.changeText}>{constants.Furniture_Item}</Text>
+              <Text style={style.changeText}>{constants.ItemDescriptionPlaceholder}</Text>
             </View>
           ) : null}
           <View>
             <TextInput
               style={style.emailInputStyle}
-              placeholder={defaultState === true ? " " : constants.Furniture_Item}
+              placeholder={defaultState === true ? " " : constants.ItemDescriptionPlaceholder}
               placeholderTextColor={COLORS.Black}
               onFocus={() => setDefaultState(true)}
               onBlur={() => setDefaultState(false)}
