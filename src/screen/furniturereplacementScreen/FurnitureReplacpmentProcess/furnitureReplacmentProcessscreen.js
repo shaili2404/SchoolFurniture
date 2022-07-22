@@ -63,6 +63,7 @@ export const FurnitureReplacmentProcess = () => {
   const [subMsg, setSubMsg] = useState("");
   const [successAlert, setSuccessAlert] = useState(false);
   const [erroralert, seterrorAlert] = useState(false);
+  const [acceptError,setacceptError] = useState(false);
   const [CancelProcessalert, setCancelProcessalert] = useState(false);
   const [PhotoSection, setPhotoSection] = useState(false);
   const [delItem, setDelItem] = useState({});
@@ -928,10 +929,10 @@ export const FurnitureReplacmentProcess = () => {
         setTableKey((oldData) => [...oldData, ConstKey.collectionCount]);
       })
       .catch((e) => {
-         let res = arg != "collection" ? e?.response?.data : e;
+         let res =  e?.response?.data;
        let { message, data, status } = res || {};
        setLoader(false);
-       seterrorAlert(true);
+       setacceptError(true);
       {
       let str = "";
       status == 422
@@ -941,7 +942,7 @@ export const FurnitureReplacmentProcess = () => {
           })
         : setMainMsg(message);
     }
-    navigation.navigate(Screen.Furniture_Replacment);
+    
       });
   };
 
@@ -1503,6 +1504,15 @@ export const FurnitureReplacmentProcess = () => {
           mainMessage={mainMsg}
           onPressDone={() => onPressDone()}
           innerRoute={true}
+        />
+      ) : null}
+       {acceptError ? (
+        <AlertMessage
+          visible={acceptError}
+          setmodalVisible={(val) => {setacceptError(val)
+         navigation.navigate(Screen.Furniture_Replacment);
+          } }
+          mainMessage={mainMsg}
         />
       ) : null}
       {imageModal ? (
