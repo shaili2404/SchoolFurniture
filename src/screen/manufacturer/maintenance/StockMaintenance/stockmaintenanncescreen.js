@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -21,6 +21,12 @@ export const StockMaintenanceScreen = () => {
     stockCat: false,
   });
   const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    const title = "Catalogue Maintenance";
+    navigation.setOptions({ title });
+  }, []);
+
   // Get Permission to view all data list
   useEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;

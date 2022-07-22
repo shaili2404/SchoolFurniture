@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   SafeAreaView,
   TextInput,
@@ -25,6 +25,7 @@ import style from "./style";
 import { useSelector } from "react-redux";
 import CommonService from "../../../../../locales/service";
 import ConstKey from "../../../../../locales/ApikeyConst";
+import { useNavigation, useIsFocused } from "@react-navigation/core";
 
 const tableHeader = [constants.FurnitureCat, constants.Furniture_Item, constants.manage];
 
@@ -47,6 +48,7 @@ export const StockItems = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
+  const navigation = useNavigation();
   const loginData = useSelector((state) => state?.loginData);
 
   const [permissionId, setPermissionId] = useState({
@@ -67,6 +69,12 @@ export const StockItems = () => {
       userDelete: userDlt,
     });
   }, []);
+
+  useLayoutEffect(() => {
+    const title = "Item Description";
+    navigation.setOptions({ title });
+  }, []);
+
   // get stock List
   useEffect(() => {
     getStockList();

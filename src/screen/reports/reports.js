@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { SafeAreaView, View, Text, ScrollView, Image } from "react-native";
-
 import constants from "../../locales/constants";
 import Styles from "./style";
-import { useNavigation } from "@react-navigation/native";
-
 import Loader from "../../component/loader";
 import Dropdown from "../../component/DropDown/dropdown";
 import { ReplanishmentReports } from "./replanishmentReports";
@@ -17,12 +14,13 @@ import { TransactionStatusReports } from "./TransactionStatusReports";
 import { useSelector } from "react-redux";
 import CommonService from "../../locales/service";
 import Images from "../../asset/images";
+import { useNavigation } from "@react-navigation/native";
 
 export const Reports = () => {
-  const navigation = useNavigation();
   const [permissionId, setPermissionId] = useState({
     reports_permission: false,
   });
+  const navigation = useNavigation();
   const schooldetails = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
   );
@@ -62,6 +60,8 @@ export const Reports = () => {
     const title = constants.Reports;
     navigation.setOptions({ title });
   }, []);
+
+  
 
   // Setting permission of Button Which Are Visible
   useEffect(() => {

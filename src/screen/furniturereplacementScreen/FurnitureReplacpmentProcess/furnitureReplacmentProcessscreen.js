@@ -918,14 +918,36 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const acceptRequestList = () => {
-    setTaskNameButtonValue(constants.Accepted);
-    setTaskListButtonValue(constants.printPickupSLip);
-    setTableHeader((oldData) => [...oldData, constants.collectedcount]);
-    setTableKey((oldData) => [...oldData, ConstKey.collectionCount]);
+    // setTaskNameButtonValue(constants.Accepted);
+    // setTaskListButtonValue(constants.printPickupSLip);
+    // setTableHeader((oldData) => [...oldData, constants.collectedcount]);
+    // setTableKey((oldData) => [...oldData, ConstKey.collectionCount]);
     axios
       .get(`${endUrl.acceptCollectionReuest}/${id}/edit`)
-      .then((res) => {})
-      .catch((e) => ErrorApi(e));
+      // .then((res) => {})
+      // .catch((e) => ErrorApi(e));
+      .then((res) => {
+        setTaskNameButtonValue(constants.Accepted);
+        setTaskListButtonValue(constants.printPickupSLip);
+        setTableHeader((oldData) => [...oldData, constants.collectedcount]);
+        setTableKey((oldData) => [...oldData, ConstKey.collectionCount]);
+      })
+      .catch((e) => {
+         let res = e?.response?.data 
+       let { message, data, status } = res || {};
+       setLoader(false);
+       seterrorAlert(true);
+      {
+      let str = "";
+      status == 422
+        ? Object.values(data).forEach((value) => {
+            str += `  ${value}`;
+            setMainMsg(str);
+          })
+        : setMainMsg(message);
+    }
+    navigation.navigate(Screen.Furniture_Replacment);
+      });
   };
 
   const isPermitted = async () => {

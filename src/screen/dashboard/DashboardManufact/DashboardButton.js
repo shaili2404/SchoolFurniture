@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import endUrl from "../../../redux/configration/endUrl";
 import axios from 'axios'
 import COLORS from '../../../asset/color';
-
-
+import { RfH, RfW } from '../../../utils/helpers'; 
 
 export const DashboardButton = ()=>{
     const [buttonStatus, setButtonStatus] = useState({})
@@ -81,7 +80,9 @@ const styles = StyleSheet.create({
       button: {
         alignItems: "center",
         justifyContent: "center",
-        width: 180,
+        width: 165,
+         //paddingHorizontal: RfW(250),
+        height: RfH(41),
         height: 41,
         borderRadius: 5,
       },

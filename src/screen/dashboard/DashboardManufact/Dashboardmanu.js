@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -28,7 +28,7 @@ export const DashboardManu = () => {
     Dashboard_permission: false,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const arr = loginData?.user?.data?.data?.permissions;
     const [dashList] = CommonService.getPermission(arr, [46]);
     setPermissionId({

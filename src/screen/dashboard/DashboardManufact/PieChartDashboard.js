@@ -5,7 +5,7 @@ import constants from "../../../locales/constants";
 import style from "./style";
 import endUrl from "../../../redux/configration/endUrl";
 import axios from "axios";
-import Loader from "../../../component/loader";
+import Loader from "../../../component/loader"; 
 
 export const Piechart = () => {
   data = [];
