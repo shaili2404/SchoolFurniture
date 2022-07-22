@@ -255,7 +255,17 @@ const constants = {
     Deliver_Transaction: 'Deliver Transaction',
     Deliver_Items :'Deliver Items',
     Transaction:'Transaction',
-    Transaction_Details :'Transaction Details'
-
+    Transaction_Details :'Transaction Details',
+    furitureReqDel :'Furniture Collection Request Deleted Successfully',
+    ManageUser :'Manage User',
+    manageuserdel :'User has deleted successfully',
+    circuitDelete :'Circuit has deleted successfully',
+    CMCDelete :'CMC has deleted successfully',
+    SchoolDelete :'School has deleted successfully',
+    DistricDelete :'District has deleted successfully',
+    subplaceDelete :'Sub Place has deleted successfully',
+    catDelete :'category has deleted successfully',
+    itemDelete :'item has deleted successfully',
 };
+
 export default constants;

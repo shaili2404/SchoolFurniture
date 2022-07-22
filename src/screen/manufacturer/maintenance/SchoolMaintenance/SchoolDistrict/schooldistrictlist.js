@@ -98,6 +98,8 @@ export const SchoolDistrictList = () => {
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
         List="screen"
+        afterDeleteMsg = {constants.District}
+        afterSecondMsg = {constants.DistricDelete}
       />
     );
   };

@@ -80,6 +80,9 @@ const StockCategory = () => {
         onEdit={(item, task) => onEdit(item, task)}
         link={endUrl.stockCategoryList}
         permissionId={permissionId}
+        afterDeleteMsg = {constants.categories}
+        afterSecondMsg = {constants.catDelete}
+        
       />
     );
   };

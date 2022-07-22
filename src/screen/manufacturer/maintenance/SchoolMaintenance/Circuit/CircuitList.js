@@ -100,6 +100,8 @@ export const CircuitList = () => {
         mainMessage={AlertText.deleteCircuit}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
+        afterDeleteMsg = {constants.Circuit}
+        afterSecondMsg = {constants.circuitDelete}
       />
     );
   };

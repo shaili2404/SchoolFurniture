@@ -104,6 +104,8 @@ export const CMC = () => {
         mainMessage={AlertText.deleteCMC}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
+        afterDeleteMsg = {constants.Cmc}
+        afterSecondMsg = {constants.CMCDelete}
       />
     );
   };
