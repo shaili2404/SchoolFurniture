@@ -118,6 +118,8 @@ const AddNewUsers = () => {
         Url={endUrl.schoolList}
         data={"0"}
         schoolDataList={(value) => schoolDataList(value)}
+        afterDeleteMsg = {constants.ManageUser}
+        afterSecondMsg = {constants.manageuserdel}
       />
     );
   };

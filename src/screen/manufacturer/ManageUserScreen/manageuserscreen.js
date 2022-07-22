@@ -90,6 +90,8 @@ export const ManageUserScreen = () => {
         mainMessage={AlertText.deleteUser}
         submessage={AlertText.canNotUndo}
         permissionId={permissionId}
+        afterDeleteMsg = {constants.ManageUser}
+        afterSecondMsg = {constants.manageuserdel}
       />
     );
   };

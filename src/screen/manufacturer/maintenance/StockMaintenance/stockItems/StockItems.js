@@ -95,6 +95,8 @@ export const StockItems = () => {
         mainMessage={AlertText.deleteStock}
         reloadList={() => reloadList()}
         permissionId={permissionId}
+        afterDeleteMsg = {constants.Items}
+        afterSecondMsg = {constants.itemDelete}
       />
     );
   };

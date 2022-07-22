@@ -104,6 +104,8 @@ export const SubPlacesList = () => {
         mainMessage={AlertText.deletesubplace}
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
+        afterDeleteMsg = {constants.subplacesname}
+        afterSecondMsg = {constants.subplaceDelete}
       />
     );
   };

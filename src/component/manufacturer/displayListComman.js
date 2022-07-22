@@ -38,6 +38,8 @@ export const DataDisplayList = ({
   permissionId,
   page,
   List,
+  afterDeleteMsg,
+  afterSecondMsg
 }) => {
   const [userModal, setUserModal] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -49,6 +51,7 @@ export const DataDisplayList = ({
       ? useState("S")
       : useState("C");
   const [errorMsg, setErrorMsg] = useState(false);
+  const [afterDelAlert, setafterDelAlert] = useState(false);
   const [mainMsg, setMainMsg] = useState("");
   const [subMsg, setSubMsg] = useState("");
   const navigation = useNavigation();
@@ -81,8 +84,8 @@ export const DataDisplayList = ({
     setAlert(false);
     try {
       const response = await axios.delete(`${link}/${item.id}`);
-      if (response.status === 200) reloadList();
-      else reloadList();
+      if (response.status === 200) setafterDelAlert(true);
+      else setafterDelAlert(true);
     } catch (e) {
       setMainMsg(e?.response?.data?.message);
       setSubMsg(e?.response?.data?.data);
@@ -357,6 +360,16 @@ export const DataDisplayList = ({
           setmodalVisible={(val) => setErrorMsg(val)}
           mainMessage={mainMsg}
           subMessage={subMsg}
+        />
+      ) : null}
+      {afterDelAlert ? (
+        <AlertMessage
+          visible={afterDelAlert}
+          setmodalVisible={(val) => {setafterDelAlert(val)
+          reloadList()
+          }}
+          mainMessage={afterDeleteMsg}
+          subMessage={afterSecondMsg}
         />
       ) : null}
 

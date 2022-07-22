@@ -132,6 +132,8 @@ export const SchoolList = () => {
         submessage={AlertText.UndoMessgae}
         permissionId={permissionId}
         page={constants.school}
+        afterDeleteMsg = {constants.school}
+        afterSecondMsg = {constants.SchoolDelete}
       />
     );
   };
