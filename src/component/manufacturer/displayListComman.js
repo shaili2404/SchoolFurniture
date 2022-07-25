@@ -24,6 +24,7 @@ import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
 import { RfH, RfW } from "../../utils/helpers";
 import Loader from "../loader";
 import RNFetchBlob from "rn-fetch-blob";
+import CameraRoll from "@react-native-community/cameraroll";
 
 export const DataDisplayList = ({
   item,
@@ -115,6 +116,7 @@ export const DataDisplayList = ({
     }
   };
   const downloadFile = (val,getData) => {
+   
     let date = new Date();
     let FILE_URL = getData;
     let file_ext = getFileExtention(FILE_URL);
@@ -122,16 +124,24 @@ export const DataDisplayList = ({
 
     file_ext = "." + file_ext[0];
     const { config, fs } = RNFetchBlob;
-    let RootDir = fs.dirs.PictureDir;
+    // let RootDir = fs.dirs.PictureDir;
+    let dirs = RNFetchBlob.fs.dirs;
+    let path = Platform.OS === 'ios' ? dirs['MainBundleDir'] + `/${val}_` +
+    Ref_No +
+    file_ext : dirs.PictureDir +
+    `/${val}_` +
+    Ref_No +
+    file_ext;
+    if (Platform.OS == 'android') {
     let options = {
       fileCache: true,
       addAndroidDownloads: {
-        path:
-          RootDir +
-          `/${val}_` +
-          // Math.floor(date.getTime() + date.getSeconds() / 2) +
-          Ref_No +
-          file_ext,
+        path: path,
+          // RootDir +
+          // `/${val}_` +
+          // // Math.floor(date.getTime() + date.getSeconds() / 2) +
+          // Ref_No +
+          // file_ext,
         description: "downloading file...",
         notification: true,
         useDownloadManager: true,
@@ -142,6 +152,11 @@ export const DataDisplayList = ({
       .then((res) => {
         Alert.alert("File Downloaded Successfully.");
       });
+    } else {
+      console.log("112233",getData);
+      CameraRoll.saveToCameraRoll(FILE_URL);
+      Alert.alert("File Downloaded Successfully.");
+    }
   };
 
   const getFileExtention = (imageData) => {
