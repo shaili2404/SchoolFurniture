@@ -126,7 +126,7 @@ export const DisposalReports = () => {
   };
 
   // On Search Button Click
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     if (
       select?.id == null &&
@@ -157,9 +157,11 @@ export const DisposalReports = () => {
         str += `${ConstKey.district_office}=${selectdist?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_DisposalReports}?${str}&search=true`)
+        .post(`${endUrl.reports_DisposalReports}?${str}&search=true&page=${count ? count : number}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
+          setprevpage(res?.data?.data?.previous_page);
+          setnextpage(res?.data?.data?.next_page);
           setmodalloader(false);
         })
         .catch((e) => {
@@ -266,6 +268,25 @@ export const DisposalReports = () => {
   const HeaderComponet = () => {
     return <ListHeaderComman tableHeader={tableHeader} lenofContent={"more"} />;
   };
+     // On search Right Button Click
+     const onSearchNext = () => {
+      let count = number + 1;
+      setLoader(true);
+      setNumber(number + 1);
+      onsearch(count);
+      setLoader(false);
+      getallData();
+    };
+  
+    // On search Left Previous Button Click
+    const onSearchPrevious = () => {
+      let count = number - 1;
+      setLoader(true);
+      setNumber(number - 1);
+      onsearch(count);
+      setLoader(false);
+      getallData();
+    };
 
   return loader ? (
     <Loader />
@@ -454,10 +475,9 @@ export const DisposalReports = () => {
           </>
         )}
       </View>
-      {searchStatus ? (
-        <View style={Styles.lastView}>
+      <View style={Styles.lastView}>
           <TouchableOpacity
-            onPress={onPrevious}
+            onPress={searchStatus ?  onPrevious : onSearchPrevious}
             disabled={prevpage == null ? true : false}
           >
             {prevpage == null ? (
@@ -468,7 +488,7 @@ export const DisposalReports = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={onNext}
+            onPress={searchStatus ?  onNext : onSearchNext}
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
@@ -478,7 +498,6 @@ export const DisposalReports = () => {
             )}
           </TouchableOpacity>
         </View>
-      ) : null}
       {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );

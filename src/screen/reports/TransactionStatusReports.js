@@ -118,7 +118,7 @@ export const TransactionStatusReports = () => {
   };
 
   // On Search Button Click
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     if (
       select?.id == null &&
@@ -150,9 +150,11 @@ export const TransactionStatusReports = () => {
 
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_transaction_status_report}?${str}&search=true`)
+        .post(`${endUrl.reports_transaction_status_report}?${str}&search=true&page=${count ? count : number}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
+          setprevpage(res?.data?.data?.previous_page);
+          setnextpage(res?.data?.data?.next_page);
           setmodalloader(false);
         })
         .catch((e) => {
@@ -254,6 +256,25 @@ export const TransactionStatusReports = () => {
     setdist_Select({});
     getallData();
   };
+     // On search Right Button Click
+     const onSearchNext = () => {
+      let count = number + 1;
+      setLoader(true);
+      setNumber(number + 1);
+      onsearch(count);
+      setLoader(false);
+      getallData();
+    };
+  
+    // On search Left Previous Button Click
+    const onSearchPrevious = () => {
+      let count = number - 1;
+      setLoader(true);
+      setNumber(number - 1);
+      onsearch(count);
+      setLoader(false);
+      getallData();
+    };
 
   // render component of flatlist
   const rendercomponent = ({ item }) => {
@@ -458,10 +479,9 @@ export const TransactionStatusReports = () => {
         )}
       </View>
 
-      {searchStatus ? (
-        <View style={Styles.lastView}>
+      <View style={Styles.lastView}>
           <TouchableOpacity
-            onPress={onPrevious}
+            onPress={searchStatus ?  onPrevious : onSearchPrevious}
             disabled={prevpage == null ? true : false}
           >
             {prevpage == null ? (
@@ -472,7 +492,7 @@ export const TransactionStatusReports = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={onNext}
+            onPress={searchStatus ?  onNext : onSearchNext}
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
@@ -482,7 +502,6 @@ export const TransactionStatusReports = () => {
             )}
           </TouchableOpacity>
         </View>
-      ) : null}
       {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );
