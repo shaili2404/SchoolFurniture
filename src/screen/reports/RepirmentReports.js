@@ -119,7 +119,7 @@ export const RepairmentReports = () => {
   };
 
   // On Search Button Clicked
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     if (
       select?.id == null &&
@@ -152,9 +152,11 @@ export const RepairmentReports = () => {
         str += `${ConstKey.item_id}=${furItem_select?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_repairment_report}?${str}&search=true`)
+        .post(`${endUrl.reports_repairment_report}?${str}&search=true&page=${count ? count : number}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
+          setprevpage(res?.data?.data?.previous_page);
+          setnextpage(res?.data?.data?.next_page);
           setmodalloader(false);
         })
         .catch((e) => {
@@ -289,6 +291,25 @@ export const RepairmentReports = () => {
   const setCategoryValue = (item) => {
     setfur_Select(item);
     getfuritem(item?.id);
+  };
+   // On search Right Button Click
+   const onSearchNext = () => {
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    onsearch(count);
+    setLoader(false);
+    getallData();
+  };
+
+  // On search Left Previous Button Click
+  const onSearchPrevious = () => {
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    onsearch(count);
+    setLoader(false);
+    getallData();
   };
 
   return loader ? (
@@ -493,10 +514,9 @@ export const RepairmentReports = () => {
           </>
         )}
       </View>
-      {searchStatus ? (
-        <View style={Styles.lastView}>
+      <View style={Styles.lastView}>
           <TouchableOpacity
-            onPress={onPrevious}
+            onPress={searchStatus ?  onPrevious : onSearchPrevious}
             disabled={prevpage == null ? true : false}
           >
             {prevpage == null ? (
@@ -507,7 +527,7 @@ export const RepairmentReports = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={onNext}
+            onPress={searchStatus ?  onNext : onSearchNext}
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
@@ -517,7 +537,7 @@ export const RepairmentReports = () => {
             )}
           </TouchableOpacity>
         </View>
-      ) : null}
+     
       {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );

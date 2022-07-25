@@ -120,7 +120,7 @@ export const SchoolFullFurReports = () => {
     return value == "" || value == undefined || value == null;
   };
   // On Search Button Clicked
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     if (
       select?.id == null &&
@@ -152,9 +152,11 @@ export const SchoolFullFurReports = () => {
         str += `${ConstKey.item_id}=${furItem_select?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_school_furniture_count_report}?${str}&search=true`)
+        .post(`${endUrl.reports_school_furniture_count_report}?${str}&search=true&page=${count ? count : number}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
+          setprevpage(res?.data?.data?.previous_page);
+          setnextpage(res?.data?.data?.next_page);
           setmodalloader(false);
         })
         .catch((e) => {
@@ -245,6 +247,24 @@ export const SchoolFullFurReports = () => {
     setLoader(true);
     setNumber(number - 1);
     getCollectionRequest(count);
+    setLoader(false);
+    getallData();
+  };
+  const onSearchNext = () => {
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    onsearch(count);
+    setLoader(false);
+    getallData();
+  };
+
+  // On search Left Previous Button Click
+  const onSearchPrevious = () => {
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    onsearch(count);
     setLoader(false);
     getallData();
   };
@@ -484,10 +504,9 @@ export const SchoolFullFurReports = () => {
           </>
         )}
       </View>
-      {searchStatus ? (
-        <View style={Styles.lastView}>
+      <View style={Styles.lastView}>
           <TouchableOpacity
-            onPress={onPrevious}
+            onPress={searchStatus ?  onPrevious : onSearchPrevious}
             disabled={prevpage == null ? true : false}
           >
             {prevpage == null ? (
@@ -498,7 +517,7 @@ export const SchoolFullFurReports = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={onNext}
+            onPress={searchStatus ?  onNext : onSearchNext}
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
@@ -508,7 +527,7 @@ export const SchoolFullFurReports = () => {
             )}
           </TouchableOpacity>
         </View>
-      ) : null}
+     
       {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );

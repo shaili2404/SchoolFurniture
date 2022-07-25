@@ -69,7 +69,7 @@ export const ManufactStockManageReports = () => {
   }, [isFocused]);
 
   // On Search Button Click
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     if (select?.id == null && stockItem?.id == null)
       setErrorMessage(constants.enterSearchData);
@@ -80,9 +80,11 @@ export const ManufactStockManageReports = () => {
       setmodalloader(true);
 
       axios
-        .post(`${endUrl.reports_manufacturer_stock_management_report}?${str}&search=true`)
+        .post(`${endUrl.reports_manufacturer_stock_management_report}?${str}&search=true&page=${count ? count : number}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
+          setprevpage(res?.data?.data?.previous_page);
+          setnextpage(res?.data?.data?.next_page);
           setmodalloader(false);
         })
         .catch((e) => {
@@ -168,6 +170,25 @@ export const ManufactStockManageReports = () => {
     setLoader(true);
     setNumber(number - 1);
     getCollectionRequest(count);
+    setLoader(false);
+    getallData();
+  };
+  // On search Right Button Click
+  const onSearchNext = () => {
+    let count = number + 1;
+    setLoader(true);
+    setNumber(number + 1);
+    onsearch(count);
+    setLoader(false);
+    getallData();
+  };
+
+  // On search Left Previous Button Click
+  const onSearchPrevious = () => {
+    let count = number - 1;
+    setLoader(true);
+    setNumber(number - 1);
+    onsearch(count);
     setLoader(false);
     getallData();
   };
@@ -314,10 +335,9 @@ export const ManufactStockManageReports = () => {
           </>
         )}
       </View>
-      {searchStatus ? (
-        <View style={Styles.lastView}>
+      <View style={Styles.lastView}>
           <TouchableOpacity
-            onPress={onPrevious}
+            onPress={searchStatus ?  onPrevious : onSearchPrevious}
             disabled={prevpage == null ? true : false}
           >
             {prevpage == null ? (
@@ -328,7 +348,7 @@ export const ManufactStockManageReports = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={onNext}
+            onPress={searchStatus ?  onNext : onSearchNext}
             disabled={nextPage == null ? true : false}
           >
             {nextPage == null ? (
@@ -338,7 +358,6 @@ export const ManufactStockManageReports = () => {
             )}
           </TouchableOpacity>
         </View>
-      ) : null}
       {modalloader ? <ModalLoader visible={modalloader} /> : null}
     </SafeAreaView>
   );
