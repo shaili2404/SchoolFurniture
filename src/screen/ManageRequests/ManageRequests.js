@@ -97,7 +97,7 @@ export const ManageRequests = () => {
         submessage={AlertText.UndoMessgae}
         onEdit={(item, task) => onEdit(item, task)}
         permissionId={permissionId}
-        afterDeleteMsg = {constants.ManageReqText}
+        afterDeleteMsg = {constants.AlertManageReqText}
         afterSecondMsg = {constants.furitureReqDel}
       />
     );

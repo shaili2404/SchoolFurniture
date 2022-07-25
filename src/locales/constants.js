@@ -129,6 +129,7 @@ const constants = {
   ViewAll: "View All",
   Ph: "10+ Photos",
   ManageReqText: "MangeRequest",
+  AlertManageReqText: "Mange Request",
   Cmc: "CMC",
   Circuit: "Circuit",
   subplacesname: "Sub Places Name",

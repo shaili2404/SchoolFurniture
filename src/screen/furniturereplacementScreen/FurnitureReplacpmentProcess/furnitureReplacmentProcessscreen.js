@@ -1511,7 +1511,8 @@ export const FurnitureReplacmentProcess = () => {
           setmodalVisible={(val) => {setacceptError(val)
          navigation.navigate(Screen.Furniture_Replacment);
           } }
-          mainMessage={mainMsg}
+          mainMessage="Transaction"
+          subMessage={mainMsg}
         />
       ) : null}
       {imageModal ? (
