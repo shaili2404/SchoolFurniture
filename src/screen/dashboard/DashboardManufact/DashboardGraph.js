@@ -16,6 +16,7 @@ import {
   handleClick,
 } from "../../../component/jsontoPdf/JsonToPdf";
 import Images from "../../../asset/images";
+import { RfH, RfW } from "../../../utils/helpers";
 
 export const GraphChart = () => {
   const [loader, setLoader] = useState(false);
@@ -142,7 +143,7 @@ export const GraphChart = () => {
         <Text style={style.dashbarchart}>{constants.Previous_year_status}</Text>
         <Image style={style.dashbarimagesicon} source={Images.downloadIcon} />
       </TouchableOpacity>
-      <VictoryChart domainPadding={{ x: 50 }} width={380} height={500}>
+      <VictoryChart domainPadding={{ x: 50 }} width={RfW(380)} height={RfH(500)}>
         {sampleData == undefined ? null : (
           <VictoryBar
             style={{ data: { fill: ({ datum }) => `${datum.color}` } }}

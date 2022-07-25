@@ -16,6 +16,7 @@ import {
 } from "../../../component/jsontoPdf/JsonToPdf";
 import style from "./style";
 import Images from "../../../asset/images";
+import { RfH, RfW } from "../../../utils/helpers";
 
 export const BarChart = () => {
   const [loader, setLoader] = useState(false);
@@ -128,7 +129,7 @@ export const BarChart = () => {
         <Text style={style.dashbarchart}>{constants.YTD_Report_Status}</Text>
         <Image style={style.dashbarimagesicon} source={Images.downloadIcon} />
       </TouchableOpacity>
-      <VictoryChart domainPadding={{ x: 50 }} width={380} height={500}>
+      <VictoryChart domainPadding={{ x: 50 }} width={RfW(380)} height={RfH(500)}>
         <VictoryBar
           style={{ data: { fill: "#7DB4EA" } }}
           data={sampleData}
