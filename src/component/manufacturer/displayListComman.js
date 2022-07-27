@@ -25,6 +25,7 @@ import { RfH, RfW } from "../../utils/helpers";
 import Loader from "../loader";
 import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
+import { CALLBACK_TYPE } from "react-native-gesture-handler/lib/typescript/handlers/gestures/gesture";
 
 export const DataDisplayList = ({
   item,
@@ -123,6 +124,7 @@ export const DataDisplayList = ({
     let Ref_No = item.ref_number;
 
     file_ext = "." + file_ext[0];
+    console.log("11228",file_ext);
     const { config, fs } = RNFetchBlob;
     // let RootDir = fs.dirs.PictureDir;
     let dirs = RNFetchBlob.fs.dirs;
@@ -132,7 +134,7 @@ export const DataDisplayList = ({
     `/${val}_` +
     Ref_No +
     file_ext;
-    if (Platform.OS == 'android') {
+    // if (Platform.OS == 'android') {
     let options = {
       fileCache: true,
       addAndroidDownloads: {
@@ -147,15 +149,40 @@ export const DataDisplayList = ({
         useDownloadManager: true,
       },
     };
+
+    const configOptions = Platform.select({
+      ios: {
+          fileCache: true,
+          path: path,
+          appendExt: 'pdf',
+      },
+      android: options,
+  });
+  if (Platform.OS == 'android') {
+
     config(options)
       .fetch("GET", FILE_URL)
       .then((res) => {
+        // RNFetchBlob.fs.writeFile(path, res.data, 'base64');
+        //     RNFetchBlob.ios.openDocument(path);
         Alert.alert("File Downloaded Successfully.");
       });
     } else {
+      if(file_ext == ".pdf") { 
       console.log("112233",getData);
-      CameraRoll.saveToCameraRoll(FILE_URL);
+      config(configOptions)
+      .fetch("GET", FILE_URL)
+      .then((res) => {
+        Alert.alert("File Downloaded Successfully.");
+         RNFetchBlob.fs.writeFile(path, res.data, 'base64');
+             RNFetchBlob.ios.previewDocument(path);
+      });
+    } else {
       Alert.alert("File Downloaded Successfully.");
+      CameraRoll.save(FILE_URL);
+    }
+      // CameraRoll.save(FILE_URL);
+      // Alert.alert("File Downloaded Successfully.");
     }
   };
 
@@ -215,7 +242,7 @@ export const DataDisplayList = ({
               )}
               <TouchableOpacity
                 style={Styles.butto}
-                onPress={() => checkPermission(task,item?.path )}
+                onPress={() => checkPermission(task,imageData )}
               >
                 <Text style={Styles.text}>{constants.Download_File}</Text>
               </TouchableOpacity>
