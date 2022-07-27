@@ -73,7 +73,7 @@ export const InputForm = ({
           </View>
         ) : null}
         <TextInput
-          style={style.emailInputessStyle}
+          style={org == constants.school ? style.emailIn : style.emailInputessStyle}
           placeholder={defaultState === true ? "" : { stockcollectionName }}
           placeholderTextColor={COLORS.Black}
           opacity={defaultState === true ? 1 : 0.5}

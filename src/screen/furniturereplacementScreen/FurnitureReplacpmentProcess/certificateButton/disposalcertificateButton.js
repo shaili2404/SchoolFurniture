@@ -76,7 +76,7 @@ export const DisposalCertificateButton = ({
           {PhotoSection ? (
             <View style={style.photoView}>
             <TouchableOpacity onPress={() => uploadPhoto(true)}>
-              <Text style={style.photoText}>{constants.AddPhoto}</Text>
+              <Text style={style.photoText}>{constants.AddUploadreplenishProof}</Text>
             </TouchableOpacity>
           </View>
           ) : null}
