@@ -267,6 +267,7 @@ const constants = {
     subplaceDelete :'Sub Place has deleted successfully',
     catDelete :'category has deleted successfully',
     itemDelete :'item has deleted successfully',
+    AddUploadreplenishProof: "+Add Write-Offs Images",
 };
 
 export default constants;

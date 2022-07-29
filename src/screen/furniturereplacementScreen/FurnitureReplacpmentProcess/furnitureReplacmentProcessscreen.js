@@ -578,12 +578,17 @@ export const FurnitureReplacmentProcess = () => {
   const onsubmitApproved = (data) => {
     setDisableUploadcpy(false);
     setConfirmCollectedCount(data);
+    // const isGreaterThanZero = data?.every((ele) => ele?.accept_count > 0);
+    // isGreaterThanZero ? setSaveButton(false) : setSaveButton(true);
+    // isGreaterThanZero ? null : setSubmitButton(true);
+    // isGreaterThanZero ? setvaluesavebutton(false) : setvaluesavebutton(true);
   };
 
   const setConfirmCollection = (data) => {
     if (imgData.length != 0) {
       const isGreaterThanZero = data?.every((ele) => ele?.confirm_count > 0);
       isGreaterThanZero ? setSaveButton(false) : setSaveButton(true);
+      isGreaterThanZero ? null : setSubmitButton(true);
     } else setSaveButton(true);
 
     setConfirmCollectedCount(data);

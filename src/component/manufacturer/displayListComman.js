@@ -128,7 +128,7 @@ export const DataDisplayList = ({
     const { config, fs } = RNFetchBlob;
     // let RootDir = fs.dirs.PictureDir;
     let dirs = RNFetchBlob.fs.dirs;
-    let path = Platform.OS === 'ios' ? dirs['MainBundleDir'] + `/${val}_` +
+    let path = Platform.OS === 'ios' ? dirs['DocumentDir'] + `/${val}_` +
     Ref_No +
     file_ext : dirs.PictureDir +
     `/${val}_` +

@@ -25,6 +25,16 @@ const style = StyleSheet.create({
     paddingLeft: 20,
     marginBottom: 10,
   },
+  emailIn:{
+    borderRadius: 5,
+    backgroundColor: COLORS.LightGreen,
+    width: "50%",
+    height: 55,
+    paddingLeft: 20,
+    marginBottom: 10,
+    borderWidth:2,
+    borderColor:COLORS.GreenBorder,
+  },
   changeText: {
     opacity: 0.5,
     fontSize: 12,
@@ -37,8 +47,8 @@ const style = StyleSheet.create({
   },
   changeView: {
     position: "relative",
-    left: 10,
-    top: 3,
+    left: 1,
+    top: 1,
     backgroundColor: COLORS.White,
     width: 400,
   },
