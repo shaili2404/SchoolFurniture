@@ -52,6 +52,7 @@ export const DisposalReports = () => {
   const [enddateStatus, setendDatestatus] = useState(true);
   const [searchStatus, setSearchStatus] = useState(true);
   const [number, setNumber] = useState(1);
+  const [searchNumber, setSearchNumber] = useState(1);
   const [distList, setDistList] = useState([]);
   const [modalloader, setmodalloader] = useState(false);
   const [prevpage, setprevpage] = useState("");
@@ -157,7 +158,7 @@ export const DisposalReports = () => {
         str += `${ConstKey.district_office}=${selectdist?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_DisposalReports}?${str}&search=true&page=${count ? count : number}`)
+        .post(`${endUrl.reports_DisposalReports}?${str}&search=true&page=${count ? count : searchNumber}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setprevpage(res?.data?.data?.previous_page);
@@ -246,6 +247,7 @@ export const DisposalReports = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
+    setSearchNumber(1);
     setSelect({});
     setDistList({});
     getDistrictList();
@@ -270,9 +272,9 @@ export const DisposalReports = () => {
   };
      // On search Right Button Click
      const onSearchNext = () => {
-      let count = number + 1;
+      let count = searchNumber + 1;
       setLoader(true);
-      setNumber(number + 1);
+      setSearchNumber(searchNumber + 1);
       onsearch(count);
       setLoader(false);
       getallData();
@@ -280,9 +282,9 @@ export const DisposalReports = () => {
   
     // On search Left Previous Button Click
     const onSearchPrevious = () => {
-      let count = number - 1;
+      let count = searchNumber - 1;
       setLoader(true);
-      setNumber(number - 1);
+      setSearchNumber(searchNumber - 1);
       onsearch(count);
       setLoader(false);
       getallData();

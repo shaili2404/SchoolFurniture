@@ -49,6 +49,7 @@ export const FurnitureReplacmentManfacturer = () => {
   const [searchStatus, setSearchStatus] = useState(true);
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
+  const [searchNumber, setSearchNumber] = useState(1);
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -96,7 +97,7 @@ export const FurnitureReplacmentManfacturer = () => {
     ConstKey.total_furniture,
   ];
 
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     if (
       select?.id == null &&
@@ -122,7 +123,7 @@ export const FurnitureReplacmentManfacturer = () => {
       setLoader(true);
       axios.defaults.headers.common["Content-Type"] = "application/json";
       axios
-        .get(`${endUrl.searchfurRequest}?${str}`)
+        .get(`${endUrl.searchfurRequest}?${str}&page=${count ? count : searchNumber}`)
         .then((res) => {
           setCollectionList(res?.data?.data);
           setLoader(false);
@@ -188,6 +189,23 @@ export const FurnitureReplacmentManfacturer = () => {
     getCollectionRequest(count);
     setLoader(false);
   };
+    // On search Right Button Click
+    const onSearchNext = () => {
+      let count = searchNumber + 1;
+      setLoader(true);
+      setSearchNumber(searchNumber + 1);
+      onsearch(count);
+      setLoader(false);
+    };
+  
+    // On search Left Previous Button Click
+    const onSearchPrevious = () => {
+      let count = searchNumber - 1;
+      setLoader(true);
+      setSearchNumber(searchNumber - 1);
+      onsearch(count);
+      setLoader(false);
+    };
 
   const onReset = () => {
     setSearchStatus(true);
@@ -199,6 +217,7 @@ export const FurnitureReplacmentManfacturer = () => {
     setDateErrorMessage("");
     getCollectionRequest();
     setNumber(1);
+    setSearchNumber(1)
     setSelect({});
   };
 
@@ -426,10 +445,10 @@ export const FurnitureReplacmentManfacturer = () => {
             )}
           </View>
 
-          {searchStatus ? (
+       
             <View style={Styles.lastView}>
               <TouchableOpacity
-                onPress={onPrevious}
+                onPress={searchStatus ?  onPrevious : onSearchPrevious}
                 disabled={number == 1 ? true : false}
               >
                 {number == 1 ? (
@@ -443,7 +462,7 @@ export const FurnitureReplacmentManfacturer = () => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={onNext}
+                onPress={searchStatus ?  onNext : onSearchNext}
                 disabled={number == maximumNumber ? true : false}
               >
                 {number == maximumNumber ? (
@@ -456,7 +475,7 @@ export const FurnitureReplacmentManfacturer = () => {
                 )}
               </TouchableOpacity>
             </View>
-          ) : null}
+         
           <View style={Styles.lastViewStyle} />
         </ScrollView>
       ) : (
