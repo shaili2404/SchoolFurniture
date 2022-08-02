@@ -158,15 +158,16 @@ export const Search = () => {
           }-${endDate.getDate()}`
         : "";
 
-        
     if (
       startDateStatus == true &&
-      enddateStatus == true 
+      enddateStatus == true && searchValue == 0
     )
       setErrorMessage(constants.enterSearchData);
       else if (startDateStatus == true &&
-        enddateStatus == false )
+        enddateStatus == false  && searchValue == 0)
         setErrorMessage(constants.startDateIsRequired);
+      else if (searchtask == ''&& searchValue != 0)
+      setErrorMessage(constants.enterSearchData);
     else {
       let strtDte = `${startDate?.getFullYear()}-${
         startDate?.getMonth() + 1
@@ -302,6 +303,7 @@ const onReset = () => {
                     setStartDate(date);
                     setStartDateStatus(false);
                   }}
+                  maximumDate={new Date()}
                   onCancel={() => {
                     setOpen(false);
                   }}
@@ -331,6 +333,7 @@ const onReset = () => {
                     setEndDate(date);
                     setendDatestatus(false);
                   }}
+                  maximumDate={new Date()}
                   onCancel={() => {
                     setCLose(false);
                   }}
