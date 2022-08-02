@@ -56,6 +56,8 @@ export const DisposalReports = () => {
   const [modalloader, setmodalloader] = useState(false);
   const [prevpage, setprevpage] = useState("");
   const [nextPage, setnextpage] = useState("");
+  const [searchNumber, setSearchNumber] = useState(1);
+
 
   const schooldetails = useSelector(
     (state) => state?.loginData?.user?.data?.data?.user?.organization
@@ -157,7 +159,7 @@ export const DisposalReports = () => {
         str += `${ConstKey.district_office}=${selectdist?.id}&&`;
       setmodalloader(true);
       axios
-        .post(`${endUrl.reports_DisposalReports}?${str}&search=true&page=${count ? count : number}`)
+        .post(`${endUrl.reports_DisposalReports}?${str}&search=true&page=${count ? count : searchNumber}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setprevpage(res?.data?.data?.previous_page);
@@ -238,19 +240,21 @@ export const DisposalReports = () => {
 
   // ON Reset Button CLick
   const onReset = () => {
+    let count = 1
     setSearchStatus(true);
     setrefNumber("");
     setStartDateStatus(true);
     setendDatestatus(true);
     setErrorMessage("");
     setDateErrorMessage("");
-    getCollectionRequest();
+    getCollectionRequest(count);
     setNumber(1);
     setSelect({});
     setDistList({});
     getDistrictList();
     getfurcategory();
     getallData();
+    setSearchNumber(1)
   };
 
   // Render Component Of Flatlist
@@ -270,9 +274,9 @@ export const DisposalReports = () => {
   };
      // On search Right Button Click
      const onSearchNext = () => {
-      let count = number + 1;
+      let count = searchNumber + 1;
       setLoader(true);
-      setNumber(number + 1);
+      searchNumber(searchNumber + 1);
       onsearch(count);
       setLoader(false);
       getallData();
@@ -280,9 +284,9 @@ export const DisposalReports = () => {
   
     // On search Left Previous Button Click
     const onSearchPrevious = () => {
-      let count = number - 1;
+      let count = searchNumber - 1;
       setLoader(true);
-      setNumber(number - 1);
+      setSearchNumber(searchNumber - 1);
       onsearch(count);
       setLoader(false);
       getallData();

@@ -16,7 +16,7 @@ import constants from "../../locales/constants";
 import Styles from "./styles";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
-import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman"; 
+import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
@@ -125,11 +125,15 @@ export const FurnitureReplacmentManfacturer = () => {
       setLoader(true);
       axios.defaults.headers.common["Content-Type"] = "application/json";
       axios
-        .get(`${endUrl.searchfurRequest}?${str}&page=${count ? count : searchNumber}`)
+        .get(
+          `${endUrl.searchfurRequest}?${str}&page=${
+            count ? count : searchNumber
+          }`
+        )
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setprevpage(res?.data?.data?.previous_page);
-        setnextpage(res?.data?.data?.next_page);
+          setnextpage(res?.data?.data?.next_page);
           setLoader(false);
         })
         .catch((e) => {
@@ -151,31 +155,29 @@ export const FurnitureReplacmentManfacturer = () => {
     }
   };
 
-  {
-    console.log("11234",collectionList);
-  }
+  // On search Right Button Click
+  const onSearchNext = () => {
+    let count = searchNumber + 1;
+    setLoader(true);
+    setSearchNumber(searchNumber + 1);
+    onsearch(count);
+    setLoader(false);
+  };
 
-    // On search Right Button Click
-    const onSearchNext = () => {
-      let count = searchNumber + 1;
-      setLoader(true);
-      setSearchNumber(searchNumber + 1);
-      onsearch(count);
-      setLoader(false);
-    };
-  
-    // On search Left Previous Button Click
-    const onSearchPrevious = () => {
-      let count = searchNumber - 1;
-      setLoader(true);
-      setSearchNumber(searchNumber - 1);
-      onsearch(count);
-      setLoader(false);
-    };
+  // On search Left Previous Button Click
+  const onSearchPrevious = () => {
+    let count = searchNumber - 1;
+    setLoader(true);
+    setSearchNumber(searchNumber - 1);
+    onsearch(count);
+    setLoader(false);
+  };
 
   const onsuccessapi = (res) => {
     setCollectionList(res?.data?.data?.records);
     setmaximunNumber(res?.data?.data?.total_page);
+    setprevpage(res?.data?.data?.previous_page);
+    setnextpage(res?.data?.data?.next_page);
     setLoader(false);
   };
 
@@ -185,6 +187,8 @@ export const FurnitureReplacmentManfacturer = () => {
   };
 
   const getCollectionRequest = (count) => {
+    console.log(count)
+    console.log('191',number)
     setLoader(true);
     axios
       .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
@@ -217,6 +221,9 @@ export const FurnitureReplacmentManfacturer = () => {
   };
 
   const onReset = () => {
+    let count = 1
+    setNumber(1);
+    setSearchNumber(1);
     setSearchStatus(true);
     setEmisNumber("");
     setrefNumber("");
@@ -224,13 +231,10 @@ export const FurnitureReplacmentManfacturer = () => {
     setendDatestatus(true);
     setErrorMessage("");
     setDateErrorMessage("");
-    getCollectionRequest();
-    setNumber(1);
+    getCollectionRequest(count);
     setSelect({});
-
     setEndDate(new Date());
-  setStartDate(new Date())
-  setSearchNumber(1)
+    setStartDate(new Date());
   };
 
   useLayoutEffect(() => {
@@ -457,41 +461,35 @@ export const FurnitureReplacmentManfacturer = () => {
             )}
           </View>
 
-          {/* {searchStatus ? ( */}
-            <View style={Styles.lastView}>
-              <TouchableOpacity
-                onPress={searchStatus ?  onPrevious : onSearchPrevious}
-                // disabled={number == 1 ? true : false}
-                disabled={prevpage == null ? true : false}
-              >
-                {/* {number == 1 ? ( */}
-                  {prevpage == null ? (
-                  <Image source={Images.leftarrow} />
-                ) : (
-                  <Image
-                    source={Images.rightarrow}
-                    style={Styles.transformStyle}
-                  />
-                )}
-              </TouchableOpacity>
+          <View style={Styles.lastView}>
+            <TouchableOpacity
+              onPress={searchStatus ? onPrevious : onSearchPrevious}
+              disabled={prevpage == null ? true : false}
+            >
+              {prevpage == null ? (
+                <Image source={Images.leftarrow} />
+              ) : (
+                <Image
+                  source={Images.rightarrow}
+                  style={Styles.transformStyle}
+                />
+              )}
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={searchStatus ?  onNext : onSearchNext}
-                // disabled={number == maximumNumber ? true : false}
-                disabled={nextPage == null ? true : false}
-              >
-                {/* {number == maximumNumber ? ( */}
-                  {nextPage == null ? (
-                  <Image
-                    source={Images.leftarrow}
-                    style={Styles.transformStyle}
-                  />
-                ) : (
-                  <Image source={Images.rightarrow} />
-                )}
-              </TouchableOpacity>
-            </View>
-           {/* ) : null} */}
+            <TouchableOpacity
+              onPress={searchStatus ? onNext : onSearchNext}
+              disabled={nextPage == null ? true : false}
+            >
+              {nextPage == null ? (
+                <Image
+                  source={Images.leftarrow}
+                  style={Styles.transformStyle}
+                />
+              ) : (
+                <Image source={Images.rightarrow} />
+              )}
+            </TouchableOpacity>
+          </View>
           <View style={Styles.lastViewStyle} />
         </ScrollView>
       ) : (

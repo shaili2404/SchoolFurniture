@@ -44,6 +44,7 @@ export const ManufactStockManageReports = () => {
   const [prevpage, setprevpage] = useState("");
   const [nextPage, setnextpage] = useState("");
   const [collection_List, setCollection_List] = useState([]);
+  const [searchNumber, setSearchNumber] = useState(1);
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -80,7 +81,7 @@ export const ManufactStockManageReports = () => {
       setmodalloader(true);
 
       axios
-        .post(`${endUrl.reports_manufacturer_stock_management_report}?${str}&search=true&page=${count ? count : number}`)
+        .post(`${endUrl.reports_manufacturer_stock_management_report}?${str}&search=true&page=${count ? count : searchNumber}`)
         .then((res) => {
           setCollectionList(res?.data?.data?.records);
           setprevpage(res?.data?.data?.previous_page);
@@ -175,19 +176,19 @@ export const ManufactStockManageReports = () => {
   };
   // On search Right Button Click
   const onSearchNext = () => {
-    let count = number + 1;
+    let count = searchNumber + 1;
     setLoader(true);
-    setNumber(number + 1);
-    onsearch(count);
+    setNumber(searchNumber + 1);
+    setSearchNumber(count);
     setLoader(false);
     getallData();
   };
 
   // On search Left Previous Button Click
   const onSearchPrevious = () => {
-    let count = number - 1;
+    let count = searchNumber - 1;
     setLoader(true);
-    setNumber(number - 1);
+    setSearchNumber(searchNumber - 1);
     onsearch(count);
     setLoader(false);
     getallData();
@@ -195,10 +196,12 @@ export const ManufactStockManageReports = () => {
 
   // On Reset Button Clicked
   const onReset = () => {
+    let count = 1
     setSearchStatus(true);
     setErrorMessage("");
-    getCollectionRequest();
+    getCollectionRequest(count);
     setNumber(1);
+    setSearchNumber(1);
     setSelect({});
     setStockItem({});
     getfurcategory();

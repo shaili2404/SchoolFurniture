@@ -43,6 +43,9 @@ export const ManageRequests = () => {
   const [dateErrorMessage, setDateErrorMessage] = useState("");
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
+  const [searchNumber, setSearchNumber] = useState(1);
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
 
   const [permissionId, setPermissionId] = useState({
     userList: false,
@@ -118,6 +121,8 @@ export const ManageRequests = () => {
       .then((res) => {
         setListData(res?.data?.data?.records);
         setmaximunNumber(res?.data?.data?.total_page);
+        setprevpage(res?.data?.data?.previous_page);
+          setnextpage(res?.data?.data?.next_page);
         setLoader(false);
       })
       .catch((e) => {
@@ -163,8 +168,26 @@ export const ManageRequests = () => {
     const title = "Manage Request";
     navigation.setOptions({ title });
   }, []);
+   // On search Right Button Click
+   const onSearchNext = () => {
+    let count = searchNumber + 1;
+    setLoader(true);
+    setSearchNumber(searchNumber + 1);
+    onsearch(count);
+    setLoader(false);
+  };
+
+  // On search Left Previous Button Click
+  const onSearchPrevious = () => {
+    let count = searchNumber - 1;
+    setLoader(true);
+    setSearchNumber(searchNumber - 1);
+    onsearch(count);
+    setLoader(false);
+  };
+
   // on search button click
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     let strtDte = `${startDate?.getFullYear()}-${
       startDate?.getMonth() + 1
@@ -178,9 +201,13 @@ export const ManageRequests = () => {
     if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&`;
     setLoader(true);
     axios
-      .get(`${endUrl.searchManageRequest}?${str}`)
+      .get(`${endUrl.searchManageRequest}?${str}&page=${
+        count ? count : searchNumber
+      }`)
       .then((res) => {
         setListData(res?.data?.data);
+        setprevpage(res?.data?.data?.previous_page);
+          setnextpage(res?.data?.data?.next_page);
         initialPagination(res?.data?.data);
         setLoader(false);
       })
@@ -204,12 +231,17 @@ export const ManageRequests = () => {
   };
   // on reset button click
   const onReset = () => {
+    let count = 1
     setSearchStatus(true);
     setSearchTask("");
     setStartDateStatus(true);
     setendDatestatus(true);
     setDateErrorMessage("");
     setErrorMessage(false);
+    setSearchNumber(1)
+    setNumber(1)
+    apicall(count)
+
   };
   // validating if input text is null
   const validation = (value) => {
@@ -363,12 +395,12 @@ export const ManageRequests = () => {
               )}
             </>
           )}
-          <View style={styles.lastView}>
+            <View style={styles.lastView}>
             <TouchableOpacity
-              onPress={onPrevious}
-              disabled={number == 1 ? true : false}
+              onPress={searchStatus ? onPrevious : onSearchPrevious}
+              disabled={prevpage == null ? true : false}
             >
-              {number == 1 ? (
+              {prevpage == null ? (
                 <Image source={Images.leftarrow} />
               ) : (
                 <Image
@@ -379,10 +411,10 @@ export const ManageRequests = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={onNext}
-              disabled={number == maximumNumber ? true : false}
+              onPress={searchStatus ? onNext : onSearchNext}
+              disabled={nextPage == null ? true : false}
             >
-              {number == maximumNumber ? (
+              {nextPage == null ? (
                 <Image
                   source={Images.leftarrow}
                   style={styles.transformStyle}
