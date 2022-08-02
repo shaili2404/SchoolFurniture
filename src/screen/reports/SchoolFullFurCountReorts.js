@@ -449,14 +449,14 @@ export const SchoolFullFurReports = () => {
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "School_full_fur_count",
+                      "LTSM Count Report",
                       tableHeader
                     )
                   : exportDataToExcel(
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "School_full_fur_count",
+                      "LTSM Count Report",
                       tableHeader
                     )
               }

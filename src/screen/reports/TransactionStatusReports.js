@@ -423,14 +423,14 @@ export const TransactionStatusReports = () => {
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "transaction_status_report",
+                      "Transactions Status Report",
                       tableHeader
                     )
                   : exportDataToExcel(
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "transaction_status_report",
+                      "Transactions Status Report",
                       tableHeader
                     )
               }

@@ -284,14 +284,14 @@ export const ManufactStockManageReports = () => {
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "stockreports",
+                      "Catalogue Report",
                       tableHeader
                     )
                   : exportDataToExcel(
                       searchStatus,
                       collection_List,
                       collectionList,
-                      "stockreports",
+                      "Catalogue Report",
                       tableHeader
                     )
               }
