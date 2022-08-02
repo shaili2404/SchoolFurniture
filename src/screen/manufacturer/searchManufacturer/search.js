@@ -44,6 +44,7 @@ export const Search = () => {
   const [startDateStatus, setStartDateStatus] = useState(true);
   const [enddateStatus, setendDatestatus] = useState(true);
   const [number, setNumber] = useState(1);
+  const [searchNumber, setSearchNumber] = useState(1);
   const [prevpage, setprevpage] = useState("");
   const [nextPage, setnextpage] = useState("");
   const [permissionId, setPermissionId] = useState({
@@ -120,8 +121,29 @@ export const Search = () => {
     apicall(count);
     setLoader(false);
   };
+
+  
+  // On search Right Button Click
+  const onSearchNext = () => {
+    let count = searchNumber + 1;
+    setLoader(true);
+    setSearchNumber(searchNumber + 1);
+    onsearch(count);
+    setLoader(false);
+  };
+
+  // On search Left Previous Button Click
+  const onSearchPrevious = () => {
+    let count = searchNumber - 1;
+    setLoader(true);
+    setSearchNumber(searchNumber - 1);
+    onsearch(count);
+    setLoader(false);
+  };
+
+
   // on search button clicked
-  const onsearch = async () => {
+  const onsearch = async (count) => {
     setSearchStatus(false);
     let strtDte =
       startDateStatus == false
@@ -136,6 +158,27 @@ export const Search = () => {
           }-${endDate.getDate()}`
         : "";
 
+    if (
+      startDateStatus == true &&
+      enddateStatus == true 
+    )
+      setErrorMessage(constants.enterSearchData);
+      else if (startDateStatus == true &&
+        enddateStatus == false )
+        setErrorMessage(constants.startDateIsRequired);
+    else {
+      let strtDte = `${startDate?.getFullYear()}-${
+        startDate?.getMonth() + 1
+      }-${startDate?.getDate()}`;
+      let endDte = `${endDate?.getFullYear()}-${
+        endDate?.getMonth() + 1
+      }-${endDate.getDate()}`;
+
+        let str = "";
+      if (startDateStatus == false)
+        str += `${ConstKey.start_date}=${strtDte}&&`;
+      if (enddateStatus == false) str += `${ConstKey.end_date}=${endDte}&&`;
+
     let obj =
       searchValue != 0
         ? { ref_number: searchtask }
@@ -145,8 +188,8 @@ export const Search = () => {
       .post(
         `${
           searchValue != 0
-            ? endUrl.searchBy_ReferenceNumber
-            : endUrl.searchBy_DateRange
+            ? `${endUrl.searchBy_ReferenceNumber}?page=${count ? count : searchNumber}`
+            : `${endUrl.searchBy_DateRange}?${str}&search=true&page=${count ? count : searchNumber}`
         }`,
         obj
       )
@@ -171,23 +214,35 @@ export const Search = () => {
           }
         }
       });
+      }
   };
   // get data list
+
+  {
+    console.log("11334",nextPage);
+  }
 
   useEffect(() => {
     apicall();
   }, []);
 
-  // on reset button clicked
-  const onReset = () => {
-    setSearchValue(0);
-    setSearchStatus(true);
-    apicall();
-    setSearchTask("");
-    setErrorMessage("");
-    setendDatestatus(true);
-    setStartDateStatus(true);
-  };
+ 
+// on reset button clicked
+const onReset = () => {
+  setSearchValue(0);
+  setSearchStatus(true);
+  apicall();
+  setSearchTask("");
+  setErrorMessage("");
+  setendDatestatus(true);
+  setStartDateStatus(true);
+  setEndDate(new Date());
+  setStartDate(new Date())
+  setNumber(1)
+  setSearchNumber(1)
+};
+
+
   const getSearcData = (value)=>{
     setSearchTask(value)
   }
@@ -326,7 +381,9 @@ export const Search = () => {
 
       <View style={Styles.lastView}>
         <TouchableOpacity
-          onPress={() => onPrevious()}
+          onPress={
+            searchStatus ?  onPrevious : onSearchPrevious
+            }
           disabled={prevpage == null ? true : false}
         >
           {prevpage == null ? (
@@ -340,7 +397,7 @@ export const Search = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => onNext()}
+          onPress={searchStatus ?  onNext : onSearchNext}
           disabled={nextPage == null ? true : false}
         >
           {nextPage == null ? (

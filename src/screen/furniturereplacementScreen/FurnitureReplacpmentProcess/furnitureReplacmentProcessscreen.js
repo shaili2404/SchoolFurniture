@@ -576,12 +576,9 @@ export const FurnitureReplacmentProcess = () => {
   };
 
   const onsubmitApproved = (data) => {
-    setDisableUploadcpy(false);
+    const isGreaterThanZero = data?.every((ele) => ele?.accept_count > 0 || ele?.reject_count > 0);
+    isGreaterThanZero ? setDisableUploadcpy(false) : setDisableUploadcpy(true);
     setConfirmCollectedCount(data);
-    // const isGreaterThanZero = data?.every((ele) => ele?.accept_count > 0);
-    // isGreaterThanZero ? setSaveButton(false) : setSaveButton(true);
-    // isGreaterThanZero ? null : setSubmitButton(true);
-    // isGreaterThanZero ? setvaluesavebutton(false) : setvaluesavebutton(true);
   };
 
   const setConfirmCollection = (data) => {
@@ -1393,7 +1390,7 @@ export const FurnitureReplacmentProcess = () => {
               replenishment_status={replenishment_status}
               disableUpload={
                 replenishment_status == 2 || replenishment_status == 3
-                  ? false
+                  ? true
                   : disableUploadcpy
               }
               uploadPhoto={() => setImageModal(true)}

@@ -16,7 +16,7 @@ import constants from "../../locales/constants";
 import Styles from "./styles";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { DataDisplayList } from "../../component/manufacturer/displayListComman";
-import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman";
+import { ListHeaderComman } from "../../component/manufacturer/ListHeaderComman"; 
 import { useSelector } from "react-redux";
 import axios from "axios";
 import endUrl from "../../redux/configration/endUrl";
@@ -49,6 +49,9 @@ export const FurnitureReplacmentManfacturer = () => {
   const [searchStatus, setSearchStatus] = useState(true);
   const [maximumNumber, setmaximunNumber] = useState(0);
   const [number, setNumber] = useState(1);
+  const [searchNumber, setSearchNumber] = useState(1);
+  const [prevpage, setprevpage] = useState("");
+  const [nextPage, setnextpage] = useState("");
 
   const [permissionId, setPermissionId] = useState({
     userCreate: false,
@@ -96,7 +99,7 @@ export const FurnitureReplacmentManfacturer = () => {
     ConstKey.total_furniture,
   ];
 
-  const onsearch = () => {
+  const onsearch = (count) => {
     setSearchStatus(false);
     if (
       select?.id == null &&
@@ -122,9 +125,11 @@ export const FurnitureReplacmentManfacturer = () => {
       setLoader(true);
       axios.defaults.headers.common["Content-Type"] = "application/json";
       axios
-        .get(`${endUrl.searchfurRequest}?${str}`)
+        .get(`${endUrl.searchfurRequest}?${str}&page=${count ? count : searchNumber}`)
         .then((res) => {
-          setCollectionList(res?.data?.data);
+          setCollectionList(res?.data?.data?.records);
+          setprevpage(res?.data?.data?.previous_page);
+        setnextpage(res?.data?.data?.next_page);
           setLoader(false);
         })
         .catch((e) => {
@@ -145,6 +150,28 @@ export const FurnitureReplacmentManfacturer = () => {
         });
     }
   };
+
+  {
+    console.log("11234",collectionList);
+  }
+
+    // On search Right Button Click
+    const onSearchNext = () => {
+      let count = searchNumber + 1;
+      setLoader(true);
+      setSearchNumber(searchNumber + 1);
+      onsearch(count);
+      setLoader(false);
+    };
+  
+    // On search Left Previous Button Click
+    const onSearchPrevious = () => {
+      let count = searchNumber - 1;
+      setLoader(true);
+      setSearchNumber(searchNumber - 1);
+      onsearch(count);
+      setLoader(false);
+    };
 
   const onsuccessapi = (res) => {
     setCollectionList(res?.data?.data?.records);
@@ -200,6 +227,10 @@ export const FurnitureReplacmentManfacturer = () => {
     getCollectionRequest();
     setNumber(1);
     setSelect({});
+
+    setEndDate(new Date());
+  setStartDate(new Date())
+  setSearchNumber(1)
   };
 
   useLayoutEffect(() => {
@@ -426,13 +457,15 @@ export const FurnitureReplacmentManfacturer = () => {
             )}
           </View>
 
-          {searchStatus ? (
+          {/* {searchStatus ? ( */}
             <View style={Styles.lastView}>
               <TouchableOpacity
-                onPress={onPrevious}
-                disabled={number == 1 ? true : false}
+                onPress={searchStatus ?  onPrevious : onSearchPrevious}
+                // disabled={number == 1 ? true : false}
+                disabled={prevpage == null ? true : false}
               >
-                {number == 1 ? (
+                {/* {number == 1 ? ( */}
+                  {prevpage == null ? (
                   <Image source={Images.leftarrow} />
                 ) : (
                   <Image
@@ -443,10 +476,12 @@ export const FurnitureReplacmentManfacturer = () => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={onNext}
-                disabled={number == maximumNumber ? true : false}
+                onPress={searchStatus ?  onNext : onSearchNext}
+                // disabled={number == maximumNumber ? true : false}
+                disabled={nextPage == null ? true : false}
               >
-                {number == maximumNumber ? (
+                {/* {number == maximumNumber ? ( */}
+                  {nextPage == null ? (
                   <Image
                     source={Images.leftarrow}
                     style={Styles.transformStyle}
@@ -456,7 +491,7 @@ export const FurnitureReplacmentManfacturer = () => {
                 )}
               </TouchableOpacity>
             </View>
-          ) : null}
+           {/* ) : null} */}
           <View style={Styles.lastViewStyle} />
         </ScrollView>
       ) : (
