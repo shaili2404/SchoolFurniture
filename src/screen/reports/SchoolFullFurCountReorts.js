@@ -286,6 +286,8 @@ export const SchoolFullFurReports = () => {
     getfurcategory();
     getfuritem();
     setSelect({});
+    setStockItem([])
+    setfurItem_Select({})
     setfur_Select({});
     setfurItem_Select({});
     getallData();

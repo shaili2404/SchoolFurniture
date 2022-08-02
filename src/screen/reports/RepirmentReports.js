@@ -274,6 +274,7 @@ export const RepairmentReports = () => {
     setfur_Select({});
     setfurItem_Select({});
     getallData();
+    setStockItem([])
   };
 
   // Render Component Of FlatList
