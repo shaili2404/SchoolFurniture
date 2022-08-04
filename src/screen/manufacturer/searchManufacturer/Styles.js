@@ -90,4 +90,14 @@ export default StyleSheet.create({
     borderColor: COLORS.White,
     borderWidth: 5,
   },
+  dateerrorView: {
+    width: "100%",
+    alignContent: "flex-start",
+    marginBottom: "2%",
+  },
+  DateerrormessStyle: {
+    marginLeft: "10%",
+    color: COLORS.red,
+    fontSize: 12,
+  },
 });

@@ -55,6 +55,7 @@ export const Search = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [searchStatus, setSearchStatus] = useState(true);
+  const [dateErrorMessage, setDateErrorMessage] = useState("");
 
   const tableKey = [
     ConstKey.school_name,
@@ -77,6 +78,13 @@ export const Search = () => {
     constants.ItemCount,
     constants.status,
   ];
+
+  // Getting IF Start Date Is Greater Than End Date
+  useEffect(() => {
+    if (startDate.getTime() > endDate.getTime())
+      setDateErrorMessage(AlertText.DateError);
+    else setDateErrorMessage("");
+  }, [startDate, endDate]);
 
   // render component of flat list
   const rendercomponent = useCallback(({ item }) => {
@@ -220,10 +228,6 @@ export const Search = () => {
   };
   // get data list
 
-  {
-    console.log("11334",nextPage);
-  }
-
   useEffect(() => {
     apicall();
   }, []);
@@ -242,6 +246,7 @@ const onReset = () => {
   setStartDate(new Date())
   setNumber(1)
   setSearchNumber(1)
+  setDateErrorMessage("");
 };
 
 
@@ -353,6 +358,11 @@ const onReset = () => {
             </View>
           )}
         </View>
+        {dateErrorMessage ? (
+          <View style={styles.dateerrorView}>
+            <Text style={styles.DateerrormessStyle}>{dateErrorMessage}</Text>
+          </View>
+        ) : null}
         <View style={styles.buttonView}>
           <TouchableOpacity
             style={styles.buttonStyle}

@@ -205,15 +205,13 @@ export const ManageRequests = () => {
         count ? count : searchNumber
       }`)
       .then((res) => {
-        setListData(res?.data?.data);
+        setListData(res?.data?.data?.records);
         setprevpage(res?.data?.data?.previous_page);
           setnextpage(res?.data?.data?.next_page);
         initialPagination(res?.data?.data);
         setLoader(false);
       })
       .catch((e) => {
-        // setLoader(false);
-        // setErrorMessage(e?.response?.data?.message);
         {
           let { message, data, status } = e?.response?.data || {};
           setLoader(false);
@@ -307,6 +305,7 @@ export const ManageRequests = () => {
                       setStartDate(date);
                       setStartDateStatus(false);
                     }}
+                    maximumDate={new Date()}
                     onCancel={() => {
                       setOpen(false);
                     }}
@@ -336,6 +335,7 @@ export const ManageRequests = () => {
                       setEndDate(date);
                       setendDatestatus(false);
                     }}
+                    maximumDate={new Date()}
                     onCancel={() => {
                       setCLose(false);
                     }}

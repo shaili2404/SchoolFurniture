@@ -124,7 +124,6 @@ export const DataDisplayList = ({
     let Ref_No = item.ref_number;
 
     file_ext = "." + file_ext[0];
-    console.log("11228",file_ext);
     const { config, fs } = RNFetchBlob;
     // let RootDir = fs.dirs.PictureDir;
     let dirs = RNFetchBlob.fs.dirs;
@@ -169,7 +168,6 @@ export const DataDisplayList = ({
       });
     } else {
       if(file_ext == ".pdf") { 
-      console.log("112233",getData);
       config(configOptions)
       .fetch("GET", FILE_URL)
       .then((res) => {

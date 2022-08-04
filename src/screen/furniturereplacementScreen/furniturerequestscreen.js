@@ -187,8 +187,6 @@ export const FurnitureReplacmentManfacturer = () => {
   };
 
   const getCollectionRequest = (count) => {
-    console.log(count)
-    console.log('191',number)
     setLoader(true);
     axios
       .get(`${endUrl.collectionreqList}?page=${count ? count : number}`)
