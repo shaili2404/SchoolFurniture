@@ -4,6 +4,8 @@
 
 
 // Staging
- let url = 'https://schoolfurnstag.php-dev.in/api/'
+ // let url = 'https://schoolfurnstag.php-dev.in/api/'
 
+ // deploy 
+ let url = 'https://www.schoolfurn.co.za/'
 export const Baseurl = url;
