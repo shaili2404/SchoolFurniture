@@ -31,7 +31,6 @@ import { DisplayList } from "./ListDisplay/displayList";
 import ImagePickerModal from "../../../component/imagePickerModal";
 import reactNativeHtmlToPdf from "react-native-html-to-pdf";
 import ShowImages from "../../../component/showImages";
-import { Baseurl } from "../../../redux/configration/baseurl";
 import FileViewer from "react-native-file-viewer";
 import { DisposalCertificateButton } from "./certificateButton/disposalcertificateButton";
 import { DisposalDIlveryButton } from "./certificateButton/disposalDilveryButton";
@@ -42,6 +41,7 @@ import Screen from "../../../locales/navigationConst";
 import ScreenTitle from "../../../locales/ScreenTitle";
 import { ListHeader } from "./ListDisplay/HeaderList";
 import CommonService from "../../../locales/service";
+import Config from "react-native-config";
 
 export const FurnitureReplacmentProcess = () => {
   const isFocused = useIsFocused();
@@ -703,7 +703,7 @@ export const FurnitureReplacmentProcess = () => {
   const onSubmitDelivery = async () => {
     setLoader(true);
 
-    const url = `${Baseurl}${endUrl.finalDelivery}`;
+    const url = `${Config.API_URL}${endUrl.finalDelivery}`;
 
     let body = new FormData();
 
@@ -785,7 +785,7 @@ export const FurnitureReplacmentProcess = () => {
       obj[ele?.id] = Number(ele?.confirm_count);
     });
 
-    const url = `${Baseurl}${endUrl.acceptCollectionReuest}`;
+    const url = `${Config.API_URL}${endUrl.acceptCollectionReuest}`;
 
     let body = new FormData();
 
@@ -1043,7 +1043,7 @@ export const FurnitureReplacmentProcess = () => {
     }
   };
   const uploadReplenishmentPhoto = () => {
-    const url = `${Baseurl}${endUrl.uploadProofofReplenishedPhoto}`;
+    const url = `${Config.API_URL}${endUrl.uploadProofofReplenishedPhoto}`;
 
     let body = new FormData();
 
@@ -1079,7 +1079,7 @@ export const FurnitureReplacmentProcess = () => {
 
   const uploadSignedreplanishment = async (result) => {
     setmodalloader(true);
-    const url = `${Baseurl}${endUrl.uploadProofReplanishment}`;
+    const url = `${Config.API_URL}${endUrl.uploadProofReplanishment}`;
 
     let body = new FormData();
 

@@ -24,7 +24,7 @@ import { STANDARD_SCREEN_SIZE } from "../../utils/constants";
 import { RfH, RfW } from "../../utils/helpers";
 import Loader from "../loader";
 import RNFetchBlob from "rn-fetch-blob";
-// import CameraRoll from "@react-native-community/cameraroll";
+import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import { CALLBACK_TYPE } from "react-native-gesture-handler/lib/typescript/handlers/gestures/gesture";
 
 export const DataDisplayList = ({
@@ -177,7 +177,7 @@ export const DataDisplayList = ({
       });
     } else {
       Alert.alert("File Downloaded Successfully.");
-      // CameraRoll.save(FILE_URL);
+       CameraRoll.save(FILE_URL);
     }
       // CameraRoll.save(FILE_URL);
       // Alert.alert("File Downloaded Successfully.");

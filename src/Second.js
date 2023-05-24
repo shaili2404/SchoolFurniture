@@ -18,7 +18,6 @@ import {
 import DocumentPicker from 'react-native-document-picker';
 import axios from "axios";
 import endUrl from './redux/configration/endUrl';
-import { Baseurl } from './redux/configration/baseurl';
 
 const App = () => {
   const [singleFile, setSingleFile] = useState([]);
@@ -88,7 +87,7 @@ const App = () => {
   //  });
 
 
-   const url = `${Baseurl}${endUrl.uploadSignedDelivery}`
+   const url = `${Config.API_URL}${endUrl.uploadSignedDelivery}`
 
    let body = new FormData();
 
